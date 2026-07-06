@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="FREY. - DJ, creative, and social media management. Booking and upcoming gigs.">
+<meta name="description" content="FREY. - DJ, creative, and social media management. Bookings, collabs, Instagram, and upcoming gigs.">
 <meta name="theme-color" content="#111014">
 <meta property="og:type" content="website">
 <meta property="og:title" content="FREY.">
-<meta property="og:description" content="DJ, creative, and social media management. Bookings and upcoming gigs.">
-<meta property="og:image" content="https://freycreates.nl/assets/favicon.png">
+<meta property="og:description" content="DJ, creative, and social media management. Bookings, collabs, Instagram, mixes, and upcoming gigs.">
+<meta property="og:image" content="assets/frey-face.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FREY.">
-<meta name="twitter:description" content="DJ, creative, and social media management. Bookings and upcoming gigs.">
-<meta name="twitter:image" content="assets/favicon.png.png">
+<meta name="twitter:description" content="DJ, creative, and social media management. Bookings, collabs, Instagram, mixes, and upcoming gigs.">
+<meta name="twitter:image" content="assets/frey-face.png">
 <title>FREY.</title>
 
-<link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="icon" type="image/png" href="assets/frey-face.png">
+<link rel="apple-touch-icon" href="assets/frey-face.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
     "description":"DJ, creative, and social media management. Pop-culture sets rooted in queer club energy.",
     "image":"assets/frey-face.png",
     "sameAs":[
-        "https://instagram.com/frey.audio",
+        "https://instagram.com/frey.m4a",
         "https://soundcloud.com/freyr-music/2026-mix"
     ],
     "event":[
@@ -182,7 +182,7 @@ body::after{
 }
 
 .card{
-    width:min(100%,520px);
+    width:min(100%,700px);
     position:relative;
     overflow:visible;
     border:1px solid rgba(255,255,255,.7);
@@ -351,33 +351,69 @@ body::after{
     align-items:center;
     justify-content:center;
     gap:10px;
-    border:0;
-    border-radius:999px;
-    color:#fff;
-    background:linear-gradient(135deg,var(--hot-pink),var(--violet));
-    box-shadow:0 10px 24px rgba(130,79,255,.22);
+    border:1px solid rgba(130,79,255,.22);
+    border-radius:8px;
+    color:var(--ink);
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,rgba(255,255,255,.62),rgba(130,79,255,.08),rgba(255,21,152,.07));
+    box-shadow:0 6px 16px rgba(28,10,53,.08);
     text-decoration:none;
     font-size:13px;
     font-weight:800;
-    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
 }
 
 .btn-mix{
-    background:linear-gradient(135deg,#ff5500,var(--hot-pink));
+    background:linear-gradient(135deg,rgba(255,255,255,.62),rgba(130,79,255,.08),rgba(255,21,152,.07));
 }
 
 .btn-booking{
-    background:linear-gradient(135deg,var(--hot-pink),var(--violet));
+    color:#fff;
+    border-color:var(--hot-pink);
+    background:var(--hot-pink);
+    box-shadow:0 8px 20px rgba(255,21,152,.2);
+}
+
+.btn-portfolio{
+    grid-column:1 / -1;
+}
+
+.btn:not(.btn-booking) .icon{
+    color:var(--violet);
+}
+
+.btn::after{
+    content:"";
+    position:absolute;
+    inset:-50% auto -50% -35%;
+    width:22%;
+    pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+    transform:skewX(-18deg) translateX(-220%);
+    transition:transform .5s ease;
+}
+
+.btn:hover::after{
+    transform:skewX(-18deg) translateX(760%);
 }
 
 .btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 14px 30px rgba(130,79,255,.3);
-    filter:saturate(1.08);
+    transform:translateY(-1px);
+    border-color:rgba(130,79,255,.46);
+    background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(130,79,255,.12),rgba(255,21,152,.1));
+    box-shadow:0 9px 20px rgba(28,10,53,.12);
+}
+
+.btn-booking:hover{
+    border-color:var(--hot-pink);
+    background:#e90089;
+    box-shadow:0 10px 22px rgba(255,21,152,.28);
 }
 
 .btn:focus-visible,
-.past-toggle:focus-visible{
+.past-toggle:focus-visible,
+.upcoming-toggle:focus-visible{
     outline:3px solid rgba(255,21,152,.35);
     outline-offset:3px;
 }
@@ -397,7 +433,8 @@ body::after{
 }
 
 .section-title,
-.past-toggle{
+.past-toggle,
+.upcoming-toggle{
     width:100%;
     margin-bottom:12px;
     display:flex;
@@ -417,6 +454,15 @@ body::after{
     cursor:pointer;
 }
 
+.upcoming-toggle{
+    margin:10px 0 0;
+    cursor:pointer;
+}
+
+.upcoming-toggle[hidden]{
+    display:none;
+}
+
 .chevron{
     width:14px;
     height:14px;
@@ -427,9 +473,131 @@ body::after{
     transform:rotate(180deg);
 }
 
+.upcoming-toggle[aria-expanded="true"] .chevron{
+    transform:rotate(180deg);
+}
+
 .gig-list{
     display:grid;
     gap:8px;
+}
+
+#upcoming.upcoming-collapsed .gig:nth-child(n+7){
+    display:none;
+}
+
+.music-list{
+    display:grid;
+    gap:8px;
+}
+
+.music-item{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:12px;
+    align-items:center;
+    padding:12px;
+    border:1px solid rgba(130,79,255,.12);
+    border-radius:8px;
+    background:rgba(255,255,255,.48);
+}
+
+.music-copy{
+    min-width:0;
+}
+
+.music-title{
+    display:block;
+    color:var(--ink);
+    font-size:14px;
+    font-weight:800;
+}
+
+.music-type{
+    display:block;
+    margin-top:2px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.music-links{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    gap:6px;
+}
+
+.platform-icon{
+    width:13px;
+    height:13px;
+    flex:0 0 auto;
+    fill:currentColor;
+}
+
+.portfolio-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+}
+
+.portfolio-item{
+    overflow:hidden;
+    border:1px solid rgba(130,79,255,.12);
+    border-radius:8px;
+    background:rgba(255,255,255,.48);
+}
+
+.portfolio-logo{
+    height:112px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+}
+
+.portfolio-logo img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:contain;
+}
+
+.portfolio-logo-hmm{
+    background:#f7f5f8;
+}
+
+.portfolio-logo-backsteeg{
+    padding:0;
+    background:#ff0794;
+}
+
+.portfolio-logo-backsteeg img{
+    object-fit:cover;
+}
+
+.portfolio-copy{
+    padding:11px 12px 12px;
+    border-top:1px solid rgba(130,79,255,.1);
+}
+
+.portfolio-client{
+    display:block;
+    color:var(--ink);
+    font-size:14px;
+    font-weight:800;
+}
+
+.portfolio-role,
+.portfolio-period{
+    display:block;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.5;
+}
+
+.portfolio-period{
+    color:var(--violet);
+    font-weight:800;
 }
 
 .gig{
@@ -475,6 +643,7 @@ body::after{
     display:inline-flex;
     align-items:center;
     justify-content:center;
+    gap:5px;
     padding:0 9px;
     border:1px solid rgba(130,79,255,.2);
     border-radius:999px;
@@ -552,6 +721,16 @@ body::after{
         border-color:rgba(255,255,255,.1);
     }
 
+    .music-item{
+        background:rgba(255,255,255,.055);
+        border-color:rgba(255,255,255,.1);
+    }
+
+    .portfolio-item{
+        background:rgba(255,255,255,.055);
+        border-color:rgba(255,255,255,.1);
+    }
+
     .gig:hover,
     .gig:focus-within{
         background:rgba(255,255,255,.095);
@@ -567,6 +746,20 @@ body::after{
     .mini-link:hover{
         background:rgba(255,255,255,.09);
         border-color:rgba(255,255,255,.22);
+    }
+
+    .btn:not(.btn-booking),
+    .btn-mix{
+        color:var(--ink);
+        background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(130,79,255,.09),rgba(255,21,152,.07));
+        border-color:rgba(255,255,255,.15);
+        box-shadow:0 6px 16px rgba(0,0,0,.12);
+    }
+
+    .btn:not(.btn-booking):hover,
+    .btn-mix:hover{
+        background:linear-gradient(135deg,rgba(255,255,255,.15),rgba(130,79,255,.13),rgba(255,21,152,.1));
+        border-color:rgba(255,255,255,.28);
     }
 }
 
@@ -644,6 +837,19 @@ body::after{
         justify-self:start;
         margin-top:3px;
     }
+
+    .music-item{
+        grid-template-columns:1fr;
+        gap:8px;
+    }
+
+    .music-links{
+        justify-content:flex-start;
+    }
+
+    .portfolio-grid{
+        grid-template-columns:1fr;
+    }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -691,8 +897,8 @@ body::after{
         <p class="subtitle">DJ | CREATIVE | SOCIAL MEDIA MANAGEMENT</p>
 
         <p class="bio">
-            FREY. is an Amsterdam based pop-culture enthusiast raised on Gaga, Britney and ABBA. 
-            He found his religion in the queer club scene. Find yours in his DJ sets. 
+            Pop-culture enthusiast raised on Gaga, Britney, ABBA finds religion in the queer club scene.
+            In his set, discover your own church through pop girls from today &amp; yesterday.
         </p>
 
         <div class="actions" aria-label="Contact and social links">
@@ -703,24 +909,101 @@ body::after{
                 Bookings &amp; Collabs
             </a>
 
-            <a href="https://instagram.com/frey.audio" class="btn" target="_blank" rel="noopener noreferrer">
+            <a href="https://instagram.com/frey.m4a" class="btn" target="_blank" rel="noopener noreferrer">
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm6-3.7a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0Z"/>
                 </svg>
                 Instagram
             </a>
 
-            <a href="https://soundcloud.com/freyr-music/2026-mix" class="btn btn-mix" target="_blank" rel="noopener noreferrer">
+            <a href="#music" class="btn btn-mix">
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M11.1 8.1c.5-.2 1-.3 1.6-.3 1.9 0 3.5 1.2 4.1 2.9.3-.1.6-.1.9-.1 1.9 0 3.5 1.6 3.5 3.5s-1.6 3.5-3.5 3.5H9.9V8.8c.4-.3.8-.5 1.2-.7ZM7.7 9.8h1.1v7.8H7.7V9.8Zm-2.2 1.5h1.1v6.3H5.5v-6.3Zm-2.2 1.4h1.1v4.9H3.3v-4.9Z"/>
+                    <path d="M19 3v12.2a3.5 3.5 0 1 1-2-3.2V6.1l-8 1.8v9.3a3.5 3.5 0 1 1-2-3.2V6.3L19 3Z"/>
                 </svg>
-                MIX 2026
+                Mixes &amp; Playlists
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 16.5 5.7 10.2l1.4-1.4 4.9 4.9 4.9-4.9 1.4 1.4-6.3 6.3Z"/>
+                </svg>
+            </a>
+
+            <a href="#portfolio" class="btn btn-portfolio">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M9 4h6a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3V6a2 2 0 0 1 2-2Zm6 3V6H9v1h6Zm5 5H4v6h16v-6Zm-9 2h2v2h-2v-2Z"/>
+                </svg>
+                Social Portfolio
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 16.5 5.7 10.2l1.4-1.4 4.9 4.9 4.9-4.9 1.4 1.4-6.3 6.3Z"/>
+                </svg>
             </a>
         </div>
 
         <section class="gigs" aria-labelledby="upcomingTitle">
             <h2 id="upcomingTitle" class="section-title">Upcoming Gigs</h2>
             <div id="upcoming" class="gig-list"></div>
+            <button id="upcomingToggle" class="upcoming-toggle" type="button" aria-expanded="false" aria-controls="upcoming" hidden>
+                <span>Show all gigs</span>
+                <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M12 15.5 5.7 9.2l1.4-1.4 4.9 4.9 4.9-4.9 1.4 1.4L12 15.5Z"/>
+                </svg>
+            </button>
+        </section>
+
+        <section id="music" class="gigs" aria-labelledby="musicTitle">
+            <h2 id="musicTitle" class="section-title">Mixes &amp; Playlists</h2>
+            <div class="music-list">
+                <article class="music-item">
+                    <div class="music-copy">
+                        <span class="music-title">MIX 2026</span>
+                        <span class="music-type">DJ mix</span>
+                    </div>
+                    <div class="music-links">
+                        <a class="mini-link" href="https://soundcloud.com/freyr-music/2026-mix" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+                    </div>
+                </article>
+
+                <article class="music-item">
+                    <div class="music-copy">
+                        <span class="music-title">Queer Bops You Slept On</span>
+                        <span class="music-type">Playlist</span>
+                    </div>
+                    <div class="music-links">
+                        <a class="mini-link" href="https://open.spotify.com/playlist/5T49mTNrQEqgLShyqu4GKz" target="_blank" rel="noopener noreferrer">Spotify</a>
+                        <a class="mini-link" href="https://music.apple.com/nl/playlist/queer-bops-you-slept-on/pl.u-xlyNJb2spMYdbK?l=en" target="_blank" rel="noopener noreferrer">
+                            <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M17.1 12.5c0-2.7 2.2-4 2.3-4.1a5 5 0 0 0-3.9-2.1c-1.7-.2-3.2 1-4.1 1-.9 0-2.2-1-3.7-1-1.9 0-3.7 1.1-4.7 2.8-2 3.4-.5 8.5 1.4 11.3.9 1.4 2.1 2.9 3.6 2.8 1.4-.1 2-.9 3.7-.9s2.2.9 3.7.9c1.5 0 2.5-1.4 3.5-2.8 1.1-1.6 1.5-3.2 1.5-3.3-.1 0-3.3-1.3-3.3-4.6ZM14.4 4.6A4.7 4.7 0 0 0 15.5 1a4.9 4.9 0 0 0-3.3 1.7 4.5 4.5 0 0 0-1.1 3.4 4.1 4.1 0 0 0 3.3-1.5Z"/>
+                            </svg>
+                            Apple Music
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="portfolio" class="gigs" aria-labelledby="portfolioTitle">
+            <h2 id="portfolioTitle" class="section-title">Social Media Portfolio</h2>
+            <div class="portfolio-grid">
+                <article class="portfolio-item">
+                    <div class="portfolio-logo portfolio-logo-hmm">
+                        <img src="assets/hmm_logo.png" alt="Homomonument Amsterdam">
+                    </div>
+                    <div class="portfolio-copy">
+                        <span class="portfolio-client">Homomonument</span>
+                        <span class="portfolio-role">Social Media Management</span>
+                        <span class="portfolio-period">2026-now</span>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-logo portfolio-logo-backsteeg">
+                        <img src="assets/backsteeg_logo.png" alt="Backsteeg">
+                    </div>
+                    <div class="portfolio-copy">
+                        <span class="portfolio-client">Backsteeg</span>
+                        <span class="portfolio-role">Social Media Content</span>
+                        <span class="portfolio-period">2025 &amp; 2026 editions</span>
+                    </div>
+                </article>
+            </div>
         </section>
 
         <section class="gigs" aria-labelledby="pastTitle">
@@ -740,13 +1023,15 @@ const gigs = [
     { date:"2026-06-27", venue:"Backsteeg, Rotterdam", eventUrl:"https://www.ferryrotterdam.com/backsteeg" },
     { date:"2026-06-29", venue:"FERRY, Rotterdam", eventUrl:"https://www.ferryrotterdam.com/events" },
     { date:"2026-07-10", venue:"Pink Noise, Amersfoort", eventUrl:"https://fluor033.nl/programma/pinknoise-3/" },
-    { date:"2026-07-25", venue:"Milkshake Festival, Amsterdam", eventUrl:"https://shop.milkshakefestival.com/en/milkshake-festival-2026/festival-tickets" },
-    { date:"2026-07-31", venue:"Homomonument, Amsterdam", eventUrl:"https://www.homomonument.nl/nl/event" },
+    { date:"2026-07-18", venue:"LOLA's Huis", eventUrl:"https://theaterderichel.nl/evenementen/lolas-huis/" },
+    { date:"2026-07-25", venue:"Milkshake Festival, Amsterdam", eventUrl:"https://www.milkshakefestival.com/events/milkshake2026" },
+    { date:"2026-07-31", venue:"Homomonument, Amsterdam", eventUrl:"https://pride.amsterdam/en/event/street-parties/" },
     { date:"2026-08-01", venue:"Prik Pride, Amsterdam", eventUrl:"https://prikamsterdam.nl/" },
-    { date:"2026-08-06", venue:"Pride Village Queerfest, Amsterdam", eventUrl:"https://pride.amsterdam/event/worldpride-village/" },
-    { date:"2026-08-08", venue:"NYX, Amsterdam", eventUrl:"https://clubnyx.nl/tickets/" },
+    { date:"2026-08-01", venue:"Paradiso, Amsterdam", eventUrl:"https://www.paradiso.nl/en/" },
+    { date:"2026-08-06", venue:"Pride Village Queerfest, Amsterdam", eventUrl:"https://pride.amsterdam/en/" },
+    { date:"2026-08-08", venue:"NYX, Amsterdam", eventUrl:"https://www.clubnyx.nl/" },
     { date:"2026-08-28", venue:"FERRY, Rotterdam", eventUrl:"https://www.ferryrotterdam.com/events" },
-    { date:"2026-09-05", venue:"Hullabaloo, Groningen", eventUrl:"https://tickets.hullabaloofestival.nl/47c32b9137ed468e90f53cee306609e3/entreetickets" },
+    { date:"2026-09-05", venue:"Hullabaloo, Groningen", eventUrl:"https://hullabaloofestival.nl/" },
     { date:"2026-03-20", venue:"FERRY, Rotterdam" },
     { date:"2026-03-16", venue:"FERRY, Rotterdam" },
     { date:"2026-02-14", venue:"FERRY, Rotterdam" },
@@ -840,6 +1125,17 @@ if (upcoming.length) {
     upcoming.forEach(gig => upcomingContainer.appendChild(createGig(gig)));
 } else {
     upcomingContainer.innerHTML = '<p class="empty">New dates coming soon.</p>';
+}
+
+const upcomingToggle = document.getElementById("upcomingToggle");
+if (upcoming.length > 6) {
+    upcomingContainer.classList.add("upcoming-collapsed");
+    upcomingToggle.hidden = false;
+    upcomingToggle.addEventListener("click", () => {
+        const isOpen = !upcomingContainer.classList.toggle("upcoming-collapsed");
+        upcomingToggle.setAttribute("aria-expanded", String(isOpen));
+        upcomingToggle.querySelector("span").textContent = isOpen ? "Show fewer" : "Show all gigs";
+    });
 }
 
 const pastContainer = document.getElementById("past");
