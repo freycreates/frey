@@ -121,11 +121,13 @@
     const upcoming=window.FREY_GIGS.filter(gig=>parse(gig[0])>=today).sort((a,b)=>parse(a[0])-parse(b[0]));
     const past=window.FREY_GIGS.filter(gig=>parse(gig[0])<today).sort((a,b)=>parse(b[0])-parse(a[0]));
     const visible=upcoming.slice(0,7);const remaining=upcoming.slice(7);
-    document.querySelector("#djUpcoming").innerHTML=visible.length?visible.map(row).join(""):"<p>New dates coming soon.</p>";
-    document.querySelector("#djUpcomingMore").innerHTML=remaining.map(row).join("");
-    document.querySelector("#djUpcomingMoreDetails").hidden=remaining.length===0;
-    document.querySelector("#djPast").innerHTML=past.map(row).join("");
-    window.addEventListener("languagechange",()=>location.reload());
+    const renderGigs=()=>{
+      document.querySelector("#djUpcoming").innerHTML=visible.length?visible.map(row).join(""):`<p>${window.FREY_LANGUAGE()==="nl"?"Nieuwe data volgen snel.":"New dates coming soon."}</p>`;
+      document.querySelector("#djUpcomingMore").innerHTML=remaining.map(row).join("");
+      document.querySelector("#djUpcomingMoreDetails").hidden=remaining.length===0;
+      document.querySelector("#djPast").innerHTML=past.map(row).join("");
+    };
+    renderGigs();window.addEventListener("languagechange",renderGigs);
   </script>
 </body>
 </html>
