@@ -81,7 +81,7 @@
     body:before{content:"";position:fixed;inset:0 0 auto;height:8px;background:linear-gradient(90deg,var(--pink),var(--violet));z-index:3}
     body:after{content:"";position:fixed;inset:-35%;z-index:-1;background:radial-gradient(circle at 18% 28%,rgba(255,48,153,.38),transparent 28%),radial-gradient(circle at 78% 20%,rgba(115,72,232,.34),transparent 30%),radial-gradient(circle at 70% 82%,rgba(255,167,116,.28),transparent 27%);filter:blur(38px);animation:backgroundDrift 16s ease-in-out infinite alternate;pointer-events:none}@keyframes backgroundDrift{0%{transform:translate3d(-3%,-2%,0) scale(1) rotate(0deg)}50%{transform:translate3d(4%,3%,0) scale(1.08) rotate(5deg)}100%{transform:translate3d(-1%,6%,0) scale(1.03) rotate(-4deg)}}
     a{color:inherit}.shell{display:grid;width:min(100% - 48px,1100px);margin:52px auto;gap:22px}.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
-    .hero{padding:0 38px 30px;text-align:center}.next{margin:0 -38px 28px;padding:22px 20px 20px;border-bottom:1px solid var(--line);font-size:.96rem;color:var(--text)}.next-heading{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:7px}.next strong{color:var(--pink);font-size:.86rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.next a{text-decoration:none;font-weight:700}.next a:hover{color:var(--pink)}.next-date{text-transform:uppercase}.next-separator{margin:0 6px;color:var(--violet)}.next-eq{display:flex;align-items:end;gap:3px;height:13px}.next-eq span{display:block;width:4px;border-radius:3px;background:linear-gradient(var(--pink),var(--violet));animation:eq 1s ease-in-out infinite alternate}.next-eq span:nth-child(1){height:6px}.next-eq span:nth-child(2){height:11px;animation-delay:-.35s}.next-eq span:nth-child(3){height:7px;animation-delay:-.7s}.next-eq span:nth-child(4){height:13px;animation-delay:-.2s}@keyframes eq{to{height:4px}}
+    .hero{position:relative;padding:0 38px 30px;text-align:center}.lang-switch{position:absolute;top:16px;right:18px;z-index:2;display:flex;padding:3px;border:1px solid var(--line);border-radius:9px;background:var(--surface)}.lang-switch button{padding:4px 7px;border:0;border-radius:6px;background:transparent;color:var(--muted);font:inherit;font-size:.7rem;font-weight:700;cursor:pointer}.lang-switch button[aria-pressed="true"]{background:var(--violet);color:white}.next{margin:0 -38px 28px;padding:22px 20px 20px;border-bottom:1px solid var(--line);font-size:.96rem;color:var(--text)}.next-heading{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:7px}.next strong{color:var(--pink);font-size:.86rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.next a{text-decoration:none;font-weight:700}.next a:hover{color:var(--pink)}.next-date{text-transform:uppercase}.next-separator{margin:0 6px;color:var(--violet)}.next-eq{display:flex;align-items:end;gap:3px;height:13px}.next-eq span{display:block;width:4px;border-radius:3px;background:linear-gradient(var(--pink),var(--violet));animation:eq 1s ease-in-out infinite alternate}.next-eq span:nth-child(1){height:6px}.next-eq span:nth-child(2){height:11px;animation-delay:-.35s}.next-eq span:nth-child(3){height:7px;animation-delay:-.7s}.next-eq span:nth-child(4){height:13px;animation-delay:-.2s}@keyframes eq{to{height:4px}}
     .identity{display:flex;flex-direction:column;align-items:center}.portrait{display:block;width:172px;height:172px;object-fit:contain}.wordmark{display:inline-block;margin-top:12px;padding-right:.1em;background:linear-gradient(90deg,var(--pink),var(--violet));background-clip:text;-webkit-background-clip:text;color:transparent;font-size:3rem;font-weight:700;letter-spacing:-.065em;line-height:1}.eyebrow{margin:10px 0 15px;color:var(--violet);font-size:.76rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase}.bio{max-width:570px;margin:0 auto;color:var(--muted);font-size:1.03rem;font-weight:700}
     .actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:27px}.button{display:flex;justify-content:flex-start;align-items:center;gap:11px;min-height:54px;padding:12px 17px;border:1px solid;border-radius:14px;text-align:left;text-decoration:none;font-weight:700;transition:.18s ease}.button:nth-child(1){border-color:#f2b3d4;background:#fff1f8;color:#b80d68;box-shadow:inset 4px 0 var(--pink)}.button:nth-child(2){border-color:#d1c3f7;background:#f5f1ff;color:#5b38bf;box-shadow:inset 4px 0 var(--violet)}.button:nth-child(3){border-color:#b8ddf4;background:#eff9ff;color:#096fae;box-shadow:inset 4px 0 var(--blue)}.button:nth-child(4){border-color:#d8c8df;background:#f7f1f9;color:#493057;box-shadow:inset 4px 0 #493057}.button:hover{filter:saturate(1.08);transform:translateY(-2px);box-shadow:inset 4px 0 currentColor,0 7px 18px rgba(83,38,75,.12)}.button-icon{width:21px;height:21px;flex:0 0 21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;transform-origin:center}.envelope-icon{animation:envelopeLift 2.8s ease-in-out infinite}.instagram-icon{animation:instagramPulse 3.2s ease-in-out infinite}.headphone-icon{animation:headphoneBounce 2.2s ease-in-out infinite}.folder-icon{animation:folderTilt 3s ease-in-out infinite}@keyframes envelopeLift{0%,75%,100%{transform:translateY(0)}82%{transform:translateY(-2px)}90%{transform:translateY(0)}}@keyframes instagramPulse{0%,70%,100%{transform:scale(1)}82%{transform:scale(1.1)}}@keyframes headphoneBounce{0%,65%,100%{transform:translateY(0)}76%{transform:translateY(-2px)}87%{transform:translateY(1px)}}@keyframes folderTilt{0%,70%,100%{transform:rotate(0)}82%{transform:rotate(-5deg)}}
     section.content{position:relative;padding:31px 38px}.gigs-section{background:linear-gradient(90deg,#fff7fb,rgba(255,255,255,.96) 58%);border-color:#f1c1dc;box-shadow:inset 5px 0 var(--pink),var(--shadow)}#music{background:linear-gradient(90deg,#f8f5ff,rgba(255,255,255,.96) 58%);border-color:#d8cdf8;box-shadow:inset 5px 0 var(--violet),var(--shadow)}#work{background:linear-gradient(90deg,#f2faff,rgba(255,255,255,.96) 58%);border-color:#c5e3f6;box-shadow:inset 5px 0 var(--blue),var(--shadow)}.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:17px}.section-head h2{margin:0;font-size:1.2rem;letter-spacing:-.02em}.section-head h2:after{content:"";display:block;width:32px;height:4px;margin-top:7px;border-radius:4px;background:var(--pink)}#music .section-head h2:after{background:var(--violet)}#work .section-head h2:after{background:var(--blue)}.section-head a{font-size:.84rem;color:var(--muted)}
@@ -94,12 +94,13 @@
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}body:after,.next-eq span,.button-icon{animation:none}}
   </style>
 </head>
-<body>
+<body data-title-en="FREY." data-title-nl="FREY." data-description-en="FREY. is a DJ and multidisciplinary creative working across social media, content and design." data-description-nl="FREY. is DJ en multidisciplinair creative en werkt aan social media, content en design.">
   <main class="shell">
     <article class="card hero-card">
       <header class="hero">
+        <div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div>
         <div class="next">
-          <div class="next-heading"><strong>Next up</strong><span class="next-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span></div>
+          <div class="next-heading"><strong data-en="Next up" data-nl="Volgende">Next up</strong><span class="next-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span></div>
           <a id="nextLink"><span class="next-date" id="nextDate"></span><span class="next-separator">/</span><span id="nextVenue"></span></a>
         </div>
         <div class="identity">
@@ -107,11 +108,11 @@
           <div class="wordmark" aria-label="FREY.">FREY.</div>
         </div>
         <p class="eyebrow">DJ · Creative · Social media</p>
-        <p class="bio">I’m a DJ and multidisciplinary creative with a love for pop culture and queer nightlife. Alongside playing pop-focused sets, I work across social media management, content creation and design for organisations and events.</p>
+        <p class="bio" data-en="I’m a DJ and multidisciplinary creative with a love for pop culture and queer nightlife. Alongside playing pop-focused sets, I work across social media management, content creation and design for organisations and events." data-nl="Ik ben DJ en multidisciplinair creative met een liefde voor popcultuur en het queer nachtleven. Naast mijn popgerichte sets werk ik aan social media management, contentcreatie en design voor organisaties en evenementen.">I’m a DJ and multidisciplinary creative with a love for pop culture and queer nightlife. Alongside playing pop-focused sets, I work across social media management, content creation and design for organisations and events.</p>
         <nav class="actions" aria-label="Main links">
           <a class="button" href="mailto:hello@freycreates.nl">
             <svg class="button-icon envelope-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
-            <span>Bookings &amp; collabs</span>
+            <span data-en="Bookings &amp; collabs" data-nl="Boekingen &amp; samenwerkingen">Bookings &amp; collabs</span>
           </a>
           <a class="button" href="https://instagram.com/frey.audio" target="_blank" rel="noopener">
             <svg class="button-icon instagram-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
@@ -130,10 +131,10 @@
     </article>
 
       <section class="card content gigs-section" aria-labelledby="gigs-title">
-        <div class="section-head"><h2 id="gigs-title">Upcoming gigs</h2></div>
+        <div class="section-head"><h2 id="gigs-title" data-en="Upcoming gigs" data-nl="Aankomende gigs">Upcoming gigs</h2></div>
         <div class="list" id="upcoming"></div>
-        <details id="upcomingMoreDetails" hidden><summary><span class="summary-more">View more gigs</span><span class="summary-less">View fewer gigs</span></summary><div class="list" id="upcomingMore"></div></details>
-        <details id="pastDetails"><summary>Past gigs</summary><div class="list" id="past"></div></details>
+        <details id="upcomingMoreDetails" hidden><summary><span class="summary-more" data-en="View more gigs" data-nl="Meer gigs bekijken">View more gigs</span><span class="summary-less" data-en="View fewer gigs" data-nl="Minder gigs bekijken">View fewer gigs</span></summary><div class="list" id="upcomingMore"></div></details>
+        <details id="pastDetails"><summary><span data-en="Past gigs" data-nl="Eerdere gigs">Past gigs</span></summary><div class="list" id="past"></div></details>
       </section>
 
       <section class="card content" id="music" aria-labelledby="music-title">
@@ -163,15 +164,15 @@
           <article class="project-dj">
             <div class="project-dj-visual"><img src="assets/frey-dj.png" alt="FREY. DJing in a club"></div>
             <div class="project-dj-copy">
-              <h3>FREY. behind the decks</h3>
-              <p>Pop-culture enthusiast raised on Gaga, Britney and ABBA, finding religion in the queer club scene. In my sets, discover your own church through pop girls from today and yesterday.</p>
-              <p>Since 2022, I have been a regular at queer clubs and festivals across the Netherlands, Brussels and Singapore. Venues and festivals I’ve played include Club NYX, FERRY, Paradiso, Homomonument, Milkshake Festival and Hullabaloo.</p>
-              <a class="dj-read-more" href="dj.html">Read more</a>
+              <h3 data-en="FREY. behind the decks" data-nl="FREY. achter de draaitafels">FREY. behind the decks</h3>
+              <p data-en="Pop-culture enthusiast raised on Gaga, Britney and ABBA, finding religion in the queer club scene. In my sets, discover your own church through pop girls from today and yesterday." data-nl="Popcultuurliefhebber, opgegroeid met Gaga, Britney en ABBA, die zijn geloof vindt in de queer clubscene. Ontdek in mijn sets je eigen kerk via de pop girls van vandaag en gisteren.">Pop-culture enthusiast raised on Gaga, Britney and ABBA, finding religion in the queer club scene. In my sets, discover your own church through pop girls from today and yesterday.</p>
+              <p data-en="Since 2022, I have been a regular at queer clubs and festivals across the Netherlands, Brussels and Singapore. Venues and festivals I’ve played include Club NYX, FERRY, Paradiso, Homomonument, Milkshake Festival and Hullabaloo." data-nl="Sinds 2022 ben ik regelmatig te vinden in queer clubs en op festivals in Nederland, Brussel en Singapore. Ik draaide onder andere bij Club NYX, FERRY, Paradiso, Homomonument, Milkshake Festival en Hullabaloo.">Since 2022, I have been a regular at queer clubs and festivals across the Netherlands, Brussels and Singapore. Venues and festivals I’ve played include Club NYX, FERRY, Paradiso, Homomonument, Milkshake Festival and Hullabaloo.</p>
+              <a class="dj-read-more" href="dj.html" data-en="Read more" data-nl="Lees meer">Read more</a>
             </div>
           </article>
           <a class="project" href="https://instagram.com/homomonument" target="_blank" rel="noopener" aria-label="View Homomonument on Instagram">
             <span class="project-logo"><img src="assets/hmm_logo.png" alt="Homomonument Amsterdam"></span>
-            <span class="project-copy"><strong>Homomonument <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Social media management</span><span>2026–now</span></span>
+            <span class="project-copy"><strong>Homomonument <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Social media management, content and communication</span><span>2026–now</span></span>
           </a>
           <a class="project project-backsteeg" href="https://instagram.com/backsteeg" target="_blank" rel="noopener" aria-label="View Backsteeg on Instagram">
             <span class="project-logo"><img src="assets/backsteeg_logo.png" alt="Backsteeg"></span>
@@ -179,20 +180,21 @@
           </a>
           <a class="project project-big-break" href="https://studio-wednesday.com/bigbreak" target="_blank" rel="noopener" aria-label="View Big Break on Studio Wednesday">
             <span class="project-logo"><img src="assets/big-break.png" alt="Big Break"></span>
-            <span class="project-copy"><strong>BIG BREAK by Caitie McCollow <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Social media and BTS footage</span><span>2026</span></span>
+            <span class="project-copy"><strong>BIG BREAK by Caitie McCollow <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span data-en="Social media and BTS footage" data-nl="Social media en BTS-beelden">Social media and BTS footage</span><span>2026</span></span>
           </a>
           <a class="project project-hey" href="https://www.instagram.com/heyamsterdamnoord/" target="_blank" rel="noopener" aria-label="View Hey Amsterdam Noord on Instagram">
             <span class="project-logo"><img src="assets/hey-amsterdam-noord.png" alt="Hey Amsterdam Noord"></span>
-            <span class="project-copy"><strong>Hey Amsterdam Noord <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Content and venue/restaurant reviews</span><span>2026–now</span></span>
+            <span class="project-copy"><strong>Hey Amsterdam Noord <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span data-en="Content and venue/restaurant reviews" data-nl="Content en reviews van locaties en restaurants">Content and venue/restaurant reviews</span><span data-en="2026–now" data-nl="2026–nu">2026–now</span></span>
           </a>
         </div>
       </section>
-      <footer><span>2026 © FREY.</span><span>Website by Frey Creates</span></footer>
+      <footer><span>2026 © FREY.</span><span data-en="Website by Frey Creates" data-nl="Website door Frey Creates">Website by Frey Creates</span></footer>
   </main>
+  <script src="assets/language.js"></script>
   <script src="assets/gigs.js"></script>
   <script>
     const gigs=window.FREY_GIGS;
-    const today=new Date();today.setHours(0,0,0,0);const parse=s=>new Date(`${s}T00:00:00`);const fmt=s=>new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short"}).format(parse(s));
+    const today=new Date();today.setHours(0,0,0,0);const parse=s=>new Date(`${s}T00:00:00`);const fmt=s=>new Intl.DateTimeFormat(window.FREY_LANGUAGE()==="nl"?"nl-NL":"en-GB",{day:"numeric",month:"short"}).format(parse(s));
     const externalIcon=`<svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>`;
     const row=([date,venue,url])=>`<div class="row"><span class="date">${fmt(date)}</span><span class="venue">${url?`<a href="${url}" target="_blank" rel="noopener">${venue}${externalIcon}</a>`:venue}</span><span class="meta">${date.slice(0,4)}</span></div>`;
     const upcoming=gigs.filter(g=>parse(g[0])>=today).sort((a,b)=>parse(a[0])-parse(b[0]));const past=gigs.filter(g=>parse(g[0])<today).sort((a,b)=>parse(b[0])-parse(a[0]));
@@ -202,6 +204,7 @@
     document.querySelector("#upcomingMoreDetails").hidden=remainingUpcoming.length===0;
     document.querySelector("#past").innerHTML=past.map(row).join("");
     if(upcoming[0]){document.querySelector("#nextDate").textContent=fmt(upcoming[0][0]);document.querySelector("#nextVenue").textContent=upcoming[0][1];document.querySelector("#nextLink").href=upcoming[0][2]||"#gigs-title"}else{document.querySelector(".next").hidden=true}
+    window.addEventListener("languagechange",()=>location.reload());
   </script>
 </body>
 </html>
