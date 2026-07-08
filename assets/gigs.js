@@ -2,7 +2,7 @@ window.FREY_GIGS=[
   ["2026-06-27","Backsteeg, Rotterdam","https://www.ferryrotterdam.com/backsteeg"],
   ["2026-06-29","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-07-10","Pink Noise, Amersfoort","https://fluor033.nl/programma/pinknoise-3/"],
-  ["2026-07-18","LOLA's Huis","https://theaterderichel.nl/evenementen/lolas-huis/"],
+  ["2026-07-18","Lola's Huis, Theater de Richel Amsterdam","https://theaterderichel.nl/evenementen/lolas-huis/"],
   ["2026-07-25","Milkshake Festival, Amsterdam","https://www.milkshakefestival.com/events/milkshake2026"],
   ["2026-07-31","Homomonument, Amsterdam","https://pride.amsterdam/en/event/street-parties/"],
   ["2026-08-01","Prik Pride, Amsterdam","https://prikamsterdam.nl/"],
