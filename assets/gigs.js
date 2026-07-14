@@ -6,7 +6,6 @@ window.FREY_GIGS=[
   ["2026-07-25","Milkshake Festival, Amsterdam","https://www.milkshakefestival.com/events/milkshake2026"],
   ["2026-07-31","Homomonument, Amsterdam","https://pride.amsterdam/en/event/street-parties/"],
   ["2026-08-01","Prik Pride, Amsterdam","https://prikamsterdam.nl/"],
-  ["2026-08-01","Paradiso, Amsterdam","https://www.paradiso.nl/en/"],
   ["2026-08-06","Pride Village Queerfest, Amsterdam","https://pride.amsterdam/en/"],
   ["2026-08-08","NYX, Amsterdam","https://www.clubnyx.nl/"],
   ["2026-08-28","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
