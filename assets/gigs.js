@@ -11,6 +11,7 @@ window.FREY_GIGS=[
   ["2026-08-08","NYX, Amsterdam","https://www.clubnyx.nl/"],
   ["2026-08-28","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-09-05","Hullabaloo, Groningen","https://hullabaloofestival.nl/"],
+  ["2026-09-19","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-06-19","FERRY, Rotterdam"],
   ["2026-05-29","FERRY, Rotterdam"],
   ["2026-05-08","NYX, Amsterdam"],
