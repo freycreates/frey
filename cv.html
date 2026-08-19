@@ -12,12 +12,12 @@
   <meta property="og:site_name" content="FREY.">
   <meta property="og:title" content="FREY. - CV">
   <meta property="og:description" content="Creative CV for FREY., working across social media, content and design.">
-  <meta property="og:image" content="https://freycreates.nl/assets/frey-face.png">
+  <meta property="og:image" content="https://freycreates.nl/assets/frey-cv-portrait.jpg">
   <meta property="og:image:alt" content="Portrait of Frey">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="FREY. - CV">
   <meta name="twitter:description" content="Creative CV for FREY., working across social media, content and design.">
-  <meta name="twitter:image" content="https://freycreates.nl/assets/frey-face.png">
+  <meta name="twitter:image" content="https://freycreates.nl/assets/frey-cv-portrait.jpg">
   <title>FREY. - CV</title>
   <link rel="icon" type="image/png" href="assets/frey-face.png">
   <link rel="apple-touch-icon" href="assets/frey-face.png">
@@ -41,8 +41,9 @@
     .lang-switch{display:flex;padding:3px;border:1px solid var(--line);border-radius:9px;background:var(--surface)}
     .lang-switch button{padding:4px 7px;border:0;border-radius:6px;background:transparent;color:var(--muted);font:inherit;font-size:.7rem;font-weight:700;cursor:pointer}
     .lang-switch button[aria-pressed="true"]{background:#303036;color:white}
-    .hero{display:grid;grid-template-columns:116px 1fr;gap:22px;align-items:start;padding:26px 30px}
-    .portrait{display:block;width:104px;height:104px;margin:0;object-fit:contain}
+    .hero{display:grid;grid-template-columns:128px 1fr;gap:24px;align-items:start;padding:28px 30px}
+    .portrait{display:block;width:112px;height:112px;margin:0;padding:5px;overflow:hidden;border:1.5px solid var(--violet);border-radius:50%;background:#fff;box-shadow:0 10px 22px rgba(35,35,38,.12)}
+    .portrait img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 48%}
     .hero-copy h1{display:inline-block;margin:0;padding-right:.08em;background:linear-gradient(90deg,var(--pink),var(--violet));background-clip:text;-webkit-background-clip:text;color:transparent;font-size:clamp(2.4rem,6vw,4.2rem);font-weight:700;letter-spacing:-.04em;line-height:.95}
     .eyebrow{margin:8px 0 10px;color:var(--violet);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
     .lead{max-width:720px;margin:0;color:var(--muted);font-size:.96rem;font-weight:600}
@@ -104,8 +105,8 @@
     .mini-list span{color:var(--muted);font-size:.78rem}
     footer{text-align:center;padding:4px 20px 18px;color:var(--muted);font-size:.76rem}
     @media(max-width:850px){.project-grid,.company-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-grid{grid-template-columns:1fr}}
-    @media(max-width:600px){body:before{display:none}.shell{width:calc(100% - 20px);margin:14px auto;gap:12px}.topbar{padding:12px 14px}.topbar-actions{gap:8px}.brand{font-size:1.12rem}.hero{grid-template-columns:76px 1fr;gap:14px;padding:20px 16px}.portrait{width:68px;height:68px}.hero-copy h1{font-size:2.45rem}.eyebrow{font-size:.63rem}.lead{font-size:.84rem;line-height:1.43}.quick-info{margin-top:13px}.pill{font-size:.69rem}.content{padding:20px 16px}.project-grid,.company-grid{grid-template-columns:1fr;gap:9px}.project,.company{grid-template-rows:76px auto}.project-logo,.company-logo{height:76px}.project-logo img,.company-logo img{max-height:50px}.project-dj .project-logo img{max-height:44px}.project-world-pride .project-logo img{width:56px;height:56px}.project-copy,.company-copy{padding:12px}}
-    @media print{body{background:white;color:#111}body:before,body:after,.topbar-actions{display:none}.shell{width:100%;margin:0;gap:12px}.card{border:1px solid #ddd;border-radius:0;box-shadow:none;background:white;break-inside:avoid}.hero{grid-template-columns:160px 1fr;padding:20px;text-align:left}.portrait{width:125px;height:125px}.hero-copy h1{color:#111;background:none;-webkit-text-fill-color:initial;font-size:3.2rem}.lead,.project-copy span,.company-copy span,.mini-list span{color:#333}.content{padding:18px 20px}.project-grid,.company-grid{grid-template-columns:repeat(3,1fr)}.project,.company,.detail-panel{break-inside:avoid}.project-logo,.company-logo{height:70px}.project-logo img,.company-logo img{max-height:48px}footer{display:none}}
+    @media(max-width:600px){body:before{display:none}.shell{width:calc(100% - 20px);margin:14px auto;gap:12px}.topbar{padding:12px 14px}.topbar-actions{gap:8px}.brand{font-size:1.12rem}.hero{grid-template-columns:82px 1fr;gap:14px;padding:20px 16px}.portrait{width:74px;height:74px;padding:3px}.hero-copy h1{font-size:2.45rem}.eyebrow{font-size:.63rem}.lead{font-size:.84rem;line-height:1.43}.quick-info{margin-top:13px}.pill{font-size:.69rem}.content{padding:20px 16px}.project-grid,.company-grid{grid-template-columns:1fr;gap:9px}.project,.company{grid-template-rows:76px auto}.project-logo,.company-logo{height:76px}.project-logo img,.company-logo img{max-height:50px}.project-dj .project-logo img{max-height:44px}.project-world-pride .project-logo img{width:56px;height:56px}.project-copy,.company-copy{padding:12px}}
+    @media print{body{background:white;color:#111}body:before,body:after,.topbar-actions{display:none}.shell{width:100%;margin:0;gap:12px}.card{border:1px solid #ddd;border-radius:0;box-shadow:none;background:white;break-inside:avoid}.hero{grid-template-columns:150px 1fr;padding:20px;text-align:left}.portrait{width:122px;height:122px;padding:4px;box-shadow:none}.hero-copy h1{color:#111;background:none;-webkit-text-fill-color:initial;font-size:3.2rem}.lead,.project-copy span,.company-copy span,.mini-list span{color:#333}.content{padding:18px 20px}.project-grid,.company-grid{grid-template-columns:repeat(3,1fr)}.project,.company,.detail-panel{break-inside:avoid}.project-logo,.company-logo{height:70px}.project-logo img,.company-logo img{max-height:48px}footer{display:none}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.project{transition:none}}
   </style>
 </head>
@@ -119,7 +120,7 @@
         </div>
       </nav>
       <header class="hero">
-        <img class="portrait" src="assets/frey-face.png" alt="Portrait of Frey">
+        <span class="portrait"><img src="assets/frey-cv-portrait.jpg" alt="Portrait of Frey"></span>
         <div class="hero-copy">
           <h1>FREY.</h1>
           <p class="eyebrow" data-en="Creative CV &middot; Social media &middot; DJ" data-nl="Creatief CV &middot; Social media &middot; DJ">Creative CV &middot; Social media &middot; DJ</p>
