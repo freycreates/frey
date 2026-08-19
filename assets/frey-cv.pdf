@@ -1877,7 +1877,7 @@ BT
 ET
 0.137255 0.137255 0.14902 rg
 BT
-1 0 0 1 375 196 Tm
+1 0 0 1 375 198 Tm
 (Creative College \050MBO4\051) Tj
 T*
 ET
@@ -1887,7 +1887,7 @@ BT
 ET
 0.4 0.4 0.435294 rg
 BT
-1 0 0 1 375 188 Tm
+1 0 0 1 375 190 Tm
 (Audiovisual Design\054 2011\0552015) Tj
 T*
 ET
@@ -1897,7 +1897,7 @@ BT
 ET
 0.137255 0.137255 0.14902 rg
 BT
-1 0 0 1 375 174 Tm
+1 0 0 1 375 179 Tm
 (NHA Opleidingen) Tj
 T*
 ET
@@ -1907,12 +1907,12 @@ BT
 ET
 0.4 0.4 0.435294 rg
 BT
-1 0 0 1 375 166.5 Tm
+1 0 0 1 375 171.5 Tm
 (Communication and Webdesign\054 2026\055now) Tj
 T*
 ET
 BT
-1 0 0 1 375 159 Tm
+1 0 0 1 375 164 Tm
 (Social Media Marketing\054 2026\055now) Tj
 T*
 ET
@@ -1922,7 +1922,7 @@ BT
 ET
 0.137255 0.137255 0.14902 rg
 BT
-1 0 0 1 375 145 Tm
+1 0 0 1 375 152 Tm
 (Languages) Tj
 T*
 ET
@@ -1932,7 +1932,7 @@ BT
 ET
 0.4 0.4 0.435294 rg
 BT
-1 0 0 1 375 137.5 Tm
+1 0 0 1 375 144.5 Tm
 (Dutch and English) Tj
 T*
 ET
@@ -1942,7 +1942,7 @@ BT
 ET
 0.137255 0.137255 0.14902 rg
 BT
-1 0 0 1 375 124 Tm
+1 0 0 1 375 132 Tm
 (References) Tj
 T*
 ET
@@ -1952,7 +1952,7 @@ BT
 ET
 0.4 0.4 0.435294 rg
 BT
-1 0 0 1 375 116.5 Tm
+1 0 0 1 375 124.5 Tm
 (Available on request) Tj
 T*
 ET
@@ -2211,7 +2211,7 @@ endobj
 endobj
 33 0 obj
 <<
-/Length 35062
+/Length 35068
 >>
 stream
 1 0 0 1 0 0 cm
@@ -2369,7 +2369,7 @@ ET
 0.137255 0.137255 0.14902 rg
 BT
 1 0 0 1 48 634.8898 Tm
-(Selected Creative Work) Tj
+(Freelance \046 Creative Work) Tj
 T*
 ET
 0.72549 0.72549 0.752941 rg
@@ -4034,5 +4034,5 @@ trailer
 /Info 32 0 R
 >>
 startxref
-790835
+790841
 %%EOF
