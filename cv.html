@@ -38,6 +38,8 @@
     .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 18px;border-bottom:1px solid var(--line)}
     .brand{background:linear-gradient(90deg,var(--pink),var(--violet));background-clip:text;-webkit-background-clip:text;color:transparent;font-size:1.18rem;font-weight:700;letter-spacing:-.04em}
     .topbar-actions{display:flex;align-items:center;gap:12px}
+    .download-link{display:inline-flex;align-items:center;min-height:28px;padding:5px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text);font-size:.72rem;font-weight:700;text-decoration:none;white-space:nowrap}
+    .download-link:hover{border-color:var(--violet);color:var(--violet)}
     .lang-switch{display:flex;padding:3px;border:1px solid var(--line);border-radius:9px;background:var(--surface)}
     .lang-switch button{padding:4px 7px;border:0;border-radius:6px;background:transparent;color:var(--muted);font:inherit;font-size:.7rem;font-weight:700;cursor:pointer}
     .lang-switch button[aria-pressed="true"]{background:#303036;color:white}
@@ -47,6 +49,8 @@
     .hero-copy h1{display:inline-block;margin:0;padding-right:.08em;background:linear-gradient(90deg,var(--pink),var(--violet));background-clip:text;-webkit-background-clip:text;color:transparent;font-size:clamp(2.4rem,6vw,4.2rem);font-weight:700;letter-spacing:-.04em;line-height:.95}
     .eyebrow{margin:8px 0 10px;color:var(--violet);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
     .lead{max-width:720px;margin:0;color:var(--muted);font-size:.96rem;font-weight:600}
+    .lead-line{display:block}
+    .lead-line+.lead-line{margin-top:.75em}
     .quick-info{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
     .pill{display:inline-flex;align-items:center;min-height:30px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#fafafa;color:var(--text);font-size:.75rem;font-weight:700;text-decoration:none}
     .pill[href]:hover{border-color:var(--pink);color:var(--pink)}
@@ -104,8 +108,10 @@
     .mini-list strong{font-size:.84rem}
     .mini-list span{color:var(--muted);font-size:.78rem}
     footer{text-align:center;padding:4px 20px 18px;color:var(--muted);font-size:.76rem}
+    footer a{color:inherit;font-weight:700;text-decoration:none}
+    footer a:hover{color:var(--pink)}
     @media(max-width:850px){.project-grid,.company-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-grid{grid-template-columns:1fr}}
-    @media(max-width:600px){body:before{display:none}.shell{width:calc(100% - 20px);margin:14px auto;gap:12px}.topbar{padding:12px 14px}.topbar-actions{gap:8px}.brand{font-size:1.12rem}.hero{grid-template-columns:82px 1fr;gap:14px;padding:20px 16px}.portrait{width:74px;height:74px;padding:3px}.hero-copy h1{font-size:2.45rem}.eyebrow{font-size:.63rem}.lead{font-size:.84rem;line-height:1.43}.quick-info{margin-top:13px}.pill{font-size:.69rem}.content{padding:20px 16px}.project-grid,.company-grid{grid-template-columns:1fr;gap:9px}.project,.company{grid-template-rows:76px auto}.project-logo,.company-logo{height:76px}.project-logo img,.company-logo img{max-height:50px}.project-dj .project-logo img{max-height:44px}.project-world-pride .project-logo img{width:56px;height:56px}.project-copy,.company-copy{padding:12px}}
+    @media(max-width:600px){body:before{display:none}.shell{width:calc(100% - 20px);margin:14px auto;gap:12px}.topbar{padding:12px 14px}.topbar-actions{gap:8px}.download-link{font-size:.68rem;padding:5px 8px}.brand{font-size:1.12rem}.hero{grid-template-columns:82px 1fr;gap:14px;padding:20px 16px}.portrait{width:74px;height:74px;padding:3px}.hero-copy h1{font-size:2.45rem}.eyebrow{font-size:.63rem}.lead{font-size:.84rem;line-height:1.43}.quick-info{margin-top:13px}.pill{font-size:.69rem}.content{padding:20px 16px}.project-grid,.company-grid{grid-template-columns:1fr;gap:9px}.project,.company{grid-template-rows:76px auto}.project-logo,.company-logo{height:76px}.project-logo img,.company-logo img{max-height:50px}.project-dj .project-logo img{max-height:44px}.project-world-pride .project-logo img{width:56px;height:56px}.project-copy,.company-copy{padding:12px}}
     @media print{body{background:white;color:#111}body:before,body:after,.topbar-actions{display:none}.shell{width:100%;margin:0;gap:12px}.card{border:1px solid #ddd;border-radius:0;box-shadow:none;background:white;break-inside:avoid}.hero{grid-template-columns:150px 1fr;padding:20px;text-align:left}.portrait{width:122px;height:122px;padding:4px;box-shadow:none}.hero-copy h1{color:#111;background:none;-webkit-text-fill-color:initial;font-size:3.2rem}.lead,.project-copy span,.company-copy span,.mini-list span{color:#333}.content{padding:18px 20px}.project-grid,.company-grid{grid-template-columns:repeat(3,1fr)}.project,.company,.detail-panel{break-inside:avoid}.project-logo,.company-logo{height:70px}.project-logo img,.company-logo img{max-height:48px}footer{display:none}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.project{transition:none}}
   </style>
@@ -116,6 +122,7 @@
       <nav class="topbar" aria-label="CV controls">
         <span class="brand">FREY. CV</span>
         <div class="topbar-actions">
+          <a class="download-link" href="assets/frey-cv.pdf" download data-en="Download CV (PDF)" data-nl="Download CV (PDF)">Download CV (PDF)</a>
           <div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div>
         </div>
       </nav>
@@ -124,12 +131,11 @@
         <div class="hero-copy">
           <h1>FREY.</h1>
           <p class="eyebrow" data-en="Creative CV &middot; Social media &middot; DJ" data-nl="Creatief CV &middot; Social media &middot; DJ">Creative CV &middot; Social media &middot; DJ</p>
-          <p class="lead" data-en="A multidisciplinary creative raised on pop culture and the internet. I work across social media management, social-first content, graphic design, communication and DJ sets, with a professional background in operations, support and stakeholder coordination." data-nl="Een multidisciplinair creative, opgegroeid met popcultuur en het internet. Ik werk aan social media management, social-first content, grafisch ontwerp, communicatie en DJ-sets, met een professionele achtergrond in operations, support en stakeholdercoordinatie.">A multidisciplinary creative raised on pop culture and the internet. I work across social media management, social-first content, graphic design, communication and DJ sets, with a professional background in operations, support and stakeholder coordination.</p>
+          <p class="lead"><span class="lead-line" data-en="A multidisciplinary creative raised on pop culture and the internet. I work across social media management, social-first content, graphic design, communication and DJ sets, with a professional background in operations, support and stakeholder coordination." data-nl="Een multidisciplinair creative, opgegroeid met popcultuur en het internet. Ik werk aan social media management, social-first content, grafisch ontwerp, communicatie en DJ-sets, met een professionele achtergrond in operations, support en stakeholdercoordinatie.">A multidisciplinary creative raised on pop culture and the internet. I work across social media management, social-first content, graphic design, communication and DJ sets, with a professional background in operations, support and stakeholder coordination.</span><span class="lead-line" data-en="Organized, creative and curious by nature, with a personal eye shaped by music, photography, architecture, walking, reading and cooking." data-nl="Van nature georganiseerd, creatief en leergierig, met een persoonlijke blik gevormd door muziek, fotografie, architectuur, wandelen, lezen en koken.">Organized, creative and curious by nature, with a personal eye shaped by music, photography, architecture, walking, reading and cooking.</span></p>
           <div class="quick-info" aria-label="Quick info">
             <span class="pill">Amsterdam</span>
-            <a class="pill" href="mailto:mail@freycreates.nl">mail@freycreates.nl</a>
+            <a class="pill" href="mailto:mail@freycreates.nl" data-en="Contact me" data-nl="Contact">Contact me</a>
             <a class="pill" href="https://instagram.com/frey.audio" target="_blank" rel="noopener">Instagram</a>
-            <span class="pill" data-en="Dutch &amp; English" data-nl="Nederlands &amp; Engels">Dutch &amp; English</span>
           </div>
         </div>
       </header>
@@ -141,7 +147,7 @@
       <div class="project-grid">
         <a class="project project-homomonument" href="https://www.instagram.com/homomonument/" target="_blank" rel="noopener" aria-label="View Homomonument on Instagram">
           <span class="project-logo"><img src="assets/hmm_logo.png" alt="Homomonument Amsterdam"></span>
-          <span class="project-copy"><strong>Homomonument</strong><span data-en="Social media management, content, communication and graphic design." data-nl="Social media management, content, communicatie en grafisch ontwerp.">Social media management, content, communication and graphic design.</span><span class="date" data-en="2026-now" data-nl="2026-nu">2026-now</span></span>
+          <span class="project-copy"><strong>Homomonument</strong><span data-en="Voluntary social media management, content, communication and graphic design." data-nl="Vrijwilligerswerk: social media management, content, communicatie en grafisch ontwerp.">Voluntary social media management, content, communication and graphic design.</span><span class="date" data-en="2026-now" data-nl="2026-nu">2026-now</span></span>
         </a>
         <a class="project project-world-pride" href="https://www.instagram.com/prideamsterdam/" target="_blank" rel="noopener" aria-label="View World Pride Amsterdam on Instagram">
           <span class="project-logo"><img src="assets/world-pride.png" alt="World Pride Amsterdam 2026"></span>
@@ -213,7 +219,7 @@
         </div>
       </div>
     </section>
-    <footer>2026 © FREY.<br><span data-en="Website by Frey Creates" data-nl="Website door Frey Creates">Website by Frey Creates</span><br><span data-en="Amsterdam Based" data-nl="Amsterdam Based">Amsterdam Based</span><br><span>KVK: 94022607</span></footer>
+    <footer>2026 © FREY.<br><span data-en="Website by Frey Creates" data-nl="Website door Frey Creates">Website by Frey Creates</span><br><span data-en="Amsterdam Based" data-nl="Amsterdam Based">Amsterdam Based</span><br><a href="mailto:mail@freycreates.nl">mail@freycreates.nl</a><br><span>KVK: 94022607</span></footer>
   </main>
   <script src="assets/language.js"></script>
 </body>
