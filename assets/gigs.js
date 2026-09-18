@@ -16,6 +16,8 @@ window.FREY_GIGS=[
   ["2026-10-31","Private Halloween Party"],
   ["2026-10-31","3xNYX, Amsterdam","https://www.clubnyx.nl/"],
   ["2026-11-05","Ministerie van EZK (Private Event), The Hague"],
+  ["2026-11-27","TBA"],
+  ["2026-11-28","3xNYX, Amsterdam","https://www.clubnyx.nl/"],
   ["2026-12-19","Pink Inc, Hamburg","https://www.instagram.com/pinkinhamburg/"],
   ["2026-06-19","FERRY, Rotterdam"],
   ["2026-05-29","FERRY, Rotterdam"],
