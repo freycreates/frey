@@ -1,0 +1,21 @@
+window.FREY_VENUES=[
+  {"logo":"assets/venue-logos/cards/paradiso.png","name":"Paradiso, Amsterdam","url":"https://www.paradiso.nl/en/"},
+  {"logo":"assets/venue-logos/cards/nyx.png","name":"Club NYX, Amsterdam","style":"venue-card-nyx","url":"https://www.clubnyx.nl/"},
+  {"logo":"assets/venue-logos/cards/ferry.png","name":"FERRY, Rotterdam","style":"venue-card-ferry","url":"https://www.ferryrotterdam.com/"},
+  {"logo":"assets/venue-logos/cards/milkshake.png","name":"Milkshake Festival, Amsterdam","style":"venue-card-milkshake","url":"https://www.milkshakefestival.com/"},
+  {"logo":"assets/venue-logos/cards/homomonument.png","name":"Homomonument, Amsterdam","url":"https://instagram.com/homomonument"},
+  {"logo":"assets/venue-logos/cards/rabbits-hole.png","name":"Rabbit’s Hole, Singapore","style":"venue-card-rabbits","url":"https://rabbitsholesg.com/"},
+  {"logo":"assets/world-pride.png","name":"WorldPride Amsterdam","style":"venue-card-world-pride","url":"https://pride.amsterdam/en/worldpride/"},
+  {"logo":"assets/venue-logos/cards/pride-amsterdam.png","name":"Pride Amsterdam","url":"https://pride.amsterdam/en/event/canal-parade/"},
+  {"logo":"assets/venue-logos/cards/hullabaloo.png","name":"Hullabaloo, Groningen","style":"venue-card-hullabaloo","url":"https://hullabaloofestival.nl/"},
+  {"logo":"assets/venue-logos/cards/prik.png","name":"PRIK Pride, Amsterdam","style":"venue-card-prik","url":"https://prikamsterdam.nl/"},
+  {"logo":"assets/venue-logos/cards/backsteeg.png","name":"Backsteeg, Rotterdam","style":"venue-card-backsteeg","url":"https://www.ferryrotterdam.com/backsteeg"},
+  {"logo":"assets/venue-logos/cards/the-other-side.png","name":"The Other Side, Amsterdam","style":"venue-card-other-side","url":"https://the-other-side.nl/"},
+  {"logo":"assets/venue-logos/cards/palace.png","name":"Palace, Groningen","style":"venue-card-palace","url":"https://palacegroningen.nl/en/"},
+  {"logo":"assets/venue-logos/cards/fluor.png","name":"Podium FLUOR, Amersfoort","url":"https://fluor033.nl/"},
+  {"logo":"assets/venue-logos/cards/bad-habits.png","name":"Bad Habits, Brussels (BE)","style":"venue-card-badhabits","url":"https://www.instagram.com/haus_brussels/"},
+  {"logo":"assets/venue-logos/cards/exit.png","name":"EXIT, Amsterdam","url":"https://www.exitamsterdam.nl/"},
+  {"logo":"assets/venue-logos/cards/richel.png","name":"Theater De Richel, Amsterdam","url":"https://theaterderichel.nl/"},
+  {"logo":"assets/venue-logos/cards/disco-dolly.png","name":"Disco Dolly, Amsterdam","style":"venue-card-disco-dolly","url":"https://ra.co/clubs/87805"},
+  {"logo":"assets/venue-logos/cards/skek.png","name":"'SKEK, Amsterdam","style":"venue-card-skek","url":"https://skekamsterdam.cargo.site/"}
+];

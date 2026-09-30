@@ -1,0 +1,6 @@
+window.FREY_MIXES=[
+  {"alt":"MIX 2026 artwork","image":"assets/mix-2026.jpg","imageStyle":"thumbnail","links":[{"platform":"soundcloud","url":"https://soundcloud.com/freyr-music/frey-mixtape-july26"}],"title":"MIX 2026","type":"DJ mix"},
+  {"alt":"2026 live DJ set at FERRY Rotterdam artwork","image":"assets/2026-mix-artwork.png","imageStyle":"artwork","links":[{"platform":"soundcloud","url":"https://soundcloud.com/freyr-music/2026-mix"}],"title":"2026 LIVE DJ-SET - FERRY ROTTERDAM","type":"DJ mix"},
+  {"alt":"BOPS Live Set artwork","image":"assets/bops-live-set-artwork.png","imageStyle":"artwork","links":[{"platform":"soundcloud","url":"https://soundcloud.com/freyr-music/frey-bops-live-set"}],"note":{"en":"I played at BOPS in November 2025, and it remains one of my favourite DJ gigs.","nl":"Ik draaide in november 2025 bij BOPS en het blijft een van mijn favoriete DJ-gigs."},"title":"BOPS Live Set","type":"Live DJ set"},
+  {"alt":"Queer Bops You Slept On artwork","image":"assets/queer-bops-artwork.png","imageStyle":"artwork","links":[{"platform":"spotify","url":"https://open.spotify.com/playlist/5T49mTNrQEqgLShyqu4GKz"},{"platform":"apple","url":"https://music.apple.com/nl/playlist/queer-bops-you-slept-on/pl.u-xlyNJb2spMYdbK?l=en"}],"title":"Queer Bops You Slept On","type":"Playlist"}
+];
