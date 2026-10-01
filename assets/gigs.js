@@ -20,7 +20,7 @@ window.FREY_GIGS=[
   ["2026-11-06","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-11-27","TBA"],
   ["2026-11-28","3xNYX, Amsterdam","https://www.clubnyx.nl/"],
-  ["2026-12-11","TBA"],
+  ["2026-12-11","Pink Noise, Amersfoort","https://fluor033.nl/programma/pinknoise-3/"],
   ["2026-12-19","Pink Inc, Hamburg","https://www.instagram.com/pinkinhamburg/"],
   ["2026-06-19","FERRY, Rotterdam"],
   ["2026-05-29","FERRY, Rotterdam"],
