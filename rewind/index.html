@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DJ Rewind</title>
+<meta name="description" content="Plug in your USB stick after a gig. DJ Rewind turns your play history into Rewinds you can share on Instagram. Join the iPhone beta.">
+<meta property="og:title" content="DJ Rewind: your DJ nights, rewound">
+<meta property="og:description" content="Plug in. Rewind. Post. Your gigs, tracks and BPM journey as Instagram-ready cards. Join the iPhone beta.">
+<meta property="og:image" content="assets/clubpop-poster.jpg">
+<meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #FF2E54;
+  --blue: #8FD3FF;
+  --black: #000;
+  --tile: #1c1c1c;
+  --tile2: #2a2a2a;
+  --white: #fff;
+  --muted: rgba(255, 255, 255, 0.62);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+section, header { scroll-margin-top: 72px; }
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--white);
+  font-family: "Schibsted Grotesk", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+h1, h2, h3 { font-weight: 900; letter-spacing: -0.045em; line-height: 0.95; margin: 0; }
+h1 { font-size: clamp(52px, 8.5vw, 104px); }
+h2 { font-size: clamp(40px, 6vw, 72px); }
+h3 { font-size: 26px; letter-spacing: -0.03em; }
+p { line-height: 1.5; }
+.lead { font-size: 20px; color: var(--muted); max-width: 520px; font-weight: 500; }
+.pink { color: var(--pink); }
+.label { color: var(--pink); font-weight: 800; font-size: 15px; letter-spacing: 0.02em; }
+
+/* Nav */
+nav { position: sticky; top: 0; z-index: 10; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 900; font-size: 22px; letter-spacing: -0.04em; color: var(--pink); }
+.brand svg { width: 22px; height: 24px; }
+.nav-right { display: flex; align-items: center; gap: 18px; }
+.nav-right a.ig { font-weight: 700; color: var(--muted); text-decoration: none; font-size: 15px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 999px; padding: 15px 26px; font: inherit; font-weight: 800; font-size: 17px; cursor: pointer; text-decoration: none; transition: transform 0.12s ease; }
+.btn:active { transform: scale(0.97); }
+.btn-pink { background: var(--pink); color: #000; }
+.btn-tile { background: var(--tile); color: var(--white); }
+.btn-small { padding: 10px 18px; font-size: 15px; }
+
+/* Hero */
+.hero { padding: 56px 0 80px; }
+.hero .wrap { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+.hero .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+.hero small { display: block; margin-top: 14px; color: var(--muted); font-size: 14px; font-weight: 500; }
+.reel { width: 100%; max-width: 380px; margin: 0 auto; aspect-ratio: 9 / 16; border-radius: 34px; overflow: hidden; background: var(--pink); }
+.reel video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Steps */
+.steps { padding: 90px 0; background: var(--pink); color: #000; }
+.steps .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 44px; }
+.steps .num { font-size: 64px; font-weight: 900; letter-spacing: -0.05em; line-height: 1; }
+.steps p { color: rgba(0, 0, 0, 0.72); font-weight: 500; font-size: 17px; }
+
+/* Features */
+.features { padding: 100px 0 40px; }
+.features .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
+.card { background: var(--tile); border-radius: 28px; padding: 24px 24px 0; overflow: hidden; display: flex; flex-direction: column; }
+.card p { color: var(--muted); font-weight: 500; margin: 10px 0 20px; }
+.card .shot { margin-top: auto; border-radius: 22px 22px 0 0; overflow: hidden; height: 330px; }
+.card .shot img { width: 100%; display: block; }
+.card.accent { background: var(--pink); color: #000; }
+.card.accent p { color: rgba(0, 0, 0, 0.7); }
+.card.accent .label { color: #000; }
+
+/* Strip of screenshots */
+.strip { padding: 60px 0 100px; }
+.strip .row { display: flex; gap: 16px; overflow-x: auto; padding: 8px 20px 20px; scroll-snap-type: x mandatory; }
+.strip img { width: 230px; flex: none; border-radius: 26px; scroll-snap-align: center; border: 1px solid #222; }
+
+/* FAQ */
+.faq { padding: 40px 0 100px; }
+.faq .list { margin-top: 36px; display: grid; gap: 10px; max-width: 820px; }
+details { background: var(--tile); border-radius: 20px; padding: 20px 24px; }
+summary { cursor: pointer; font-weight: 800; font-size: 19px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; color: var(--pink); font-size: 24px; line-height: 1; }
+details[open] summary::after { content: "–"; }
+details p { color: var(--muted); font-weight: 500; margin: 12px 0 0; }
+
+/* Beta form */
+.beta { padding: 100px 0; background: var(--tile); }
+.beta .wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; }
+form { display: grid; gap: 16px; }
+.field label, .field legend { display: block; font-weight: 800; font-size: 15px; margin-bottom: 8px; }
+.field .hint { color: var(--muted); font-weight: 500; }
+input[type=text], input[type=email] {
+  width: 100%; padding: 16px 18px; border-radius: 16px; border: 2px solid transparent;
+  background: var(--black); color: var(--white); font: inherit; font-size: 17px; font-weight: 500; outline: none;
+}
+input[type=text]:focus, input[type=email]:focus { border-color: var(--pink); }
+fieldset { border: 0; margin: 0; padding: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips label { margin: 0; }
+.chips input { position: absolute; opacity: 0; pointer-events: none; }
+.chips span { display: inline-block; padding: 11px 16px; border-radius: 999px; background: var(--black); font-weight: 700; font-size: 15px; cursor: pointer; border: 2px solid transparent; }
+.chips input:checked + span { background: var(--pink); color: #000; }
+.chips input:focus-visible + span { border-color: var(--white); }
+.consent { display: flex; gap: 12px; align-items: flex-start; color: var(--muted); font-weight: 500; font-size: 15px; line-height: 1.45; }
+.consent input { width: 22px; height: 22px; accent-color: var(--pink); flex: none; margin-top: 1px; }
+.error { color: var(--pink); font-weight: 700; font-size: 14px; min-height: 18px; }
+.thanks { display: none; background: var(--black); border-radius: 24px; padding: 32px; }
+.thanks h3 { font-size: 34px; }
+
+footer { padding: 40px 0 60px; color: var(--muted); font-weight: 500; font-size: 15px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+footer a { text-decoration: none; }
+
+@media (max-width: 860px) {
+  .hero .wrap, .beta .wrap { grid-template-columns: 1fr; }
+  .hero { padding-top: 28px; }
+  .reel { max-width: 320px; }
+  .steps .grid, .features .grid { grid-template-columns: 1fr; }
+  .nav-right a.ig { display: none; }
+  .card .shot { height: 300px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="DJ Rewind">
+      <svg viewBox="0 0 65.7 70.3" aria-hidden="true"><path fill="#FF2E54" d="M0 70.3V0h38.1Q63.8 0 63.8 21.8q0 21.7-28.7 21.7H20v26.8ZM17 21.75 31.5 32V11.5Zm14.5 0L46 32V11.5ZM43.3 70.3 21.9 38.1h21.9l21.9 32.2Z"/></svg>
+      DJ Rewind
+    </a>
+    <div class="nav-right">
+      <a class="ig" href="https://instagram.com/djrewind.app" target="_blank" rel="noopener">@djrewind.app</a>
+      <a class="btn btn-pink btn-small" href="#beta">Join the beta</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="label">For DJs · iPhone</div>
+      <h1 style="margin-top:14px">Your DJ nights, <span class="pink">rewound.</span></h1>
+      <p class="lead" style="margin-top:22px">Plug in your USB stick after a gig. DJ Rewind turns what you played into Rewinds you can post straight to your Instagram story.</p>
+      <div class="cta">
+        <a class="btn btn-pink" href="#beta">Join the beta</a>
+        <a class="btn btn-tile" href="#how">How it works</a>
+      </div>
+      <small>Free to start. Works with USB sticks exported from rekordbox.</small>
+    </div>
+    <div class="reel">
+      <video src="assets/clubpop.mp4" poster="assets/clubpop-poster.jpg" autoplay muted loop playsinline aria-label="DJ Rewind after a gig at Club Pop"></video>
+    </div>
+  </div>
+</header>
+
+<section class="steps" id="how">
+  <div class="wrap">
+    <h2>Plug in. Rewind. Post.</h2>
+    <div class="grid">
+      <div>
+        <div class="num">01</div>
+        <h3 style="margin-top:10px">Plug in</h3>
+        <p>After your gig, plug the stick you played from into your iPhone. DJ Rewind reads what you played and never changes anything on it.</p>
+      </div>
+      <div>
+        <div class="num">02</div>
+        <h3 style="margin-top:10px">Rewind</h3>
+        <p>Type the venue, set your hours, and your night is ready: songs played, time on the decks, top artists, first and last song.</p>
+      </div>
+      <div>
+        <div class="num">03</div>
+        <h3 style="margin-top:10px">Post</h3>
+        <p>Share it as Instagram-ready cards. Every month, your Rewind is waiting on the 1st.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="label">What's inside</div>
+    <h2 style="margin-top:12px">Every gig counts.</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="label">After the gig</div>
+        <h3 style="margin-top:8px">Your set, in one card.</h3>
+        <p>Venue, hours, songs, most played artist, opener and closer.</p>
+        <div class="shot"><img src="assets/recap.jpg" alt="The recap of a set at Club Pop" loading="lazy"></div>
+      </div>
+      <div class="card accent">
+        <div class="label">Every month</div>
+        <h3 style="margin-top:8px">Your month, rewound.</h3>
+        <p>Gigs, time played, top artists, your anthem and every venue, as a story.</p>
+        <div class="shot"><img src="assets/story.jpg" alt="A monthly Rewind for September" loading="lazy"></div>
+      </div>
+      <div class="card">
+        <div class="label">Your style</div>
+        <h3 style="margin-top:8px">The Hits or The Journey.</h3>
+        <p>Show off your top tracks and artists, or your BPM journey, key and longest track.</p>
+        <div class="shot"><img src="assets/setup.jpg" alt="Choosing The Hits or The Journey" loading="lazy"></div>
+      </div>
+      <div class="card">
+        <div class="label">For techno and house</div>
+        <h3 style="margin-top:8px">BPM by BPM.</h3>
+        <p>Where you started, where you ended, and how you built the night.</p>
+        <div class="shot"><img src="assets/journey.jpg" alt="BPM journey from 143 to 155" loading="lazy"></div>
+      </div>
+      <div class="card">
+        <div class="label">For the crowd favourites</div>
+        <h3 style="margin-top:8px">Heavy rotation.</h3>
+        <p>Your top 5 artists of the night, the month or the whole year.</p>
+        <div class="shot"><img src="assets/artists.jpg" alt="Top 5 artists" loading="lazy"></div>
+      </div>
+      <div class="card accent">
+        <div class="label">Weddings and private events</div>
+        <h3 style="margin-top:8px">Give them their night.</h3>
+        <p>The first dance and the whole tracklist, as cards for the couple.</p>
+        <div class="shot"><img src="assets/wedding.jpg" alt="Wedding card for Emma and Sam" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="strip" aria-label="Screenshots">
+  <div class="row">
+    <img src="assets/home.jpg" alt="Your months" loading="lazy">
+    <img src="assets/recap.jpg" alt="Set recap" loading="lazy">
+    <img src="assets/story.jpg" alt="Monthly Rewind" loading="lazy">
+    <img src="assets/artists.jpg" alt="Top 5 artists" loading="lazy">
+    <img src="assets/journey.jpg" alt="BPM journey" loading="lazy">
+    <img src="assets/wedding.jpg" alt="Wedding cards" loading="lazy">
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <h2>Questions.</h2>
+    <div class="list">
+      <details><summary>Do I need a Mac or laptop?</summary><p>No. Everything happens on your iPhone. Plug in the USB stick you played from, with an adapter if your iPhone needs one.</p></details>
+      <details><summary>Does it change anything on my USB stick?</summary><p>Never. DJ Rewind only reads your play history. Your stick, playlists and cue points stay exactly as they were.</p></details>
+      <details><summary>Which sticks and players work?</summary><p>USB sticks exported from rekordbox that you played from on club players. During the beta we're testing as many players as we can, so tell us which ones you use.</p></details>
+      <details><summary>Where does my data go?</summary><p>It stays on your phone. There's no account, and nothing is uploaded unless you share a card yourself.</p></details>
+      <details><summary>What does it cost?</summary><p>DJ Rewind is free to start. The beta is free.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="beta" id="beta">
+  <div class="wrap">
+    <div>
+      <div class="label">TestFlight beta</div>
+      <h2 style="margin-top:12px">Be the first to rewind.</h2>
+      <p class="lead" style="margin-top:20px">Join the beta and we'll send you a TestFlight invite as soon as it opens. iPhone only.</p>
+    </div>
+    <div>
+      <!-- Replace YOUR_FORM_ID with the Formspree form that forwards to hello@freycreates.nl -->
+      <form id="beta-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+        <input type="hidden" name="_subject" value="DJ Rewind beta sign-up">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="DJ name or your own" required>
+        </div>
+        <div class="field">
+          <label for="email">Apple ID email <span class="hint">· TestFlight sends the invite here</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@icloud.com" required>
+        </div>
+        <fieldset class="field">
+          <legend>Which players do you use?</legend>
+          <div class="chips">
+            <label><input type="checkbox" name="players" value="CDJ-3000"><span>CDJ-3000</span></label>
+            <label><input type="checkbox" name="players" value="CDJ-2000NXS2"><span>CDJ-2000NXS2</span></label>
+            <label><input type="checkbox" name="players" value="CDJ-2000NXS / older"><span>Older CDJs</span></label>
+            <label><input type="checkbox" name="players" value="XDJ"><span>XDJ / all-in-one</span></label>
+            <label><input type="checkbox" name="players" value="Other"><span>Other</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>What do you play?</legend>
+          <div class="chips">
+            <label><input type="radio" name="plays" value="Club gigs" required><span>Club gigs</span></label>
+            <label><input type="radio" name="plays" value="Weddings and private"><span>Weddings and private</span></label>
+            <label><input type="radio" name="plays" value="Both"><span>Both</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="instagram">Instagram <span class="hint">· optional</span></label>
+          <input id="instagram" name="instagram" type="text" placeholder="@yourname">
+        </div>
+        <label class="consent">
+          <input type="checkbox" name="consent" value="yes" required>
+          <span>I agree that DJ Rewind may email me about the beta. You can ask us to delete your details at any time. <a href="privacy.html">Privacy</a></span>
+        </label>
+        <div class="error" id="form-error" role="alert"></div>
+        <button class="btn btn-pink" type="submit" style="justify-self:start">Join the beta</button>
+      </form>
+      <div class="thanks" id="thanks" role="status">
+        <h3>You're on the list.</h3>
+        <p class="lead" style="margin-top:12px">We'll send your TestFlight invite as soon as the beta opens. Follow <a href="https://instagram.com/djrewind.app" target="_blank" rel="noopener" class="pink">@djrewind.app</a> in the meantime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>DJ Rewind by Freycreates</span>
+    <span><a href="https://instagram.com/djrewind.app" target="_blank" rel="noopener">Instagram</a> · <a href="privacy.html">Privacy</a> · <a href="mailto:hello@freycreates.nl">hello@freycreates.nl</a></span>
+  </div>
+</footer>
+
+<script>
+const form = document.getElementById('beta-form');
+const error = document.getElementById('form-error');
+form.addEventListener('input', () => { error.textContent = ''; });
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const data = new FormData(form);
+  const email = (data.get('email') || '').trim();
+  if (!(data.get('name') || '').trim()) { error.textContent = 'Fill in your name.'; return; }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { error.textContent = 'Fill in the email of your Apple ID.'; return; }
+  if (!data.get('plays')) { error.textContent = 'Pick what you play.'; return; }
+  if (!data.get('consent')) { error.textContent = 'Tick the box so we can email you the invite.'; return; }
+  // No Formspree form linked yet: nothing would be sent, so say so instead of thanking.
+  if (form.action.includes('YOUR_FORM_ID')) {
+    error.textContent = 'Sign-ups open soon. Until then, email hello@freycreates.nl to join the beta.';
+    return;
+  }
+  try {
+    const response = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+    if (!response.ok) throw new Error();
+    form.style.display = 'none';
+    document.getElementById('thanks').style.display = 'block';
+  } catch {
+    error.textContent = 'That didn’t go through. Try again, or email hello@freycreates.nl.';
+  }
+});
+</script>
+</body>
+</html>
