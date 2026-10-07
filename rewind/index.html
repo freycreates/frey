@@ -70,22 +70,41 @@ nav .wrap { display: flex; align-items: center; justify-content: space-between; 
 .steps .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 44px; }
 .steps .num { font-size: 64px; font-weight: 900; letter-spacing: -0.05em; line-height: 1; }
 .steps p { color: rgba(0, 0, 0, 0.72); font-weight: 500; font-size: 17px; }
+.why { margin-top: 56px; }
+.why h3 { font-size: 30px; }
+.why .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+.why .tile { background: #000; color: #fff; border-radius: 24px; padding: 22px 24px; }
+.why .tile h4 { margin: 0; font-size: 20px; font-weight: 900; letter-spacing: -0.03em; }
+.why .tile p { color: var(--muted); margin: 8px 0 0; font-size: 16px; }
 
 /* Features */
 .features { padding: 100px 0 40px; }
 .features .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
-.card { background: var(--tile); border-radius: 28px; padding: 24px 24px 0; overflow: hidden; display: flex; flex-direction: column; }
+.card { background: var(--tile); border-radius: 28px; padding: 24px; overflow: hidden; display: flex; flex-direction: column; }
 .card p { color: var(--muted); font-weight: 500; margin: 10px 0 20px; }
-.card .shot { margin-top: auto; border-radius: 22px 22px 0 0; overflow: hidden; height: 330px; }
-.card .shot img { width: 100%; display: block; }
+/* The whole screen, in a phone frame: never cropped. */
+.phone { background: #000; border: 6px solid #000; border-radius: 34px; overflow: hidden; aspect-ratio: 1206 / 2622; box-shadow: 0 0 0 1px #2a2a2a; }
+.phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card .phone { margin: 8px auto 0; width: 74%; }
+.card.accent .phone { box-shadow: none; }
 .card.accent { background: var(--pink); color: #000; }
 .card.accent p { color: rgba(0, 0, 0, 0.7); }
 .card.accent .label { color: #000; }
 
-/* Strip of screenshots */
-.strip { padding: 60px 0 100px; }
-.strip .row { display: flex; gap: 16px; overflow-x: auto; padding: 8px 20px 20px; scroll-snap-type: x mandatory; }
-.strip img { width: 230px; flex: none; border-radius: 26px; scroll-snap-align: center; border: 1px solid #222; }
+/* Themes */
+.themes { padding: 60px 0 100px; }
+.themes .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 40px; }
+.themes figure { margin: 0; }
+.themes figcaption { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; font-weight: 800; font-size: 16px; }
+.themes .dot { width: 14px; height: 14px; border-radius: 50%; }
+
+/* Premium */
+.premium { padding: 100px 0; border-top: 1px solid #1f1f1f; }
+.premium .wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: start; }
+.perks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.perks li { display: flex; gap: 14px; align-items: center; background: var(--tile); border-radius: 18px; padding: 16px 18px; font-weight: 700; font-size: 17px; }
+.perks svg { flex: none; width: 22px; height: 22px; }
+.free-note { color: var(--muted); font-weight: 500; font-size: 16px; margin-top: 22px; }
 
 /* FAQ */
 .faq { padding: 40px 0 100px; }
@@ -129,9 +148,12 @@ footer a { text-decoration: none; }
   .hero .wrap, .beta .wrap { grid-template-columns: 1fr; }
   .hero { padding-top: 28px; }
   .reel { max-width: 320px; }
-  .steps .grid, .features .grid { grid-template-columns: 1fr; }
+  .steps .grid, .features .grid, .why .tiles { grid-template-columns: 1fr; }
   .nav-right a.ig { display: none; }
-  .card .shot { height: 300px; }
+  .card .phone { width: 64%; }
+  .premium .wrap { grid-template-columns: 1fr; }
+  .themes .row { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; }
+  .themes figure { flex: 0 0 46%; scroll-snap-align: start; }
 }
 </style>
 </head>
@@ -188,6 +210,23 @@ footer a { text-decoration: none; }
         <p>Share it as Instagram-ready cards. Every month, your Rewind is waiting on the 1st.</p>
       </div>
     </div>
+    <div class="why">
+      <h3>Why your iPhone?</h3>
+      <div class="tiles">
+        <div class="tile">
+          <h4>Already in your pocket.</h4>
+          <p>No laptop needed: plug your stick straight into your iPhone, backstage or in the taxi home.</p>
+        </div>
+        <div class="tile">
+          <h4>Where your stories live.</h4>
+          <p>From your set to your Instagram story in one tap, no sending files around.</p>
+        </div>
+        <div class="tile">
+          <h4>Nothing leaves your phone.</h4>
+          <p>No upload, no account. It even works without signal.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -200,50 +239,89 @@ footer a { text-decoration: none; }
         <div class="label">After the gig</div>
         <h3 style="margin-top:8px">Your set, in one card.</h3>
         <p>Venue, hours, songs, most played artist, opener and closer.</p>
-        <div class="shot"><img src="assets/recap.jpg" alt="The recap of a set at Club Pop" loading="lazy"></div>
+        <div class="phone"><img src="assets/recap.jpg" alt="The recap of a set at Club Pop" loading="lazy"></div>
       </div>
       <div class="card accent">
         <div class="label">Every month</div>
         <h3 style="margin-top:8px">Your month, rewound.</h3>
         <p>Gigs, time played, top artists, your anthem and every venue, as a story.</p>
-        <div class="shot"><img src="assets/story.jpg" alt="A monthly Rewind for September" loading="lazy"></div>
+        <div class="phone"><img src="assets/story.jpg" alt="A monthly Rewind for September" loading="lazy"></div>
       </div>
       <div class="card">
         <div class="label">Your style</div>
         <h3 style="margin-top:8px">The Hits or The Journey.</h3>
         <p>Show off your top tracks and artists, or your BPM journey, key and longest track.</p>
-        <div class="shot"><img src="assets/setup.jpg" alt="Choosing The Hits or The Journey" loading="lazy"></div>
+        <div class="phone"><img src="assets/setup.jpg" alt="Choosing The Hits or The Journey" loading="lazy"></div>
       </div>
       <div class="card">
         <div class="label">For techno and house</div>
         <h3 style="margin-top:8px">BPM by BPM.</h3>
         <p>Where you started, where you ended, and how you built the night.</p>
-        <div class="shot"><img src="assets/journey.jpg" alt="BPM journey from 143 to 155" loading="lazy"></div>
+        <div class="phone"><img src="assets/journey.jpg" alt="BPM journey from 143 to 155" loading="lazy"></div>
       </div>
       <div class="card">
         <div class="label">For the crowd favourites</div>
         <h3 style="margin-top:8px">Heavy rotation.</h3>
         <p>Your top 5 artists of the night, the month or the whole year.</p>
-        <div class="shot"><img src="assets/artists.jpg" alt="Top 5 artists" loading="lazy"></div>
+        <div class="phone"><img src="assets/artists.jpg" alt="Top 5 artists" loading="lazy"></div>
       </div>
       <div class="card accent">
         <div class="label">Weddings and private events</div>
         <h3 style="margin-top:8px">Give them their night.</h3>
         <p>The first dance and the whole tracklist, as cards for the couple.</p>
-        <div class="shot"><img src="assets/wedding.jpg" alt="Wedding card for Emma and Sam" loading="lazy"></div>
+        <div class="phone"><img src="assets/wedding.jpg" alt="Wedding card for Emma and Sam" loading="lazy"></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="strip" aria-label="Screenshots">
-  <div class="row">
-    <img src="assets/home.jpg" alt="Your months" loading="lazy">
-    <img src="assets/recap.jpg" alt="Set recap" loading="lazy">
-    <img src="assets/story.jpg" alt="Monthly Rewind" loading="lazy">
-    <img src="assets/artists.jpg" alt="Top 5 artists" loading="lazy">
-    <img src="assets/journey.jpg" alt="BPM journey" loading="lazy">
-    <img src="assets/wedding.jpg" alt="Wedding cards" loading="lazy">
+<section class="themes" id="themes">
+  <div class="wrap">
+    <div class="label">Themes</div>
+    <h2 style="margin-top:12px">Your colours.</h2>
+    <p class="lead" style="margin-top:18px">The whole app and every card you share, in the colour that fits your night.</p>
+    <div class="row">
+      <figure>
+        <div class="phone"><img src="assets/theme-rewind.jpg" alt="DJ Rewind in the Rewind theme" loading="lazy"></div>
+        <figcaption><span class="dot" style="background:#FF2E54"></span><span class="dot" style="background:#8FD3FF"></span>Rewind</figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><img src="assets/theme-laser.jpg" alt="DJ Rewind in the Laser theme" loading="lazy"></div>
+        <figcaption><span class="dot" style="background:#00F07A"></span><span class="dot" style="background:#28E0FF"></span>Laser</figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><img src="assets/theme-uv.jpg" alt="DJ Rewind in the UV theme" loading="lazy"></div>
+        <figcaption><span class="dot" style="background:#7A3CFF"></span><span class="dot" style="background:#E4FF3A"></span>UV</figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><img src="assets/theme-chrome.jpg" alt="DJ Rewind in the Chrome theme" loading="lazy"></div>
+        <figcaption><span class="dot" style="background:#C8D0DA"></span><span class="dot" style="background:#9ED8FF"></span>Chrome</figcaption>
+      </figure>
+      <figure>
+        <div class="phone"><img src="assets/theme-ade.jpg" alt="DJ Rewind in the ADE theme" loading="lazy"></div>
+        <figcaption><span class="dot" style="background:#FFFF07"></span><span class="dot" style="background:#6E6500"></span>ADE</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="premium" id="premium">
+  <div class="wrap">
+    <div>
+      <div class="label">Premium</div>
+      <h2 style="margin-top:12px">Make it yours.</h2>
+      <p class="lead" style="margin-top:20px">Premium is a monthly or yearly subscription. During the beta, everything is free.</p>
+      <p class="free-note">Free, for good: your newest month, your set after every gig, the overview card and your tracklist as text.</p>
+    </div>
+    <ul class="perks">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FF2E54"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Share every card, without the footer</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FF2E54"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Your DJ name on every card</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FF2E54"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>All your past months and older history</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FF2E54"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Every theme: Rewind, Laser, UV, Chrome and ADE</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FF2E54"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Your yearly Rewind</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FF2E54"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Mix The Hits and The Journey, and pick every card</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FF2E54"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Tracklist cards, with wedding styles</li>
+    </ul>
   </div>
 </section>
 
@@ -251,11 +329,12 @@ footer a { text-decoration: none; }
   <div class="wrap">
     <h2>Questions.</h2>
     <div class="list">
+      <details><summary>Why an iPhone app and not a website?</summary><p>No laptop, no upload. Just the phone that's already in your pocket after the gig. Your iPhone reads the stick directly, your stories are right there, and nothing gets uploaded.</p></details>
       <details><summary>Do I need a Mac or laptop?</summary><p>No. Everything happens on your iPhone. Plug in the USB stick you played from, with an adapter if your iPhone needs one.</p></details>
       <details><summary>Does it change anything on my USB stick?</summary><p>Never. DJ Rewind only reads your play history. Your stick, playlists and cue points stay exactly as they were.</p></details>
       <details><summary>Which sticks and players work?</summary><p>USB sticks exported from rekordbox that you played from on club players. During the beta we're testing as many players as we can, so tell us which ones you use.</p></details>
       <details><summary>Where does my data go?</summary><p>It stays on your phone. There's no account, and nothing is uploaded unless you share a card yourself.</p></details>
-      <details><summary>What does it cost?</summary><p>DJ Rewind is free to start. The beta is free.</p></details>
+      <details><summary>What does it cost?</summary><p>The basics are free, for good: your newest month, your set after every gig and your tracklist as text. Premium unlocks themes, cards with your DJ name, wedding and private-event cards and your full-year Rewind, for a monthly or yearly fee. During the beta, it's all free.</p></details>
     </div>
   </div>
 </section>
