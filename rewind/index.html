@@ -6,7 +6,7 @@
 <title>DJ Rewind</title>
 <meta name="description" content="Plug in your USB stick after a gig. DJ Rewind turns your play history into Rewinds you can share on Instagram. Join the iPhone beta.">
 <meta property="og:title" content="DJ Rewind: your DJ nights, rewound">
-<meta property="og:description" content="Plug in. Rewind. Post. Your gigs, tracks and BPM journey as Instagram-ready cards. Join the iPhone beta.">
+<meta property="og:description" content="Plug in. Rewind. Share! Your gigs, tracks and BPM journey as Instagram-ready cards. Join the iPhone beta.">
 <meta property="og:image" content="assets/clubpop-poster.jpg">
 <meta name="theme-color" content="#000000">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -119,6 +119,7 @@ details[open] summary::after { content: "–"; }
 details p { color: var(--muted); font-weight: 500; margin: 12px 0 0; }
 
 /* Beta form */
+.maker { margin: 18px 0 0; font-weight: 800; font-size: 16px; color: var(--pink); }
 .beta { padding: 100px 0; background: var(--tile); }
 .beta .wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; }
 form { display: grid; gap: 16px; }
@@ -194,7 +195,7 @@ footer a { text-decoration: none; }
 
 <section class="steps" id="how">
   <div class="wrap">
-    <h2>Plug in. Rewind. Post.</h2>
+    <h2>Plug in. Rewind. Share!</h2>
     <div class="grid">
       <div>
         <div class="num">01</div>
@@ -208,8 +209,8 @@ footer a { text-decoration: none; }
       </div>
       <div>
         <div class="num">03</div>
-        <h3 style="margin-top:10px">Post</h3>
-        <p>Share it as Instagram-ready cards. Every month, your Rewind is waiting on the 1st.</p>
+        <h3 style="margin-top:10px">Share</h3>
+        <p>Share your night straight to your story, the moment the gig's over. And on the 1st, your whole month is waiting.</p>
       </div>
     </div>
     <div class="why">
@@ -353,10 +354,10 @@ footer a { text-decoration: none; }
     <h2>Questions.</h2>
     <div class="list">
       <details><summary>Why an iPhone app and not a website?</summary><p>No laptop, no upload. Just the phone that's already in your pocket after the gig. Your iPhone reads the stick directly, your stories are right there, and nothing gets uploaded.</p></details>
-      <details><summary>Do I need a Mac or laptop?</summary><p>No. Everything happens on your iPhone. Plug in the USB stick you played from, with an adapter if your iPhone needs one.</p></details>
+      <details><summary>Do I need rekordbox on my Mac or PC?</summary><p>Only to prepare your stick, like you already do. After the gig, no laptop and no syncing: plug the stick into your iPhone and DJ Rewind reads your history straight from it.</p></details>
       <details><summary>My iPhone has Lightning, or my stick is USB-A. Does it work?</summary><p>Yes. Lightning iPhones work with Apple's Lightning to USB 3 Camera Adapter, and a USB-A stick on a USB-C iPhone just needs a USB-C to USB-A adapter. You need iOS 18 or newer, so iPhone XS, XR or later, or iPhone SE (2nd generation) or later.</p></details>
       <details><summary>Does it change anything on my USB stick?</summary><p>Never. DJ Rewind only reads your play history. Your stick, playlists and cue points stay exactly as they were.</p></details>
-      <details><summary>Which sticks and players work?</summary><p>USB sticks exported from rekordbox that you played from on club players. During the beta we're testing as many players as we can, so tell us which ones you use.</p></details>
+      <details><summary>Which sticks and players work?</summary><p>USB sticks exported from rekordbox that you played from on club players. During the beta I'm testing as many players as I can, so tell me which ones you use.</p></details>
       <details><summary>Where does my data go?</summary><p>It stays on your phone. There's no account, and nothing is uploaded unless you share a card yourself.</p></details>
       <details><summary>What does it cost?</summary><p>The basics are free, for good: your newest month, your set after every gig and your tracklist as text. Premium unlocks themes, cards with your DJ name, wedding and private-event cards and your full-year Rewind, for a monthly or yearly fee. During the beta, it's all free.</p></details>
     </div>
@@ -368,7 +369,8 @@ footer a { text-decoration: none; }
     <div>
       <div class="label">TestFlight beta</div>
       <h2 style="margin-top:12px">Be the first to rewind.</h2>
-      <p class="lead" style="margin-top:20px">Join the beta and we'll send you a TestFlight invite as soon as it opens. iPhone only.</p>
+      <p class="lead" style="margin-top:20px">Join the beta and I'll send you a TestFlight invite as soon as it opens. iPhone only.</p>
+      <p class="maker">Made by Frey, a DJ who wanted his own Rewind.</p>
     </div>
     <div>
       <!-- Formspree form "DJ Rewind beta": sign-ups are forwarded to hello@freycreates.nl -->
@@ -408,14 +410,14 @@ footer a { text-decoration: none; }
         </div>
         <label class="consent">
           <input type="checkbox" name="consent" value="yes" required>
-          <span>I agree that DJ Rewind may email me about the beta. You can ask us to delete your details at any time. <a href="privacy.html">Privacy</a></span>
+          <span>I agree that DJ Rewind may email me about the beta. You can ask me to delete your details at any time. <a href="privacy.html">Privacy</a></span>
         </label>
         <div class="error" id="form-error" role="alert"></div>
         <button class="btn btn-pink" type="submit" style="justify-self:start">Join the beta</button>
       </form>
       <div class="thanks" id="thanks" role="status">
         <h3>You're on the list.</h3>
-        <p class="lead" style="margin-top:12px">We'll send your TestFlight invite as soon as the beta opens. Follow <a href="https://instagram.com/djrewind.app" target="_blank" rel="noopener" class="pink">@djrewind.app</a> in the meantime.</p>
+        <p class="lead" style="margin-top:12px">I'll send your TestFlight invite as soon as the beta opens. Follow <a href="https://instagram.com/djrewind.app" target="_blank" rel="noopener" class="pink">@djrewind.app</a> in the meantime.</p>
       </div>
     </div>
   </div>
@@ -439,7 +441,7 @@ form.addEventListener('submit', async (event) => {
   if (!(data.get('name') || '').trim()) { error.textContent = 'Fill in your name.'; return; }
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { error.textContent = 'Fill in the email of your Apple ID.'; return; }
   if (!data.get('plays')) { error.textContent = 'Pick what you play.'; return; }
-  if (!data.get('consent')) { error.textContent = 'Tick the box so we can email you the invite.'; return; }
+  if (!data.get('consent')) { error.textContent = 'Tick the box so I can email you the invite.'; return; }
   // The players go as one readable line ("CDJ-3000, XDJ / all-in-one").
   const players = data.getAll('players');
   data.delete('players');
