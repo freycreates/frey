@@ -148,6 +148,68 @@ footer { padding: 40px 0 60px; color: var(--muted); font-weight: 500; font-size:
 footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
 footer a { text-decoration: none; }
 
+/* Pictures in phone frames */
+.phone picture { display: block; width: 100%; height: 100%; }
+.phone video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+
+/* Step icons */
+.steps .num-row { display: flex; align-items: center; justify-content: space-between; max-width: 260px; }
+.steps .icon { width: 54px; height: 54px; }
+.steps .icon * { transition: transform 0.7s cubic-bezier(.2,.9,.3,1.3); transform-box: fill-box; transform-origin: center; }
+.steps .grid > div.in .icon .move-up { animation: nudge-up 2.4s ease-in-out 0.4s infinite; }
+.steps .grid > div.in .icon .move-left { animation: nudge-left 1.6s ease-in-out 0.4s infinite; }
+@keyframes nudge-up { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+@keyframes nudge-left { 0%, 60%, 100% { transform: translateX(0); } 30% { transform: translateX(-6px); } }
+
+/* Numbers */
+.numbers { padding: 100px 0 60px; }
+.numbers .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
+.viz { background: var(--tile); border-radius: 28px; padding: 24px; display: flex; flex-direction: column; }
+.viz h3 { font-size: 24px; }
+.viz p { color: var(--muted); font-weight: 500; margin: 8px 0 0; }
+.viz svg { width: 100%; height: auto; margin-top: 18px; }
+.viz .big { font-size: clamp(40px, 11vw, 56px); font-weight: 900; letter-spacing: -0.05em; line-height: 1; margin-top: 18px; white-space: nowrap; }
+.viz .big small { font-size: 22px; color: var(--pink); letter-spacing: -0.02em; margin-left: 4px; }
+.bars rect { transform-box: fill-box; transform-origin: bottom; transform: scaleY(0.04); transition: transform 0.8s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--i) * 45ms); }
+.in .bars rect { transform: scaleY(1); }
+.wheel path { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(0.6); transition: opacity 0.4s ease, transform 0.5s cubic-bezier(.2,.9,.3,1.3); transition-delay: calc(var(--i) * 40ms); }
+.in .wheel path { opacity: 1; transform: scale(1); }
+.wheel text { opacity: 0; transition: opacity 0.4s ease; transition-delay: calc(var(--i) * 40ms + 150ms); }
+.in .wheel text { opacity: 1; }
+.stats { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 14px; }
+.stats li { display: flex; align-items: baseline; gap: 10px; font-weight: 800; font-size: 18px; }
+.stats b { font-size: 46px; font-weight: 900; letter-spacing: -0.05em; color: var(--white); min-width: 2.6ch; }
+.stats span { color: var(--muted); }
+.loops { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+.loops .viz .phone { width: 40%; margin: 18px auto 0; }
+
+/* Marquee */
+.marquee { background: var(--pink); color: #000; overflow: hidden; padding: 22px 0; }
+.marquee .track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.marquee span { font-weight: 900; font-size: clamp(28px, 4vw, 44px); letter-spacing: -0.04em; white-space: nowrap; padding-right: 34px; display: inline-flex; align-items: center; gap: 34px; }
+.marquee span::after { content: ""; width: 26px; height: 22px; background: #000; clip-path: polygon(0 50%, 50% 0, 50% 100%, 50% 50%, 100% 0, 100% 100%, 50% 50%, 50% 100%); }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Card wall */
+.wall { padding: 90px 0 100px; }
+.wall .row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: 40px; }
+.wall figure { margin: 0; border-radius: 22px; overflow: hidden; aspect-ratio: 1206 / 2622; background: #111; box-shadow: 0 0 0 1px #2a2a2a; transform: translateY(24px); opacity: 0; transition: transform 0.7s cubic-bezier(.2,.8,.2,1), opacity 0.7s ease; transition-delay: calc(var(--i) * 70ms); }
+.wall.in figure { transform: none; opacity: 1; }
+.wall figure picture, .wall figure img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 860px) {
+  .numbers .grid, .loops { grid-template-columns: 1fr; }
+  .loops .viz .phone { width: 62%; }
+  .wall .row { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; }
+  .wall figure { flex: 0 0 44%; scroll-snap-align: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee .track { animation: none; flex-wrap: wrap; width: auto; }
+  .marquee .track > span:nth-child(n+13) { display: none; }
+  .bars rect, .wheel path, .wheel text, .wall figure { transition: none; transform: none; opacity: 1; }
+  .steps .icon * { animation: none !important; }
+}
+
 @media (max-width: 860px) {
   .hero .wrap, .beta .wrap { grid-template-columns: 1fr; }
   .hero { padding-top: 28px; }
@@ -199,17 +261,17 @@ footer a { text-decoration: none; }
     <h2>Plug in. Rewind. Share!</h2>
     <div class="grid">
       <div>
-        <div class="num">01</div>
+        <div class="num-row"><div class="num">01</div><svg class="icon" viewBox="0 0 54 54" aria-hidden="true"><g class="move-up"><rect x="17" y="18" width="20" height="30" rx="5" fill="#000"/><rect x="21" y="7" width="12" height="12" rx="2" fill="none" stroke="#000" stroke-width="3.5"/><rect x="24" y="10" width="2.5" height="3" fill="#000"/><rect x="28" y="10" width="2.5" height="3" fill="#000"/></g></svg></div>
         <h3 style="margin-top:10px">Plug in</h3>
         <p>After your gig, plug the stick you played from into your iPhone. DJ Rewind reads what you played and never changes anything on it.</p>
       </div>
       <div>
-        <div class="num">02</div>
+        <div class="num-row"><div class="num">02</div><svg class="icon" viewBox="0 0 54 54" aria-hidden="true"><g class="move-left"><path d="M26 13 L6 27 L26 41 Z" fill="#000"/><path d="M48 13 L28 27 L48 41 Z" fill="#000"/></g></svg></div>
         <h3 style="margin-top:10px">Rewind</h3>
         <p>Add the venue and your hours, the rest is done for you: your tracks, your artists, your BPM journey, even your keys.</p>
       </div>
       <div>
-        <div class="num">03</div>
+        <div class="num-row"><div class="num">03</div><svg class="icon" viewBox="0 0 54 54" aria-hidden="true"><path d="M17 22 h-4 v24 h28 v-24 h-4" fill="none" stroke="#000" stroke-width="3.5" stroke-linejoin="round"/><g class="move-up"><path d="M27 6 v26" stroke="#000" stroke-width="3.5" stroke-linecap="round"/><path d="M19 14 l8 -8 l8 8" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>
         <h3 style="margin-top:10px">Share</h3>
         <p>Share your night straight to your story, the moment the gig's over. And on the 1st, your whole month is waiting.</p>
       </div>
@@ -264,42 +326,88 @@ footer a { text-decoration: none; }
         <div class="label">After the gig</div>
         <h3 style="margin-top:8px">Your set, in one card.</h3>
         <p>Venue, hours, songs, most played artist, opener and closer.</p>
-        <div class="phone"><img src="assets/recap.jpg" alt="The recap of a set at Club Pop" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/recap.avif" type="image/avif"><img src="assets/recap.jpg" alt="The recap of a set at Club Pop" loading="lazy"></picture></div>
       </div>
       <div class="card accent">
         <div class="label">Every month</div>
         <h3 style="margin-top:8px">Your month, rewound.</h3>
         <p>Gigs, time played, top artists, your anthem and every venue, as a story.</p>
-        <div class="phone"><img src="assets/story.jpg" alt="A monthly Rewind for September" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/story.avif" type="image/avif"><img src="assets/story.jpg" alt="A monthly Rewind for September" loading="lazy"></picture></div>
       </div>
       <div class="card">
         <div class="label">Your style</div>
         <h3 style="margin-top:8px">The Hits or The Journey.</h3>
         <p>Show off your top tracks and artists, or your BPM journey, key and longest track.</p>
-        <div class="phone"><img src="assets/setup.jpg" alt="Choosing The Hits or The Journey" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/setup.avif" type="image/avif"><img src="assets/setup.jpg" alt="Choosing The Hits or The Journey" loading="lazy"></picture></div>
       </div>
       <div class="card">
         <div class="label">For techno and house</div>
         <h3 style="margin-top:8px">BPM by BPM.</h3>
         <p>Where you started, where you ended, and how you built the night.</p>
-        <div class="phone"><img src="assets/journey.jpg" alt="BPM journey from 143 to 155" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/journey.avif" type="image/avif"><img src="assets/journey.jpg" alt="BPM journey from 143 to 155" loading="lazy"></picture></div>
       </div>
       <div class="card">
         <div class="label">For the crowd favourites</div>
         <h3 style="margin-top:8px">Heavy rotation.</h3>
         <p>Your top 5 artists of the night, the month or the whole year.</p>
-        <div class="phone"><img src="assets/artists.jpg" alt="Top 5 artists" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/artists.avif" type="image/avif"><img src="assets/artists.jpg" alt="Top 5 artists" loading="lazy"></picture></div>
       </div>
       <div class="card accent">
         <div class="label">Weddings and private events</div>
         <h3 style="margin-top:8px">Give them their night.</h3>
         <p>The first dance and the whole tracklist, as cards for the couple.</p>
-        <div class="phone"><img src="assets/wedding.jpg" alt="Wedding card for Emma and Sam" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/wedding.avif" type="image/avif"><img src="assets/wedding.jpg" alt="Wedding card for Emma and Sam" loading="lazy"></picture></div>
       </div>
     </div>
   </div>
 </section>
 
+
+<section class="numbers" id="numbers">
+  <div class="wrap">
+    <div class="label">For techno and trance</div>
+    <h2 style="margin-top:12px">Your set, in numbers.</h2>
+    <p class="lead" style="margin-top:18px">BPM, keys, labels. The stuff you actually care about. Here's an ADE week, rewound.</p>
+    <div class="grid">
+      <div class="viz reveal">
+        <h3>BPM journey.</h3>
+        <p>From your first record to your last.</p>
+        <div class="big"><span data-count="126">126</span> &rarr; <span data-count="145">145</span><small>BPM</small></div>
+        <svg class="bars" viewBox="0 0 300 122" aria-hidden="true"><rect x="2" y="100.7" width="11" height="19.3" rx="3" fill="#5a5a5a" style="--i:0"/><rect x="17" y="81.3" width="11" height="38.7" rx="3" fill="#5a5a5a" style="--i:1"/><rect x="32" y="81.3" width="11" height="38.7" rx="3" fill="#5a5a5a" style="--i:2"/><rect x="47" y="71.7" width="11" height="48.3" rx="3" fill="#5a5a5a" style="--i:3"/><rect x="62" y="71.7" width="11" height="48.3" rx="3" fill="#5a5a5a" style="--i:4"/><rect x="77" y="71.7" width="11" height="48.3" rx="3" fill="#5a5a5a" style="--i:5"/><rect x="92" y="66.8" width="11" height="53.2" rx="3" fill="#5a5a5a" style="--i:6"/><rect x="107" y="62.0" width="11" height="58.0" rx="3" fill="#5a5a5a" style="--i:7"/><rect x="122" y="57.2" width="11" height="62.8" rx="3" fill="#5a5a5a" style="--i:8"/><rect x="137" y="57.2" width="11" height="62.8" rx="3" fill="#5a5a5a" style="--i:9"/><rect x="152" y="57.2" width="11" height="62.8" rx="3" fill="#5a5a5a" style="--i:10"/><rect x="167" y="52.3" width="11" height="67.7" rx="3" fill="#5a5a5a" style="--i:11"/><rect x="182" y="47.5" width="11" height="72.5" rx="3" fill="#5a5a5a" style="--i:12"/><rect x="197" y="47.5" width="11" height="72.5" rx="3" fill="#5a5a5a" style="--i:13"/><rect x="212" y="42.7" width="11" height="77.3" rx="3" fill="#5a5a5a" style="--i:14"/><rect x="227" y="42.7" width="11" height="77.3" rx="3" fill="#5a5a5a" style="--i:15"/><rect x="242" y="33.0" width="11" height="87.0" rx="3" fill="#FF2E54" style="--i:16"/><rect x="257" y="33.0" width="11" height="87.0" rx="3" fill="#FF2E54" style="--i:17"/><rect x="272" y="8.8" width="11" height="111.2" rx="3" fill="#FF2E54" style="--i:18"/><rect x="287" y="8.8" width="11" height="111.2" rx="3" fill="#FF2E54" style="--i:19"/></svg>
+      </div>
+      <div class="viz reveal">
+        <h3>Your Camelot wheel.</h3>
+        <p>Every key you played, lit up.</p>
+        <svg class="wheel" viewBox="0 0 220 220" aria-hidden="true" font-family="Schibsted Grotesk, sans-serif"><path d="M84.1 13.4 A100 100 0 0 1 135.9 13.4 L127.6 44.3 A68 68 0 0 0 92.4 44.3 Z" fill="#FF2E54" fill-opacity="0.41" stroke="#1c1c1c" stroke-width="2" style="--i:0"/><path d="M92.9 46.2 A66 66 0 0 1 127.1 46.2 L119.3 75.2 A36 36 0 0 0 100.7 75.2 Z" fill="#FF2E54" fill-opacity="0.57" stroke="#1c1c1c" stroke-width="2" style="--i:1"/><path d="M135.9 13.4 A100 100 0 0 1 180.7 39.3 L158.1 61.9 A68 68 0 0 0 127.6 44.3 Z" fill="#FF2E54" fill-opacity="0.52" stroke="#1c1c1c" stroke-width="2" style="--i:2"/><path d="M127.1 46.2 A66 66 0 0 1 156.7 63.3 L135.5 84.5 A36 36 0 0 0 119.3 75.2 Z" fill="#FF2E54" fill-opacity="0.35" stroke="#1c1c1c" stroke-width="2" style="--i:3"/><path d="M180.7 39.3 A100 100 0 0 1 206.6 84.1 L175.7 92.4 A68 68 0 0 0 158.1 61.9 Z" fill="#FF2E54" fill-opacity="0.52" stroke="#1c1c1c" stroke-width="2" style="--i:4"/><path d="M156.7 63.3 A66 66 0 0 1 173.8 92.9 L144.8 100.7 A36 36 0 0 0 135.5 84.5 Z" fill="#FF2E54" fill-opacity="0.12" stroke="#1c1c1c" stroke-width="2" style="--i:5"/><path d="M206.6 84.1 A100 100 0 0 1 206.6 135.9 L175.7 127.6 A68 68 0 0 0 175.7 92.4 Z" fill="#FF2E54" fill-opacity="0.84" stroke="#1c1c1c" stroke-width="2" style="--i:6"/><path d="M173.8 92.9 A66 66 0 0 1 173.8 127.1 L144.8 119.3 A36 36 0 0 0 144.8 100.7 Z" fill="#FF2E54" fill-opacity="0.12" stroke="#1c1c1c" stroke-width="2" style="--i:7"/><path d="M206.6 135.9 A100 100 0 0 1 180.7 180.7 L158.1 158.1 A68 68 0 0 0 175.7 127.6 Z" fill="#FF2E54" fill-opacity="0.46" stroke="#1c1c1c" stroke-width="2" style="--i:8"/><path d="M173.8 127.1 A66 66 0 0 1 156.7 156.7 L135.5 135.5 A36 36 0 0 0 144.8 119.3 Z" fill="#FF2E54" fill-opacity="0.46" stroke="#1c1c1c" stroke-width="2" style="--i:9"/><path d="M180.7 180.7 A100 100 0 0 1 135.9 206.6 L127.6 175.7 A68 68 0 0 0 158.1 158.1 Z" fill="#FF2E54" fill-opacity="1.00" stroke="#1c1c1c" stroke-width="2" style="--i:10"/><path d="M156.7 156.7 A66 66 0 0 1 127.1 173.8 L119.3 144.8 A36 36 0 0 0 135.5 135.5 Z" fill="#FF2E54" fill-opacity="0.46" stroke="#1c1c1c" stroke-width="2" style="--i:11"/><path d="M135.9 206.6 A100 100 0 0 1 84.1 206.6 L92.4 175.7 A68 68 0 0 0 127.6 175.7 Z" fill="#FF2E54" fill-opacity="0.73" stroke="#1c1c1c" stroke-width="2" style="--i:12"/><path d="M127.1 173.8 A66 66 0 0 1 92.9 173.8 L100.7 144.8 A36 36 0 0 0 119.3 144.8 Z" fill="#FF2E54" fill-opacity="0.41" stroke="#1c1c1c" stroke-width="2" style="--i:13"/><path d="M84.1 206.6 A100 100 0 0 1 39.3 180.7 L61.9 158.1 A68 68 0 0 0 92.4 175.7 Z" fill="#FF2E54" fill-opacity="0.46" stroke="#1c1c1c" stroke-width="2" style="--i:14"/><path d="M92.9 173.8 A66 66 0 0 1 63.3 156.7 L84.5 135.5 A36 36 0 0 0 100.7 144.8 Z" fill="#FF2E54" fill-opacity="0.35" stroke="#1c1c1c" stroke-width="2" style="--i:15"/><path d="M39.3 180.7 A100 100 0 0 1 13.4 135.9 L44.3 127.6 A68 68 0 0 0 61.9 158.1 Z" fill="#FF2E54" fill-opacity="0.78" stroke="#1c1c1c" stroke-width="2" style="--i:16"/><path d="M63.3 156.7 A66 66 0 0 1 46.2 127.1 L75.2 119.3 A36 36 0 0 0 84.5 135.5 Z" fill="#FF2E54" fill-opacity="0.12" stroke="#1c1c1c" stroke-width="2" style="--i:17"/><path d="M13.4 135.9 A100 100 0 0 1 13.4 84.1 L44.3 92.4 A68 68 0 0 0 44.3 127.6 Z" fill="#FF2E54" fill-opacity="0.95" stroke="#1c1c1c" stroke-width="2" style="--i:18"/><path d="M46.2 127.1 A66 66 0 0 1 46.2 92.9 L75.2 100.7 A36 36 0 0 0 75.2 119.3 Z" fill="#FF2E54" fill-opacity="0.35" stroke="#1c1c1c" stroke-width="2" style="--i:19"/><path d="M13.4 84.1 A100 100 0 0 1 39.3 39.3 L61.9 61.9 A68 68 0 0 0 44.3 92.4 Z" fill="#FF2E54" fill-opacity="0.62" stroke="#1c1c1c" stroke-width="2" style="--i:20"/><path d="M46.2 92.9 A66 66 0 0 1 63.3 63.3 L84.5 84.5 A36 36 0 0 0 75.2 100.7 Z" fill="#FF2E54" fill-opacity="0.35" stroke="#1c1c1c" stroke-width="2" style="--i:21"/><path d="M39.3 39.3 A100 100 0 0 1 84.1 13.4 L92.4 44.3 A68 68 0 0 0 61.9 61.9 Z" fill="#FF2E54" fill-opacity="0.78" stroke="#1c1c1c" stroke-width="2" style="--i:22"/><path d="M63.3 63.3 A66 66 0 0 1 92.9 46.2 L100.7 75.2 A36 36 0 0 0 84.5 84.5 Z" fill="#FF2E54" fill-opacity="0.12" stroke="#1c1c1c" stroke-width="2" style="--i:23"/><text style="--i:0" x="110.0" y="30.0" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" fill-opacity="1">1B</text><text style="--i:1" x="110.0" y="63.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="1">1A</text><text style="--i:2" x="152.0" y="41.3" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" fill-opacity="1">2B</text><text style="--i:3" x="135.5" y="69.8" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="1">2A</text><text style="--i:4" x="182.7" y="72.0" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" fill-opacity="1">3B</text><text style="--i:5" x="154.2" y="88.5" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="0.4">3A</text><text style="--i:6" x="194.0" y="114.0" text-anchor="middle" font-size="11" font-weight="800" fill="#000" fill-opacity="1">4B</text><text style="--i:7" x="161.0" y="114.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="0.4">4A</text><text style="--i:8" x="182.7" y="156.0" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" fill-opacity="1">5B</text><text style="--i:9" x="154.2" y="139.5" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="1">5A</text><text style="--i:10" x="152.0" y="186.7" text-anchor="middle" font-size="11" font-weight="800" fill="#000" fill-opacity="1">6B</text><text style="--i:11" x="135.5" y="158.2" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="1">6A</text><text style="--i:12" x="110.0" y="198.0" text-anchor="middle" font-size="11" font-weight="800" fill="#000" fill-opacity="1">7B</text><text style="--i:13" x="110.0" y="165.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="1">7A</text><text style="--i:14" x="68.0" y="186.7" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" fill-opacity="1">8B</text><text style="--i:15" x="84.5" y="158.2" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="1">8A</text><text style="--i:16" x="37.3" y="156.0" text-anchor="middle" font-size="11" font-weight="800" fill="#000" fill-opacity="1">9B</text><text style="--i:17" x="65.8" y="139.5" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="0.4">9A</text><text style="--i:18" x="26.0" y="114.0" text-anchor="middle" font-size="11" font-weight="800" fill="#000" fill-opacity="1">10B</text><text style="--i:19" x="59.0" y="114.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="1">10A</text><text style="--i:20" x="37.3" y="72.0" text-anchor="middle" font-size="11" font-weight="800" fill="#000" fill-opacity="1">11B</text><text style="--i:21" x="65.8" y="88.5" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="1">11A</text><text style="--i:22" x="68.0" y="41.3" text-anchor="middle" font-size="11" font-weight="800" fill="#000" fill-opacity="1">12B</text><text style="--i:23" x="84.5" y="69.8" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff" fill-opacity="0.4">12A</text></svg>
+        <div class="big"><span data-count="68">68</span>%<small>in key</small></div>
+      </div>
+      <div class="viz reveal">
+        <h3>Your week.</h3>
+        <p>Five nights at ADE, counted for you.</p>
+        <ul class="stats">
+          <li><b data-count="5">5</b><span>nights</span></li>
+          <li><b data-count="98">98</b><span>tracks</span></li>
+          <li><b data-count="10">10</b><span>hours on the decks</span></li>
+          <li><b data-count="150">150</b><span>BPM, your speed record</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="loops">
+      <div class="viz reveal">
+        <h3>Watch it fill up.</h3>
+        <p>Your keys, on the wheel.</p>
+        <div class="phone"><video data-src="assets/loop-camelot.mp4" poster="assets/loop-camelot-poster.jpg" muted loop playsinline preload="none" aria-label="The Camelot wheel card filling up"></video></div>
+      </div>
+      <div class="viz reveal">
+        <h3>How fast did you go?</h3>
+        <p>Your fastest track, counted up.</p>
+        <div class="phone"><video data-src="assets/loop-fastest.mp4" poster="assets/loop-fastest-poster.jpg" muted loop playsinline preload="none" aria-label="The speed record card counting up to 150 BPM"></video></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true"><div class="track"><span>BPM journey</span><span>Camelot wheel</span><span>Heavy rotation</span><span>Your anthem</span><span>Warm-up vs closing</span><span>Top labels</span><span>Speed record</span><span>Your weapon</span><span>Fresh vs classics</span><span>Longest track</span><span>Gig calendar</span><span>Tracklist cards</span><span>BPM journey</span><span>Camelot wheel</span><span>Heavy rotation</span><span>Your anthem</span><span>Warm-up vs closing</span><span>Top labels</span><span>Speed record</span><span>Your weapon</span><span>Fresh vs classics</span><span>Longest track</span><span>Gig calendar</span><span>Tracklist cards</span></div></div>
 <section class="themes" id="themes">
   <div class="wrap">
     <div class="label">Themes</div>
@@ -307,25 +415,41 @@ footer a { text-decoration: none; }
     <p class="lead" style="margin-top:18px">The whole app and every card you share, in the colour that fits your night.</p>
     <div class="row">
       <figure>
-        <div class="phone"><img src="assets/theme-rewind.jpg" alt="DJ Rewind in the Rewind theme" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/theme-rewind.avif" type="image/avif"><img src="assets/theme-rewind.jpg" alt="DJ Rewind in the Rewind theme" loading="lazy"></picture></div>
         <figcaption><span class="dot" style="background:#FF2E54"></span><span class="dot" style="background:#8FD3FF"></span>Rewind</figcaption>
       </figure>
       <figure>
-        <div class="phone"><img src="assets/theme-laser.jpg" alt="DJ Rewind in the Laser theme" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/theme-laser.avif" type="image/avif"><img src="assets/theme-laser.jpg" alt="DJ Rewind in the Laser theme" loading="lazy"></picture></div>
         <figcaption><span class="dot" style="background:#00F07A"></span><span class="dot" style="background:#28E0FF"></span>Laser</figcaption>
       </figure>
       <figure>
-        <div class="phone"><img src="assets/theme-uv.jpg" alt="DJ Rewind in the UV theme" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/theme-uv.avif" type="image/avif"><img src="assets/theme-uv.jpg" alt="DJ Rewind in the UV theme" loading="lazy"></picture></div>
         <figcaption><span class="dot" style="background:#7A3CFF"></span><span class="dot" style="background:#E4FF3A"></span>UV</figcaption>
       </figure>
       <figure>
-        <div class="phone"><img src="assets/theme-chrome.jpg" alt="DJ Rewind in the Chrome theme" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/theme-chrome.avif" type="image/avif"><img src="assets/theme-chrome.jpg" alt="DJ Rewind in the Chrome theme" loading="lazy"></picture></div>
         <figcaption><span class="dot" style="background:#C8D0DA"></span><span class="dot" style="background:#9ED8FF"></span>Chrome</figcaption>
       </figure>
       <figure>
-        <div class="phone"><img src="assets/theme-ade.jpg" alt="DJ Rewind in the ADE theme" loading="lazy"></div>
+        <div class="phone"><picture><source srcset="assets/theme-ade.avif" type="image/avif"><img src="assets/theme-ade.jpg" alt="DJ Rewind in the ADE theme" loading="lazy"></picture></div>
         <figcaption><span class="dot" style="background:#FFFF07"></span><span class="dot" style="background:#6E6500"></span>ADE</figcaption>
       </figure>
+    </div>
+  </div>
+</section>
+
+
+<section class="wall" id="cards">
+  <div class="wrap">
+    <div class="label">What you'll post</div>
+    <h2 style="margin-top:12px">Cards worth posting.</h2>
+    <div class="row">
+      <figure style="--i:0"><picture><source srcset="assets/card-bynight.avif" type="image/avif"><img src="assets/card-bynight.jpg" alt="The BPM by night card" loading="lazy"></picture></figure>
+      <figure style="--i:1"><picture><source srcset="assets/card-camelot.avif" type="image/avif"><img src="assets/card-camelot.jpg" alt="The Your Camelot wheel card" loading="lazy"></picture></figure>
+      <figure style="--i:2"><picture><source srcset="assets/card-labels.avif" type="image/avif"><img src="assets/card-labels.jpg" alt="The Top labels card" loading="lazy"></picture></figure>
+      <figure style="--i:3"><picture><source srcset="assets/card-fastest.avif" type="image/avif"><img src="assets/card-fastest.jpg" alt="The Speed record card" loading="lazy"></picture></figure>
+      <figure style="--i:4"><picture><source srcset="assets/card-slots.avif" type="image/avif"><img src="assets/card-slots.jpg" alt="The Warm-up vs closing card" loading="lazy"></picture></figure>
+      <figure style="--i:5"><picture><source srcset="assets/card-weapon.avif" type="image/avif"><img src="assets/card-weapon.jpg" alt="The Your weapon card" loading="lazy"></picture></figure>
     </div>
   </div>
 </section>
@@ -359,7 +483,7 @@ footer a { text-decoration: none; }
       <details><summary>My iPhone has Lightning, or my stick is USB-A. Does it work?</summary><p>Yes. Lightning iPhones work with Apple's Lightning to USB 3 Camera Adapter, and a USB-A stick on a USB-C iPhone just needs a USB-C to USB-A adapter. You need iOS 18 or newer, so iPhone XS, XR or later, or iPhone SE (2nd generation) or later.</p></details>
       <details><summary>Does it change anything on my USB stick?</summary><p>Never. DJ Rewind only reads your play history. Your stick, playlists and cue points stay exactly as they were.</p></details>
       <details><summary>Which sticks and players work?</summary><p>USB sticks exported from rekordbox that you played from on club players. During the beta I'm testing as many players as I can, so tell me which ones you use.</p></details>
-      <details><summary>Where does my data go?</summary><p>It stays on your phone. There's no account, and nothing is uploaded unless you share a card yourself.</p></details>
+      <details><summary>Where does my data go?</summary><p>It stays with you. During the beta, everything lives on your phone. In the App Store version, it also backs up to your iCloud: new iPhone, same Rewinds.</p></details>
       <details><summary>What does it cost?</summary><p>The basics are free, for good: your newest month, your set after every gig and your tracklist as text. Premium unlocks themes, cards with your DJ name, wedding and private-event cards and your full-year Rewind, for a monthly or yearly fee. During the beta, it's all free.</p></details>
     </div>
   </div>
@@ -461,6 +585,41 @@ form.addEventListener('submit', async (event) => {
     button.textContent = 'Join the beta';
   }
 });
+</script>
+<script>
+(() => {
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const count = el => {
+    const target = +el.dataset.count;
+    if (still) { el.textContent = target; return; }
+    const start = performance.now(), from = el.closest('.big') && target > 50 ? Math.round(target * 0.85) : 0;
+    const tick = now => {
+      const t = Math.min(1, (now - start) / 1100), eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(from + (target - from) * eased);
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const seen = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.classList.add('in');
+      entry.target.querySelectorAll('[data-count]').forEach(count);
+      seen.unobserve(entry.target);
+    }
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.reveal, .wall, .steps .grid > div').forEach(el => seen.observe(el));
+  // The loops only load when they come into view, and pause when they leave.
+  const loops = new IntersectionObserver(entries => {
+    for (const { target: video, isIntersecting } of entries) {
+      if (isIntersecting) {
+        if (!video.src) video.src = video.dataset.src;
+        if (!still) video.play().catch(() => {});
+      } else video.pause();
+    }
+  }, { threshold: 0.4 });
+  document.querySelectorAll('video[data-src]').forEach(v => loops.observe(v));
+})();
 </script>
 </body>
 </html>
