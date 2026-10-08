@@ -124,7 +124,8 @@ details p { color: var(--muted); font-weight: 500; margin: 12px 0 0; }
 .beta .wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; }
 form { display: grid; gap: 16px; }
 .field label, .field legend { display: block; font-weight: 800; font-size: 15px; margin-bottom: 8px; }
-.field .hint { color: var(--muted); font-weight: 500; }
+.field .hint { display: block; color: var(--muted); font-weight: 500; font-size: 14px; margin-top: 2px; }
+footer .links { display: flex; gap: 18px; flex-wrap: wrap; }
 input[type=text], input[type=email] {
   width: 100%; padding: 16px 18px; border-radius: 16px; border: 2px solid transparent;
   background: var(--black); color: var(--white); font: inherit; font-size: 17px; font-weight: 500; outline: none;
@@ -178,7 +179,7 @@ footer a { text-decoration: none; }
 <header class="hero" id="top">
   <div class="wrap">
     <div>
-      <div class="label">For DJs · iPhone</div>
+      <div class="label">Made by a DJ, for DJs.</div>
       <h1 style="margin-top:14px">Your DJ nights, <span class="pink">rewound.</span></h1>
       <p class="lead" style="margin-top:22px">Plug in your USB stick after a gig. DJ Rewind turns what you played into Rewinds you can post straight to your Instagram story.</p>
       <div class="cta">
@@ -383,7 +384,7 @@ footer a { text-decoration: none; }
           <input id="name" name="name" type="text" autocomplete="name" placeholder="DJ name or your own" required>
         </div>
         <div class="field">
-          <label for="email">Apple ID email <span class="hint">· TestFlight sends the invite here</span></label>
+          <label for="email">Apple ID email <span class="hint">TestFlight sends your invite here.</span></label>
           <input id="email" name="email" type="email" autocomplete="email" placeholder="you@icloud.com" required>
         </div>
         <fieldset class="field">
@@ -405,7 +406,7 @@ footer a { text-decoration: none; }
           </div>
         </fieldset>
         <div class="field">
-          <label for="instagram">Instagram <span class="hint">· optional</span></label>
+          <label for="instagram">Instagram <span class="hint">Optional.</span></label>
           <input id="instagram" name="instagram" type="text" placeholder="@yourname">
         </div>
         <label class="consent">
@@ -426,7 +427,7 @@ footer a { text-decoration: none; }
 <footer>
   <div class="wrap">
     <span>DJ Rewind by Freycreates</span>
-    <span><a href="https://instagram.com/djrewind.app" target="_blank" rel="noopener">Instagram</a> · <a href="privacy.html">Privacy</a> · <a href="mailto:hello@freycreates.nl">hello@freycreates.nl</a></span>
+    <span class="links"><a href="https://instagram.com/djrewind.app" target="_blank" rel="noopener">Instagram</a><a href="privacy.html">Privacy</a><a href="mailto:hello@freycreates.nl">hello@freycreates.nl</a></span>
   </div>
 </footer>
 
