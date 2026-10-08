@@ -13,7 +13,7 @@ window.FREY_GIGS=[
   ["2026-09-05","Hullabaloo, Groningen","https://hullabaloofestival.nl/"],
   ["2026-09-19","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-09-25","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
-  ["2026-10-11","Trut"],
+  ["2026-10-11","De Trut"],
   ["2026-10-24","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-10-31","Private Halloween Party"],
   ["2026-10-31","3xNYX, Amsterdam","https://www.clubnyx.nl/"],
