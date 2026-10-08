@@ -197,6 +197,32 @@ footer a { text-decoration: none; }
 .wall.in figure { transform: none; opacity: 1; }
 .wall figure picture, .wall figure img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
+/* Every gig counts: cards rise in one by one, story bars fill, the setup swaps between its two choices */
+.features .card { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--i) * 90ms); }
+.features .card.in { opacity: 1; transform: none; }
+.storybars { display: flex; gap: 4px; width: 74%; margin: 12px auto 0; }
+.storybars i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, 0.22); overflow: hidden; position: relative; }
+.card.accent .storybars i { background: rgba(0, 0, 0, 0.2); }
+.storybars i::after { content: ""; position: absolute; inset: 0; background: var(--pink); transform: scaleX(0); transform-origin: left; }
+.card.accent .storybars i::after { background: #000; }
+.features .card.in .storybars i::after { animation: storybar 7.5s linear infinite; }
+.storybars i:nth-child(2)::after { animation-delay: 1.5s !important; }
+.storybars i:nth-child(3)::after { animation-delay: 3s !important; }
+.storybars i:nth-child(4)::after { animation-delay: 4.5s !important; }
+.storybars i:nth-child(5)::after { animation-delay: 6s !important; }
+@keyframes storybar { 0% { transform: scaleX(0); } 20%, 96% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+.card .storybars + .phone { margin-top: 10px; }
+.phone.swap { position: relative; }
+.phone.swap picture { position: absolute; inset: 0; }
+.phone.swap picture + picture { animation: swap 6s ease-in-out infinite; }
+@keyframes swap { 0%, 40% { opacity: 0; } 50%, 90% { opacity: 1; } 100% { opacity: 0; } }
+@media (max-width: 860px) { .storybars { width: 64%; } }
+@media (prefers-reduced-motion: reduce) {
+  .features .card { opacity: 1; transform: none; transition: none; }
+  .storybars i::after { animation: none !important; transform: scaleX(1); }
+  .phone.swap picture + picture { animation: none; opacity: 1; }
+}
+
 @media (max-width: 860px) {
   .numbers .grid, .loops { grid-template-columns: 1fr; }
   .loops .viz .phone { width: 62%; }
@@ -322,40 +348,46 @@ footer a { text-decoration: none; }
     <div class="label">What's inside</div>
     <h2 style="margin-top:12px">Every gig counts.</h2>
     <div class="grid">
-      <div class="card">
+      <div class="card" style="--i:0">
         <div class="label">After the gig</div>
         <h3 style="margin-top:8px">Your set, in one card.</h3>
         <p>Venue, hours, songs, most played artist, opener and closer.</p>
+        <div class="storybars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         <div class="phone"><picture><source srcset="assets/recap.avif" type="image/avif"><img src="assets/recap.jpg" alt="The recap of a set at Club Pop" loading="lazy"></picture></div>
       </div>
-      <div class="card accent">
+      <div class="card accent" style="--i:1">
         <div class="label">Every month</div>
         <h3 style="margin-top:8px">Your month, rewound.</h3>
         <p>Gigs, time played, top artists, your anthem and every venue, as a story.</p>
-        <div class="phone"><picture><source srcset="assets/story.avif" type="image/avif"><img src="assets/story.jpg" alt="A monthly Rewind for September" loading="lazy"></picture></div>
+        <div class="storybars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="phone"><video data-src="assets/loop-month.mp4" poster="assets/loop-month-poster.jpg" muted loop playsinline preload="none" aria-label="A monthly Rewind for September, playing as a story"></video></div>
       </div>
-      <div class="card">
+      <div class="card" style="--i:2">
         <div class="label">Your style</div>
         <h3 style="margin-top:8px">The Hits or The Journey.</h3>
         <p>Show off your top tracks and artists, or your BPM journey, key and longest track.</p>
-        <div class="phone"><picture><source srcset="assets/setup.avif" type="image/avif"><img src="assets/setup.jpg" alt="Choosing The Hits or The Journey" loading="lazy"></picture></div>
+        <div class="storybars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="phone swap"><picture><source srcset="assets/setup-hits.avif" type="image/avif"><img src="assets/setup-hits.jpg" alt="The Hits picked in the setup" loading="lazy"></picture><picture><source srcset="assets/setup-journey.avif" type="image/avif"><img src="assets/setup-journey.jpg" alt="The Journey picked in the setup" loading="lazy"></picture></div>
       </div>
-      <div class="card">
+      <div class="card" style="--i:3">
         <div class="label">For techno and house</div>
         <h3 style="margin-top:8px">BPM by BPM.</h3>
         <p>Where you started, where you ended, and how you built the night.</p>
+        <div class="storybars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         <div class="phone"><picture><source srcset="assets/journey.avif" type="image/avif"><img src="assets/journey.jpg" alt="BPM journey from 143 to 155" loading="lazy"></picture></div>
       </div>
-      <div class="card">
+      <div class="card" style="--i:4">
         <div class="label">For the crowd favourites</div>
         <h3 style="margin-top:8px">Heavy rotation.</h3>
         <p>Your top 5 artists of the night, the month or the whole year.</p>
+        <div class="storybars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         <div class="phone"><picture><source srcset="assets/artists.avif" type="image/avif"><img src="assets/artists.jpg" alt="Top 5 artists" loading="lazy"></picture></div>
       </div>
-      <div class="card accent">
+      <div class="card accent" style="--i:5">
         <div class="label">Weddings and private events</div>
         <h3 style="margin-top:8px">Give them their night.</h3>
         <p>The first dance and the whole tracklist, as cards for the couple.</p>
+        <div class="storybars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         <div class="phone"><picture><source srcset="assets/wedding.avif" type="image/avif"><img src="assets/wedding.jpg" alt="Wedding card for Emma and Sam" loading="lazy"></picture></div>
       </div>
     </div>
@@ -476,7 +508,7 @@ footer a { text-decoration: none; }
 
 <section class="faq" id="faq">
   <div class="wrap">
-    <h2>Questions.</h2>
+    <h2>Questions?</h2>
     <div class="list">
       <details><summary>Why an iPhone app and not a website?</summary><p>No laptop, no upload. Just the phone that's already in your pocket after the gig. Your iPhone reads the stick directly, your stories are right there, and nothing gets uploaded.</p></details>
       <details><summary>Do I need rekordbox on my Mac or PC?</summary><p>Only to prepare your stick, like you already do. After the gig, no laptop and no syncing: plug the stick into your iPhone and DJ Rewind reads your history straight from it.</p></details>
@@ -607,17 +639,27 @@ form.addEventListener('submit', async (event) => {
       entry.target.querySelectorAll('[data-count]').forEach(count);
       seen.unobserve(entry.target);
     }
-  }, { threshold: 0.3 });
-  document.querySelectorAll('.reveal, .wall, .steps .grid > div').forEach(el => seen.observe(el));
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal, .wall, .steps .grid > div, .features .card').forEach(el => seen.observe(el));
   // The loops only load when they come into view, and pause when they leave.
   const loops = new IntersectionObserver(entries => {
     for (const { target: video, isIntersecting } of entries) {
+      video.dataset.visible = isIntersecting ? '1' : '';
       if (isIntersecting) {
         if (!video.src) video.src = video.dataset.src;
-        if (!still) video.play().catch(() => {});
+        // Start once its card has faded in (browsers won't autoplay a video that's still invisible).
+        if (!still) {
+          let tries = 0;
+          const start = () => {
+            if (!video.dataset.visible || !video.paused || tries++ > 8) return;
+            video.play().catch(() => {});
+            setTimeout(start, 700);
+          };
+          setTimeout(start, 600);
+        }
       } else video.pause();
     }
-  }, { threshold: 0.4 });
+  }, { threshold: 0.25 });
   document.querySelectorAll('video[data-src]').forEach(v => loops.observe(v));
 })();
 </script>
