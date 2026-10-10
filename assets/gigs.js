@@ -13,7 +13,7 @@ window.FREY_GIGS=[
   ["2026-09-05","Hullabaloo, Groningen","https://hullabaloofestival.nl/"],
   ["2026-09-19","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-09-25","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
-  ["2026-10-11","De Trut"],
+  ["2026-10-11","De Trut (private event)"],
   ["2026-10-24","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-10-31","Halloween Thrills & Chills | Elixer","https://www.restaurantelixer.com/agenda"],
   ["2026-11-05","Ministerie van EZK (Private Event), The Hague"],
