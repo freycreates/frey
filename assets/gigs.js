@@ -15,7 +15,7 @@ window.FREY_GIGS=[
   ["2026-09-25","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-10-11","De Trut"],
   ["2026-10-24","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
-  ["2026-10-31","Private Halloween Party"],
+  ["2026-10-31","Halloween at Elixer","https://www.restaurantelixer.com"],
   ["2026-11-05","Ministerie van EZK (Private Event), The Hague"],
   ["2026-11-06","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-11-14","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
