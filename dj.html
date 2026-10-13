@@ -194,20 +194,26 @@
     .stickybar-book{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;background:#fffdfb;color:#191317;font-size:.85rem;font-weight:800;text-decoration:none}
     .stickybar-book svg{width:16px;height:16px;fill:none;stroke:#e61482;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
     @media(prefers-reduced-motion:reduce){.stickybar{transition:none}}
+    /* /dj: the top bar is always there; make room for it and style the language switch for the dark bar. */
+    body{padding-top:62px}
+    .stickybar-right{display:flex;align-items:center;gap:10px}
+    html[data-theme] .stickybar .lang-switch,.stickybar .lang-switch{padding:3px;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:transparent}
+    html[data-theme] .stickybar .lang-switch button,.stickybar .lang-switch button{padding:5px 8px;border-radius:5px;background:transparent;color:rgba(255,255,255,.62);font-weight:800}
+    html[data-theme] .stickybar .lang-switch button[aria-pressed="true"],.stickybar .lang-switch button[aria-pressed="true"]{background:#fffdfb;color:#191317}
+    @media(max-width:600px){body{padding-top:58px}.stickybar-book{padding:8px 11px}}
   </style>
 </head>
 <body data-title-en="DJ FREY. | Queer DJ in Amsterdam" data-title-nl="DJ FREY. | Queer DJ in Amsterdam" data-description-en="DJ FREY is a queer DJ from Amsterdam playing pop, house and club classics, from hyperpop to dance. Gigs, mixes and bookings." data-description-nl="DJ FREY is een queer DJ uit Amsterdam met pop, house en clubklassiekers, van hyperpop tot dance. Gigs, mixes en boekingen.">
-  <!-- Sticky bar: slides in once you scroll past the top section. -->
-  <div class="stickybar" id="stickybar" aria-hidden="true">
-    <a class="stickybar-brand" href="#djhero" tabindex="-1">FREY<span class="dot">.</span></a>
-    <a class="stickybar-book" href="mailto:hello@freycreates.nl?subject=DJ%20booking" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span data-en="Book me" data-nl="Boek mij">Book me</span></a>
-  </div>
+  <!-- Top bar, always visible on /dj: FREY. (to the homepage), language and Book me. -->
+  <nav class="stickybar show" id="stickybar" aria-label="DJ page navigation">
+    <a class="stickybar-brand" href="index.html" aria-label="FREY. homepage">FREY<span class="dot">.</span></a>
+    <div class="stickybar-right">
+      <div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div>
+      <a class="stickybar-book" href="mailto:hello@freycreates.nl?subject=DJ%20booking"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span data-en="Book me" data-nl="Boek mij">Book me</span></a>
+    </div>
+  </nav>
   <main class="shell">
     <article class="card" id="djhero">
-      <nav class="topbar" aria-label="DJ page navigation">
-        <a class="brand" href="index.html">FREY<span class="dot">.</span></a>
-        <div class="topbar-actions"><div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div><a class="back" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span data-en="Back to homepage" data-nl="Terug naar homepage">Back to homepage</span></a></div>
-      </nav>
       <div class="hero">
         <div class="hero-photo"><img src="assets/dj-gaga.jpg" alt="FREY. DJing in a club" fetchpriority="high" width="1200" height="996">
           <a class="next" href="#dates">
@@ -310,18 +316,6 @@
     const compactVenueList=window.matchMedia("(max-width: 520px)");
     const syncVenueMore=()=>{if(venueMore)venueMore.open=!compactVenueList.matches};
     syncVenueMore();compactVenueList.addEventListener("change",syncVenueMore);
-  </script>
-  <script>
-    // Sticky bar: visible once you've scrolled past the top section, hidden again back at the top.
-    (()=>{
-      const bar=document.getElementById("stickybar"),hero=document.getElementById("djhero");
-      const update=()=>{
-        const on=scrollY>hero.offsetTop+hero.offsetHeight-60;
-        bar.classList.toggle("show",on);bar.setAttribute("aria-hidden",String(!on));
-        bar.querySelectorAll("a").forEach(a=>a.tabIndex=on?0:-1);
-      };
-      addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
-    })();
   </script>
 </body>
 </html>
