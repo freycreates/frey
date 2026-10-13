@@ -195,12 +195,16 @@
     .stickybar-book svg{width:16px;height:16px;fill:none;stroke:#e61482;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
     @media(prefers-reduced-motion:reduce){.stickybar{transition:none}}
     /* /dj: the top bar is always there; make room for it and style the language switch for the dark bar. */
-    body{padding-top:62px}
+    body{padding-top:60px}
+    .stickybar{height:60px;padding-top:0;padding-bottom:0}
     .stickybar-right{display:flex;align-items:center;gap:10px}
     html[data-theme] .stickybar .lang-switch,.stickybar .lang-switch{padding:3px;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:transparent}
     html[data-theme] .stickybar .lang-switch button,.stickybar .lang-switch button{padding:5px 8px;border-radius:5px;background:transparent;color:rgba(255,255,255,.62);font-weight:800}
     html[data-theme] .stickybar .lang-switch button[aria-pressed="true"],.stickybar .lang-switch button[aria-pressed="true"]{background:#fffdfb;color:#191317}
-    @media(max-width:600px){body{padding-top:58px}.stickybar-book{padding:8px 11px}}
+    @media(max-width:600px){.stickybar-book{padding:8px 11px}}
+    /* First card sits right under the top bar: no gap, square top corners. */
+    main.shell{margin-top:0}
+    main.shell>.card:first-child{border-top-left-radius:0;border-top-right-radius:0;border-top:0}
   </style>
 </head>
 <body data-title-en="DJ FREY. | Queer DJ in Amsterdam" data-title-nl="DJ FREY. | Queer DJ in Amsterdam" data-description-en="DJ FREY is a queer DJ from Amsterdam playing pop, house and club classics, from hyperpop to dance. Gigs, mixes and bookings." data-description-nl="DJ FREY is een queer DJ uit Amsterdam met pop, house en clubklassiekers, van hyperpop tot dance. Gigs, mixes en boekingen.">
