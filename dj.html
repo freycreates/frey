@@ -280,7 +280,9 @@
     /* Safari 26 paints the area behind the clock in the colour/blur of a fixed bar at the top (black for a frosted bar).
        So the bar itself stays see-through and the frosted glass + pink line sit on a layer inside it. */
     .stickybar,.stickybar.solid,html[data-theme] .stickybar{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:0}
-    .stickybar.solid::before{content:"";position:absolute;inset:0;z-index:-1;border-bottom:2px solid #e61482;background:rgba(25,19,23,.58);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);pointer-events:none}
+    /* Safari skips a transparent bar (then uses the black page colour), so the bar carries the see-through tint itself, without blur. */
+    .stickybar.solid,html[data-theme] .stickybar.solid{background:rgba(25,19,23,.58)}
+    .stickybar.solid::before{content:"";position:absolute;inset:0;z-index:-1;border-bottom:2px solid #e61482;background:transparent;-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);pointer-events:none}
     /* First card sits just under the floating row, no big gap. */
     main.shell{margin-top:6px}
   </style>
