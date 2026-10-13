@@ -234,7 +234,11 @@
     /* Evert Groot / Absoluut: a dark banner in the imgroot.nl style fills the whole panel. */
     #work .project-imgroot .project-logo,#creative .project-imgroot .project-logo{display:block;padding:0;background:#0b0b0c}
     #work .project-imgroot .project-logo img,#creative .project-imgroot .project-logo img{width:100%;height:100%;max-width:none;max-height:none;border-radius:0;object-fit:cover;object-position:40% center}
-    .project-dj-visual img[src*="world-pride-stage"]{object-position:45% 55%}
+    /* WorldPride photo, cut just above the flags; a shorter card so it doesn't dominate the portfolio. */
+    #work .project-dj,#work .project-dj-visual{min-height:0}
+    #work .project-dj-visual{height:340px}
+    .project-dj-visual img[src*="world-pride-card"]{object-position:40% 62%}
+    @media(max-width:600px){#work .project-dj-visual{height:240px}}
 
     @media(max-width:760px){
       .hero-b{grid-template-columns:1fr}
@@ -308,7 +312,7 @@
         <div class="section-head"><h2 id="work-title">Portfolio</h2></div>
         <div class="work">
           <article class="project-dj">
-            <div class="project-dj-visual"><img loading="lazy" decoding="async" src="assets/dj-world-pride-stage.jpg" alt="FREY. DJing at WorldPride Amsterdam 2026"></div>
+            <div class="project-dj-visual"><img loading="lazy" decoding="async" src="assets/dj-world-pride-card.jpg" alt="FREY. DJing at WorldPride Amsterdam 2026"></div>
             <div class="project-dj-copy">
               <h3 data-en="FREY. behind the decks" data-nl="FREY. achter de draaitafels">FREY. behind the decks</h3>
               <p data-en="Raised on Gaga, Britney and ABBA, I’ve brought pop-girl bops to queer clubs and festivals across the Netherlands and beyond since 2022." data-nl="Opgegroeid met Gaga, Britney en ABBA breng ik sinds 2022 pop-girl bops naar queer clubs en festivals in Nederland en daarbuiten.">Raised on Gaga, Britney and ABBA, I’ve brought pop-girl bops to queer clubs and festivals across the Netherlands and beyond since 2022.</p>
