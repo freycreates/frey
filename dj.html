@@ -197,7 +197,7 @@
   </style>
 </head>
 <body data-title-en="DJ FREY. | Queer DJ in Amsterdam" data-title-nl="DJ FREY. | Queer DJ in Amsterdam" data-description-en="DJ FREY is a queer DJ from Amsterdam playing pop, house and club classics, from hyperpop to dance. Gigs, mixes and bookings." data-description-nl="DJ FREY is een queer DJ uit Amsterdam met pop, house en clubklassiekers, van hyperpop tot dance. Gigs, mixes en boekingen.">
-  <!-- Sticky bar: hidden at the top and while scrolling down; slides in when you scroll up. -->
+  <!-- Sticky bar: slides in once you scroll past the top section. -->
   <div class="stickybar" id="stickybar" aria-hidden="true">
     <a class="stickybar-brand" href="#djhero" tabindex="-1">FREY<span class="dot">.</span></a>
     <a class="stickybar-book" href="mailto:hello@freycreates.nl?subject=DJ%20booking" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span data-en="Book me" data-nl="Boek mij">Book me</span></a>
@@ -312,16 +312,15 @@
     syncVenueMore();compactVenueList.addEventListener("change",syncVenueMore);
   </script>
   <script>
-    // Sticky bar: shows when scrolling up past the hero, hides when scrolling down or back at the top.
+    // Sticky bar: visible once you've scrolled past the top section, hidden again back at the top.
     (()=>{
       const bar=document.getElementById("stickybar"),hero=document.getElementById("djhero");
-      let last=scrollY;
-      const set=on=>{bar.classList.toggle("show",on);bar.setAttribute("aria-hidden",String(!on));bar.querySelectorAll("a").forEach(a=>a.tabIndex=on?0:-1)};
-      addEventListener("scroll",()=>{
-        const y=scrollY,pastHero=y>hero.offsetTop+hero.offsetHeight-60;
-        if(Math.abs(y-last)<6)return;
-        set(pastHero&&y<last);last=y;
-      },{passive:true});
+      const update=()=>{
+        const on=scrollY>hero.offsetTop+hero.offsetHeight-60;
+        bar.classList.toggle("show",on);bar.setAttribute("aria-hidden",String(!on));
+        bar.querySelectorAll("a").forEach(a=>a.tabIndex=on?0:-1);
+      };
+      addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
     })();
   </script>
 </body>

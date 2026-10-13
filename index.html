@@ -276,7 +276,7 @@
   </style>
 </head>
 <body data-title-en="FREY. | DJ & Creative, Amsterdam-based" data-title-nl="FREY. | DJ & Creative, Amsterdam-based" data-description-en="FREY. is an Amsterdam-based DJ and creative: social media, content, design and DJ sets for brands, events and creative projects, in the Netherlands and beyond." data-description-nl="FREY. is een DJ en creative uit Amsterdam: social media, content, design en DJ-sets voor merken, events en creatieve projecten, in Nederland en daarbuiten.">
-  <!-- Sticky bar: hidden at the top and while scrolling down; slides in when you scroll up. -->
+  <!-- Sticky bar: slides in once you scroll past the top section. -->
   <div class="stickybar" id="stickybar" aria-hidden="true">
     <a class="stickybar-brand" href="#hero" tabindex="-1">FREY<span class="dot">.</span></a>
     <a class="stickybar-book" href="mailto:hello@freycreates.nl" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span data-en="Book me" data-nl="Boek mij">Book me</span></a>
@@ -405,16 +405,15 @@
     window.addEventListener("pageshow",()=>document.body.classList.remove("page-leaving"));
   </script>
   <script>
-    // Sticky bar: shows when scrolling up past the hero, hides when scrolling down or back at the top.
+    // Sticky bar: visible once you've scrolled past the top section, hidden again back at the top.
     (()=>{
       const bar=document.getElementById("stickybar"),hero=document.getElementById("hero");
-      let last=scrollY;
-      const set=on=>{bar.classList.toggle("show",on);bar.setAttribute("aria-hidden",String(!on));bar.querySelectorAll("a").forEach(a=>a.tabIndex=on?0:-1)};
-      addEventListener("scroll",()=>{
-        const y=scrollY,pastHero=y>hero.offsetTop+hero.offsetHeight-60;
-        if(Math.abs(y-last)<6)return;
-        set(pastHero&&y<last);last=y;
-      },{passive:true});
+      const update=()=>{
+        const on=scrollY>hero.offsetTop+hero.offsetHeight-60;
+        bar.classList.toggle("show",on);bar.setAttribute("aria-hidden",String(!on));
+        bar.querySelectorAll("a").forEach(a=>a.tabIndex=on?0:-1);
+      };
+      addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
     })();
   </script>
 </body>
