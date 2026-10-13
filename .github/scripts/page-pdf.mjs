@@ -1,5 +1,5 @@
-// Saves the print version of /cv as a one-page A4 PDF.
-// Usage: node cv-pdf.mjs <url> <output.pdf>
+// Saves the print version of a page (/cv, /rider) as a one-page A4 PDF.
+// Usage: node page-pdf.mjs <url> <output.pdf>
 import puppeteer from "puppeteer-core";
 
 const [url, out] = process.argv.slice(2);
@@ -15,7 +15,7 @@ await page.emulateMediaType("print");
 await page.goto(url, { waitUntil: "networkidle0" });
 await page.evaluate(() => document.fonts.ready);
 
-// Always one page: if the CV grows taller than A4, shrink it until it fits.
+// Always one page: if the page grows taller than A4, shrink it until it fits.
 const height = await page.evaluate(() => document.documentElement.scrollHeight);
 const scale = Math.min(1, A4.height / height);
 if (scale < 1) {
@@ -30,5 +30,5 @@ if (scale < 1) {
 }
 
 await page.pdf({ path: out, format: "A4", printBackground: true, preferCSSPageSize: true, pageRanges: "1" });
-console.log(`CV PDF: content ${height}px tall, scale ${scale.toFixed(3)}`);
+console.log(`${out}: content ${height}px tall, scale ${scale.toFixed(3)}`);
 await browser.close();

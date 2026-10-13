@@ -1,5 +1,6 @@
 # Publishes freycreates.nl on every push to main (including FREYbot's gig updates).
-# Before publishing, it rebuilds assets/frey-cv.pdf from /cv so "Download CV" is always current.
+# Before publishing, it rebuilds assets/frey-cv.pdf from /cv and assets/frey-rider.pdf from /rider,
+# so both downloads are always current.
 name: Publish site
 
 on:
@@ -26,12 +27,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build CV PDF from /cv
+      - name: Build the CV and rider PDFs
         run: |
           python3 -m http.server 8000 --bind 127.0.0.1 >/dev/null 2>&1 &
           cd .github/scripts
           npm install --no-save --no-audit --no-fund puppeteer-core@23.11.1
-          CHROME_PATH="$(command -v google-chrome)" node cv-pdf.mjs http://127.0.0.1:8000/cv.html "$GITHUB_WORKSPACE/assets/frey-cv.pdf"
+          export CHROME_PATH="$(command -v google-chrome)"
+          node page-pdf.mjs http://127.0.0.1:8000/cv.html "$GITHUB_WORKSPACE/assets/frey-cv.pdf"
+          node page-pdf.mjs http://127.0.0.1:8000/rider.html "$GITHUB_WORKSPACE/assets/frey-rider.pdf"
 
       - uses: actions/configure-pages@v5
 
