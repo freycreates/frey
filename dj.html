@@ -266,6 +266,12 @@
     /* Floating at the top (no bar), a bar with the pink line once the first card scrolls under it. */
     .stickybar:not(.solid){background:transparent;border-bottom-color:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
     .stickybar{transition:background-color .25s ease,border-color .25s ease}
+    /* At the top the row scrolls away with the page (nothing fixed, so Safari keeps its see-through toolbar);
+       the bar only slides in once the whole first card has scrolled past. */
+    .stickybar:not(.solid){position:absolute}
+    .stickybar.solid{animation:barIn .3s ease}
+    @keyframes barIn{from{transform:translateY(-100%)}}
+    @media(prefers-reduced-motion:reduce){.stickybar.solid{animation:none}}
     /* First card sits just under the floating row, no big gap. */
     main.shell{margin-top:6px}
   </style>
@@ -406,10 +412,10 @@
       copy();
       addEventListener("languagechange",()=>setTimeout(copy));addEventListener("resize",copy);
     })();
-    // Floating row at the top; becomes a bar once the first card's top edge reaches it.
+    // Row at the top scrolls away; the bar slides in once the whole first card has scrolled past.
     (()=>{
       const bar=document.getElementById("stickybar"),hero=document.getElementById("djhero");
-      const update=()=>bar.classList.toggle("solid",hero.getBoundingClientRect().top<bar.offsetHeight);
+      const update=()=>bar.classList.toggle("solid",hero.getBoundingClientRect().bottom<bar.offsetHeight);
       addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
     })();
   </script>
