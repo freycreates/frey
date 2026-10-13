@@ -286,12 +286,32 @@
     main.shell>.card:first-child{border-top-left-radius:0;border-top-right-radius:0;border-top:0}
     /* Thin pink line along the bottom of the top bar. */
     .stickybar{border-bottom:2px solid #e61482}
+    /* Next gig in the top bar (desktop only, after the big Next up card is out of view). */
+    .stickybar-next{position:absolute;left:50%;top:50%;display:none;align-items:center;gap:10px;color:#fffdfb;text-decoration:none;white-space:nowrap;opacity:0;transform:translate(-50%,-50%);transition:opacity .25s ease;pointer-events:none}
+    .stickybar-next.show{opacity:1;pointer-events:auto}
+    .stickybar-next-label{color:#ff4fa8;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .stickybar-next-gig{font-size:1rem;font-weight:800;text-transform:none}
+    .stickybar-next-gig #stickyNextDate{text-transform:uppercase}
+    .stickybar-next-sep{margin:0 7px;color:#e61482}
+    .stickybar-next:hover .stickybar-next-gig{color:#ff4fa8}
+    .stickybar-eq{display:flex;align-items:flex-end;gap:3px;height:13px}
+    .stickybar-eq span{display:block;width:4px;border-radius:2px;background:#e61482;animation:stickyEq 1s ease-in-out infinite alternate}
+    .stickybar-eq span:nth-child(1){height:6px}.stickybar-eq span:nth-child(2){height:11px;animation-delay:-.35s}.stickybar-eq span:nth-child(3){height:7px;animation-delay:-.7s}.stickybar-eq span:nth-child(4){height:13px;animation-delay:-.2s}
+    @keyframes stickyEq{to{height:4px}}
+    @media(min-width:900px){.stickybar-next{display:flex}}
+    @media(prefers-reduced-motion:reduce){.stickybar-eq span{animation:none}.stickybar-next{transition:none}}
   </style>
 </head>
 <body data-title-en="FREY. | DJ & Creative, Amsterdam-based" data-title-nl="FREY. | DJ & Creative, Amsterdam-based" data-description-en="FREY. is an Amsterdam-based DJ and creative: social media, content, design and DJ sets for brands, events and creative projects, in the Netherlands and beyond." data-description-nl="FREY. is een DJ en creative uit Amsterdam: social media, content, design en DJ-sets voor merken, events en creatieve projecten, in Nederland en daarbuiten.">
   <!-- Top bar, always visible: FREY. (to the top), language and Book me. -->
   <nav class="stickybar show" id="stickybar" aria-label="Main">
     <a class="stickybar-brand" href="#hero" aria-label="FREY. top of page">FREY<span class="dot">.</span></a>
+    <!-- Desktop only: the next gig, shown once the big Next up card has scrolled out of view. -->
+    <a class="stickybar-next" id="stickyNext" href="#gigs" aria-hidden="true" tabindex="-1">
+      <span class="stickybar-next-label" data-en="Next up" data-nl="Volgende">Next up</span>
+      <span class="stickybar-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+      <span class="stickybar-next-gig"><span id="stickyNextDate"></span><span class="stickybar-next-sep">/</span><span id="stickyNextVenue"></span></span>
+    </a>
     <div class="stickybar-right">
       <div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div>
       <a class="stickybar-book" href="mailto:hello@freycreates.nl"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span data-en="Book me" data-nl="Boek mij">Book me</span></a>
@@ -419,6 +439,24 @@
     const heroCopy=document.querySelector(".hero-b-copy"),bioToggle=document.querySelector(".bio-toggle");
     bioToggle.addEventListener("click",()=>{const open=heroCopy.classList.toggle("bio-open");bioToggle.setAttribute("aria-expanded",String(open))});
     window.addEventListener("pageshow",()=>document.body.classList.remove("page-leaving"));
+  </script>
+  <script>
+    // Next gig in the top bar: copies the big Next up card and shows once that card has scrolled under the bar.
+    (()=>{
+      const pill=document.getElementById("stickyNext"),card=document.querySelector(".next"),bar=document.getElementById("stickybar");
+      if(!pill||!card)return;
+      const copy=()=>{
+        document.getElementById("stickyNextDate").textContent=document.getElementById("nextDate").textContent;
+        document.getElementById("stickyNextVenue").textContent=document.getElementById("nextVenue").textContent;
+      };
+      const update=()=>{
+        const on=!card.hidden&&card.getBoundingClientRect().bottom<bar.getBoundingClientRect().bottom;
+        pill.classList.toggle("show",on);pill.setAttribute("aria-hidden",String(!on));pill.tabIndex=on?0:-1;
+      };
+      copy();update();
+      addEventListener("languagechange",()=>setTimeout(copy));
+      addEventListener("scroll",update,{passive:true});addEventListener("resize",update);
+    })();
   </script>
 </body>
 </html>
