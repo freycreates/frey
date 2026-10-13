@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="FREY. is an Amsterdam-based DJ and creative: social media, content, design and DJ sets for brands, events and creative projects, in the Netherlands and beyond.">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#191317">
+  <meta name="theme-color" content="#0f0d10">
   <link rel="canonical" href="https://freycreates.nl/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://freycreates.nl/">
@@ -315,6 +315,11 @@
       .stickybar-next{margin:0 4px;gap:6px}
       .stickybar-eq{gap:2px}.stickybar-eq span{width:3px}
     }
+    /* Safari: one solid page colour (the top of the gradient), the same as theme-color, so its bars blend with the page. */
+    html,body,html[data-theme] body{background-color:#0f0d10}
+    /* A hidden top bar is really gone (Safari can't pick it up for its colours). */
+    .stickybar{visibility:hidden;transition:transform .3s ease,visibility 0s linear .3s}
+    .stickybar.show{visibility:visible;transition:transform .3s ease,visibility 0s}
   </style>
 </head>
 <body data-title-en="FREY. | DJ & Creative, Amsterdam-based" data-title-nl="FREY. | DJ & Creative, Amsterdam-based" data-description-en="FREY. is an Amsterdam-based DJ and creative: social media, content, design and DJ sets for brands, events and creative projects, in the Netherlands and beyond." data-description-nl="FREY. is een DJ en creative uit Amsterdam: social media, content, design en DJ-sets voor merken, events en creatieve projecten, in Nederland en daarbuiten.">

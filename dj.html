@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="DJ FREY is a queer DJ from Amsterdam playing pop, house and club classics, from hyperpop to dance. Gigs, mixes and bookings.">
-  <meta name="theme-color" content="#191317">
+  <meta name="theme-color" content="#0f0d10">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://freycreates.nl/dj">
   <meta property="og:type" content="profile">
@@ -248,6 +248,11 @@
     .back-home:hover{color:#e61482}
     .stickybar-back{margin-right:6px;color:rgba(255,255,255,.55);font-weight:700}
     .stickybar-brand:hover .stickybar-back{color:#e61482}
+    /* Safari: one solid page colour (the top of the gradient), the same as theme-color, so its bars blend with the page. */
+    html,body,html[data-theme] body{background-color:#0f0d10}
+    /* A hidden top bar is really gone (Safari can't pick it up for its colours). */
+    .stickybar{visibility:hidden;transition:transform .3s ease,visibility 0s linear .3s}
+    .stickybar.show{visibility:visible;transition:transform .3s ease,visibility 0s}
   </style>
 </head>
 <body data-title-en="DJ FREY. | Queer DJ in Amsterdam" data-title-nl="DJ FREY. | Queer DJ in Amsterdam" data-description-en="DJ FREY is a queer DJ from Amsterdam playing pop, house and club classics, from hyperpop to dance. Gigs, mixes and bookings." data-description-nl="DJ FREY is een queer DJ uit Amsterdam met pop, house en clubklassiekers, van hyperpop tot dance. Gigs, mixes en boekingen.">
