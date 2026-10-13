@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="DJ FREY is a queer DJ from Amsterdam playing pop, house and club classics, from hyperpop to dance. Gigs, mixes and bookings.">
-  <meta name="theme-color" content="#fffaf7">
+  <meta name="theme-color" content="#191317">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://freycreates.nl/dj">
   <meta property="og:type" content="profile">
@@ -222,8 +222,26 @@
     .stickybar-eq span{display:block;width:4px;border-radius:2px;background:#e61482;animation:stickyEq 1s ease-in-out infinite alternate}
     .stickybar-eq span:nth-child(1){height:6px}.stickybar-eq span:nth-child(2){height:11px;animation-delay:-.35s}.stickybar-eq span:nth-child(3){height:7px;animation-delay:-.7s}.stickybar-eq span:nth-child(4){height:13px;animation-delay:-.2s}
     @keyframes stickyEq{to{height:4px}}
-    @media(min-width:900px){.stickybar-next{display:flex}}
     @media(prefers-reduced-motion:reduce){.stickybar-eq span{animation:none}.stickybar-next{transition:none}}
+    /* Smaller EN/NL in the top bar. */
+    html[data-theme] .stickybar .lang-switch,.stickybar .lang-switch{padding:2px;border-radius:6px}
+    html[data-theme] .stickybar .lang-switch button,.stickybar .lang-switch button{padding:3px 6px;border-radius:4px;font-size:.62rem;line-height:1.2}
+    /* Glass bar: content stays visible as it scrolls underneath, like Safari's own bars. */
+    .stickybar{background:rgba(25,19,23,.58);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);box-shadow:none}
+    /* Next gig: shown on every screen size (still only once the big Next up card is out of view). */
+    .stickybar-next{display:flex}
+    @media(max-width:899px){
+      .stickybar-next{position:static;flex:1 1 auto;min-width:0;justify-content:center;gap:7px;margin:0 8px;transform:none}
+      .stickybar-next-label{display:none}
+      .stickybar-next-gig{overflow:hidden;font-size:.8rem;text-overflow:ellipsis}
+    }
+    @media(max-width:899px){
+      .stickybar{padding-left:14px;padding-right:14px;gap:8px}
+      .stickybar-left{gap:7px}
+      .stickybar-page{padding:2px 6px;font-size:.64rem}
+      .stickybar-next{margin:0 4px;gap:6px}
+      .stickybar-eq{gap:2px}.stickybar-eq span{width:3px}
+    }
   </style>
 </head>
 <body data-title-en="DJ FREY. | Queer DJ in Amsterdam" data-title-nl="DJ FREY. | Queer DJ in Amsterdam" data-description-en="DJ FREY is a queer DJ from Amsterdam playing pop, house and club classics, from hyperpop to dance. Gigs, mixes and bookings." data-description-nl="DJ FREY is een queer DJ uit Amsterdam met pop, house en clubklassiekers, van hyperpop tot dance. Gigs, mixes en boekingen.">
@@ -238,7 +256,6 @@
     </a>
     <div class="stickybar-right">
       <div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div>
-      <a class="stickybar-book" href="mailto:hello@freycreates.nl?subject=DJ%20booking"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span data-en="Book me" data-nl="Boek mij">Book me</span></a>
     </div>
   </nav>
   <main class="shell">
@@ -353,7 +370,9 @@
       if(!pill||!card)return;
       const copy=()=>{
         document.getElementById("stickyNextDate").textContent=document.getElementById("nextDate").textContent;
-        document.getElementById("stickyNextVenue").textContent=document.getElementById("nextVenue").textContent;
+        // Phones: just the venue ("FERRY"), desktop: venue and city.
+        const venue=document.getElementById("nextVenue").textContent;
+        document.getElementById("stickyNextVenue").textContent=innerWidth<900?venue.split(",")[0]:venue;
       };
       const update=()=>{
         const on=!card.hidden&&card.getBoundingClientRect().bottom<bar.getBoundingClientRect().bottom;
@@ -361,7 +380,7 @@
       };
       copy();update();
       addEventListener("languagechange",()=>setTimeout(copy));
-      addEventListener("scroll",update,{passive:true});addEventListener("resize",update);
+      addEventListener("scroll",update,{passive:true});addEventListener("resize",()=>{copy();update()});
     })();
   </script>
 </body>
