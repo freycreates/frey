@@ -265,7 +265,7 @@
     @media(max-width:430px){.stickybar-next-label{display:none}}
     /* Floating at the top (no bar), a bar with the pink line once the first card scrolls under it. */
     .stickybar:not(.solid){background:transparent;border-bottom-color:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
-    .stickybar{transition:background-color .25s ease,border-color .25s ease}
+    .stickybar{transition:none}
     /* At the top the row scrolls away with the page (nothing fixed, so Safari keeps its see-through toolbar);
        the bar only slides in once the whole first card has scrolled past. */
     .stickybar:not(.solid){position:absolute}
@@ -279,9 +279,13 @@
     .stickybar-next{top:calc(50% + env(safe-area-inset-top)/2)}
     /* Safari 26 paints the area behind the clock in the colour of a fixed bar at the top; no blur on the bar. */
     .stickybar,.stickybar.solid,html[data-theme] .stickybar{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:0}
-    /* A solid bar in the page colour (#0f0d10, as theme-color), no blur. Safari paints the area behind the clock in that same colour,
+    /* Phones/tablets: a solid bar in the page colour (#0f0d10, as theme-color), no blur. Safari paints the area behind the clock in that same colour,
        so clock area and bar read as one piece. Any see-through turns it grey over the white cards. */
     .stickybar.solid,html[data-theme] .stickybar.solid{background:#0f0d10}
+    /* Mac/desktop: Safari keeps its toolbar see-through there, so the bar is frosted glass like Safari's own. */
+    @media(hover:hover) and (pointer:fine){
+      .stickybar.solid,html[data-theme] .stickybar.solid{background:rgba(25,19,23,.58);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5)}
+    }
     .stickybar.solid::before{content:"";position:absolute;inset:0;z-index:-1;border-bottom:2px solid #e61482;pointer-events:none}
     /* First card sits just under the floating row, no big gap. */
     main.shell{margin-top:6px}
