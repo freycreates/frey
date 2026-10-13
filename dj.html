@@ -130,13 +130,15 @@
     :focus-visible{outline:3px solid var(--pink);outline-offset:3px}
     @media(max-width:800px){.hero{grid-template-columns:1fr}.hero-photo{order:-1}.hero-copy{padding:30px 22px 34px}}
     @media(prefers-reduced-motion:reduce){.next{transition:none}.next-eq span{animation:none}}
+    /* Wordmark dot in pink, like the icon and /cv. */
+    .dot{color:#e61482}
   </style>
 </head>
 <body data-title-en="FREY. — DJ" data-title-nl="FREY. — DJ" data-description-en="Meet FREY., a pop-focused DJ playing queer clubs, Prides and festivals." data-description-nl="Maak kennis met FREY., een popgerichte DJ voor queer clubs, Prides en festivals.">
   <main class="shell">
     <article class="card">
       <nav class="topbar" aria-label="DJ page navigation">
-        <a class="brand" href="index.html">FREY.</a>
+        <a class="brand" href="index.html">FREY<span class="dot">.</span></a>
         <div class="topbar-actions"><div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div><a class="back" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span data-en="Back to homepage" data-nl="Terug naar homepage">Back to homepage</span></a></div>
       </nav>
       <div class="hero">
@@ -147,7 +149,7 @@
           </a>
         </div>
         <div class="hero-copy">
-          <h1>FREY.</h1>
+          <h1>FREY<span class="dot">.</span></h1>
           <p class="lead" data-en="Pop-culture enthusiast raised on Gaga, Britney and ABBA, finding religion in the queer club scene. In my sets, discover your own church through pop girls from today and yesterday." data-nl="Popcultuurliefhebber, opgegroeid met Gaga, Britney en ABBA, die zijn geloof vindt in de queer clubscene. Ontdek in mijn sets je eigen kerk via de pop girls van vandaag en gisteren.">Pop-culture enthusiast raised on Gaga, Britney and ABBA, finding religion in the queer club scene. In my sets, discover your own church through pop girls from today and yesterday.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="mailto:hello@freycreates.nl"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span data-en="Book me for a DJ set" data-nl="Boek mij voor een DJ-set">Book me for a DJ set</span></a>
