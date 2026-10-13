@@ -56,6 +56,11 @@
     .button-primary:hover{border-color:var(--ink)}
     .button svg{width:17px;height:17px;flex:0 0 17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
     .button-primary svg{stroke:var(--pink)}
+    /* Example setups: two product photos side by side, on white so their white backgrounds blend in. */
+    .setups{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:26px 40px 28px}
+    .setups figure{margin:0}
+    .setups img{display:block;width:100%;height:auto;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+    .setups figcaption{margin-top:9px;color:var(--muted);font-size:.86rem;font-weight:700;line-height:1.35}
     .rider{display:grid;grid-template-columns:1.25fr 1fr;gap:0}
     .rider section{padding:32px 40px 36px}
     .rider section+section{border-left:1px solid var(--line)}
@@ -78,7 +83,8 @@
       .topbar{padding:12px 16px}
       .back span{display:none}
       .intro{padding:28px 22px 26px}
-      .rider{grid-template-columns:1fr}
+      .rider,.setups{grid-template-columns:1fr}
+      .setups{padding:22px 22px 24px;gap:18px}
       .rider section{padding:26px 22px 28px}
       .rider section+section{border-left:0}
       .button{flex:1 1 auto;justify-content:center}
@@ -96,6 +102,8 @@
       .topbar{padding:0 0 10px}
       .intro{padding:22px 0 6px}
       .rider{border:1px solid var(--line)!important;border-radius:10px}
+      .setups{padding:0;gap:16px}
+      .setups figcaption{font-size:.78rem}
       .rider section{padding:26px 30px 28px}
       footer{color:var(--muted);text-align:left;padding:4px 0 0}
       .card{border:0;border-radius:0;box-shadow:none;background:#fff}
@@ -127,6 +135,17 @@
           <a class="button" href="assets/frey-rider.pdf" download="FREY technical rider.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span data-en="Download PDF" data-nl="Download PDF">Download PDF</span></a>
         </div>
       </header>
+    </article>
+
+    <article class="card setups" aria-label="Example setups">
+      <figure>
+        <img src="assets/rider-setup-nxs2.jpg" alt="Two Pioneer CDJ-2000NXS2 players with a Pioneer DJM-900NXS2 mixer" width="900" height="423">
+        <figcaption data-en="Example: 2× Pioneer CDJ‑2000NXS2 and 1× DJM‑900NXS2" data-nl="Voorbeeld: 2× Pioneer CDJ‑2000NXS2 en 1× DJM‑900NXS2">Example: 2× Pioneer CDJ‑2000NXS2 and 1× DJM‑900NXS2</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/rider-setup-cdj3000.png" alt="Two Pioneer CDJ-3000 players with a Pioneer DJM-A9 mixer" width="900" height="416">
+        <figcaption data-en="Example: 2× Pioneer CDJ‑3000 and 1× DJM‑A9" data-nl="Voorbeeld: 2× Pioneer CDJ‑3000 en 1× DJM‑A9">Example: 2× Pioneer CDJ‑3000 and 1× DJM‑A9</figcaption>
+      </figure>
     </article>
 
     <article class="card rider">
