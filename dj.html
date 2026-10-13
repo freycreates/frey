@@ -103,7 +103,8 @@
     /* Matching the homepage: copy left, club photo right with Next up, black primary buttons, black gigs. */
     .hero{grid-template-columns:minmax(0,1fr) minmax(320px,48%)}
     .hero-photo{order:2;background:#191317}
-    .hero-photo img{object-position:50% 28%}
+    .hero-photo img{object-position:50% 22%}
+    .music-photo{object-position:50% 30%}
     .hero-copy{padding:50px 40px}
     .hero-links{display:flex;flex-wrap:wrap;gap:8px 20px;margin:16px 0 0;font-size:.92rem;font-weight:800}
     .hero-links a{text-underline-offset:4px}.hero-links a:hover{color:var(--pink)}
@@ -126,7 +127,7 @@
     .next-tag{display:inline-block;padding:3px 8px;border-radius:6px;background:var(--pink);color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
     :focus-visible{outline:3px solid var(--pink);outline-offset:3px}
     /* Phone: a shorter photo so the name and buttons show without scrolling; the photo crops around your face. */
-    @media(max-width:800px){.hero{grid-template-columns:1fr;min-height:0}.hero-photo{order:-1;min-height:0;height:min(40vh,330px)}.hero-photo img{object-position:60% 35%}.hero-copy{padding:24px 22px 28px}.hero-actions{flex-wrap:nowrap;gap:8px}.hero-actions .button{white-space:nowrap;padding:9px 12px}}
+    @media(max-width:800px){.hero{grid-template-columns:1fr;min-height:0}.hero-photo{order:-1;min-height:0;height:min(40vh,330px)}.hero-photo img{object-position:52% 24%}.hero-copy{padding:24px 22px 28px}.hero-actions{flex-wrap:nowrap;gap:8px}.hero-actions .button{white-space:nowrap;padding:9px 12px}}
     @media(prefers-reduced-motion:reduce){.next{transition:none}.next-eq span{animation:none}}
     /* Wordmark dot in pink, like the icon and /cv. */
     .dot{color:#e61482}
@@ -151,7 +152,7 @@
         <div class="topbar-actions"><div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div><a class="back" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span data-en="Back to homepage" data-nl="Terug naar homepage">Back to homepage</span></a></div>
       </nav>
       <div class="hero">
-        <div class="hero-photo"><img src="assets/dj-cap.jpg" alt="FREY. DJing in a club" fetchpriority="high" width="1067" height="1400">
+        <div class="hero-photo"><img src="assets/dj-gaga.jpg" alt="FREY. DJing in a club" fetchpriority="high" width="1200" height="996">
           <a class="next" href="#dates">
             <span class="next-heading"><strong data-en="Next up" data-nl="Volgende">Next up</strong><span class="next-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span></span>
             <span class="next-gig"><span class="next-date" id="nextDate"></span><span class="next-separator">/</span><span id="nextVenue"></span></span>
@@ -183,7 +184,7 @@
 
     <section class="card content music" id="music" aria-labelledby="music-title">
       <div class="music-grid">
-        <img class="music-photo" loading="lazy" decoding="async" src="assets/dj-gaga.jpg" alt="FREY. performing behind the decks">
+        <img class="music-photo" loading="lazy" decoding="async" src="assets/dj-cap.jpg" alt="FREY. performing behind the decks in a white cap">
         <div>
           <p class="section-label" data-en="The music" data-nl="De muziek">The music</p>
           <h2 id="music-title" data-en="Pop-girl bops with a dance-floor pulse" data-nl="Pop-girl bops met een dancefloor-puls">Pop-girl bops with a dance-floor pulse</h2>
