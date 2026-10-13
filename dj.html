@@ -24,11 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <style>
-    @font-face{font-family:"Open Sauce";src:url("https://cdn.jsdelivr.net/fontsource/fonts/open-sauce-sans@latest/latin-400-normal.woff2") format("woff2");font-display:swap;font-weight:400}
-    @font-face{font-family:"Open Sauce";src:url("https://cdn.jsdelivr.net/fontsource/fonts/open-sauce-sans@latest/latin-600-normal.woff2") format("woff2");font-display:swap;font-weight:600}
-    @font-face{font-family:"Open Sauce";src:url("https://cdn.jsdelivr.net/fontsource/fonts/open-sauce-sans@latest/latin-700-normal.woff2") format("woff2");font-display:swap;font-weight:700}
     :root{color-scheme:light;--surface:#fffafc;--text:#251729;--muted:#756579;--line:#e8cfe0;--pink:#e61482;--violet:#7047e8;--blue:#1689d8;--pink-soft:#ffe0f0;--violet-soft:#e9e0ff;--blue-soft:#e1f3ff;--shadow:0 14px 42px rgba(102,44,85,.12)}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{position:relative;min-height:100vh;margin:0;background:linear-gradient(150deg,#fff0f7,#f8f0ff 55%,#eff8ff);color:var(--text);font-family:"Open Sauce",system-ui,sans-serif;line-height:1.55;overflow-x:hidden;isolation:isolate}body:after{content:"";position:fixed;inset:-28%;z-index:-1;background:radial-gradient(circle at 14% 23%,rgba(255,25,140,.82),transparent 24%),radial-gradient(circle at 82% 17%,rgba(108,61,235,.76),transparent 26%),radial-gradient(circle at 66% 84%,rgba(10,143,225,.7),transparent 24%);filter:blur(15px);animation:drift 8s ease-in-out infinite alternate;pointer-events:none}@keyframes drift{0%{transform:translate3d(-11%,-7%,0) scale(1) rotate(0deg)}50%{transform:translate3d(11%,8%,0) scale(1.16) rotate(10deg)}100%{transform:translate3d(-6%,13%,0) scale(1.08) rotate(-9deg)}}
     a{color:inherit}.shell{display:grid;width:min(100% - 48px,1100px);margin:52px auto;gap:22px}.card{overflow:hidden;border:1px solid rgba(232,207,224,.86);border-radius:22px;background:rgba(255,250,252,.64);box-shadow:var(--shadow);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
@@ -142,7 +138,7 @@
         <div class="topbar-actions"><div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div><a class="back" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span data-en="Back to homepage" data-nl="Terug naar homepage">Back to homepage</span></a></div>
       </nav>
       <div class="hero">
-        <div class="hero-photo"><img src="assets/dj-cap.png" alt="FREY. DJing in a club">
+        <div class="hero-photo"><img src="assets/dj-cap.jpg" alt="FREY. DJing in a club" fetchpriority="high" width="1067" height="1400">
           <a class="next" href="#dates">
             <span class="next-heading"><strong data-en="Next up" data-nl="Volgende">Next up</strong><span class="next-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span></span>
             <span class="next-gig"><span class="next-date" id="nextDate"></span><span class="next-separator">/</span><span id="nextVenue"></span></span>
@@ -168,13 +164,13 @@
           <p data-en="I first started DJing in 2015 and played until 2017. After a hiatus, with a pandemic somewhere in the middle, I found my way back behind the decks at a friend’s Halloween party in 2022. That night reminded me how much I had missed building a set, reading a room and sharing those pop moments with a crowd." data-nl="Ik begon in 2015 met draaien en speelde tot 2017. Na een pauze, met ergens daartussen een pandemie, belandde ik in 2022 weer achter de draaitafels tijdens het Halloweenfeest van een vriend. Die avond herinnerde me eraan hoeveel ik het had gemist om een set op te bouwen, de zaal aan te voelen en die popmomenten met een publiek te delen.">I first started DJing in 2015 and played until 2017. After a hiatus, with a pandemic somewhere in the middle, I found my way back behind the decks at a friend’s Halloween party in 2022. That night reminded me how much I had missed building a set, reading a room and sharing those pop moments with a crowd.</p>
           <p data-en="Since then, I have become a regular at queer clubs and festivals across the Netherlands, Brussels and Singapore." data-nl="Sindsdien ben ik regelmatig te vinden in queer clubs en op festivals in Nederland, Brussel en Singapore.">Since then, I have become a regular at queer clubs and festivals across the Netherlands, Brussels and Singapore.</p>
         </div>
-        <img class="story-photo" src="assets/dj-world-pride-stage.jpg" alt="FREY. DJing at WorldPride Amsterdam 2026">
+        <img class="story-photo" loading="lazy" decoding="async" src="assets/dj-world-pride-stage.jpg" alt="FREY. DJing at WorldPride Amsterdam 2026">
       </div>
     </section>
 
     <section class="card content music" id="music" aria-labelledby="music-title">
       <div class="music-grid">
-        <img class="music-photo" src="assets/dj-gaga.png" alt="FREY. performing behind the decks">
+        <img class="music-photo" loading="lazy" decoding="async" src="assets/dj-gaga.jpg" alt="FREY. performing behind the decks">
         <div>
           <p class="section-label" data-en="The music" data-nl="De muziek">The music</p>
           <h2 id="music-title" data-en="Pop-girl bops with a dance-floor pulse" data-nl="Pop-girl bops met een dancefloor-puls">Pop-girl bops with a dance-floor pulse</h2>

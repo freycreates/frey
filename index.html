@@ -28,7 +28,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -79,9 +78,6 @@
   }
   </script>
   <style>
-    @font-face{font-family:"Open Sauce";src:url("https://cdn.jsdelivr.net/fontsource/fonts/open-sauce-sans@latest/latin-400-normal.woff2") format("woff2");font-display:swap;font-weight:400}
-    @font-face{font-family:"Open Sauce";src:url("https://cdn.jsdelivr.net/fontsource/fonts/open-sauce-sans@latest/latin-600-normal.woff2") format("woff2");font-display:swap;font-weight:600}
-    @font-face{font-family:"Open Sauce";src:url("https://cdn.jsdelivr.net/fontsource/fonts/open-sauce-sans@latest/latin-700-normal.woff2") format("woff2");font-display:swap;font-weight:700}
     :root{color-scheme:light;--bg:#fff0f7;--surface:#fffafc;--surface-2:#f5edff;--text:#251729;--muted:#756579;--line:#e8cfe0;--pink:#e61482;--violet:#7047e8;--blue:#1689d8;--pink-soft:#ffe0f0;--violet-soft:#e9e0ff;--blue-soft:#e1f3ff;--shadow:0 14px 42px rgba(102,44,85,.12)}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{position:relative;min-height:100vh;margin:0;background:linear-gradient(150deg,#fff0f7 0%,#f8f0ff 55%,#fff9f4 100%);color:var(--text);font-family:"Open Sauce",system-ui,sans-serif;line-height:1.5;overflow-x:hidden;isolation:isolate}
     body:before{content:"";position:fixed;inset:0 0 auto;height:8px;background:linear-gradient(90deg,var(--pink),var(--violet));z-index:3}
@@ -276,7 +272,7 @@
           <p class="hero-links"><a href="#music" data-en="Mixes &amp; playlists" data-nl="Mixes &amp; playlists">Mixes &amp; playlists</a><a href="#work">Portfolio</a></p>
         </div>
         <div class="hero-b-visual">
-          <img src="assets/frey-dj.png" alt="FREY. DJing in a club">
+          <img src="assets/frey-dj.jpg" alt="FREY. DJing in a club" fetchpriority="high" width="1600" height="1066">
           <a class="next" id="nextLink" href="#gigs">
             <span class="next-heading"><strong data-en="Next up" data-nl="Volgende">Next up</strong><span class="next-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span></span>
             <span class="next-gig"><span class="next-date" id="nextDate"></span><span class="next-separator">/</span><span id="nextVenue"></span></span>
@@ -301,7 +297,7 @@
         <div class="section-head"><h2 id="work-title">Portfolio</h2></div>
         <div class="work">
           <article class="project-dj">
-            <div class="project-dj-visual"><img src="assets/dj-world-pride-stage.jpg" alt="FREY. DJing at WorldPride Amsterdam 2026"></div>
+            <div class="project-dj-visual"><img loading="lazy" decoding="async" src="assets/dj-world-pride-stage.jpg" alt="FREY. DJing at WorldPride Amsterdam 2026"></div>
             <div class="project-dj-copy">
               <h3 data-en="FREY. behind the decks" data-nl="FREY. achter de draaitafels">FREY. behind the decks</h3>
               <p data-en="Raised on Gaga, Britney and ABBA, I’ve brought pop-girl bops to queer clubs and festivals across the Netherlands and beyond since 2022." data-nl="Opgegroeid met Gaga, Britney en ABBA breng ik sinds 2022 pop-girl bops naar queer clubs en festivals in Nederland en daarbuiten.">Raised on Gaga, Britney and ABBA, I’ve brought pop-girl bops to queer clubs and festivals across the Netherlands and beyond since 2022.</p>
@@ -309,35 +305,35 @@
             </div>
           </article>
           <a class="project" href="https://instagram.com/homomonument" target="_blank" rel="noopener" aria-label="View Homomonument on Instagram">
-            <span class="project-logo"><img src="assets/hmm_logo.png" alt="Homomonument Amsterdam"></span>
+            <span class="project-logo"><img loading="lazy" decoding="async" src="assets/hmm_logo.png" alt="Homomonument Amsterdam"></span>
             <span class="project-copy"><strong>Homomonument <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Social media management, content and communication</span><span>2026–now</span></span>
           </a>
           <a class="project project-rewind" href="https://djrewind.app/" target="_blank" rel="noopener" aria-label="View DJ Rewind">
-            <span class="project-logo"><img src="assets/dj-rewind-wordmark.png" alt="DJ Rewind"></span>
+            <span class="project-logo"><img loading="lazy" decoding="async" src="assets/dj-rewind-wordmark.png" alt="DJ Rewind"></span>
             <span class="project-copy"><strong>DJ Rewind <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Listening-history iOS app for DJs</span><span>2026–now</span></span>
           </a>
           <a class="project project-backsteeg" href="https://instagram.com/backsteeg" target="_blank" rel="noopener" aria-label="View Backsteeg on Instagram">
-            <span class="project-logo"><img src="assets/backsteeg_logo.png" alt="Backsteeg"></span>
+            <span class="project-logo"><img loading="lazy" decoding="async" src="assets/backsteeg_logo.png" alt="Backsteeg"></span>
             <span class="project-copy"><strong>Backsteeg <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Social media content</span><span>2025 &amp; 2026 editions</span></span>
           </a>
           <a class="project project-bops" href="https://www.instagram.com/bops.ams/" target="_blank" rel="noopener" aria-label="View BOPS on Instagram">
-            <span class="project-logo"><img src="assets/bops-logo.png" alt="BOPS"></span>
+            <span class="project-logo"><img loading="lazy" decoding="async" src="assets/bops-logo.png" alt="BOPS"></span>
             <span class="project-copy"><strong>BOPS <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Social media content</span><span>2026</span></span>
           </a>
           <a class="project project-world-pride" href="https://pride.amsterdam/en/worldpride/" target="_blank" rel="noopener" aria-label="View WorldPride Amsterdam">
-            <span class="project-logo"><img src="assets/world-pride.png" alt="WorldPride Amsterdam 2026"></span>
+            <span class="project-logo"><img loading="lazy" decoding="async" src="assets/world-pride.png" alt="WorldPride Amsterdam 2026"></span>
             <span class="project-copy"><strong>WorldPride <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Content and socials</span><span>2026</span></span>
           </a>
           <a class="project project-big-break" href="https://studio-wednesday.com/bigbreak" target="_blank" rel="noopener" aria-label="View Big Break on Studio Wednesday">
-            <span class="project-logo"><img src="assets/big-break.png" alt="Big Break"></span>
+            <span class="project-logo"><img loading="lazy" decoding="async" src="assets/big-break.png" alt="Big Break"></span>
             <span class="project-copy"><strong>BIG BREAK by Caitie McCollow <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span data-en="Social media and BTS footage" data-nl="Social media en BTS-beelden">Social media and BTS footage</span><span>2026–now</span></span>
           </a>
           <a class="project project-hey" href="https://www.instagram.com/heyamsterdamnoord/" target="_blank" rel="noopener" aria-label="View Hey Amsterdam Noord on Instagram">
-            <span class="project-logo"><img src="assets/hey-amsterdam-noord.png" alt="Hey Amsterdam Noord"></span>
+            <span class="project-logo"><img loading="lazy" decoding="async" src="assets/hey-amsterdam-noord.png" alt="Hey Amsterdam Noord"></span>
             <span class="project-copy"><strong>Hey Amsterdam Noord <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span data-en="Content and venue/restaurant reviews" data-nl="Content en reviews van locaties en restaurants">Content and venue/restaurant reviews</span><span data-en="2026–now" data-nl="2026–nu">2026–now</span></span>
           </a>
           <a class="project project-imgroot" href="https://imgroot.nl" target="_blank" rel="noopener" aria-label="View the IM Groot website">
-            <span class="project-logo"><img src="assets/evert-groot.jpg" alt="Evert Groot"><b>Evert Groot</b></span>
+            <span class="project-logo"><img loading="lazy" decoding="async" src="assets/evert-groot.jpg" alt="Evert Groot"><b>Evert Groot</b></span>
             <span class="project-copy"><strong>IM Groot <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span data-en="Website design and build" data-nl="Websiteontwerp en -bouw">Website design and build</span><span>2026</span></span>
           </a>
         </div>

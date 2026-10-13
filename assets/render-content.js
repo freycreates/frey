@@ -13,7 +13,7 @@
     djMixes.innerHTML=mixes.map(mix=>{
       const links=(mix.links||[]).map(link=>`<a class="media-link" href="${esc(link.url)}" target="_blank" rel="noopener">${DJ_ICONS[link.platform]||esc(link.platform)}</a>`);
       const linkBlock=links.length>1?`<div class="media-links">\n            ${links.join("\n            ")}\n          </div>`:`<div class="media-links">${links.join("")}</div>`;
-      return `\n        <article class="media-card">\n          <img class="${mix.imageStyle==="thumbnail"?"media-thumbnail":"playlist-artwork"}" src="${esc(mix.image)}" alt="${esc(mix.alt)}">\n          <h3>${esc(mix.title)}</h3>\n          <p>${esc(mix.type)}</p>\n          ${linkBlock}\n        </article>`;
+      return `\n        <article class="media-card">\n          <img loading="lazy" decoding="async" class="${mix.imageStyle==="thumbnail"?"media-thumbnail":"playlist-artwork"}" src="${esc(mix.image)}" alt="${esc(mix.alt)}">\n          <h3>${esc(mix.title)}</h3>\n          <p>${esc(mix.type)}</p>\n          ${linkBlock}\n        </article>`;
     }).join("")+"\n      ";
   }
 
@@ -23,11 +23,11 @@
       const links=(mix.links||[]).map(link=>`<a class="platform-button ${esc(link.platform)}" href="${esc(link.url)}" target="_blank" rel="noopener">${TILE_ICONS[link.platform]||esc(link.platform)}</a>`);
       const linkBlock=links.length>1?`<span class="platform-links">\n              ${links.join("\n              ")}\n            </span>`:`<span class="platform-links">${links.join("")}</span>`;
       const note=mix.note?`\n            <span class="notice" data-en="${esc(mix.note.en)}" data-nl="${esc(mix.note.nl)}">${esc(mix.note.en)}</span>`:"";
-      return `\n          <article class="tile">\n            <img class="${mix.imageStyle==="thumbnail"?"mix-thumbnail":"playlist-artwork"}" src="${esc(mix.image)}" alt="${esc(mix.alt)}">\n            <span class="title">${esc(mix.title)}</span><span class="meta">${esc(mix.type)}</span>${note}\n            ${linkBlock}\n          </article>`;
+      return `\n          <article class="tile">\n            <img loading="lazy" decoding="async" class="${mix.imageStyle==="thumbnail"?"mix-thumbnail":"playlist-artwork"}" src="${esc(mix.image)}" alt="${esc(mix.alt)}">\n            <span class="title">${esc(mix.title)}</span><span class="meta">${esc(mix.type)}</span>${note}\n            ${linkBlock}\n          </article>`;
     }).join("")+"\n        ";
   }
 
-  const venueCard=(venue,indent)=>`\n${indent}<a class="venue-card${venue.style?" "+esc(venue.style):""}" href="${esc(venue.url)}" target="_blank" rel="noopener"><span class="venue-card-logo"><img src="${esc(venue.logo)}" alt=""></span><span class="venue-card-name">${esc(venue.name)}</span></a>`;
+  const venueCard=(venue,indent)=>`\n${indent}<a class="venue-card${venue.style?" "+esc(venue.style):""}" href="${esc(venue.url)}" target="_blank" rel="noopener"><span class="venue-card-logo"><img loading="lazy" decoding="async" src="${esc(venue.logo)}" alt=""></span><span class="venue-card-name">${esc(venue.name)}</span></a>`;
   const venueGrid=document.getElementById("venueGrid");
   if(venueGrid)venueGrid.innerHTML=venues.slice(0,FEATURED_VENUES).map(venue=>venueCard(venue,"        ")).join("")+"\n      ";
   const venueGridMore=document.getElementById("venueGridMore");
