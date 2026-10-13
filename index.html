@@ -195,21 +195,66 @@
     @media(max-width:600px){body:before{display:none}.shell{width:calc(100% - 20px);margin:18px auto;gap:14px}section.content{padding:24px 20px}.music{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.music .tile{min-height:250px;padding:12px}.music .mix-thumbnail,.music .playlist-artwork{width:68px;height:68px}.music .tile .title{font-size:.82rem;line-height:1.25}.music .tile .meta{font-size:.72rem}.music .tile .notice{font-size:.64rem}.music .platform-links{gap:5px;padding-top:12px}.music .platform-button{gap:5px;padding:6px 7px;font-size:.66rem}.music .platform-icon{width:14px;height:14px;flex-basis:14px}.music .external-icon{display:none}.work{grid-template-columns:1fr}.project-dj{grid-template-columns:1fr}.project-dj-visual{height:210px;min-height:0}.section-head h2{font-size:1.08rem}.row{grid-template-columns:64px 1fr;column-gap:10px;row-gap:2px;padding:8px 0}.row .date,.row .meta{font-size:.77rem}.row .venue{font-size:.86rem;line-height:1.3}.row .meta{grid-column:2}}
     body{transition:opacity .28s ease,transform .28s ease}body.page-leaving{opacity:0;transform:translateY(-8px)}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}body{transition:none}body:after,.next-eq span,.button-icon{animation:none}}
+
+    /* Hero B: copy on the card, club photo on the right with Next up on it. */
+    .hero-b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
+    .hero-b-copy{display:flex;flex-direction:column;justify-content:center;min-width:0;padding:22px 40px 40px}
+    .hero-lang{display:flex;padding-bottom:26px}
+    #hero .wordmark{margin:0;font-size:clamp(4.2rem,7.4vw,6.4rem)}
+    #hero .eyebrow{margin:12px 0 14px}
+    #hero .bio{max-width:none;margin:0}
+    .bio-toggle{display:none;align-self:flex-start;margin-top:4px;padding:0;border:0;background:none;color:#191317;font:inherit;font-size:.86rem;font-weight:800;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+    .bio-less,.bio-open .bio-more{display:none}.bio-open .bio-less{display:inline}
+    #hero .actions{max-width:540px;margin-top:26px}
+    .hero-links{display:flex;flex-wrap:wrap;gap:8px 20px;margin:16px 0 0;font-size:.92rem;font-weight:800}
+    .hero-links a{text-underline-offset:4px}.hero-links a:hover{color:var(--pink)}
+    .hero-b-visual{position:relative;min-height:520px;background:#191317}
+    .hero-b-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:46% 30%}
+    #hero .next{position:absolute;left:16px;right:16px;bottom:16px;width:auto;max-width:none;justify-self:stretch;display:grid;gap:4px;margin:0;padding:14px 16px;border-radius:10px;background:#191317;color:#fffdfb;text-decoration:none;transition:transform .15s ease}
+    #hero .next:hover{transform:translateY(-2px)}#hero .next:hover .next-gig{color:var(--pink)}
+    #hero .next-heading{justify-content:flex-start;margin:0}
+    .next-gig{font-size:1.1rem;font-weight:800}
+    :focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+
+    /* Upcoming gigs in black, to match Next up and the club photo. */
+    #gigs{scroll-margin-top:16px;background:#191317;border-color:#191317;color:#fff8fb}
+    #gigs .section-head h2{color:#fff8fb}
+    #gigs .row,#gigs details{border-color:#3a2a34}
+    #gigs .date{color:#ff4fa8}
+    #gigs .meta{color:#b9adb4}
+    #gigs .row a:hover{color:#ff4fa8}
+    #gigs summary:after{color:#ff4fa8}
+    .next-tag{display:inline-block;padding:3px 8px;border-radius:6px;background:var(--pink);color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+    /* Portfolio years: plain pink text like the gig dates, instead of the old cream pill. */
+    #work .project-copy span:last-child{margin-top:8px;padding:0;border:0;background:none;color:#c8106f;font-size:.8rem;font-weight:800}
+    .project-dj-visual img[src*="dj-cap"]{object-position:50% 30%}
+
+    @media(max-width:760px){
+      .hero-b{grid-template-columns:1fr}
+      .hero-b-visual{order:-1;min-height:360px}
+      .hero-b-copy{padding:22px 20px 26px;text-align:left}
+      .hero-lang{position:absolute;top:12px;right:12px;z-index:1;padding:0}
+      #hero{position:relative}
+      #hero .wordmark{font-size:4.2rem}
+      #hero .bio{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+      #hero .bio-open .bio{display:block}
+      .bio-toggle{display:inline-block}
+      #hero .actions{max-width:none}
+    }
+    @media(prefers-reduced-motion:reduce){#hero .next{transition:none}}
   </style>
 </head>
 <body data-title-en="FREY." data-title-nl="FREY." data-description-en="FREY. is a DJ and multidisciplinary creative raised on pop culture, queer nightlife and the internet, working across social media management, social-first content and design." data-description-nl="FREY. is DJ en multidisciplinair creative, opgegroeid met popcultuur, queer nightlife en het internet, en werkt aan social media management, social-first content en design.">
   <main class="shell">
-    <article class="card hero-card">
-      <header class="hero">
-        <div class="language-row"><div class="top-controls"><div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div></div></div>
-        <div class="hero-stage">
-          <div class="hero-copy">
-            <div class="identity">
-              <div class="wordmark" aria-label="FREY.">FREY.</div>
-            </div>
-            <p class="eyebrow">DJ · Creative · Social media</p>
-            <p class="bio" data-en="FREY. is a DJ and multidisciplinary creative raised on pop culture, queer nightlife and the internet. Chronically online in the best way, I work across social media management, social-first content and design for organizations, events and creative projects." data-nl="FREY. is DJ en multidisciplinair creative, opgegroeid met popcultuur, queer nightlife en het internet. Chronically online op de beste manier, werk ik aan social media management, social-first content en design voor organisaties, events en creatieve projecten.">FREY. is a DJ and multidisciplinary creative raised on pop culture, queer nightlife and the internet. Chronically online in the best way, I work across social media management, social-first content and design for organizations, events and creative projects.</p>
-            <nav class="actions" aria-label="Main links">
+    <article class="card hero-card" id="hero">
+      <header class="hero-b">
+        <div class="hero-b-copy">
+          <div class="hero-lang"><div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div></div>
+          <h1 class="wordmark">FREY.</h1>
+          <p class="eyebrow">DJ · Creative · Social media</p>
+          <p class="bio" id="bio" data-en="FREY. is a DJ and multidisciplinary creative raised on pop culture, queer nightlife and the internet. Chronically online in the best way, I work across social media management, social-first content and design for organizations, events and creative projects." data-nl="FREY. is DJ en multidisciplinair creative, opgegroeid met popcultuur, queer nightlife en het internet. Chronically online op de beste manier, werk ik aan social media management, social-first content en design voor organisaties, events en creatieve projecten.">FREY. is a DJ and multidisciplinary creative raised on pop culture, queer nightlife and the internet. Chronically online in the best way, I work across social media management, social-first content and design for organizations, events and creative projects.</p>
+          <button class="bio-toggle" type="button" aria-controls="bio" aria-expanded="false"><span class="bio-more" data-en="Read more" data-nl="Lees meer">Read more</span><span class="bio-less" data-en="Read less" data-nl="Lees minder">Read less</span></button>
+          <nav class="actions" aria-label="Main links">
               <a class="button" href="mailto:hello@freycreates.nl">
                 <svg class="button-icon envelope-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
                 <span data-en="Bookings &amp; collabs" data-nl="Boekingen &amp; samenwerkingen">Bookings &amp; collabs</span>
@@ -218,25 +263,15 @@
                 <svg class="button-icon instagram-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
                 <span>Instagram</span>
               </a>
-              <a class="button" href="#music">
-                <svg class="button-icon headphone-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14h3v6H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 1-2Zm16 0h-3v6h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-1-2Z"/></svg>
-                <span>Mixes &amp; playlists</span>
-              </a>
-              <a class="button" href="#work">
-                <svg class="button-icon folder-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>
-                <span>Portfolio</span>
-              </a>
-            </nav>
-          </div>
-          <aside class="hero-visual" aria-label="Next booking highlight">
-            <div class="hero-photo-card">
-              <img class="portrait" src="assets/frey-portrait-new.jpeg" alt="Portrait of Frey">
-            </div>
-            <div class="next">
-              <div class="next-heading"><strong data-en="Next up" data-nl="Volgende">Next up</strong><span class="next-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span></div>
-              <a id="nextLink"><span class="next-date" id="nextDate"></span><span class="next-separator">/</span><span id="nextVenue"></span></a>
-            </div>
-          </aside>
+          </nav>
+          <p class="hero-links"><a href="#music" data-en="Mixes &amp; playlists" data-nl="Mixes &amp; playlists">Mixes &amp; playlists</a><a href="#work">Portfolio</a></p>
+        </div>
+        <div class="hero-b-visual">
+          <img src="assets/frey-dj.png" alt="FREY. DJing in a club">
+          <a class="next" id="nextLink" href="#gigs">
+            <span class="next-heading"><strong data-en="Next up" data-nl="Volgende">Next up</strong><span class="next-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span></span>
+            <span class="next-gig"><span class="next-date" id="nextDate"></span><span class="next-separator">/</span><span id="nextVenue"></span></span>
+          </a>
         </div>
       </header>
     </article>
@@ -257,7 +292,7 @@
         <div class="section-head"><h2 id="work-title">Portfolio</h2></div>
         <div class="work">
           <article class="project-dj">
-            <div class="project-dj-visual"><img src="assets/frey-dj.png" alt="FREY. DJing in a club"></div>
+            <div class="project-dj-visual"><img src="assets/dj-cap.png" alt="FREY. DJing in a white cap in front of a pink screen"></div>
             <div class="project-dj-copy">
               <h3 data-en="FREY. behind the decks" data-nl="FREY. achter de draaitafels">FREY. behind the decks</h3>
               <p data-en="Raised on Gaga, Britney and ABBA, I’ve brought pop-girl bops to queer clubs and festivals across the Netherlands and beyond since 2022." data-nl="Opgegroeid met Gaga, Britney en ABBA breng ik sinds 2022 pop-girl bops naar queer clubs en festivals in Nederland en daarbuiten.">Raised on Gaga, Britney and ABBA, I’ve brought pop-girl bops to queer clubs and festivals across the Netherlands and beyond since 2022.</p>
@@ -310,15 +345,15 @@
     const gigs=window.FREY_GIGS;
     const today=new Date();today.setHours(0,0,0,0);const parse=s=>new Date(`${s}T00:00:00`);const fmt=s=>new Intl.DateTimeFormat(window.FREY_LANGUAGE()==="nl"?"nl-NL":"en-GB",{day:"numeric",month:"short"}).format(parse(s));
     const externalIcon=`<svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>`;
-    const row=([date,venue,url])=>`<div class="row"><span class="date">${fmt(date)}</span><span class="venue">${url?`<a href="${url}" target="_blank" rel="noopener">${venue}${externalIcon}</a>`:venue}</span><span class="meta">${date.slice(0,4)}</span></div>`;
+    const row=([date,venue,url],i,list,isNext)=>`<div class="row${isNext?" is-next":""}"><span class="date">${fmt(date)}</span><span class="venue">${url?`<a href="${url}" target="_blank" rel="noopener">${venue}${externalIcon}</a>`:venue}</span><span class="meta">${isNext?`<span class="next-tag">${window.FREY_LANGUAGE()==="nl"?"Volgende":"Next up"}</span>`:date.slice(0,4)}</span></div>`;
     const upcoming=gigs.filter(g=>parse(g[0])>=today).sort((a,b)=>parse(a[0])-parse(b[0]));const past=gigs.filter(g=>parse(g[0])<today).sort((a,b)=>parse(b[0])-parse(a[0]));
     const visibleUpcoming=upcoming.slice(0,7);const remainingUpcoming=upcoming.slice(7);
     const renderGigs=()=>{
-      document.querySelector("#upcoming").innerHTML=visibleUpcoming.length?visibleUpcoming.map(row).join(""):`<p class="meta">${window.FREY_LANGUAGE()==="nl"?"Nieuwe data volgen snel.":"New dates coming soon."}</p>`;
-      document.querySelector("#upcomingMore").innerHTML=remainingUpcoming.map(row).join("");
+      document.querySelector("#upcoming").innerHTML=visibleUpcoming.length?visibleUpcoming.map((g,i)=>row(g,i,visibleUpcoming,i===0)).join(""):`<p class="meta">${window.FREY_LANGUAGE()==="nl"?"Nieuwe data volgen snel.":"New dates coming soon."}</p>`;
+      document.querySelector("#upcomingMore").innerHTML=remainingUpcoming.map(g=>row(g)).join("");
       document.querySelector("#upcomingMoreDetails").hidden=remainingUpcoming.length===0;
-      document.querySelector("#past").innerHTML=past.map(row).join("");
-      if(upcoming[0]){document.querySelector("#nextDate").textContent=fmt(upcoming[0][0]);document.querySelector("#nextVenue").textContent=upcoming[0][1];document.querySelector("#nextLink").href=upcoming[0][2]||"#gigs-title"}else{document.querySelector(".next").hidden=true}
+      document.querySelector("#past").innerHTML=past.map(g=>row(g)).join("");
+      if(upcoming[0]){document.querySelector("#nextDate").textContent=fmt(upcoming[0][0]);document.querySelector("#nextVenue").textContent=upcoming[0][1];}else{document.querySelector(".next").hidden=true}
     };
     renderGigs();window.addEventListener("languagechange",renderGigs);
     const djReadMore=document.querySelector(".dj-read-more");
@@ -328,6 +363,8 @@
       document.body.classList.add("page-leaving");
       window.setTimeout(()=>{window.location.href=djReadMore.href},280);
     });
+    const heroCopy=document.querySelector(".hero-b-copy"),bioToggle=document.querySelector(".bio-toggle");
+    bioToggle.addEventListener("click",()=>{const open=heroCopy.classList.toggle("bio-open");bioToggle.setAttribute("aria-expanded",String(open))});
     window.addEventListener("pageshow",()=>document.body.classList.remove("page-leaving"));
   </script>
 </body>
