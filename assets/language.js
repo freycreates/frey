@@ -52,8 +52,9 @@
     document.querySelectorAll("[data-en][data-nl]").forEach(el=>{el.textContent=el.dataset[lang]});
     document.querySelectorAll("[data-lang]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.lang===lang)));
     const description=document.querySelector('meta[name="description"]');
-    if(description&&document.body.dataset[`description${lang.toUpperCase()}`])description.content=document.body.dataset[`description${lang.toUpperCase()}`];
-    if(document.body.dataset[`title${lang.toUpperCase()}`])document.title=document.body.dataset[`title${lang.toUpperCase()}`];
+    const key=lang[0].toUpperCase()+lang.slice(1); // data-title-nl → dataset.titleNl
+    if(description&&document.body.dataset[`description${key}`])description.content=document.body.dataset[`description${key}`];
+    if(document.body.dataset[`title${key}`])document.title=document.body.dataset[`title${key}`];
     write(lang);
     window.dispatchEvent(new CustomEvent("languagechange",{detail:{lang}}));
   };
