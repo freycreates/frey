@@ -142,6 +142,17 @@
     html .venue-card-backsteeg .venue-card-logo{background:#f70a8c}
     html .venue-card-hullabaloo .venue-card-logo{background:#ffdd14}
     html .venue-card-prik .venue-card-logo{background:#ff70a3}
+    /* Mixes on phones: all three side by side as small tiles, like the homepage (icon-only platform buttons). */
+    @media(max-width:600px){
+      #listen .media-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+      #listen .media-card{min-height:0;padding:8px}
+      #listen .media-card .media-thumbnail,#listen .media-card .playlist-artwork{width:100%;height:auto;aspect-ratio:1;margin:0 0 7px;border-radius:7px}
+      #listen .media-card h3{font-size:.72rem;line-height:1.2;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+      #listen .media-card p{margin-top:2px;font-size:.62rem}
+      #listen .media-links{gap:4px;padding-top:7px}
+      #listen .media-link{padding:5px;border-radius:7px;font-size:0;gap:0}
+      #listen .media-icon{width:14px;height:14px;flex-basis:14px}
+    }
   </style>
 </head>
 <body data-title-en="FREY. — DJ" data-title-nl="FREY. — DJ" data-description-en="Meet FREY., a pop-focused DJ playing queer clubs, Prides and festivals." data-description-nl="Maak kennis met FREY., een popgerichte DJ voor queer clubs, Prides en festivals.">
