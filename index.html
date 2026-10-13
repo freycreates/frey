@@ -81,7 +81,7 @@
     /* Streamlined concept: calmer editorial shell, pink used around the logo, motion kept for micro-interactions. */
     :root{--bg:#fffaf7;--surface:#fffdfb;--surface-2:#f4f0eb;--text:#191317;--muted:#6d6469;--line:#ded3d0;--pink:#e61482;--violet:#3e3540;--blue:#1d6f92;--pink-soft:#fff2f8;--violet-soft:#f6f2ef;--blue-soft:#eef7f8;--shadow:0 18px 42px rgba(38,25,30,.08)}
     body{background:linear-gradient(180deg,#fffaf7 0%,#f6f1ed 100%);color:var(--text);font-family:"Inter Tight","Open Sauce",system-ui,sans-serif}
-    body:before{height:4px;background:var(--pink)}
+    body:before{display:none}
     body:after{display:none}
     .shell{width:min(100% - 52px,1040px);margin:42px auto;gap:16px}
     .card{border-color:var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow);backdrop-filter:none;-webkit-backdrop-filter:none}
@@ -266,9 +266,21 @@
     #work .cv-request{display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:11px 18px;border:1px solid #191317;border-radius:10px;background:#191317;color:#fffdfb;font-weight:800;text-decoration:none}
     #work .cv-request svg{width:17px;height:17px;fill:none;stroke:#e61482;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
     #work .cv-request:hover{transform:translateY(-1px)}
+    /* Sticky bar: FREY. + Book me, only while scrolling back up. */
+    .stickybar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px max(20px,calc((100% - 1040px)/2 + 18px));border-bottom:1px solid rgba(255,255,255,.08);background:rgba(25,19,23,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 8px 24px rgba(0,0,0,.3);transform:translateY(-100%);transition:transform .3s ease}
+    .stickybar.show{transform:none}
+    .stickybar-brand{color:#fffdfb;font-size:1.25rem;font-weight:900;letter-spacing:-.04em;text-decoration:none}
+    .stickybar-book{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;background:#fffdfb;color:#191317;font-size:.85rem;font-weight:800;text-decoration:none}
+    .stickybar-book svg{width:16px;height:16px;fill:none;stroke:#e61482;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    @media(prefers-reduced-motion:reduce){.stickybar{transition:none}}
   </style>
 </head>
 <body data-title-en="FREY. | DJ & Creative, Amsterdam-based" data-title-nl="FREY. | DJ & Creative, Amsterdam-based" data-description-en="FREY. is an Amsterdam-based DJ and creative: social media, content, design and DJ sets for brands, events and creative projects, in the Netherlands and beyond." data-description-nl="FREY. is een DJ en creative uit Amsterdam: social media, content, design en DJ-sets voor merken, events en creatieve projecten, in Nederland en daarbuiten.">
+  <!-- Sticky bar: hidden at the top and while scrolling down; slides in when you scroll up. -->
+  <div class="stickybar" id="stickybar" aria-hidden="true">
+    <a class="stickybar-brand" href="#hero" tabindex="-1">FREY<span class="dot">.</span></a>
+    <a class="stickybar-book" href="mailto:hello@freycreates.nl" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span data-en="Book me" data-nl="Boek mij">Book me</span></a>
+  </div>
   <main class="shell">
     <article class="card hero-card" id="hero">
       <header class="hero-b">
@@ -391,6 +403,19 @@
     const heroCopy=document.querySelector(".hero-b-copy"),bioToggle=document.querySelector(".bio-toggle");
     bioToggle.addEventListener("click",()=>{const open=heroCopy.classList.toggle("bio-open");bioToggle.setAttribute("aria-expanded",String(open))});
     window.addEventListener("pageshow",()=>document.body.classList.remove("page-leaving"));
+  </script>
+  <script>
+    // Sticky bar: shows when scrolling up past the hero, hides when scrolling down or back at the top.
+    (()=>{
+      const bar=document.getElementById("stickybar"),hero=document.getElementById("hero");
+      let last=scrollY;
+      const set=on=>{bar.classList.toggle("show",on);bar.setAttribute("aria-hidden",String(!on));bar.querySelectorAll("a").forEach(a=>a.tabIndex=on?0:-1)};
+      addEventListener("scroll",()=>{
+        const y=scrollY,pastHero=y>hero.offsetTop+hero.offsetHeight-60;
+        if(Math.abs(y-last)<6)return;
+        set(pastHero&&y<last);last=y;
+      },{passive:true});
+    })();
   </script>
 </body>
 </html>
