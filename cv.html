@@ -114,7 +114,6 @@
     footer a:hover{color:var(--pink)}
     @media(max-width:850px){.project-grid,.company-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-grid{grid-template-columns:1fr}}
     @media(max-width:600px){body:before{display:none}.shell{width:calc(100% - 20px);margin:14px auto;gap:12px}.topbar{padding:12px 14px}.topbar-actions{gap:8px}.download-link{font-size:.68rem;padding:5px 8px}.brand{font-size:1.12rem}.hero{grid-template-columns:82px 1fr;gap:14px;padding:20px 16px}.portrait{width:74px;height:74px;padding:3px}.hero-copy h1{font-size:2.45rem}.eyebrow{font-size:.63rem}.lead{font-size:.84rem;line-height:1.43}.quick-info{margin-top:13px}.pill{font-size:.69rem}.content{padding:20px 16px}.project-grid,.company-grid{grid-template-columns:1fr;gap:9px}.project,.company{grid-template-rows:76px auto}.project-logo,.company-logo{height:76px}.project-logo img,.company-logo img{max-height:50px}.project-dj .project-logo img{max-height:44px}.project-world-pride .project-logo img{width:56px;height:56px}.project-copy,.company-copy{padding:12px}}
-    @media print{body{background:white;color:#111}body:before,body:after,.topbar-actions{display:none}.shell{width:100%;margin:0;gap:12px}.card{border:1px solid #ddd;border-radius:0;box-shadow:none;background:white;break-inside:avoid}.hero{grid-template-columns:150px 1fr;padding:20px;text-align:left}.portrait{width:122px;height:122px;padding:4px;box-shadow:none}.hero-copy h1{color:#111;background:none;-webkit-text-fill-color:initial;font-size:3.2rem}.lead,.project-copy span,.company-copy span,.mini-list span{color:#333}.content{padding:18px 20px}.project-grid,.company-grid{grid-template-columns:repeat(3,1fr)}.project,.company,.detail-panel{break-inside:avoid}.project-logo,.company-logo{height:70px}.project-logo img,.company-logo img{max-height:48px}footer{display:none}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.project{transition:none}}
 
     /* New design, matching the homepage: dark page, light cards, Inter Tight, black FREY with a pink dot, black primary button. */
@@ -162,8 +161,52 @@
     footer{color:#d6cbd1}
     footer a:hover{color:var(--pink)}
     @media(max-width:600px){.hero-copy h1{font-size:2.9rem}.pill{min-height:40px;padding:8px 12px;font-size:.8rem}}
-    @media print{body{background:#fff}.card{background:#fff;box-shadow:none}.hero-copy h1{color:#111}.pill-primary{background:#fff;color:#111}}
     @media(prefers-reduced-motion:reduce){.pill{transition:none}}
+
+    /* Print / PDF version: one A4 page in the new style. GitHub builds assets/frey-cv.pdf from this on every push (.github/workflows/pages.yml). */
+    @page{size:A4;margin:0}
+    @media print{
+      html,body{background:#fff}
+      body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      *{transition:none!important;animation:none!important}
+      body:before{display:block;position:absolute;height:4px;background:var(--pink)}
+      body:after,.topbar-actions,.section-note,footer{display:none}
+      .shell{width:auto;margin:0;padding:26px 34px 18px;gap:16px}
+      .card{overflow:visible;border:0;border-radius:0;background:none;box-shadow:none}
+      .topbar{padding:0 0 2px;border:0}
+      .brand{font-size:15px}
+      .hero{grid-template-columns:92px 1fr;gap:20px;align-items:center;padding:6px 0 14px;border-bottom:1px solid var(--line)}
+      .portrait{width:92px;height:92px;padding:3px}
+      .hero-copy h1{font-size:54px}
+      .eyebrow{margin:8px 0;font-size:8.5px}
+      .lead{max-width:none;font-size:9.6px;line-height:1.45}
+      .quick-info{gap:6px;margin-top:10px}
+      .pill{min-height:0;gap:5px;padding:4px 9px;border-radius:6px;font-size:8.5px}
+      .pill svg{width:11px;height:11px;flex-basis:11px}
+      .pill-place{padding-left:0}
+      .content{padding:0}
+      .section-head{margin-bottom:8px}
+      .section-head h2{font-size:12px}
+      .section-head h2:after,#creative .section-head h2:after,#background .section-head h2:after,#details .section-head h2:after{width:22px;height:2px;margin-top:4px}
+      .project-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+      .company-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+      .project,.company{grid-template-rows:46px 1fr;border-radius:6px;box-shadow:none;transform:none;break-inside:avoid}
+      .project-logo,.company-logo{height:46px;padding:8px}
+      .project-logo img,.company-logo img{max-height:30px}
+      .project-world-pride .project-logo{padding:3px}.project-world-pride .project-logo img{width:40px;height:40px}
+      .project-big-break .project-logo{padding:0}
+      .project-imgroot .project-logo{gap:1px;padding:3px}.project-imgroot .project-logo img{width:28px;height:28px}.project-imgroot .project-logo b{font-size:7px}
+      .tile-wordmark{font-size:18px}
+      .project-copy,.company-copy{padding:7px 8px}
+      .project-copy strong,.company-copy strong{font-size:9px}
+      .project-copy span,.company-copy span{font-size:7.8px;line-height:1.35}
+      .company-copy .role{margin-top:5px}
+      .detail-grid{grid-template-columns:1.1fr .9fr;gap:8px}
+      .detail-panel{padding:9px 10px;break-inside:avoid}
+      .detail-panel h3{margin-bottom:6px;font-size:9.5px}
+      .tag-list{gap:4px}.tag{min-height:0;padding:3px 7px;font-size:7.8px}
+      .mini-list{gap:5px}.mini-list strong{font-size:8.5px}.mini-list span{font-size:7.8px}
+    }
   </style>
 </head>
 <body data-title-en="FREY. - CV" data-title-nl="FREY. - CV" data-description-en="Compact creative CV for FREY., a DJ and multidisciplinary creative working across social media, content and design." data-description-nl="Compact creatief CV van FREY., DJ en multidisciplinair creative op het snijvlak van social media, content en design.">
