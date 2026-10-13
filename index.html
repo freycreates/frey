@@ -262,17 +262,18 @@
     :root .site-footer span{display:inline;margin:0}
     :root .site-footer span+span:before{content:"|";margin:0 12px;color:rgba(255,255,255,.22)}
     @media(max-width:600px){:root .site-footer{gap:2px 14px}:root .site-footer span+span:before{content:none}}
-    /* Mixes on phones: compact rows (small cover left, text right, small platform buttons) instead of tall cards. */
+    /* Mixes on phones: all three side by side as small tiles (cover on top, short title, icon-only platform buttons). */
     @media(max-width:600px){
-      #music .music{grid-template-columns:1fr;gap:8px}
-      #music .tile{display:grid;grid-template-columns:64px 1fr;column-gap:12px;align-items:center;min-height:0;padding:10px}
-      #music .tile .mix-thumbnail,#music .tile .playlist-artwork{grid-row:1/span 3;width:64px;height:64px;margin:0;border-radius:8px}
-      #music .tile .title{font-size:.9rem;line-height:1.2}
-      #music .tile .meta{margin-top:1px;font-size:.72rem}
+      #music .music{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+      #music .tile{display:flex;flex-direction:column;min-height:0;padding:8px}
+      #music .tile .mix-thumbnail,#music .tile .playlist-artwork{width:100%;height:auto;aspect-ratio:1;margin:0 0 7px;border-radius:7px}
+      #music .tile .title{font-size:.72rem;line-height:1.2;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+      #music .tile .meta{margin-top:2px;font-size:.62rem}
       #music .tile .notice{display:none}
-      #music .tile .platform-links{grid-column:2;gap:5px;margin:0;padding-top:6px}
-      #music .tile .platform-button{gap:4px;padding:4px 7px;border-radius:7px;font-size:.66rem}
-      #music .tile .platform-icon{width:12px;height:12px;flex-basis:12px}
+      #music .tile .platform-links{gap:4px;margin-top:auto;padding-top:7px}
+      #music .tile .platform-button{padding:5px;border-radius:7px}
+      #music .tile .platform-button span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+      #music .tile .platform-icon{width:14px;height:14px;flex-basis:14px}
     }
   </style>
 </head>
