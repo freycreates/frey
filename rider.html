@@ -168,7 +168,14 @@
     }
     @media(max-width:430px){.stickybar-next-label{display:none}}
     @media(prefers-reduced-motion:reduce){.stickybar.solid,.stickybar-eq span{animation:none}}
-    @media print{.stickybar{display:none!important}body{padding-top:0}}
+    /* The PDF (built by GitHub from this print version) keeps its white page and the FREY. heading on top. */
+    .print-brand{display:none}
+    @media print{
+      .stickybar{display:none!important}
+      html,body{padding-top:0;background:#fff!important}
+      .shell{margin-top:0}
+      .print-brand{display:block;margin:0;padding:0 0 10px;border-bottom:1px solid var(--line);font-size:1.35rem;font-weight:900;letter-spacing:-.04em;line-height:1.5}
+    }
   </style>
 </head>
 <body data-title-en="FREY. — Technical rider" data-title-nl="FREY. — Technische rider" data-description-en="Technical rider for FREY.: the DJ setup to provide, and what FREY. brings." data-description-nl="Technische rider van FREY.: de DJ-setup die er moet staan, en wat FREY. meeneemt.">
@@ -186,6 +193,7 @@
   </nav>
   <main class="shell">
     <article class="card" id="riderhero">
+      <p class="print-brand">FREY<span class="dot">.</span></p>
       <header class="intro">
         <h1 data-en="Technical rider" data-nl="Technische rider">Technical rider</h1>
         <p class="lead" data-en="Everything I need to play." data-nl="Alles wat ik nodig heb om te draaien.">Everything I need to play.</p>
