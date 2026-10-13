@@ -320,13 +320,26 @@
     /* A hidden top bar is really gone (Safari can't pick it up for its colours). */
     .stickybar{visibility:hidden;transition:transform .3s ease,visibility 0s linear .3s}
     .stickybar.show{visibility:visible;transition:transform .3s ease,visibility 0s}
+    /* Top bar always on, right from the top: FREY., Next up (bars, date / venue) and EN/NL. */
+    .stickybar,.stickybar.show{visibility:visible;transform:none;transition:none}
+    body{padding-top:60px}
+    html{scroll-padding-top:72px}
+    .stickybar-next{opacity:0;pointer-events:none;transition:none}
+    .stickybar-next.show{opacity:1;pointer-events:auto}
+    /* Next up and EN/NL now live in the top bar only, so not on the photo or in the first card too. */
+    #hero .next,#hero .hero-lang{display:none}
+    @media(max-width:899px){.stickybar-next-label{display:inline;font-size:.6rem;letter-spacing:.08em}}
+    @media(max-width:359px){.stickybar-next-label{display:none}}
+    /* Floating at the top (no bar), a bar with the pink line once the first card scrolls under it. */
+    .stickybar:not(.solid){background:transparent;border-bottom-color:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
+    .stickybar{transition:background-color .25s ease,border-color .25s ease}
   </style>
 </head>
 <body data-title-en="FREY. | DJ & Creative, Amsterdam-based" data-title-nl="FREY. | DJ & Creative, Amsterdam-based" data-description-en="FREY. is an Amsterdam-based DJ and creative: social media, content, design and DJ sets for brands, events and creative projects, in the Netherlands and beyond." data-description-nl="FREY. is een DJ en creative uit Amsterdam: social media, content, design en DJ-sets voor merken, events en creatieve projecten, in Nederland en daarbuiten.">
-  <!-- Top bar, appears once you scroll past the first card: FREY. (to the top), language and Book me. -->
+  <!-- Top row, always visible: FREY., Next up and EN/NL; floats at the top, a bar once you scroll. -->
   <nav class="stickybar" id="stickybar" aria-label="Main">
     <a class="stickybar-brand" href="#hero" aria-label="FREY. top of page">FREY<span class="dot">.</span></a>
-    <!-- Desktop only: the next gig, shown once the big Next up card has scrolled out of view. -->
+    <!-- The next gig, filled in from the (hidden) Next up card. -->
     <a class="stickybar-next" id="stickyNext" href="#gigs" aria-hidden="true" tabindex="-1">
       <span class="stickybar-next-label" data-en="Next up" data-nl="Volgende">Next up</span>
       <span class="stickybar-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
@@ -461,34 +474,25 @@
     window.addEventListener("pageshow",()=>document.body.classList.remove("page-leaving"));
   </script>
   <script>
-    // Next gig in the top bar: copies the big Next up card and shows once that card has scrolled under the bar.
+    // Top bar, always visible: the next gig (copied from the hidden Next up card) and EN/NL.
     (()=>{
-      const pill=document.getElementById("stickyNext"),card=document.querySelector(".next"),bar=document.getElementById("stickybar");
+      const pill=document.getElementById("stickyNext"),card=document.querySelector(".next");
       if(!pill||!card)return;
       const copy=()=>{
         document.getElementById("stickyNextDate").textContent=document.getElementById("nextDate").textContent;
         // Phones: just the venue ("FERRY"), desktop: venue and city.
         const venue=document.getElementById("nextVenue").textContent;
         document.getElementById("stickyNextVenue").textContent=innerWidth<900?venue.split(",")[0]:venue;
-      };
-      const update=()=>{
-        const on=!card.hidden&&card.getBoundingClientRect().bottom<bar.getBoundingClientRect().bottom;
+        const on=!card.hidden&&venue!=="";
         pill.classList.toggle("show",on);pill.setAttribute("aria-hidden",String(!on));pill.tabIndex=on?0:-1;
       };
-      copy();update();
-      addEventListener("languagechange",()=>setTimeout(copy));
-      addEventListener("scroll",update,{passive:true});addEventListener("resize",()=>{copy();update()});
+      copy();
+      addEventListener("languagechange",()=>setTimeout(copy));addEventListener("resize",copy);
     })();
-  </script>
-  <script>
-    // Top bar: slides in once the first card has scrolled under it, hides again near the top (like imgroot.nl).
+    // Floating row at the top; becomes a bar once the first card's top edge reaches it.
     (()=>{
       const bar=document.getElementById("stickybar"),hero=document.getElementById("hero");
-      const update=()=>{
-        const on=hero.getBoundingClientRect().bottom<60;
-        bar.classList.toggle("show",on);bar.setAttribute("aria-hidden",String(!on));
-        bar.querySelectorAll("a,button").forEach(el=>el.tabIndex=on?0:-1);
-      };
+      const update=()=>bar.classList.toggle("solid",hero.getBoundingClientRect().top<bar.offsetHeight);
       addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
     })();
   </script>
