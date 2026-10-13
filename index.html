@@ -274,7 +274,6 @@
     .stickybar-book svg{width:16px;height:16px;fill:none;stroke:#e61482;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
     @media(prefers-reduced-motion:reduce){.stickybar{transition:none}}
     /* The top bar is always there; make room for it and style the language switch for the dark bar. */
-    body{padding-top:60px}
     .stickybar{height:60px;padding-top:0;padding-bottom:0}
     .stickybar-right{display:flex;align-items:center;gap:10px}
     html[data-theme] .stickybar .lang-switch,.stickybar .lang-switch{padding:3px;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:transparent}
@@ -282,8 +281,6 @@
     html[data-theme] .stickybar .lang-switch button[aria-pressed="true"],.stickybar .lang-switch button[aria-pressed="true"]{background:#fffdfb;color:#191317}
     @media(max-width:600px){.stickybar-book{padding:8px 11px}}
     /* First card sits right under the top bar: no gap, square top corners. */
-    main.shell{margin-top:0}
-    main.shell>.card:first-child{border-top-left-radius:0;border-top-right-radius:0;border-top:0}
     /* Thin pink line along the bottom of the top bar. */
     .stickybar{border-bottom:2px solid #e61482}
     /* Next gig in the top bar (desktop only, after the big Next up card is out of view). */
@@ -321,8 +318,8 @@
   </style>
 </head>
 <body data-title-en="FREY. | DJ & Creative, Amsterdam-based" data-title-nl="FREY. | DJ & Creative, Amsterdam-based" data-description-en="FREY. is an Amsterdam-based DJ and creative: social media, content, design and DJ sets for brands, events and creative projects, in the Netherlands and beyond." data-description-nl="FREY. is een DJ en creative uit Amsterdam: social media, content, design en DJ-sets voor merken, events en creatieve projecten, in Nederland en daarbuiten.">
-  <!-- Top bar, always visible: FREY. (to the top), language and Book me. -->
-  <nav class="stickybar show" id="stickybar" aria-label="Main">
+  <!-- Top bar, appears once you scroll past the first card: FREY. (to the top), language and Book me. -->
+  <nav class="stickybar" id="stickybar" aria-label="Main">
     <a class="stickybar-brand" href="#hero" aria-label="FREY. top of page">FREY<span class="dot">.</span></a>
     <!-- Desktop only: the next gig, shown once the big Next up card has scrolled out of view. -->
     <a class="stickybar-next" id="stickyNext" href="#gigs" aria-hidden="true" tabindex="-1">
@@ -338,6 +335,7 @@
     <article class="card hero-card" id="hero">
       <header class="hero-b">
         <div class="hero-b-copy">
+          <div class="hero-lang"><div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div></div>
           
           <h1 class="wordmark">FREY<span class="dot">.</span></h1>
           <p class="eyebrow">DJ · Creative · Social media</p>
@@ -475,6 +473,18 @@
       copy();update();
       addEventListener("languagechange",()=>setTimeout(copy));
       addEventListener("scroll",update,{passive:true});addEventListener("resize",()=>{copy();update()});
+    })();
+  </script>
+  <script>
+    // Top bar: slides in once the first card has scrolled under it, hides again near the top (like imgroot.nl).
+    (()=>{
+      const bar=document.getElementById("stickybar"),hero=document.getElementById("hero");
+      const update=()=>{
+        const on=hero.getBoundingClientRect().bottom<60;
+        bar.classList.toggle("show",on);bar.setAttribute("aria-hidden",String(!on));
+        bar.querySelectorAll("a,button").forEach(el=>el.tabIndex=on?0:-1);
+      };
+      addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
     })();
   </script>
 </body>

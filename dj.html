@@ -195,7 +195,6 @@
     .stickybar-book svg{width:16px;height:16px;fill:none;stroke:#e61482;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
     @media(prefers-reduced-motion:reduce){.stickybar{transition:none}}
     /* /dj: the top bar is always there; make room for it and style the language switch for the dark bar. */
-    body{padding-top:60px}
     .stickybar{height:60px;padding-top:0;padding-bottom:0}
     .stickybar-right{display:flex;align-items:center;gap:10px}
     html[data-theme] .stickybar .lang-switch,.stickybar .lang-switch{padding:3px;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:transparent}
@@ -203,8 +202,6 @@
     html[data-theme] .stickybar .lang-switch button[aria-pressed="true"],.stickybar .lang-switch button[aria-pressed="true"]{background:#fffdfb;color:#191317}
     @media(max-width:600px){.stickybar-book{padding:8px 11px}}
     /* First card sits right under the top bar: no gap, square top corners. */
-    main.shell{margin-top:0}
-    main.shell>.card:first-child{border-top-left-radius:0;border-top-right-radius:0;border-top:0}
     /* Thin pink line along the bottom of the top bar. */
     .stickybar{border-bottom:2px solid #e61482}
     /* Which page you're on: a small DJ label next to FREY. */
@@ -242,11 +239,13 @@
       .stickybar-next{margin:0 4px;gap:6px}
       .stickybar-eq{gap:2px}.stickybar-eq span{width:3px}
     }
+    .hero-lang{display:flex;padding-bottom:22px}
+    @media(max-width:800px){.hero-lang{padding-bottom:16px}}
   </style>
 </head>
 <body data-title-en="DJ FREY. | Queer DJ in Amsterdam" data-title-nl="DJ FREY. | Queer DJ in Amsterdam" data-description-en="DJ FREY is a queer DJ from Amsterdam playing pop, house and club classics, from hyperpop to dance. Gigs, mixes and bookings." data-description-nl="DJ FREY is een queer DJ uit Amsterdam met pop, house en clubklassiekers, van hyperpop tot dance. Gigs, mixes en boekingen.">
-  <!-- Top bar, always visible on /dj: FREY. (to the homepage), language and Book me. -->
-  <nav class="stickybar show" id="stickybar" aria-label="DJ page navigation">
+  <!-- Top bar, appears once you scroll past the first card on /dj: FREY. (to the homepage), language and Book me. -->
+  <nav class="stickybar" id="stickybar" aria-label="DJ page navigation">
     <div class="stickybar-left"><a class="stickybar-brand" href="index.html" aria-label="FREY. homepage">FREY<span class="dot">.</span></a><span class="stickybar-page">DJ</span></div>
     <!-- Desktop only: the next gig, shown once the big Next up card has scrolled out of view. -->
     <a class="stickybar-next" id="stickyNext" href="#dates" aria-hidden="true" tabindex="-1">
@@ -268,6 +267,7 @@
           </a>
         </div>
         <div class="hero-copy">
+          <div class="hero-lang"><div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div></div>
           <h1>FREY<span class="dot">.</span></h1>
           <p class="lead" data-en="Raised on Gaga, Britney and ABBA, finding religion in the queer club scene. My sets go from pop-girl bops to hyperpop, dance and house: big singalongs and harder peaks, all in one night." data-nl="Opgegroeid met Gaga, Britney en ABBA, mijn geloof gevonden in de queer clubscene. Mijn sets gaan van pop-girl bops naar hyperpop, dance en house: grote meezingers en hardere pieken, allemaal in één nacht.">Raised on Gaga, Britney and ABBA, finding religion in the queer club scene. My sets go from pop-girl bops to hyperpop, dance and house: big singalongs and harder peaks, all in one night.</p>
           <div class="hero-actions">
@@ -381,6 +381,18 @@
       copy();update();
       addEventListener("languagechange",()=>setTimeout(copy));
       addEventListener("scroll",update,{passive:true});addEventListener("resize",()=>{copy();update()});
+    })();
+  </script>
+  <script>
+    // Top bar: slides in once the first card has scrolled under it, hides again near the top (like imgroot.nl).
+    (()=>{
+      const bar=document.getElementById("stickybar"),hero=document.getElementById("djhero");
+      const update=()=>{
+        const on=hero.getBoundingClientRect().bottom<60;
+        bar.classList.toggle("show",on);bar.setAttribute("aria-hidden",String(!on));
+        bar.querySelectorAll("a,button").forEach(el=>el.tabIndex=on?0:-1);
+      };
+      addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
     })();
   </script>
 </body>
