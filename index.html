@@ -346,9 +346,9 @@
     .stickybar-next{top:calc(50% + env(safe-area-inset-top)/2)}
     /* Safari 26 paints the area behind the clock in the colour of a fixed bar at the top; no blur on the bar. */
     .stickybar,.stickybar.solid,html[data-theme] .stickybar{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:0}
-    /* Like imgroot.nl: a nearly solid bar in the page colour, no blur. Safari paints the area behind the clock in that same colour,
-       so clock area and bar read as one piece (with the page just showing through). */
-    .stickybar.solid,html[data-theme] .stickybar.solid{background:rgba(15,13,16,.94)}
+    /* A solid bar in the page colour (#0f0d10, as theme-color), no blur. Safari paints the area behind the clock in that same colour,
+       so clock area and bar read as one piece. Any see-through turns it grey over the white cards. */
+    .stickybar.solid,html[data-theme] .stickybar.solid{background:#0f0d10}
     .stickybar.solid::before{content:"";position:absolute;inset:0;z-index:-1;border-bottom:2px solid #e61482;pointer-events:none}
     /* First card sits just under the floating row, no big gap. */
     main.shell{margin-top:6px}
