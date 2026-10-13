@@ -269,6 +269,8 @@
     /* At the top the row scrolls away with the page (nothing fixed, so Safari keeps its see-through toolbar);
        the bar only slides in once the whole first card has scrolled past. */
     .stickybar:not(.solid){position:absolute}
+    #stickybar:not(.solid){display:none}
+    .stickybar-next-gig>span:first-child{text-transform:uppercase}
     .stickybar.solid{animation:barIn .3s ease}
     @keyframes barIn{from{transform:translateY(-100%)}}
     @media(prefers-reduced-motion:reduce){.stickybar.solid{animation:none}}
@@ -427,10 +429,20 @@
       copy();
       addEventListener("languagechange",()=>setTimeout(copy));addEventListener("resize",copy);
     })();
-    // Row at the top scrolls away; the bar slides in once the whole first card has scrolled past.
+    // Two separate pieces: a row at the top that is part of the page (scrolls away), and the fixed bar,
+    // which is display:none until the whole first card has scrolled past. iPhone Safari keeps its black
+    // tint as long as a fixed bar exists, so the bar has to be really gone near the top.
     (()=>{
       const bar=document.getElementById("stickybar"),hero=document.getElementById("djhero");
-      const update=()=>bar.classList.toggle("solid",hero.getBoundingClientRect().bottom<bar.offsetHeight);
+      const row=bar.cloneNode(true);
+      row.id="toprow";row.classList.remove("solid");row.removeAttribute("aria-label");row.setAttribute("aria-label","Top");
+      row.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
+      bar.before(row);
+      // Keep the row's next gig in step with the bar's, and let its EN/NL press the bar's buttons.
+      const sync=()=>{const a=row.querySelector(".stickybar-next"),b=bar.querySelector(".stickybar-next");a.innerHTML=b.innerHTML;a.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));a.className=b.className;a.tabIndex=b.tabIndex;a.setAttribute("aria-hidden",b.getAttribute("aria-hidden"))};
+      sync();addEventListener("languagechange",()=>setTimeout(()=>setTimeout(sync)));addEventListener("resize",()=>setTimeout(sync));
+      row.addEventListener("click",e=>{const btn=e.target.closest("[data-lang]");if(btn)bar.querySelector(`[data-lang="${btn.dataset.lang}"]`).click()});
+      const update=()=>bar.classList.toggle("solid",hero.getBoundingClientRect().bottom<60);
       addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
     })();
   </script>
