@@ -241,12 +241,19 @@
     }
     .hero-lang{display:flex;padding-bottom:22px}
     @media(max-width:800px){.hero-lang{padding-bottom:16px}}
+    /* Back to the homepage: a quiet "‹ Home" next to EN/NL, and a ‹ before FREY. in the top bar. */
+    .hero-lang{align-items:center;gap:14px}
+    .back-home{color:#6d6469;font-size:.8rem;font-weight:800;text-decoration:none}
+    .back-home span[aria-hidden]{margin-right:2px;font-size:1.05rem}
+    .back-home:hover{color:#e61482}
+    .stickybar-back{margin-right:6px;color:rgba(255,255,255,.55);font-weight:700}
+    .stickybar-brand:hover .stickybar-back{color:#e61482}
   </style>
 </head>
 <body data-title-en="DJ FREY. | Queer DJ in Amsterdam" data-title-nl="DJ FREY. | Queer DJ in Amsterdam" data-description-en="DJ FREY is a queer DJ from Amsterdam playing pop, house and club classics, from hyperpop to dance. Gigs, mixes and bookings." data-description-nl="DJ FREY is een queer DJ uit Amsterdam met pop, house en clubklassiekers, van hyperpop tot dance. Gigs, mixes en boekingen.">
   <!-- Top bar, appears once you scroll past the first card on /dj: FREY. (to the homepage), language and Book me. -->
   <nav class="stickybar" id="stickybar" aria-label="DJ page navigation">
-    <div class="stickybar-left"><a class="stickybar-brand" href="index.html" aria-label="FREY. homepage">FREY<span class="dot">.</span></a><span class="stickybar-page">DJ</span></div>
+    <div class="stickybar-left"><a class="stickybar-brand" href="index.html" aria-label="FREY. homepage"><span class="stickybar-back" aria-hidden="true">‹</span>FREY<span class="dot">.</span></a><span class="stickybar-page">DJ</span></div>
     <!-- Desktop only: the next gig, shown once the big Next up card has scrolled out of view. -->
     <a class="stickybar-next" id="stickyNext" href="#dates" aria-hidden="true" tabindex="-1">
       <span class="stickybar-next-label" data-en="Next up" data-nl="Volgende">Next up</span>
@@ -267,7 +274,7 @@
           </a>
         </div>
         <div class="hero-copy">
-          <div class="hero-lang"><div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div></div>
+          <div class="hero-lang"><a class="back-home" href="index.html"><span aria-hidden="true">‹</span> <span data-en="Home" data-nl="Home">Home</span></a><div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div></div>
           <h1>FREY<span class="dot">.</span></h1>
           <p class="lead" data-en="Raised on Gaga, Britney and ABBA, finding religion in the queer club scene. My sets go from pop-girl bops to hyperpop, dance and house: big singalongs and harder peaks, all in one night." data-nl="Opgegroeid met Gaga, Britney en ABBA, mijn geloof gevonden in de queer clubscene. Mijn sets gaan van pop-girl bops naar hyperpop, dance en house: grote meezingers en hardere pieken, allemaal in één nacht.">Raised on Gaga, Britney and ABBA, finding religion in the queer club scene. My sets go from pop-girl bops to hyperpop, dance and house: big singalongs and harder peaks, all in one night.</p>
           <div class="hero-actions">
