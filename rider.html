@@ -116,6 +116,14 @@
       *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
     }
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
+
+    /* Footer, the same on every page: one row, thin separators; stacks without separators on a phone.
+       KVK and btw-id (not the BSN-based omzetbelastingnummer) are required on a business website. */
+    :root .site-footer{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 0;padding:18px 20px 26px;color:#b9adb4;font-size:.8rem;font-weight:600;line-height:1.5;text-align:center}
+    :root .site-footer span{display:inline;margin:0}
+    :root .site-footer span+span:before{content:"|";margin:0 12px;color:rgba(255,255,255,.22)}
+    @media(max-width:600px){:root .site-footer{gap:2px 14px}:root .site-footer span+span:before{content:none}}
+    @media print{:root .site-footer{justify-content:flex-start;padding:4px 0 0;color:var(--muted);font-size:.72rem}:root .site-footer span+span:before{content:"|";margin:0 10px;color:var(--line)}}
   </style>
 </head>
 <body data-title-en="FREY. — Technical rider" data-title-nl="FREY. — Technische rider" data-description-en="Technical rider for FREY.: the DJ setup to provide, and what FREY. brings." data-description-nl="Technische rider van FREY.: de DJ-setup die er moet staan, en wat FREY. meeneemt.">
@@ -173,7 +181,7 @@
       </section>
     </article>
 
-    <footer>2026 © FREY. · hello@freycreates.nl</footer>
+    <footer class="site-footer"><span>2026 © FREY.</span><span data-en="Website by Frey Creates" data-nl="Website door Frey Creates">Website by Frey Creates</span><span>Amsterdam</span><span>KVK 94022607</span><span data-en="VAT NL004806430B32" data-nl="BTW NL004806430B32">VAT NL004806430B32</span><span><a href="mailto:hello@freycreates.nl">hello@freycreates.nl</a></span></footer>
   </main>
   <script src="assets/language.js"></script>
 </body>

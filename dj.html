@@ -128,6 +128,13 @@
     @media(prefers-reduced-motion:reduce){.next{transition:none}.next-eq span{animation:none}}
     /* Wordmark dot in pink, like the icon and /cv. */
     .dot{color:#e61482}
+
+    /* Footer, the same on every page: one row, thin separators; stacks without separators on a phone.
+       KVK and btw-id (not the BSN-based omzetbelastingnummer) are required on a business website. */
+    :root .site-footer{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 0;padding:18px 20px 26px;color:#b9adb4;font-size:.8rem;font-weight:600;line-height:1.5;text-align:center}
+    :root .site-footer span{display:inline;margin:0}
+    :root .site-footer span+span:before{content:"|";margin:0 12px;color:rgba(255,255,255,.22)}
+    @media(max-width:600px){:root .site-footer{gap:2px 14px}:root .site-footer span+span:before{content:none}}
   </style>
 </head>
 <body data-title-en="FREY. — DJ" data-title-nl="FREY. — DJ" data-description-en="Meet FREY., a pop-focused DJ playing queer clubs, Prides and festivals." data-description-nl="Maak kennis met FREY., een popgerichte DJ voor queer clubs, Prides en festivals.">
@@ -212,7 +219,7 @@
         <a class="button button-secondary" href="rider.html" data-en="Technical rider" data-nl="Technische rider">Technical rider</a>
       </div>
     </section>
-    <footer>2026 © FREY.<br><span data-en="Website by Frey Creates" data-nl="Website door Frey Creates">Website by Frey Creates</span><br><span data-en="Amsterdam Based" data-nl="Amsterdam Based">Amsterdam Based</span><br><span>KVK: 94022607</span></footer>
+    <footer class="site-footer"><span>2026 © FREY.</span><span data-en="Website by Frey Creates" data-nl="Website door Frey Creates">Website by Frey Creates</span><span>Amsterdam</span><span>KVK 94022607</span><span data-en="VAT NL004806430B32" data-nl="BTW NL004806430B32">VAT NL004806430B32</span></footer>
   </main>
   <script src="assets/mixes.js"></script>
   <script src="assets/venues.js"></script>

@@ -212,6 +212,14 @@
       .tag-list{gap:4px}.tag{min-height:0;padding:3px 7px;font-size:7.8px}
       .mini-list{gap:5px}.mini-list strong{font-size:8.5px}.mini-list span{font-size:7.8px}
     }
+
+    /* Footer, the same on every page: one row, thin separators; stacks without separators on a phone.
+       KVK and btw-id (not the BSN-based omzetbelastingnummer) are required on a business website. */
+    :root .site-footer{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 0;padding:18px 20px 26px;color:#b9adb4;font-size:.8rem;font-weight:600;line-height:1.5;text-align:center}
+    :root .site-footer span{display:inline;margin:0}
+    :root .site-footer span+span:before{content:"|";margin:0 12px;color:rgba(255,255,255,.22)}
+    @media(max-width:600px){:root .site-footer{gap:2px 14px}:root .site-footer span+span:before{content:none}}
+    @media print{:root .site-footer{display:none}}
   </style>
 </head>
 <body data-title-en="FREY. - CV" data-title-nl="FREY. - CV" data-description-en="Compact creative CV for FREY., a DJ and multidisciplinary creative working across social media, content and design." data-description-nl="Compact creatief CV van FREY., DJ en multidisciplinair creative op het snijvlak van social media, content en design.">
@@ -327,7 +335,7 @@
         </div>
       </div>
     </section>
-    <footer>2026 © FREY.</footer>
+    <footer class="site-footer"><span>2026 © FREY.</span><span data-en="Website by Frey Creates" data-nl="Website door Frey Creates">Website by Frey Creates</span><span>Amsterdam</span><span>KVK 94022607</span><span data-en="VAT NL004806430B32" data-nl="BTW NL004806430B32">VAT NL004806430B32</span></footer>
   </main>
   <script src="assets/language.js"></script>
 </body>
