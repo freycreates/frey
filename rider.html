@@ -59,7 +59,8 @@
     /* Example setups: two product photos side by side, on white so their white backgrounds blend in. */
     .setups{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:26px 40px 28px}
     .setups figure{margin:0}
-    .setups img{display:block;width:100%;height:auto;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+    /* Same box for both photos (they have slightly different proportions), so the boxes and captions line up. */
+    .setups img{display:block;width:100%;height:auto;aspect-ratio:900/423;object-fit:contain;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
     .setups figcaption{margin-top:9px;color:var(--muted);font-size:.86rem;font-weight:700;line-height:1.35}
     .rider{display:grid;grid-template-columns:1.25fr 1fr;gap:0}
     .rider section{padding:32px 40px 36px}
