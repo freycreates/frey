@@ -30,7 +30,7 @@
       card.target="_blank";
       card.rel="noopener";
       card.setAttribute("aria-label","View DJ Rewind");
-      card.innerHTML=projectMarkup('<strong>DJ Rewind <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Listening-history web app for DJs</span><span>2026-now</span>');
+      card.innerHTML=projectMarkup('<strong>DJ Rewind <svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg></strong><span>Listening-history iOS app for DJs</span><span>2026-now</span>');
       (homeGrid.querySelector(".project:not(.project-rewind)")||homeGrid.firstElementChild)?.after(card);
       loadRewindLogo(card.querySelector("img"));
     }
@@ -42,7 +42,7 @@
       card.target="_blank";
       card.rel="noopener";
       card.setAttribute("aria-label","View DJ Rewind");
-      card.innerHTML=projectMarkup('<strong>DJ Rewind</strong><span data-en="Web app concept, visual identity and build for DJ listening recaps." data-nl="Webapp-concept, visual identity en bouw voor luisterrecaps voor DJs.">Web app concept, visual identity and build for DJ listening recaps.</span><span class="date" data-en="2026-now" data-nl="2026-nu">2026-now</span>');
+      card.innerHTML=projectMarkup('<strong>DJ Rewind</strong><span data-en="iOS app concept, visual identity and build for DJ listening recaps." data-nl="iOS-appconcept, visual identity en bouw voor luisterrecaps voor DJs.">iOS app concept, visual identity and build for DJ listening recaps.</span><span class="date" data-en="2026-now" data-nl="2026-nu">2026-now</span>');
       (cvGrid.querySelector(".project-world-pride")||cvGrid.firstElementChild)?.after(card);
       loadRewindLogo(card.querySelector("img"));
     }
