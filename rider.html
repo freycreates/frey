@@ -32,7 +32,7 @@
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{min-height:100vh;margin:0;background:linear-gradient(180deg,#0f0d10 0%,#191117 100%);color:var(--ink);font-family:"Inter Tight",system-ui,sans-serif;line-height:1.5}
-    body:before{content:"";position:fixed;inset:0 0 auto;height:4px;background:var(--pink);z-index:3}
+    @media print{body:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:var(--pink);z-index:3}}
     a{color:inherit}
     :focus-visible{outline:3px solid var(--pink);outline-offset:3px}
     .dot{color:var(--pink)}
@@ -126,18 +126,66 @@
     :root .site-footer span+span:before{content:"|";margin:0 12px;color:rgba(255,255,255,.22)}
     @media(max-width:600px){:root .site-footer{gap:2px 14px}:root .site-footer span+span:before{content:none}}
     @media print{:root .site-footer{justify-content:flex-start;padding:4px 0 0;color:var(--muted);font-size:.72rem}:root .site-footer span+span:before{content:"|";margin:0 10px;color:var(--line)}}
+
+    /* Top row and bar, the same as the homepage and /dj: the row scrolls away with the page; the bar (frosted on Mac,
+       solid on phones so it matches Safari's clock area) only exists once the first card has scrolled past. */
+    body{padding-top:60px;background-color:#0f0d10}
+    .shell{margin-top:6px}
+    .stickybar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px;padding:0 max(20px,calc((100% - 880px)/2 + 18px))}
+    #stickybar:not(.solid){display:none}
+    .stickybar.solid{position:fixed;background:#0f0d10;animation:barIn .3s ease}
+    @media(hover:hover) and (pointer:fine){.stickybar.solid{background:rgba(25,19,23,.58);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5)}}
+    .stickybar.solid::before{content:"";position:absolute;inset:0;z-index:-1;border-bottom:2px solid var(--pink);pointer-events:none}
+    @keyframes barIn{from{transform:translateY(-100%)}}
+    .stickybar-left{display:flex;align-items:center;gap:10px}
+    .stickybar-brand{color:#fffdfb;font-size:1.25rem;font-weight:900;letter-spacing:-.04em;text-decoration:none}
+    .stickybar-back{margin-right:6px;color:rgba(255,255,255,.55);font-weight:700}
+    .stickybar-brand:hover .stickybar-back{color:var(--pink)}
+    .stickybar-page{padding:3px 8px;border:1px solid rgba(230,20,130,.7);border-radius:6px;color:#ff4fa8;font-size:.72rem;font-weight:800;letter-spacing:.08em}
+    .stickybar-next{position:absolute;left:50%;top:50%;display:flex;align-items:center;gap:10px;color:#fffdfb;text-decoration:none;white-space:nowrap;opacity:0;pointer-events:none;transform:translate(-50%,-50%)}
+    .stickybar-next.show{opacity:1;pointer-events:auto}
+    .stickybar-next-label{color:#ff4fa8;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .stickybar-next-gig{font-size:1rem;font-weight:800}
+    .stickybar-next-gig>span:first-child{text-transform:uppercase}
+    .stickybar-next-sep{margin:0 7px;color:var(--pink)}
+    .stickybar-next:hover .stickybar-next-gig{color:#ff4fa8}
+    .stickybar-eq{display:flex;align-items:flex-end;gap:3px;height:13px}
+    .stickybar-eq span{display:block;width:4px;border-radius:2px;background:var(--pink);animation:stickyEq 1s ease-in-out infinite alternate}
+    .stickybar-eq span:nth-child(1){height:6px}.stickybar-eq span:nth-child(2){height:11px;animation-delay:-.35s}.stickybar-eq span:nth-child(3){height:7px;animation-delay:-.7s}.stickybar-eq span:nth-child(4){height:13px;animation-delay:-.2s}
+    @keyframes stickyEq{to{height:4px}}
+    .stickybar-right{display:flex;align-items:center}
+    .stickybar .lang-switch{padding:2px;border:1px solid rgba(255,255,255,.16);border-radius:6px;background:transparent}
+    .stickybar .lang-switch button{padding:3px 6px;border-radius:4px;background:transparent;color:rgba(255,255,255,.62);font-size:.62rem;font-weight:800;line-height:1.2}
+    .stickybar .lang-switch button[aria-pressed="true"]{background:#fffdfb;color:var(--ink)}
+    @media(max-width:899px){
+      .stickybar{padding:0 14px;gap:8px}
+      .stickybar-left{gap:7px}
+      .stickybar-page{padding:2px 6px;font-size:.64rem}
+      .stickybar-next{position:static;flex:1 1 auto;min-width:0;justify-content:center;gap:6px;margin:0 4px;transform:none}
+      .stickybar-next-label{font-size:.6rem;letter-spacing:.08em}
+      .stickybar-next-gig{overflow:hidden;font-size:.8rem;text-overflow:ellipsis}
+      .stickybar-eq{gap:2px}.stickybar-eq span{width:3px}
+    }
+    @media(max-width:430px){.stickybar-next-label{display:none}}
+    @media(prefers-reduced-motion:reduce){.stickybar.solid,.stickybar-eq span{animation:none}}
+    @media print{.stickybar{display:none!important}body{padding-top:0}}
   </style>
 </head>
 <body data-title-en="FREY. — Technical rider" data-title-nl="FREY. — Technische rider" data-description-en="Technical rider for FREY.: the DJ setup to provide, and what FREY. brings." data-description-nl="Technische rider van FREY.: de DJ-setup die er moet staan, en wat FREY. meeneemt.">
+  <!-- Top row: ‹ FREY. back to the DJ page, Next up and EN/NL; scrolls away at the top, a bar after the first card. -->
+  <nav class="stickybar" id="stickybar" aria-label="Rider navigation">
+    <div class="stickybar-left"><a class="stickybar-brand" href="dj.html" aria-label="Back to the DJ page"><span class="stickybar-back" aria-hidden="true">‹</span>FREY<span class="dot">.</span></a><span class="stickybar-page">RIDER</span></div>
+    <a class="stickybar-next" id="stickyNext" href="dj.html#dates" aria-hidden="true" tabindex="-1">
+      <span class="stickybar-next-label" data-en="Next up" data-nl="Volgende">Next up</span>
+      <span class="stickybar-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+      <span class="stickybar-next-gig"><span id="stickyNextDate"></span><span class="stickybar-next-sep">/</span><span id="stickyNextVenue"></span></span>
+    </a>
+    <div class="stickybar-right">
+      <div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div>
+    </div>
+  </nav>
   <main class="shell">
-    <article class="card">
-      <nav class="topbar" aria-label="Rider navigation">
-        <a class="brand" href="index.html">FREY<span class="dot">.</span></a>
-        <div class="topbar-actions">
-          <div class="lang-switch" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="nl" aria-pressed="false">NL</button></div>
-          <a class="back" href="dj.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span data-en="Back to DJ page" data-nl="Terug naar DJ-pagina">Back to DJ page</span></a>
-        </div>
-      </nav>
+    <article class="card" id="riderhero">
       <header class="intro">
         <h1 data-en="Technical rider" data-nl="Technische rider">Technical rider</h1>
         <p class="lead" data-en="Everything I need to play." data-nl="Alles wat ik nodig heb om te draaien.">Everything I need to play.</p>
@@ -186,5 +234,35 @@
     <footer class="site-footer"><span>2026 © FREY.</span><span data-en="Website by Frey Creates" data-nl="Website door Frey Creates">Website by Frey Creates</span><span>Amsterdam</span><span>KVK 94022607</span><span data-en="VAT NL004806430B32" data-nl="BTW NL004806430B32">VAT NL004806430B32</span><span><a href="mailto:hello@freycreates.nl">hello@freycreates.nl</a></span></footer>
   </main>
   <script src="assets/language.js"></script>
+  <script src="assets/gigs.js"></script>
+  <script>
+    // Next gig in the top row/bar, from the same gig list as the homepage and /dj.
+    (()=>{
+      const pill=document.getElementById("stickyNext"),today=new Date();today.setHours(0,0,0,0);
+      const parse=d=>new Date(`${d}T00:00:00`);
+      const next=(window.FREY_GIGS||[]).filter(g=>parse(g[0])>=today).sort((a,b)=>parse(a[0])-parse(b[0]))[0];
+      const fill=()=>{
+        if(!next)return;
+        document.getElementById("stickyNextDate").textContent=new Intl.DateTimeFormat(window.FREY_LANGUAGE()==="nl"?"nl-NL":"en-GB",{day:"numeric",month:"short"}).format(parse(next[0]));
+        document.getElementById("stickyNextVenue").textContent=innerWidth<900?next[1].split(",")[0]:next[1];
+        pill.classList.add("show");pill.setAttribute("aria-hidden","false");pill.tabIndex=0;
+      };
+      fill();addEventListener("languagechange",fill);addEventListener("resize",fill);
+    })();
+    // Two pieces, as on the homepage and /dj: a row that scrolls away, and the fixed bar, which is display:none
+    // until the first card has scrolled past (iPhone Safari keeps its black tint as long as a fixed bar exists).
+    (()=>{
+      const bar=document.getElementById("stickybar"),hero=document.getElementById("riderhero");
+      const row=bar.cloneNode(true);
+      row.id="toprow";row.setAttribute("aria-label","Top");
+      row.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
+      bar.before(row);
+      const sync=()=>{const a=row.querySelector(".stickybar-next"),b=bar.querySelector(".stickybar-next");a.innerHTML=b.innerHTML;a.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));a.className=b.className;a.tabIndex=b.tabIndex;a.setAttribute("aria-hidden",b.getAttribute("aria-hidden"))};
+      sync();addEventListener("languagechange",()=>setTimeout(sync));addEventListener("resize",()=>setTimeout(sync));
+      row.addEventListener("click",e=>{const btn=e.target.closest("[data-lang]");if(btn)bar.querySelector(`[data-lang="${btn.dataset.lang}"]`).click()});
+      const update=()=>bar.classList.toggle("solid",hero.getBoundingClientRect().bottom<60);
+      addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
+    })();
+  </script>
 </body>
 </html>
