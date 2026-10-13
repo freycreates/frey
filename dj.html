@@ -124,7 +124,8 @@
     #dates summary:after{color:#ff4fa8}
     .next-tag{display:inline-block;padding:3px 8px;border-radius:6px;background:var(--pink);color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
     :focus-visible{outline:3px solid var(--pink);outline-offset:3px}
-    @media(max-width:800px){.hero{grid-template-columns:1fr}.hero-photo{order:-1}.hero-copy{padding:30px 22px 34px}}
+    /* Phone: a shorter photo so the name and buttons show without scrolling; the photo crops around your face. */
+    @media(max-width:800px){.hero{grid-template-columns:1fr;min-height:0}.hero-photo{order:-1;min-height:0;height:min(40vh,330px)}.hero-photo img{object-position:60% 35%}.hero-copy{padding:24px 22px 28px}.hero-actions{flex-wrap:nowrap;gap:8px}.hero-actions .button{white-space:nowrap;padding:9px 12px}}
     @media(prefers-reduced-motion:reduce){.next{transition:none}.next-eq span{animation:none}}
     /* Wordmark dot in pink, like the icon and /cv. */
     .dot{color:#e61482}
