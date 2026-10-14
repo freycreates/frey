@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BASS BTCH | Queer DJ</title>
+  <meta name="description" content="BASS BTCH is a queer DJ serving energy, joy and attitude: iconic queer anthems and unexpected house edits. Listen to the mixes and book BASS BTCH.">
+  <!-- TEST PHASE: hidden from search engines. At launch on bassbtch.com, change to "index, follow" and add the canonical link below. -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <!-- <link rel="canonical" href="https://bassbtch.com/"> -->
+  <meta name="theme-color" content="#12062A">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BASS BTCH">
+  <meta property="og:title" content="BASS BTCH | Queer DJ">
+  <meta property="og:description" content="Energy, joy and attitude. Iconic queer anthems and unexpected house edits.">
+  <meta property="og:image" content="https://freycreates.nl/bbconcept/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The BASS BTCH logo next to a photo of BASS BTCH DJing under purple light">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=DM+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="assets/brand.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "BASS BTCH",
+    "jobTitle": "DJ",
+    "email": "mailto:basvdsalm@gmail.com",
+    "sameAs": [
+      "https://www.instagram.com/bassbtch",
+      "https://soundcloud.com/bass-btch-742360409"
+    ]
+  }
+  </script>
+
+  <style>
+    /* ---------- Header ---------- */
+    .site-header {
+      position: absolute; inset: 0 0 auto 0; z-index: 10;
+      padding-top: max(22px, env(safe-area-inset-top));
+    }
+    .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 56px; }
+    .site-header .logo { font-size: 26px; }
+    .nav { display: flex; align-items: center; gap: 28px; }
+    .nav a { text-decoration: none; color: var(--muted); transition: color .15s; }
+    .nav a:hover { color: var(--color-4); }
+    .nav .ig {
+      display: inline-grid; place-items: center; width: 40px; height: 40px;
+      border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--color-4);
+    }
+    .nav .ig:hover { border-color: var(--color-4); }
+    .nav .ig svg { width: 18px; height: 18px; }
+
+    /* ---------- Hero ---------- */
+    .hero { position: relative; overflow: hidden; background: var(--dj); }
+    .hero-grid {
+      display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+      align-items: end; gap: 40px;
+      min-height: min(100svh, 920px);
+      padding-top: 120px;
+    }
+    .hero-copy { padding-bottom: clamp(48px, 9vh, 104px); position: relative; z-index: 2; }
+    .hero-copy .label { color: var(--muted); margin: 0 0 22px; }
+    .hero h1 { font-size: clamp(44px, 6.6vw, 100px); }
+    .hero h1 span { display: block; white-space: nowrap; }
+    .hero p.lede { max-width: 30em; margin: 28px 0 36px; color: var(--color-4); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .hero-photo { position: relative; align-self: stretch; margin-right: calc(-1 * (var(--gutter) + max(0px, (100vw - var(--max)) / 2))); }
+    .hero-photo img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: 50% 30%;
+    }
+    .hero-photo::after {
+      content: ""; position: absolute; inset: 0;
+      background:
+        linear-gradient(90deg, var(--dj) 0%, rgba(18,6,42,0) 32%),
+        linear-gradient(0deg, var(--dj) 0%, rgba(18,6,42,0) 26%),
+        linear-gradient(180deg, var(--dj) 0%, rgba(18,6,42,0) 22%);
+    }
+
+    /* ---------- Played at ---------- */
+    .played { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 26px 0; }
+    .played .wrap { display: flex; gap: 14px 32px; align-items: baseline; flex-wrap: wrap; }
+    .played .label { color: var(--muted); flex: none; }
+    .played ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 0; }
+    .played li { font-size: 15px; white-space: nowrap; }
+    .played li:not(:last-child)::after { content: "/"; margin: 0 14px; color: var(--muted); font-style: normal; }
+
+    /* ---------- Sections ---------- */
+    section.block { padding: clamp(72px, 11vw, 140px) 0 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+    .section-head .num { color: var(--muted); display: block; margin-bottom: 14px; }
+    .section-head h2 { font-size: clamp(40px, 6vw, 76px); }
+    .section-head p { margin: 0; max-width: 26em; color: var(--muted); }
+
+    /* ---------- Mixes ---------- */
+    .mixes { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line-strong); }
+    .mix { border-top: 1px solid var(--line-strong); }
+    .mix-row {
+      display: grid; grid-template-columns: 48px minmax(0, 1fr) auto auto; align-items: center; gap: 20px;
+      padding: 22px 0;
+    }
+    .mix-row .n { color: var(--muted); }
+    .mix-title { font-size: clamp(17px, 2.2vw, 26px); line-height: 1.12; margin: 0; overflow-wrap: anywhere; }
+    .mix-meta { color: var(--muted); white-space: nowrap; }
+    .play {
+      width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer;
+      display: grid; place-items: center; background: var(--color-2); color: var(--color-4);
+      transition: transform .15s ease, background-color .15s ease;
+    }
+    .play:hover { transform: scale(1.06); background: #6b42ff; }
+    .play svg { width: 20px; height: 20px; }
+    .play .i-pause { display: none; }
+    .mix.is-open .play { background: var(--color-4); color: var(--dj); }
+    .mix.is-open .play .i-play { display: none; }
+    .mix.is-open .play .i-pause { display: block; }
+    .player { display: none; padding: 0 0 24px 68px; }
+    .mix.is-open .player { display: block; }
+    .player iframe { width: 100%; height: 166px; border: 0; border-radius: var(--radius); background: var(--color-main); }
+    .mixes-foot { margin-top: 28px; }
+
+    /* ---------- Agenda (flyer layout: month edge to edge, dates in rows) ---------- */
+    .posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 20px; }
+    .post {
+      background: var(--color-main); border: 1px solid var(--card-edge); border-radius: var(--radius);
+      padding: clamp(26px, 3.4vw, 40px);
+      container-type: inline-size;
+    }
+    .post.is-bold { background: var(--color-2); border-color: transparent; }
+    .month {
+      display: flex; justify-content: space-between; color: var(--color-3);
+      font-size: 30px; font-size: min(52px, calc(100cqi / (var(--n, 8) * .95 + 1))); margin: 0 0 28px;
+    }
+    .rows { list-style: none; margin: 0; padding: 0; }
+    .rows li {
+      display: flex; justify-content: space-between; gap: 16px; align-items: baseline;
+      border-top: 1px solid var(--line-strong); padding: 10px 0 9px; font-size: 15px;
+    }
+    .rows li span:last-child { text-align: right; }
+    .rows .city { display: block; font-family: 'DM Mono', monospace; font-style: normal; font-stretch: 100%; font-weight: 400; font-size: 11px; letter-spacing: .1em; color: var(--muted); margin-top: 2px; }
+    .post.is-bold .rows .city { color: rgba(244,240,255,.82); }
+    .post[hidden], .rows li[hidden] { display: none; }
+    .agenda-empty { color: var(--muted); }
+
+    /* ---------- Bookings ---------- */
+    .book { padding: clamp(80px, 12vw, 160px) 0 clamp(72px, 10vw, 120px); }
+    .book-card {
+      position: relative; overflow: hidden;
+      background: var(--color-main); border-radius: var(--radius); border: 1px solid var(--card-edge);
+      padding: clamp(32px, 6vw, 80px);
+      display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 40px; align-items: end;
+    }
+    .book-card .label { color: var(--muted); margin: 0 0 18px; }
+    .book-card h2 { font-size: clamp(44px, 7.6vw, 112px); }
+    .book-card p { margin: 22px 0 0; max-width: 28em; }
+    .book-actions { display: grid; gap: 12px; }
+    .book-actions .btn { width: 100%; }
+    .email-line {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      border-top: 1px solid var(--line); padding-top: 14px; margin-top: 6px;
+    }
+    .email-line a { text-decoration: none; overflow-wrap: anywhere; }
+    .copy {
+      background: none; border: 1px solid var(--line-strong); color: var(--color-4); border-radius: 999px;
+      padding: 7px 12px; cursor: pointer; flex: none;
+    }
+    .copy:hover { border-color: var(--color-4); }
+
+    /* ---------- Footer ---------- */
+    footer { border-top: 1px solid var(--line); padding: 44px 0 max(44px, env(safe-area-inset-bottom)); }
+    footer .wrap { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+    .monogram { width: 116px; height: auto; }
+    .foot-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .foot-links a { text-decoration: none; color: var(--muted); }
+    .foot-links a:hover { color: var(--color-4); }
+    footer small { color: var(--muted); }
+
+    /* ---------- Toast ---------- */
+    .toast {
+      position: fixed; left: 50%; bottom: max(24px, env(safe-area-inset-bottom)); transform: translate(-50%, 20px);
+      background: var(--color-4); color: var(--dj); padding: 12px 18px; border-radius: 999px;
+      opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 50;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* ---------- Entrance ---------- */
+    @media (prefers-reduced-motion: no-preference) {
+      .rise { animation: rise .8s cubic-bezier(.2, .7, .2, 1) both; }
+      .rise.d1 { animation-delay: .08s; } .rise.d2 { animation-delay: .16s; } .rise.d3 { animation-delay: .24s; }
+      @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+      .hero-photo img { animation: fade 1.2s ease both; }
+      @keyframes fade { from { opacity: 0; transform: scale(1.03); } to { opacity: 1; transform: none; } }
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 860px) {
+      .nav .label-link { display: none; }
+      .hero-grid { grid-template-columns: 1fr; gap: 0; padding-top: 0; min-height: 0; }
+      .hero-photo { order: -1; height: min(118vw, 620px); margin: 0 calc(var(--gutter) * -1); }
+      .hero-photo img { object-position: 50% 24%; }
+      .hero-photo::after {
+        background:
+          linear-gradient(0deg, var(--dj) 2%, rgba(18,6,42,0) 45%),
+          linear-gradient(180deg, rgba(18,6,42,.85) 0%, rgba(18,6,42,0) 24%);
+      }
+      .hero-copy { margin-top: -96px; padding-bottom: 56px; }
+      .book-card { grid-template-columns: 1fr; }
+      .mix-row { grid-template-columns: 30px minmax(0, 1fr) auto; gap: 14px; }
+      .mix-meta { grid-column: 2; grid-row: 2; margin-top: -10px; }
+      .mix-row .play { grid-column: 3; grid-row: 1 / span 2; width: 50px; height: 50px; }
+      .player { padding-left: 0; }
+    }
+    @media (max-width: 420px) {
+      .site-header .logo { font-size: 21px; }
+      .hero-actions .btn { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="./" aria-label="BASS BTCH, home"><span>BASS</span><span>BTCH</span></a>
+      <nav class="nav label" aria-label="Main">
+        <a class="label-link" href="#mixes">Mixes</a>
+        <a class="label-link" href="#agenda">Agenda</a>
+        <a class="label-link" href="#bookings">Bookings</a>
+        <a class="ig" href="https://www.instagram.com/bassbtch" target="_blank" rel="noopener" aria-label="BASS BTCH on Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="label rise">Queer DJ · Energy, joy and attitude</p>
+          <h1 class="headline rise d1"><span>Serving</span><span>energy</span><span>and joy</span></h1>
+          <p class="lede rise d2">Uplifting, high-energy sets that blend iconic queer anthems with unexpected house edits, and keep you dancing from start to finish.</p>
+          <div class="hero-actions rise d3">
+            <a class="btn btn-hit" href="#bookings">Book me</a>
+            <a class="btn btn-line" href="https://www.instagram.com/bassbtch" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+              Instagram
+            </a>
+          </div>
+        </div>
+        <div class="hero-photo">
+          <img src="assets/bass-btch-dj.jpg" width="844" height="1138" alt="BASS BTCH behind the decks under purple light" fetchpriority="high">
+        </div>
+      </div>
+    </section>
+
+    <div class="played">
+      <div class="wrap">
+        <span class="label">Played at</span>
+        <ul class="dates">
+          <li>Milkshake Festival</li>
+          <li>Pride Amsterdam</li>
+          <li>Club NYX</li>
+          <li>Hullabaloo Festival</li>
+          <li>Marta Cariño Madrid</li>
+          <li>FERRY Rotterdam</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- MIXES: top 5 from SoundCloud by plays. Edit titles/links here. -->
+    <section class="block" id="mixes">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="label num">01 · Mixes</span>
+            <h2 class="headline">Mixes</h2>
+          </div>
+          <p>Press play and turn it up. Pride street parties, pop raves and everything in between.</p>
+        </div>
+
+        <ol class="mixes">
+          <li class="mix" data-url="https://soundcloud.com/bass-btch-742360409/pop-rave">
+            <div class="mix-row">
+              <span class="label n">01</span>
+              <h3 class="mix-title dates">Pop Rave</h3>
+              <span class="label mix-meta">Dec 2025</span>
+              <button class="play" type="button" aria-label="Play Pop Rave" aria-expanded="false"><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+            </div>
+            <div class="player"></div>
+          </li>
+          <li class="mix" data-url="https://soundcloud.com/bass-btch-742360409/its-giving-bass-btches-1">
+            <div class="mix-row">
+              <span class="label n">02</span>
+              <h3 class="mix-title dates">It’s giving BASS &amp; BTCHES</h3>
+              <span class="label mix-meta">May 2024</span>
+              <button class="play" type="button" aria-label="Play It’s giving BASS &amp; BTCHES" aria-expanded="false"><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+            </div>
+            <div class="player"></div>
+          </li>
+          <li class="mix" data-url="https://soundcloud.com/bass-btch-742360409/pop-it-off">
+            <div class="mix-row">
+              <span class="label n">03</span>
+              <h3 class="mix-title dates">Pop it off</h3>
+              <span class="label mix-meta">Jun 2024</span>
+              <button class="play" type="button" aria-label="Play Pop it off" aria-expanded="false"><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+            </div>
+            <div class="player"></div>
+          </li>
+          <li class="mix" data-url="https://soundcloud.com/bass-btch-742360409/dj-set-pride-amsterdam-reguliers-street-party-2025">
+            <div class="mix-row">
+              <span class="label n">04</span>
+              <h3 class="mix-title dates">Pride Amsterdam · Reguliers Street Party 2025</h3>
+              <span class="label mix-meta">Aug 2025</span>
+              <button class="play" type="button" aria-label="Play Pride Amsterdam Reguliers Street Party 2025" aria-expanded="false"><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+            </div>
+            <div class="player"></div>
+          </li>
+          <li class="mix" data-url="https://soundcloud.com/bass-btch-742360409/utrecht-pride-street-party">
+            <div class="mix-row">
+              <span class="label n">05</span>
+              <h3 class="mix-title dates">Utrecht Pride Street Party</h3>
+              <span class="label mix-meta">Jun 2025</span>
+              <button class="play" type="button" aria-label="Play Utrecht Pride Street Party" aria-expanded="false"><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+            </div>
+            <div class="player"></div>
+          </li>
+        </ol>
+
+        <div class="mixes-foot">
+          <a class="btn btn-line" href="https://soundcloud.com/bass-btch-742360409" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11 8.2v9.3h7.4a3.1 3.1 0 0 0 .4-6.2A5 5 0 0 0 11 8.2zM9 9.4v8.1h1V9zM7 10.4v7.1h1v-7.4zM5 11.2v6.3h1v-6.6zM3 12.6v4.4h1v-4.7zM1 14v2.3h1V13.6z"/></svg>
+            More on SoundCloud
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- AGENDA: each <li> has data-date (YYYY-MM-DD). Past dates hide themselves; a month with no dates left hides too. -->
+    <section class="block" id="agenda">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="label num">02 · Agenda</span>
+            <h2 class="headline">Agenda</h2>
+          </div>
+          <p>Where to dance next. More dates are announced on Instagram first.</p>
+        </div>
+
+        <div class="posts">
+          <article class="post is-bold" aria-label="September">
+            <h3 class="month display" aria-label="September"></h3>
+            <ul class="rows dates">
+              <li data-date="2026-09-26"><span>26 Sep</span><span>Rotterdam Pride Festival<small class="city">Rotterdam</small></span></li>
+              <li data-date="2026-09-26"><span>26 Sep</span><span>FERRY R’dam Pride<small class="city">Rotterdam</small></span></li>
+            </ul>
+          </article>
+          <article class="post" aria-label="Oktober">
+            <h3 class="month display" aria-label="Oktober"></h3>
+            <ul class="rows dates">
+              <li data-date="2026-10-03"><span>03 Okt</span><span>FERRY<small class="city">Rotterdam</small></span></li>
+              <li data-date="2026-10-09"><span>09 Okt</span><span>FERRY<small class="city">Rotterdam</small></span></li>
+              <li data-date="2026-10-16"><span>16 Okt</span><span>FERRY<small class="city">Rotterdam</small></span></li>
+              <li data-date="2026-10-24"><span>24 Okt</span><span>FERRY<small class="city">Rotterdam</small></span></li>
+              <li data-date="2026-10-31"><span>31 Okt</span><span>TBA</span></li>
+            </ul>
+          </article>
+          <article class="post" aria-label="November">
+            <h3 class="month display" aria-label="November"></h3>
+            <ul class="rows dates">
+              <li data-date="2026-11-27"><span>27 Nov</span><span>BOPS<small class="city">Amsterdam</small></span></li>
+            </ul>
+          </article>
+          <article class="post" aria-label="December">
+            <h3 class="month display" aria-label="December"></h3>
+            <ul class="rows dates">
+              <li data-date="2026-12-05"><span>05 Dec</span><span>3xNYX<small class="city">Amsterdam</small></span></li>
+              <li data-date="2026-12-19"><span>19 Dec</span><span>PINK INC<small class="city">Hamburg</small></span></li>
+            </ul>
+          </article>
+        </div>
+        <p class="agenda-empty" hidden>New dates coming soon. Follow <a href="https://www.instagram.com/bassbtch" target="_blank" rel="noopener">@bassbtch</a> to hear first.</p>
+      </div>
+    </section>
+
+    <section class="book" id="bookings">
+      <div class="wrap">
+        <div class="book-card">
+          <div>
+            <p class="label">03 · Bookings</p>
+            <h2 class="headline">Book<br>BASS BTCH</h2>
+            <p>Clubs, Prides, festivals and parties that want a dancefloor full of joy. Send the date, venue and city, and BASS BTCH gets back to you.</p>
+          </div>
+          <div class="book-actions">
+            <a class="btn btn-hit" id="book-mail" href="mailto:basvdsalm@gmail.com?subject=Booking%20request%20BASS%20BTCH&body=Hi%20Bas%2C%0A%0AEvent%3A%20%0ADate%3A%20%0AVenue%20%2B%20city%3A%20%0ASet%20time%20%2F%20length%3A%20%0A%0AThanks!">Book me</a>
+            <a class="btn btn-line" href="https://www.instagram.com/bassbtch" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+              DM on Instagram
+            </a>
+            <div class="email-line">
+              <a class="label" href="mailto:basvdsalm@gmail.com">basvdsalm@gmail.com</a>
+              <button class="copy label" type="button" data-copy="basvdsalm@gmail.com">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <!-- Stacked monogram: BASS over BTCH, spread to the same width, BTCH in Color #3 -->
+      <svg class="monogram" viewBox="0 0 232 120" role="img" aria-label="BASS BTCH">
+        <text x="6" y="52" textLength="220" lengthAdjust="spacingAndGlyphs" fill="#F4F0FF" style="font: italic 800 56px 'Archivo'; font-stretch: 125%;">BASS</text>
+        <text x="2" y="112" textLength="220" lengthAdjust="spacingAndGlyphs" fill="#D4FF3A" style="font: italic 800 56px 'Archivo'; font-stretch: 125%;">BTCH</text>
+      </svg>
+      <nav class="foot-links label" aria-label="Elsewhere">
+        <a href="https://www.instagram.com/bassbtch" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://soundcloud.com/bass-btch-742360409" target="_blank" rel="noopener">SoundCloud</a>
+        <a href="mailto:basvdsalm@gmail.com">E-mail</a>
+      </nav>
+      <small class="label">© <span id="year">2026</span> BASS BTCH</small>
+    </div>
+  </footer>
+
+  <div class="toast label" role="status" aria-live="polite"></div>
+
+  <script>
+    // Month titles: letters spread edge to edge (flyer step 2)
+    document.querySelectorAll('.month').forEach(function (el) {
+      var word = el.getAttribute('aria-label').toUpperCase();
+      el.style.setProperty('--n', word.length);
+      el.innerHTML = word.split('').map(function (c) { return '<span aria-hidden="true">' + c + '</span>'; }).join('');
+    });
+
+    // Agenda: hide dates that have passed, and months with nothing left
+    (function () {
+      var today = new Date(); today.setHours(0, 0, 0, 0);
+      var anyLeft = false;
+      document.querySelectorAll('.post').forEach(function (post) {
+        var left = 0;
+        post.querySelectorAll('li[data-date]').forEach(function (li) {
+          var d = new Date(li.dataset.date + 'T23:59:59');
+          if (d < today) li.hidden = true; else left++;
+        });
+        if (!left) post.hidden = true; else anyLeft = true;
+      });
+      if (!anyLeft) document.querySelector('.agenda-empty').hidden = false;
+    })();
+
+    // Mixes: load the SoundCloud player only when someone presses play
+    (function () {
+      var mixes = document.querySelectorAll('.mix');
+      function close(mix) {
+        mix.classList.remove('is-open');
+        mix.querySelector('.player').innerHTML = '';
+        mix.querySelector('.play').setAttribute('aria-expanded', 'false');
+      }
+      mixes.forEach(function (mix) {
+        var btn = mix.querySelector('.play');
+        btn.addEventListener('click', function () {
+          if (mix.classList.contains('is-open')) { close(mix); return; }
+          mixes.forEach(function (m) { if (m !== mix) close(m); });
+          var src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(mix.dataset.url) +
+            '&color=%235a2cff&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false';
+          var title = mix.querySelector('.mix-title').textContent;
+          mix.querySelector('.player').innerHTML =
+            '<iframe title="' + title.replace(/"/g, '&quot;') + ' on SoundCloud" allow="autoplay" loading="lazy" src="' + src + '"></iframe>';
+          mix.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        });
+      });
+    })();
+
+    // Copy e-mail (for people without a mail app set up)
+    (function () {
+      var toast = document.querySelector('.toast'), t;
+      function say(msg) { toast.textContent = msg; toast.classList.add('show'); clearTimeout(t); t = setTimeout(function () { toast.classList.remove('show'); }, 2200); }
+      document.querySelectorAll('[data-copy]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var v = b.dataset.copy;
+          (navigator.clipboard ? navigator.clipboard.writeText(v) : Promise.reject())
+            .then(function () { say('E-mail copied'); })
+            .catch(function () { say(v); });
+        });
+      });
+    })();
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
