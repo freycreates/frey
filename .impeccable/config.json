@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "rider.html"
+        ],
+        "createdAt": "2026-10-13T16:23:41.709Z",
+        "reason": "Claude: false positive, the only side border in rider.html is a 1px neutral divider (#e3d8d4) between the two rider columns, not a thick coloured accent"
+      }
+    ]
+  }
+}
