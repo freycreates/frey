@@ -26,6 +26,6 @@ and at the root of `bassbtch.com` later, without changes.
 ## Launch on bassbtch.com
 
 1. Create a new repo, put the contents of `son/` at its root, enable Pages, add a `CNAME` file containing `bassbtch.com`.
-2. In `index.html`: change both the `robots` and `googlebot` meta tags to `index, follow`, uncomment the canonical link, and change the `og:image` URL to `https://bassbtch.com/assets/og-image.jpg`.
+2. In `index.html`: change both the `robots` and `googlebot` meta tags to `index, follow`, uncomment the canonical link, and change `og:url`, `og:image` and `twitter:image` from `freycreates.nl/son/` to `bassbtch.com/`.
 3. Leave `create/index.html` on `noindex`.
 4. Redirect or remove `freycreates.nl/son/`.
