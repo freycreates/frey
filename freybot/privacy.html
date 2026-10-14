@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FREYbot Privacy Policy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Privacy policy for FREYbot, FREY's private app for gigs, invoices and VAT.">
+<link rel="canonical" href="https://freycreates.nl/freybot/privacy">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light;--bg:#fffaf7;--text:#191317;--muted:#6d6469;--line:#ded3d0;--pink:#e61482}
+  @media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#191317;--text:#fff8fb;--muted:#b9adb4;--line:#3a2a34;--pink:#ff4fa8}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:500 17px/1.6 "Inter Tight",system-ui,sans-serif;border-top:5px solid #e61482}
+  main{max-width:680px;margin:0 auto;padding:48px 20px 72px}
+  .mark{font-weight:900;font-size:34px;letter-spacing:-.035em;text-decoration:none;color:var(--text)}
+  .mark span{color:#e61482}
+  h1{font-weight:900;font-size:clamp(36px,8vw,56px);line-height:1;letter-spacing:-.04em;margin:40px 0 8px}
+  h2{font-weight:900;font-size:22px;letter-spacing:-.02em;margin:36px 0 6px}
+  .date{color:var(--muted);margin:0 0 24px}
+  a{color:var(--pink)}
+  ul{padding-left:20px}
+  li{margin:4px 0}
+  footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<main>
+  <a class="mark" href="/">FREY<span>.bot</span></a>
+  <h1>Privacy policy.</h1>
+  <p class="date">Last updated 14 October 2026</p>
+
+  <p>FREYbot is a private app for Mac and iPhone that FREY (Jeffrey, freycreates.nl) uses to manage his own DJ gigs, invoices, VAT and website. It isn't sold or offered to the public. This page explains what data it uses and why.</p>
+
+  <h2>Google user data.</h2>
+  <p>FREYbot asks for access to Google Sheets (<code>auth/spreadsheets</code>) so it can work with FREY's own bookkeeping spreadsheet. It uses that access only to:</p>
+  <ul>
+    <li>read gigs, invoices, clients and deductible VAT from that spreadsheet;</li>
+    <li>add new gig, client and receipt rows, and set an invoice's status to Sent or Paid.</li>
+  </ul>
+  <p>It doesn't open other files, and it doesn't delete anything. Data from Google Sheets is shown in the app and saved on the device only. It is never sold, never shared with third parties, never used for advertising and never used to train AI models.</p>
+  <p>FREYbot's use of information received from Google APIs follows the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+  <h2>Where data is stored.</h2>
+  <p>FREYbot has no server and no account system. Everything stays on the Mac or iPhone where it runs:</p>
+  <ul>
+    <li>the Google sign-in token is kept in the Apple Keychain;</li>
+    <li>tasks, settings and a copy of the spreadsheet data are kept in the app's own storage on the device;</li>
+    <li>invoice PDFs and receipts are saved in FREY's own Documents folder.</li>
+  </ul>
+
+  <h2>Other services.</h2>
+  <ul>
+    <li><strong>Apple Calendar, Reminders and Mail:</strong> only on the device, to add gigs to the calendar, show tasks and prepare invoice e-mails. FREYbot never sends e-mails by itself.</li>
+    <li><strong>GitHub:</strong> to publish gig, mix and venue updates to freycreates.nl.</li>
+    <li><strong>Microsoft Azure speech (optional, iPhone):</strong> when switched on, the text of a spoken answer is sent to Azure to be read aloud.</li>
+  </ul>
+
+  <h2>Removing access.</h2>
+  <p>Disconnect Google Sheets in FREYbot's Settings, or remove FREYbot at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>. Deleting the app removes its local data.</p>
+
+  <h2>Contact.</h2>
+  <p>Questions? E-mail <a href="mailto:hello@freycreates.nl">hello@freycreates.nl</a>.</p>
+
+  <footer>© FREY · freycreates.nl</footer>
+</main>
+</body>
+</html>
