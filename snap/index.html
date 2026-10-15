@@ -311,7 +311,15 @@ footer i{color:var(--pink);font-style:normal}
       <div id="photoCtl" class="dis" style="margin-top:18px">
         <div class="rangehead"><span>Zoom</span><span id="zoomVal">100%</span></div>
         <input type="range" id="zoom" min="100" max="400" value="100" aria-label="Zoom photo">
-        <p class="hint">Drag the preview to move the photo. Pinch or scroll to zoom.</p>
+        <div style="margin-top:18px" id="phX">
+          <div class="rangehead"><span>Left</span><span>Right</span></div>
+          <input type="range" id="photoX" min="-100" max="100" value="0" aria-label="Move photo left or right">
+        </div>
+        <div style="margin-top:14px" id="phY">
+          <div class="rangehead"><span>Up</span><span>Down</span></div>
+          <input type="range" id="photoY" min="-100" max="100" value="0" aria-label="Move photo up or down">
+        </div>
+        <p class="hint">Or drag the preview to move the photo. Pinch or scroll to zoom. Left, right, up and down only work once the photo is zoomed in or doesn't fit the format.</p>
         <div class="row" style="gap:30px;margin-top:22px;align-items:flex-start">
           <div>
             <span class="sublbl">Fade the top</span>
@@ -655,6 +663,9 @@ function syncDerived(){
   $('#photoCtl').classList.toggle('dis',!P.canvas);
   $('#photoRemoveBtn').hidden=!P.canvas;$('#photoReset').hidden=!P.canvas;
   $('#phone').classList.toggle('can-drag',!!P.canvas);
+  if(P.canvas){const r=photoRect(FORMATS[S.format]);
+    $('#photoX').value=r.mx>.5?Math.round(P.ox/r.mx*100):0;$('#photoY').value=r.my>.5?Math.round(P.oy/r.my*100):0;
+    $('#phX').classList.toggle('dis',r.mx<=.5);$('#phY').classList.toggle('dis',r.my<=.5)}
   $('#zoomVal').textContent=Math.round(P.zoom*100)+'%';$('#zoom').value=Math.round(P.zoom*100);
   $('#photoHint').textContent=P.canvas?'Photo added. Everything below only changes the photo.':'Optional. Without a photo you get a clean color background.';
   $('#logoOpts').hidden=!hasLogo;$('#bgBox').hidden=!(hasLogo&&!L.transparent);
@@ -675,6 +686,8 @@ $('#photoFile').addEventListener('change',async e=>{const f=e.target.files[0];e.
 $('#photoRemoveBtn').addEventListener('click',()=>{P.canvas=null;change()});
 $('#photoReset').addEventListener('click',()=>{P.zoom=1;P.ox=P.oy=0;change()});
 $('#zoom').addEventListener('input',e=>{P.zoom=e.target.value/100;change()});
+$('#photoX').addEventListener('input',e=>{const r=photoRect(FORMATS[S.format]);P.ox=e.target.value/100*r.mx;schedule()});
+$('#photoY').addEventListener('input',e=>{const r=photoRect(FORMATS[S.format]);P.oy=e.target.value/100*r.my;schedule()});
 
 /* pan & zoom on the preview */
 (function(){
