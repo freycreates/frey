@@ -103,9 +103,6 @@
     }
     .stage.is-post { aspect-ratio: 1 / 1; }
     .stage canvas { width: 100%; height: 100%; display: block; }
-    .shape { display: inline-block; border: 1.5px solid currentColor; border-radius: 2px; opacity: .8; }
-    .shape-story { width: 10px; height: 17px; }
-    .shape-post { width: 15px; height: 15px; }
     .sheet-top, .mbar { display: none; }
     .safe {
       position: absolute; left: 0; right: 0; pointer-events: none; opacity: 0; transition: opacity .2s;
@@ -187,14 +184,6 @@
     <div class="app">
       <form class="panel" id="form" autocomplete="off" onsubmit="return false">
         <div class="field">
-          <span class="label">Format</span>
-          <div class="seg" id="format" role="group" aria-label="Format">
-            <button type="button" data-v="story"><span class="shape shape-story" aria-hidden="true"></span>Story</button>
-            <button type="button" data-v="post"><span class="shape shape-post" aria-hidden="true"></span>Post</button>
-          </div>
-        </div>
-
-        <div class="field">
           <span class="label">Title</span>
           <div class="seg" id="mode" role="group" aria-label="Title">
             <button type="button" data-v="month">Month</button>
@@ -223,14 +212,6 @@
           </div>
           <input type="file" id="file" accept="image/*" hidden>
           <div class="photo-tools" id="photo-tools">
-            <div>
-              <span class="label" style="display:block;color:var(--muted);margin-bottom:10px">Colorway</span>
-              <div class="seg" id="tint" role="group" aria-label="Colorway">
-                <button type="button" data-v="main"><span class="swatch" style="background:#1C0C3D"></span>Color Main</button>
-                <button type="button" data-v="c2"><span class="swatch" style="background:#5A2CFF"></span>Color #2</button>
-              </div>
-              <p class="hint" style="margin-top:8px">Color Main for most posts, Color #2 for special nights, festivals and Pride.</p>
-            </div>
             <div class="photo-row">
               <button type="button" class="btn btn-line" id="pick" style="min-height:42px;padding:0 16px;font-size:13px">Choose another photo</button>
               <button type="button" class="linkish label" id="remove-photo">Remove photo</button>
@@ -239,6 +220,17 @@
             <label class="label">Left/right <input type="range" id="px" min="-1" max="1" step="0.01" value="0"></label>
             <label class="label">Up/down <input type="range" id="py" min="-1" max="1" step="0.01" value="0"></label>
           </div>
+        </div>
+
+        <div class="field">
+          <span class="label">Lime accent on</span>
+          <div class="seg" id="accent" role="group" aria-label="Lime accent on">
+            <button type="button" data-v="title"><span class="swatch" style="background:#D4FF3A"></span>Title</button>
+            <button type="button" data-v="logo"><span class="swatch" style="background:#D4FF3A"></span>Logo</button>
+            <button type="button" data-v="dates"><span class="swatch" style="background:#D4FF3A"></span>Dates</button>
+            <button type="button" data-v="none"><span class="swatch" style="background:#F4F0FF"></span>All white</button>
+          </div>
+          <p class="hint" style="margin-top:8px">Text is Color #4 (white). Color #3 (lime) is the one accent per layout, so it goes on one thing only.</p>
         </div>
 
         <div class="field two" id="photo-fx">
@@ -332,7 +324,7 @@
       var mon = deviceMonth(now, 'short'), gigs = [];
       [3, 10, 17, 24, 31].forEach(function (d) { gigs.push({ date: String(d).padStart(2, '0') + ' ' + mon, venue: 'Venue' }); });
       return { mode: 'month', month: deviceMonth(now, 'long'), monthAuto: true, tonight: TONIGHT, tonightGig: { date: '', venue: '', city: '' },
-               gigs: gigs, look: 'main', tint: 'main', format: 'story', fade: 1, bw: 0, zoom: 1, px: 0, py: 0, ty: 1, photo: null };
+               gigs: gigs, look: 'main', accent: 'title', format: 'story', fade: 1, bw: 0, zoom: 1, px: 0, py: 0, ty: 1, photo: null };
     }
     var state = defaults();
     try {
@@ -342,7 +334,8 @@
     if (state.look === 'photo' && !state.photo) state.look = 'main';
     // Auto month: always this month on this phone, until Bass types his own
     if (state.monthAuto !== false) { state.month = deviceMonth(new Date(), 'long'); state.monthAuto = true; }
-    delete state.blur;
+    delete state.blur; delete state.tint;
+    state.format = 'story';   // stories only
     if (!state.tonightGig) state.tonightGig = { date: '', venue: '', city: '' };
     state.gigs.forEach(function (g) {
       if (g.city === undefined) {
@@ -439,8 +432,7 @@
     var paintLook = seg('look', 'look', function (v) {
       if (v === 'photo' && !img) { $('file').click(); return false; }
     });
-    seg('fade', 'fade'); seg('bw', 'bw'); seg('tint', 'tint');
-    seg('format', 'format', function (v) { state.format = v; applyFormat(); });
+    seg('fade', 'fade'); seg('bw', 'bw'); seg('accent', 'accent');
 
     function applyFormat() {
       var post = state.format === 'post';
@@ -552,7 +544,9 @@
       var post = state.format === 'post';
       var sTop = post ? M : SAFE_TOP, sBot = post ? M : SAFE_BOTTOM;  // a post has the same margin on all sides
       var photo = state.look === 'photo' && img;
-      var tint = state.tint === 'c2' ? C.c2 : C.main;                 // one colorway per post, never both
+      var tint = C.main;                                                // photo fades into Color Main
+      var accent = state.accent || 'title';                             // where the one lime accent goes
+      var col = function (part) { return accent === part ? C.c3 : C.c4; };
       var ground = photo ? tint : (state.look === 'c2' ? C.c2 : C.main);
 
       // 1. Ground
@@ -573,7 +567,7 @@
 
       // 2. Logo top left: BASS BTCH, word space = 0.3 × letter height
       var logoSize = 72;
-      ctx.fillStyle = C.c4; ctx.font = logoSize + 'px ' + DISPLAY; ctx.textAlign = 'left';
+      ctx.fillStyle = col('logo'); ctx.font = logoSize + 'px ' + DISPLAY; ctx.textAlign = 'left';
       var capH = ctx.measureText('B').actualBoundingBoxAscent || logoSize * 0.72;
       var logoY = sTop + capH;   // top of the letters sits on the safe line
       ctx.fillText('BASS', M, logoY);
@@ -585,7 +579,7 @@
       var month = state.mode === 'none' ? '' : ((tonight ? state.tonight : state.month) || '').trim().toUpperCase();
       var innerW = W - M * 2;
       var mSize = month ? fit(month, DISPLAY, innerW, 200, 80) : 0;
-      ctx.font = mSize + 'px ' + DISPLAY; ctx.fillStyle = C.c3;
+      ctx.font = mSize + 'px ' + DISPLAY; ctx.fillStyle = col('title');
       var mW = month ? ctx.measureText(month).width : 0;
       var monthY = month ? logoY + 40 + mSize * 0.74 : logoY;
       if (!month) {
@@ -626,7 +620,7 @@
         var base = y + (rowH - cityGap) / 2 + fSize * 0.36 + 2;
         var d = (g.date || '').trim().toUpperCase(), v = (g.venue || '').trim().toUpperCase();
         var city = (g.city || '').trim().toUpperCase();
-        ctx.fillStyle = C.c4; ctx.textAlign = 'left';
+        ctx.fillStyle = col('dates'); ctx.textAlign = 'left';
         ctx.font = fSize + 'px ' + DATES; ctx.fillText(d, M, base);
         var dW = ctx.measureText(d).width;
         var room = innerW - dW - 48;
