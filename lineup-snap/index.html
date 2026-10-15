@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lineup Snap | FREY.</title>
+<meta name="description" content="Make a clean line-up image for Instagram in seconds. Built for DJs. Everything stays on your device.">
+<meta name="theme-color" content="#0f0d10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=Inter+Tight:wght@500;600;700;800;900&family=Space+Grotesk:wght@700&family=Space+Mono:wght@700&family=Unbounded:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f0d10; --surface:#19151a; --surface-2:#221c23; --field:#110e12;
+  --text:#fff8fb; --muted:#a99ca5; --line:rgba(255,248,251,.12);
+  --pink:#e61482;--pink-text:#ff5aab; --pink-soft:rgba(230,20,130,.16); --paper:#ece8e3; --ink:#191317;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Inter Tight",system-ui,sans-serif;font-weight:500;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+a{color:inherit}
+
+/* top bar */
+.top{display:flex;align-items:center;gap:14px;max-width:1160px;margin:0 auto;padding:20px 24px}
+.brand{font-weight:900;font-size:26px;letter-spacing:-.04em;text-decoration:none;line-height:1}
+.brand i{color:var(--pink);font-style:normal}
+.sep{width:1px;height:20px;background:var(--line)}
+.product{font-weight:800;font-size:13px;letter-spacing:.22em;text-transform:uppercase}
+.meta{margin-left:auto;font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;font-weight:600}
+
+/* hero */
+.hero{max-width:1160px;margin:0 auto;padding:28px 24px 30px}
+.hero h1{margin:0;font-weight:900;text-transform:uppercase;letter-spacing:-.035em;line-height:.92;font-size:clamp(40px,7.2vw,86px)}
+.hero h1 i{color:var(--pink);font-style:normal}
+.hero p{max-width:560px;color:var(--muted);font-size:17px;margin:18px 0 0;font-weight:600}
+.hero .bar{width:44px;height:4px;border-radius:4px;background:var(--pink);margin-top:22px}
+
+/* layout */
+.grid{max-width:1160px;margin:0 auto;padding:0 24px 80px;display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,430px);gap:28px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:8px 24px 24px}
+.sec{padding:22px 0;border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0;padding-bottom:0}
+.lbl{display:block;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--pink-text);margin-bottom:12px}
+.hint{font-size:13px;color:var(--muted);margin:10px 0 0;font-weight:500}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* controls */
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button,.btn{border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:10px 16px;font-weight:700;font-size:14px;cursor:pointer;transition:background .15s,border-color .15s,transform .1s}
+.seg button:hover,.btn:hover{border-color:rgba(255,248,251,.3)}
+.seg button[aria-pressed="true"]{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn:active,.seg button:active{transform:scale(.98)}
+.btn.light{background:var(--paper);color:var(--ink);border-color:transparent}
+.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn.ghost{background:none}
+.btn.small{padding:7px 12px;font-size:13px;border-radius:10px}
+:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+.dis{opacity:.38;pointer-events:none}
+
+input[type=text],input[type=date]{width:100%;background:var(--field);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-weight:600;font-size:15px;min-width:0}
+input[type=text]::placeholder{color:#8f828b}
+input[type=text]:focus,input[type=date]:focus{outline:none;border-color:var(--pink)}
+input[type=range]{width:100%;accent-color:var(--pink)}
+.rangehead{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px}
+.field+.field{margin-top:12px}
+
+/* themes */
+.themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
+.theme{border:2px solid transparent;border-radius:14px;padding:0;cursor:pointer;background:none;text-align:left;overflow:hidden;outline-offset:2px}
+.theme .sw{display:block;padding:16px 12px 12px;min-height:84px}
+.theme .sw b{display:block;font-size:24px;line-height:1;margin-bottom:10px;word-break:break-word}
+.theme .sw u{display:block;height:3px;width:34px;border-radius:3px;text-decoration:none}
+.theme .nm{display:block;padding:8px 12px;background:var(--surface-2);font-size:12px;font-weight:700;letter-spacing:.04em}
+.theme .nm small{display:block;color:var(--muted);font-weight:500;font-size:11px;letter-spacing:0}
+.theme[aria-pressed="true"]{border-color:var(--pink)}
+
+details.adv{margin-top:16px;border:1px solid var(--line);border-radius:14px;background:var(--field)}
+details.adv summary{cursor:pointer;list-style:none;padding:13px 16px;font-weight:800;font-size:12px;letter-spacing:.18em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+details.adv summary::-webkit-details-marker{display:none}
+details.adv summary::after{content:"+";font-size:18px;color:var(--pink);font-weight:700}
+details.adv[open] summary::after{content:"–"}
+.advbody{padding:4px 16px 18px;display:grid;gap:16px}
+.colors{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.color{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--muted)}
+.color input{width:100%;height:42px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);padding:3px;cursor:pointer}
+.sublbl{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;display:block}
+
+/* logo */
+.logo-top{display:flex;gap:14px;align-items:center}
+.thumb{width:84px;height:56px;border-radius:10px;border:1px solid var(--line);background:
+  repeating-conic-gradient(#2c262d 0% 25%,#1f1a20 0% 50%) 50%/14px 14px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}
+.thumb img,.thumb canvas{max-width:100%;max-height:100%;object-fit:contain}
+.logo-opts{margin-top:16px;display:grid;gap:14px}
+.status{font-size:13px;font-weight:600;color:var(--muted)}
+.status b{color:var(--text)}
+.ok{color:#8fd1a6}
+
+/* gigs */
+.gig{display:grid;grid-template-columns:150px 1fr 34px;gap:8px;margin-bottom:12px;align-items:start}
+.gig .city{grid-column:2}
+.x{border:0;background:none;color:var(--muted);font-size:22px;cursor:pointer;height:44px;line-height:1;border-radius:10px}
+.x:hover{color:var(--pink)}
+.add{background:none;border:0;color:var(--text);font-weight:700;font-size:14px;cursor:pointer;padding:6px 0}
+.add:hover{color:var(--pink)}
+
+/* stage */
+.stage{position:sticky;top:16px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;display:flex;justify-content:center}
+.phone{--ratio:.5625;position:relative;width:min(100%,calc((100vh - 230px) * var(--ratio)));min-width:220px;line-height:0;border-radius:10px;overflow:hidden;touch-action:pan-y}
+.phone canvas{width:100%;height:auto;display:block;border-radius:10px}
+.phone.can-drag canvas{cursor:grab;touch-action:none}
+.phone.dragging canvas{cursor:grabbing}
+.safe{position:absolute;inset:0;pointer-events:none;display:none}
+.safe.on{display:block}
+.safe div{position:absolute;background:repeating-linear-gradient(135deg,rgba(230,20,130,.28) 0 6px,rgba(230,20,130,.12) 6px 12px);border:0 dashed #ff6fb7}
+.safe .t{left:0;right:0;top:0;border-bottom-width:2px}
+.safe .b{left:0;right:0;bottom:0;border-top-width:2px}
+.safe .l{left:0;top:0;bottom:0;border-right-width:2px}
+.safe .r{right:0;top:0;bottom:0;border-left-width:2px}
+.safe span{position:absolute;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.16em;font-weight:800;color:#fff;text-transform:uppercase;line-height:1;white-space:nowrap}
+.actions{display:grid;gap:10px}
+.actions .btn{width:100%;padding:15px 16px;font-size:14px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;border-radius:14px}
+.specs{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.link{background:none;border:0;cursor:pointer;color:var(--muted);text-decoration:underline;text-underline-offset:3px;letter-spacing:.14em;font-size:11px;text-transform:uppercase;font-weight:700;padding:0}
+.link[aria-pressed="true"]{color:var(--pink)}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--paper);color:var(--ink);padding:12px 18px;border-radius:12px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:10;max-width:calc(100vw - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+footer{max-width:1160px;margin:0 auto;padding:0 24px 40px;color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+footer a{color:var(--text)}
+footer i{color:var(--pink);font-style:normal}
+
+@media (max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .stage{position:static;order:-1}
+  .phone{width:min(100%,calc(62vh * var(--ratio)))}
+  .meta{display:none}
+}
+@media (max-width:520px){
+  .top,.hero,.grid,footer{padding-left:16px;padding-right:16px}
+  .panel{padding:4px 16px 20px}
+  .gig{grid-template-columns:128px 1fr 30px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="https://freycreates.nl" aria-label="FREY. home">F<i>.</i></a>
+  <span class="sep"></span>
+  <span class="product">LINEUP SNAP</span>
+  <span class="meta">Private · Runs in your browser</span>
+</header>
+
+<section class="hero">
+  <h1>Create your line-up<i>.</i></h1>
+  <p>Add your gigs, pick a look and drop in a photo. Then share it straight to Instagram. Everything stays on your device; nothing is uploaded.</p>
+  <div class="bar"></div>
+</section>
+
+<div class="grid">
+  <!-- CONTROLS -->
+  <div class="panel">
+
+    <div class="sec">
+      <span class="lbl">Format</span>
+      <div class="seg" id="fmt">
+        <button data-v="story">Story · 9:16</button>
+        <button data-v="post">Post · 4:5</button>
+      </div>
+    </div>
+
+    <div class="sec">
+      <span class="lbl">Look</span>
+      <div class="themes" id="themes"></div>
+      <div style="margin-top:18px">
+        <span class="sublbl">Corner badge <span style="font-weight:500">(F. LINEUP SNAP, top right)</span></span>
+        <div class="seg" id="badge"><button data-v="true">On</button><button data-v="false">Off</button></div>
+      </div>
+      <details class="adv">
+        <summary>Advanced</summary>
+        <div class="advbody">
+          <div>
+            <span class="sublbl">Colors</span>
+            <div class="colors">
+              <label class="color">Background<input type="color" id="cBg"></label>
+              <label class="color">Text<input type="color" id="cText"></label>
+              <label class="color">Accent<input type="color" id="cAccent"></label>
+            </div>
+          </div>
+          <div>
+            <span class="sublbl">Accent color on</span>
+            <div class="seg" id="accentOn">
+              <button data-v="title">Title</button>
+              <button data-v="name">Logo / name</button>
+              <button data-v="dates">Dates</button>
+              <button data-v="none">Nothing</button>
+            </div>
+          </div>
+          <div>
+            <span class="sublbl">Film grain</span>
+            <div class="seg" id="grain">
+              <button data-v="true">On</button>
+              <button data-v="false">Off</button>
+            </div>
+          </div>
+          <div><button class="btn small ghost" id="resetColors">Reset to theme colors</button></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="sec">
+      <span class="lbl">Logo or name</span>
+      <div class="logo-top">
+        <div class="thumb" id="thumb"><span class="status" style="font-size:11px">PNG</span></div>
+        <div>
+          <div class="row">
+            <button class="btn small light" id="logoBtn">Upload logo</button>
+            <button class="btn small ghost" id="logoRemoveBtn" hidden>Remove</button>
+          </div>
+          <div class="status" id="logoStatus" style="margin-top:8px">Optional. A transparent PNG works best.</div>
+        </div>
+      </div>
+      <input type="file" id="logoFile" accept="image/png,image/*" hidden>
+
+      <div class="logo-opts" id="logoOpts" hidden>
+        <div id="bgBox" hidden>
+          <span class="sublbl">Background</span>
+          <div class="seg" id="bgRemove">
+            <button data-v="true">Remove</button>
+            <button data-v="false">Keep original</button>
+          </div>
+          <div id="bgTune" style="margin-top:14px">
+            <div class="rangehead"><span>Gentle</span><span>Strong</span></div>
+            <input type="range" id="bgTol" min="10" max="140" value="45" aria-label="Background removal strength">
+            <div class="seg" id="bgMode" style="margin-top:12px">
+              <button data-v="outside">Outside only</button>
+              <button data-v="all">Also inside letters</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="sublbl">Logo color</span>
+          <div class="seg" id="tint">
+            <button data-v="false">Original</button>
+            <button data-v="true">Match theme</button>
+          </div>
+        </div>
+        <div>
+          <div class="rangehead"><span>Smaller</span><span>Bigger</span></div>
+          <input type="range" id="logoSize" min="25" max="100" value="60" aria-label="Logo size">
+        </div>
+      </div>
+
+      <div class="field" id="nameBox" style="margin-top:18px">
+        <input type="text" id="djName" maxlength="40" placeholder="Or type your DJ name" autocomplete="off">
+        <p class="hint" id="nameHint">Used when you don't upload a logo.</p>
+      </div>
+    </div>
+
+    <div class="sec">
+      <span class="lbl">Title</span>
+      <div class="seg" id="titleMode">
+        <button data-v="month">Month</button>
+        <button data-v="tonight">Tonight</button>
+        <button data-v="none">No title</button>
+      </div>
+      <div class="field" id="titleBox"><input type="text" id="titleText" maxlength="30" autocomplete="off"></div>
+      <p class="hint" id="titleHint">Filled in automatically with this month.</p>
+    </div>
+
+    <div class="sec">
+      <span class="lbl">Date, venue and city</span>
+      <div id="gigs"></div>
+      <button class="add" id="addGig">+ Add a date</button>
+    </div>
+
+    <div class="sec">
+      <span class="lbl">Line-up position</span>
+      <div class="rangehead"><span>Higher</span><span>Lower</span></div>
+      <input type="range" id="pos" min="0" max="100" value="100" aria-label="Line-up position">
+      <p class="hint">The line-up stays inside the Instagram safe margins.</p>
+    </div>
+
+    <div class="sec">
+      <span class="lbl">Photo</span>
+      <div class="row">
+        <button class="btn small light" id="photoBtn">Upload photo</button>
+        <button class="btn small ghost" id="photoRemoveBtn" hidden>Remove</button>
+        <button class="btn small ghost" id="photoReset" hidden>Reset position</button>
+      </div>
+      <input type="file" id="photoFile" accept="image/*" hidden>
+      <p class="hint" id="photoHint">Optional. Without a photo you get a clean color background.</p>
+      <div id="photoCtl" class="dis" style="margin-top:18px">
+        <div class="rangehead"><span>Zoom</span><span id="zoomVal">100%</span></div>
+        <input type="range" id="zoom" min="100" max="400" value="100" aria-label="Zoom photo">
+        <p class="hint">Drag the preview to move the photo. Pinch or scroll to zoom.</p>
+        <div class="row" style="gap:30px;margin-top:22px;align-items:flex-start">
+          <div>
+            <span class="sublbl">Fade the top</span>
+            <div class="seg" id="fade">
+              <button data-v="off">Off</button>
+              <button data-v="soft">Soft</button>
+              <button data-v="strong">Strong</button>
+            </div>
+          </div>
+          <div>
+            <span class="sublbl">Black &amp; white</span>
+            <div class="seg" id="bw">
+              <button data-v="false">Off</button>
+              <button data-v="true">On</button>
+            </div>
+          </div>
+        </div>
+        <p class="hint">Fade blends the top of the photo into the theme background. Black &amp; white lets the theme colors do the talking.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <aside class="stage">
+    <div class="card">
+      <div class="phone" id="phone">
+        <canvas id="cv" width="1080" height="1920"></canvas>
+        <div class="safe" id="safe"><div class="t"><span></span></div><div class="b"><span></span></div><div class="l"></div><div class="r"></div></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="shareBtn" hidden>Share to Instagram Stories</button>
+      <button class="btn light" id="dlBtn">Download image</button>
+    </div>
+    <div class="row" style="gap:8px">
+      <button class="btn small" id="saveDef">Save as default</button>
+      <button class="btn small ghost" id="resetDef">Reset default</button>
+    </div>
+    <div class="specs">
+      <span id="specTxt">Story · 1080 × 1920 px</span>
+      <button class="link" id="safeBtn" aria-pressed="false">Safe zones</button>
+    </div>
+  </aside>
+</div>
+
+<footer>A tool by <a href="https://freycreates.nl">FREYcreates</a></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ============================ DATA ============================ */
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const THEMES={
+  concrete:{name:'Concrete',tag:'Techno · industrial',family:'Barlow Condensed',weight:800,style:'normal',fb:'Impact,sans-serif',upper:true,align:'left',  titleScale:1.3, nameScale:1.25,rowScale:1.2, bg:'#131313',text:'#e4e1da',accent:'#c2693f'},
+  graphite:{name:'Graphite',tag:'Techno · neutral grey',family:'Space Grotesk',weight:700,style:'normal',fb:'Arial,sans-serif',upper:true,align:'left',titleScale:1.05,nameScale:1,rowScale:1,bg:'#2a2a2d',text:'#efeff0',accent:'#a7adb5'},
+  warehouse:{name:'Warehouse',tag:'Techno · raw mono',family:'Space Mono',weight:700,style:'normal',fb:'Courier New,monospace',upper:true,align:'left',  titleScale:.78,nameScale:.8,  rowScale:.86, bg:'#0f1512',text:'#d7ded5',accent:'#8eae95'},
+  afterglow:{name:'Afterglow',tag:'Pop · dreamy',      family:'Unbounded',weight:700,style:'normal',fb:'Arial,sans-serif',upper:true,align:'center',titleScale:.68,nameScale:.72, rowScale:.82, bg:'#231f33',text:'#ece7f3',accent:'#bda3d8'},
+  flare:   {name:'Flare',   tag:'Pop · bold & vibrant',family:'Inter Tight',weight:900,style:'normal',fb:'Arial,sans-serif',upper:true,align:'left',  titleScale:1.1, nameScale:1,   rowScale:1.05,bg:'#b8176f',text:'#fff3f8',accent:'#16101a'}
+};
+
+const FORMATS={
+  story:{w:1080,h:1920,top:250,bottom:290,side:72,titleCap:210,nameCap:70,logoH:190,rowFont:46,rowH:108,gap:64,label:'Story · 1080 × 1920 px'},
+  post: {w:1080,h:1350,top:96, bottom:96, side:80,titleCap:170,nameCap:58,logoH:150,rowFont:40,rowH:92,gap:48,label:'Post 4:5 · 1080 × 1350 px'}
+};
+
+/* ============================ STATE ============================ */
+function nextFridays(n){const d=new Date();const out=[];d.setDate(d.getDate()+((5-d.getDay()+7)%7||7));
+  for(let i=0;i<n;i++){out.push(iso(d));d.setDate(d.getDate()+7)}return out}
+function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+
+const S={
+  badge:true,format:'story',theme:'concrete',custom:{},accentOn:'title',grain:true,
+  name:'',titleMode:'month',titleMonth:MONTHS[new Date().getMonth()],
+  rows:nextFridays(4).map(d=>({date:d,venue:'',city:''})),
+  pos:100,fade:'soft',bw:false,safe:false
+};
+const L={src:null,orig:null,canvas:null,transparent:true,remove:true,mode:'outside',tol:45,tint:false,size:60,fileName:''};
+const P={canvas:null,zoom:1,ox:0,oy:0};
+
+const KEY='lineupsnap:default';
+const DEF_KEYS=['badge','format','theme','custom','accentOn','grain','name','titleMode','pos','fade','bw'];
+function save(){}
+function load(){try{const j=JSON.parse(localStorage.getItem(KEY)||'null');if(!j)return;
+  DEF_KEYS.forEach(k=>{if(k in j)S[k]=j[k]});
+  if(!THEMES[S.theme])S.theme='concrete';if(!FORMATS[S.format])S.format='story';
+  if(j.logo&&j.logo.src){const i=new Image();i.onload=()=>{setLogoFromCanvas(toCanvas(i,1400),'');Object.assign(L,{tint:j.logo.tint,size:j.logo.size,tol:j.logo.tol});if(j.logo.transparent===false){L.remove=j.logo.remove;L.mode=j.logo.mode}
+    $('#bgTol').value=L.tol;$('#logoSize').value=L.size;processLogo()};i.src=j.logo.src}}catch(e){}}
+function saveDefault(){
+  try{const o={};DEF_KEYS.forEach(k=>o[k]=S[k]);
+    if(L.src){const c=document.createElement('canvas');const sc=Math.min(1,900/Math.max(L.src.width,L.src.height));c.width=Math.round(L.src.width*sc);c.height=Math.round(L.src.height*sc);c.getContext('2d').drawImage(L.src,0,0,c.width,c.height);
+      o.logo={src:c.toDataURL('image/png'),tint:L.tint,size:L.size,tol:L.tol,remove:L.remove,mode:L.mode,transparent:L.transparent}}
+    localStorage.setItem(KEY,JSON.stringify(o));toast('Saved as your default look.')}catch(e){toast('Could not save. Is your browser blocking storage?')}}
+function resetDefault(){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}
+
+/* ============================ HELPERS ============================ */
+const $=s=>document.querySelector(s);
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+function hex2rgb(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255]}
+function rgba(h,a){const[r,g,b]=hex2rgb(h);return`rgba(${r},${g},${b},${a})`}
+function colors(){const t=THEMES[S.theme];return{bg:S.custom.bg||t.bg,text:S.custom.text||t.text,accent:S.custom.accent||t.accent}}
+function fmtDate(v){if(!v)return'';const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v);if(!m)return v;return m[3]+' '+MON[+m[2]-1]}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),3200)}
+function fontStr(th,size,weight){return`${th.style} ${weight||th.weight} ${size}px "${th.family}",${th.fb}`}
+
+/* ============================ FONT LOADING ============================ */
+const fontAsked=new Set();
+function ensureFont(th,text){
+  const k=th.family+'|'+text;if(fontAsked.has(k))return;fontAsked.add(k);
+  const spec=`${th.style} ${th.weight} 40px "${th.family}"`;
+  if(document.fonts&&document.fonts.load)document.fonts.load(spec,text||'Aa').then(()=>schedule()).catch(()=>{});
+}
+
+/* ============================ RENDER ============================ */
+const cv=$('#cv');
+let raf=0;function schedule(){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}
+
+let grainCanvas=null;
+function getGrain(){if(grainCanvas)return grainCanvas;const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');
+  const id=x.createImageData(256,256);for(let i=0;i<id.data.length;i+=4){const v=Math.random()*255;id.data[i]=id.data[i+1]=id.data[i+2]=v;id.data[i+3]=16}
+  x.putImageData(id,0,0);return grainCanvas=c}
+
+const tintCache=new Map();
+function tinted(src,color){const k=color+'|'+src.width+'x'+src.height+'|'+(src._v||0);if(tintCache.has(k))return tintCache.get(k);
+  const c=document.createElement('canvas');c.width=src.width;c.height=src.height;const x=c.getContext('2d');
+  x.drawImage(src,0,0);x.globalCompositeOperation='source-in';x.fillStyle=color;x.fillRect(0,0,c.width,c.height);
+  if(tintCache.size>8)tintCache.clear();tintCache.set(k,c);return c}
+
+function easeGrad(x,y0,y1,color,a0,a1){const g=x.createLinearGradient(0,y0,0,y1);
+  for(let i=0;i<=10;i++){const t=i/10,e=t*t*(3-2*t);g.addColorStop(t,rgba(color,a0+(a1-a0)*e))}return g}
+
+function photoRect(F){
+  const c=P.canvas,s0=Math.max(F.w/c.width,F.h/c.height),s=s0*P.zoom,dw=c.width*s,dh=c.height*s;
+  const mx=(dw-F.w)/2,my=(dh-F.h)/2;P.ox=clamp(P.ox,-mx,mx);P.oy=clamp(P.oy,-my,my);
+  return{x:F.w/2-dw/2+P.ox,y:F.h/2-dh/2+P.oy,w:dw,h:dh,mx,my}}
+
+const BADGE_FONT=()=>({family:'Inter Tight',weight:900,style:'normal',fb:'Arial,sans-serif'});
+function drawBadge(x,right,base,k,C){
+  const th=BADGE_FONT(),fs=48*k,ts=22*k,sp=5.5*k;
+  x.save();x.textAlign='left';x.textBaseline='alphabetic';
+  x.font=fontStr(th,fs);const fw=x.measureText('F').width,dw=x.measureText('.').width;
+  x.font=fontStr(th,ts,800);const word='LINEUP SNAP';
+  let tw=0;for(const ch of word)tw+=x.measureText(ch).width+sp;tw-=sp;
+  const gap=14*k,total=fw+dw+gap*2+2*k+tw;let px=right-total;
+  x.font=fontStr(th,fs);x.fillStyle=C.text;x.fillText('F',px,base);px+=fw;
+  x.fillStyle='#e61482';x.fillText('.',px,base);px+=dw+gap;
+  x.fillStyle=rgba(C.text,.35);x.fillRect(px,base-fs*.72,2*k,fs*.72);px+=2*k+gap;
+  x.font=fontStr(th,ts,800);x.fillStyle=C.text;
+  const ty=base-fs*.72/2+ts*.36;
+  for(const ch of word){x.fillText(ch,px,ty);px+=x.measureText(ch).width+sp}
+  x.restore();ensureFont(th,'F.LINEUP SNAP');
+}
+function draw(){
+  const F=FORMATS[S.format],th=THEMES[S.theme],C=colors();
+  if(cv.width!==F.w||cv.height!==F.h){cv.width=F.w;cv.height=F.h}
+  const x=cv.getContext('2d');x.save();
+  const T=s=>th.upper?String(s).toUpperCase():String(s);
+
+  /* background */
+  x.fillStyle=C.bg;x.fillRect(0,0,F.w,F.h);
+  if(P.canvas){
+    const r=photoRect(F);x.imageSmoothingQuality='high';x.drawImage(P.canvas,r.x,r.y,r.w,r.h);
+    if(S.bw){x.globalCompositeOperation='saturation';x.fillStyle='#808080';x.fillRect(0,0,F.w,F.h);x.globalCompositeOperation='source-over'}
+    const len=S.fade==='strong'?.62:S.fade==='soft'?.36:0;
+    if(len){x.fillStyle=easeGrad(x,0,F.h*len,C.bg,S.fade==='strong'?1:.96,0);x.fillRect(0,0,F.w,F.h*len)}
+    const y0=F.h*(S.format==='story'?.46:.42);
+    x.fillStyle=easeGrad(x,y0,F.h,C.bg,0,.92);x.fillRect(0,y0,F.w,F.h-y0);
+  }else{
+    const lum=hex2rgb(C.bg).reduce((a,v)=>a+v,0)/765,ga=lum>.6?.09:.2;
+    const g=x.createRadialGradient(F.w*.85,F.h*.08,0,F.w*.85,F.h*.08,F.w*1.25);
+    g.addColorStop(0,rgba(C.accent,ga));g.addColorStop(1,rgba(C.accent,0));x.fillStyle=g;x.fillRect(0,0,F.w,F.h);
+    const g2=x.createRadialGradient(F.w*.05,F.h*.98,0,F.w*.05,F.h*.98,F.w*1.1);
+    g2.addColorStop(0,rgba(C.accent,ga/2));g2.addColorStop(1,rgba(C.accent,0));x.fillStyle=g2;x.fillRect(0,0,F.w,F.h);
+  }
+  if(S.grain){x.globalAlpha=hex2rgb(C.bg).reduce((a,v)=>a+v,0)/765>.6?.5:1;x.fillStyle=x.createPattern(getGrain(),'repeat');x.fillRect(0,0,F.w,F.h);x.globalAlpha=1}
+
+  /* header */
+  const maxW=F.w-2*F.side,center=th.align==='center',ax=center?F.w/2:F.side;
+  x.textAlign=center?'center':'left';x.textBaseline='alphabetic';
+  const hasTitle=S.titleMode!=='none';
+  const titleText=S.titleMode==='tonight'?'Tonight':(S.titleMonth||'');
+  const showTitle=hasTitle&&titleText.trim();
+  let y=F.top;
+  if(S.badge){
+    const bs=S.format==='story'?1:.9;
+    const by=S.format==='story'?F.top-84:F.top;
+    drawBadge(x,F.w-F.side,by+46*bs,bs,C);
+    if(S.format!=='story')y+=64;
+  }
+  const accName=S.accentOn==='name',accTitle=S.accentOn==='title',accDates=S.accentOn==='dates';
+
+  function fitText(text,cap,mw,weight){let s=cap;x.font=fontStr(th,s,weight);const w=x.measureText(text).width;if(w>mw)s=s*mw/w;return s}
+  const texts=[];
+
+  if(L.canvas){
+    const color=accName?C.accent:(L.tint?C.text:null);
+    const src=color?tinted(L.canvas,color):L.canvas;
+    const boxW=maxW*L.size/100,boxH=F.logoH*(showTitle?1:1.6)*(.5+L.size/100*.5);
+    const sc=Math.min(boxW/src.width,boxH/src.height),dw=src.width*sc,dh=src.height*sc;
+    x.drawImage(src,center?F.w/2-dw/2:ax,y,dw,dh);y+=dh;
+  }else{
+    const nm=T(S.name.trim()||'DJ NAME');texts.push(nm);
+    const size=fitText(nm,F.nameCap*th.nameScale*(showTitle?1:2.1),maxW);
+    x.font=fontStr(th,size);x.fillStyle=accName?C.accent:C.text;
+    const m=x.measureText(nm);const asc=m.actualBoundingBoxAscent||size*.72,desc=m.actualBoundingBoxDescent||0;
+    x.fillText(nm,ax,y+asc);y+=asc+desc;
+  }
+  if(showTitle){
+    y+=F.logoH*.17;
+    const tt=T(titleText.trim());texts.push(tt);
+    const size=fitText(tt,F.titleCap*th.titleScale,maxW);
+    x.font=fontStr(th,size);x.fillStyle=accTitle?C.accent:C.text;
+    const m=x.measureText(tt);const asc=m.actualBoundingBoxAscent||size*.72,desc=m.actualBoundingBoxDescent||0;
+    x.fillText(tt,ax,y+asc);y+=asc+desc;
+  }
+  const headerBottom=y;
+
+  /* line-up */
+  const rows=S.rows.filter(r=>r.date||r.venue||r.city);
+  if(rows.length){
+    const topMin=headerBottom+F.gap,bottomMax=F.h-F.bottom;
+    let rowH=F.rowH*Math.min(1.1,th.rowScale*.9+.1);
+    rowH=Math.min(rowH,(bottomMax-topMin)/rows.length);
+    const blockH=rowH*rows.length;
+    const lowest=bottomMax-blockH,highest=Math.min(topMin,lowest);
+    const top=highest+(lowest-highest)*(S.pos/100);
+    let base=F.rowFont*th.rowScale;
+    x.textAlign='left';
+    // find one font size that fits every row
+    const parts=rows.map(r=>({d:T(fmtDate(r.date)||'DATE'),v:T(r.venue.trim()||'Venue'),c:r.city.trim()?', '+T(r.city.trim()):''}));
+    let size=base;
+    for(const p of parts){x.font=fontStr(th,base);const w=x.measureText(p.d).width+x.measureText(p.v+p.c).width+40;if(w>maxW)size=Math.min(size,base*(maxW)/w)}
+    parts.forEach((p,i)=>{
+      const ty=top+i*rowH;
+      x.fillStyle=rgba(C.text,.42);x.fillRect(F.side,Math.round(ty),maxW,2);
+      const by=ty+rowH/2+size*.36;
+      x.font=fontStr(th,size);
+      x.textAlign='left';x.fillStyle=accDates?C.accent:C.text;x.fillText(p.d,F.side,by);
+      x.textAlign='right';
+      const cw=p.c?x.measureText(p.c).width:0;
+      if(p.c){x.fillStyle=rgba(C.text,.62);x.fillText(p.c,F.side+maxW,by)}
+      x.fillStyle=C.text;x.fillText(p.v,F.side+maxW-cw,by);
+      texts.push(p.d,p.v,p.c);
+    });
+  }
+  x.restore();
+  ensureFont(th,texts.join('')+'AaBb');
+}
+
+/* ============================ UI WIRING ============================ */
+function change(){save();syncDerived();schedule()}
+
+const SEGS=[
+  ['#fmt',()=>S.format,v=>{S.format=v;P.ox=P.oy=0;layoutPhone()}],
+  ['#accentOn',()=>S.accentOn,v=>S.accentOn=v],
+  ['#badge',()=>String(S.badge),v=>S.badge=v==='true'],
+  ['#grain',()=>String(S.grain),v=>S.grain=v==='true'],
+  ['#titleMode',()=>S.titleMode,v=>S.titleMode=v],
+  ['#fade',()=>S.fade,v=>S.fade=v],
+  ['#bw',()=>String(S.bw),v=>S.bw=v==='true'],
+  ['#tint',()=>String(L.tint),v=>L.tint=v==='true'],
+  ['#bgRemove',()=>String(L.remove),v=>{L.remove=v==='true';processLogo()}],
+  ['#bgMode',()=>L.mode,v=>{L.mode=v;processLogo()}]
+];
+SEGS.forEach(([id,get,set])=>{const el=$(id);el.addEventListener('click',e=>{const b=e.target.closest('button[data-v]');if(!b)return;set(b.dataset.v);change()})});
+function paintSegs(){SEGS.forEach(([id,get])=>{const v=get();document.querySelectorAll(id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===v)))})}
+
+function layoutPhone(){const F=FORMATS[S.format];$('#phone').style.setProperty('--ratio',F.w/F.h);$('#specTxt').textContent=F.label;updateSafe()}
+function updateSafe(){
+  const F=FORMATS[S.format],el=$('#safe');el.classList.toggle('on',S.safe);
+  const p=v=>(v*100)+'%';
+  el.querySelector('.t').style.height=p(F.top/F.h);el.querySelector('.b').style.height=p(F.bottom/F.h);
+  el.querySelector('.l').style.width=p(F.side/F.w);el.querySelector('.r').style.width=p(F.side/F.w);
+  el.querySelector('.t span').textContent=S.format==='story'?'Instagram profile bar':'Margin';
+  el.querySelector('.b span').textContent=S.format==='story'?'Reply bar':'Margin';
+  el.querySelectorAll('span').forEach((s,i)=>{s.style.top=i?'auto':'40%';s.style.bottom=i?'40%':'auto'});
+}
+$('#safeBtn').addEventListener('click',e=>{S.safe=!S.safe;e.currentTarget.setAttribute('aria-pressed',String(S.safe));updateSafe()});
+
+/* themes */
+function buildThemes(){
+  const box=$('#themes');box.innerHTML='';
+  Object.entries(THEMES).forEach(([id,t])=>{
+    const b=document.createElement('button');b.className='theme';b.dataset.id=id;
+    const size=t.family==='Unbounded'||t.family==='Space Mono'?17:t.family==='Barlow Condensed'?28:24;
+    b.innerHTML=`<span class="sw" style="background:${t.bg};text-align:${t.align}"><b style="font-family:'${t.family}',${t.fb};font-weight:${t.weight};font-style:${t.style};color:${t.text};font-size:${size}px;${t.upper?'text-transform:uppercase':''}">Lineup</b><u style="background:${t.accent};${t.align==='center'?'margin:0 auto':''}"></u></span><span class="nm">${t.name}<small>${t.tag}</small></span>`;
+    b.addEventListener('click',()=>{S.theme=id;S.custom={};syncColors();change()});
+    box.appendChild(b);
+  });
+}
+function syncThemes(){document.querySelectorAll('.theme').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.id===S.theme)))}
+function syncColors(){const C=colors();$('#cBg').value=C.bg;$('#cText').value=C.text;$('#cAccent').value=C.accent}
+[['#cBg','bg'],['#cText','text'],['#cAccent','accent']].forEach(([id,k])=>$(id).addEventListener('input',e=>{S.custom[k]=e.target.value;change()}));
+$('#resetColors').addEventListener('click',()=>{S.custom={};syncColors();change()});
+
+/* name / title */
+$('#djName').addEventListener('input',e=>{S.name=e.target.value;change()});
+$('#titleText').addEventListener('input',e=>{S.titleMonth=e.target.value;change()});
+
+/* gigs */
+function renderGigs(){
+  const box=$('#gigs');box.innerHTML='';
+  S.rows.forEach((r,i)=>{
+    const g=document.createElement('div');g.className='gig';
+    g.innerHTML=`<input type="date" aria-label="Date"><input type="text" placeholder="Venue" maxlength="40" aria-label="Venue" autocomplete="off"><button class="x" aria-label="Remove this date">×</button><input type="text" class="city" placeholder="City (optional)" maxlength="30" aria-label="City" autocomplete="off">`;
+    const [d,v,x,c]=g.children;d.value=r.date;v.value=r.venue;c.value=r.city;
+    d.addEventListener('input',()=>{r.date=d.value;change()});
+    v.addEventListener('input',()=>{r.venue=v.value;change()});
+    c.addEventListener('input',()=>{r.city=c.value;change()});
+    x.addEventListener('click',()=>{S.rows.splice(i,1);if(!S.rows.length)S.rows.push({date:'',venue:'',city:''});renderGigs();change()});
+    box.appendChild(g);
+  });
+  $('#addGig').style.display=S.rows.length>=8?'none':'';
+}
+$('#addGig').addEventListener('click',()=>{
+  const last=S.rows[S.rows.length-1];let d='';
+  const m=last&&/^(\d{4})-(\d{2})-(\d{2})$/.exec(last.date);if(m){const dt=new Date(+m[1],+m[2]-1,+m[3]+7);d=iso(dt)}
+  S.rows.push({date:d,venue:'',city:''});renderGigs();change();
+  const ins=document.querySelectorAll('#gigs .gig');ins[ins.length-1].children[1].focus();
+});
+$('#pos').addEventListener('input',e=>{S.pos=+e.target.value;change()});
+
+function syncDerived(){
+  paintSegs();syncThemes();
+  const hasLogo=!!L.canvas;
+  $('#nameBox').classList.toggle('dis',hasLogo);
+  $('#titleBox').style.display=S.titleMode==='month'?'':'none';
+  $('#titleHint').textContent=S.titleMode==='month'?'Filled in automatically with this month. You can change it.':S.titleMode==='tonight'?'Shows TONIGHT under your logo or name.':'Only your logo or name, no title.';
+  $('#photoCtl').classList.toggle('dis',!P.canvas);
+  $('#photoRemoveBtn').hidden=!P.canvas;$('#photoReset').hidden=!P.canvas;
+  $('#phone').classList.toggle('can-drag',!!P.canvas);
+  $('#zoomVal').textContent=Math.round(P.zoom*100)+'%';$('#zoom').value=Math.round(P.zoom*100);
+  $('#photoHint').textContent=P.canvas?'Photo added. Everything below only changes the photo.':'Optional. Without a photo you get a clean color background.';
+  $('#logoOpts').hidden=!hasLogo;$('#bgBox').hidden=!(hasLogo&&!L.transparent);
+  $('#bgTune').style.display=L.remove?'':'none';
+}
+
+/* ============================ IMAGES ============================ */
+function loadImage(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file);const i=new Image();i.onload=()=>{URL.revokeObjectURL(u);res(i)};i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('load'))};i.src=u})}
+function toCanvas(img,max){const w0=img.naturalWidth||img.width,h0=img.naturalHeight||img.height,s=Math.min(1,max/Math.max(w0,h0));
+  const c=document.createElement('canvas');c.width=Math.max(1,Math.round(w0*s));c.height=Math.max(1,Math.round(h0*s));
+  const x=c.getContext('2d',{willReadFrequently:true});x.imageSmoothingQuality='high';x.drawImage(img,0,0,c.width,c.height);return c}
+
+/* photo */
+function setPhoto(c){P.canvas=c;P.zoom=1;P.ox=P.oy=0;change()}
+$('#photoBtn').addEventListener('click',()=>$('#photoFile').click());
+$('#photoFile').addEventListener('change',async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+  try{setPhoto(toCanvas(await loadImage(f),2600))}catch(err){toast('Could not open that image. Try a JPG or PNG.')}});
+$('#photoRemoveBtn').addEventListener('click',()=>{P.canvas=null;change()});
+$('#photoReset').addEventListener('click',()=>{P.zoom=1;P.ox=P.oy=0;change()});
+$('#zoom').addEventListener('input',e=>{P.zoom=e.target.value/100;change()});
+
+/* pan & zoom on the preview */
+(function(){
+  const ptrs=new Map();let lastDist=0;
+  const ratio=()=>cv.width/cv.getBoundingClientRect().width;
+  cv.addEventListener('pointerdown',e=>{if(!P.canvas)return;cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    $('#phone').classList.add('dragging');if(ptrs.size===2){const[a,b]=[...ptrs.values()];lastDist=Math.hypot(a.x-b.x,a.y-b.y)}});
+  cv.addEventListener('pointermove',e=>{const p=ptrs.get(e.pointerId);if(!p||!P.canvas)return;
+    const dx=e.clientX-p.x,dy=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;
+    if(ptrs.size===1){const r=ratio();P.ox+=dx*r;P.oy+=dy*r}
+    else if(ptrs.size===2){const[a,b]=[...ptrs.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);if(lastDist)P.zoom=clamp(P.zoom*d/lastDist,1,4);lastDist=d}
+    syncDerived();schedule()});
+  const up=e=>{ptrs.delete(e.pointerId);lastDist=0;if(!ptrs.size){$('#phone').classList.remove('dragging');save()}};
+  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  cv.addEventListener('wheel',e=>{if(!P.canvas)return;e.preventDefault();P.zoom=clamp(P.zoom*Math.exp(-e.deltaY*.0015),1,4);syncDerived();schedule()},{passive:false});
+})();
+
+/* logo */
+function hasAlpha(id){const d=id.data,n=d.length/4;let t=0;for(let i=3;i<d.length;i+=4)if(d[i]<200)t++;
+  const w=id.width,h=id.height,corners=[0,w-1,(h-1)*w,h*w-1].filter(i=>d[i*4+3]<30).length;
+  return t/n>.005||corners>=3}
+
+function removeBg(src,tol,mode){
+  const w=src.width,h=src.height,s=src.data,d=new Uint8ClampedArray(s);
+  // background color = per-channel median of the border pixels
+  const R=[],G=[],B=[];const add=(px,py)=>{const i=(py*w+px)*4;R.push(s[i]);G.push(s[i+1]);B.push(s[i+2])};
+  for(let px=0;px<w;px+=3){add(px,0);add(px,h-1)}for(let py=0;py<h;py+=3){add(0,py);add(w-1,py)}
+  const med=a=>{a.sort((p,q)=>p-q);return a[a.length>>1]};const br=med(R),bg=med(G),bb=med(B);
+  const dist=i=>{const dr=s[i]-br,dg=s[i+1]-bg,db=s[i+2]-bb;return Math.sqrt(dr*dr+dg*dg+db*db)};
+  const ramp=v=>clamp((v-tol)/(tol*.7),0,1);
+  if(mode==='all'){for(let i=0;i<d.length;i+=4)d[i+3]=Math.min(d[i+3],ramp(dist(i))*255)}
+  else{
+    const mark=new Uint8Array(w*h),stack=[];
+    const push=(px,py)=>{const k=py*w+px;if(!mark[k]&&dist(k*4)<tol){mark[k]=1;stack.push(k)}};
+    for(let px=0;px<w;px++){push(px,0);push(px,h-1)}for(let py=0;py<h;py++){push(0,py);push(w-1,py)}
+    while(stack.length){const k=stack.pop(),px=k%w,py=(k-px)/w;
+      if(px>0)push(px-1,py);if(px<w-1)push(px+1,py);if(py>0)push(px,py-1);if(py<h-1)push(px,py+1)}
+    for(let k=0;k<w*h;k++){const i=k*4;
+      if(mark[k]){d[i+3]=0;continue}
+      const px=k%w,py=(k-px)/w;
+      const nb=(px>0&&mark[k-1])||(px<w-1&&mark[k+1])||(py>0&&mark[k-w])||(py<h-1&&mark[k+w]);
+      if(nb)d[i+3]=Math.min(d[i+3],ramp(dist(i))*255);
+    }
+  }
+  return new ImageData(d,w,h);
+}
+function trim(id){
+  const w=id.width,h=id.height,d=id.data;let x0=w,y0=h,x1=-1,y1=-1;
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(d[(y*w+x)*4+3]>10){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
+  const full=document.createElement('canvas');full.width=w;full.height=h;full.getContext('2d').putImageData(id,0,0);
+  if(x1<0)return full;
+  const c=document.createElement('canvas');c.width=x1-x0+1;c.height=y1-y0+1;c.getContext('2d').drawImage(full,x0,y0,c.width,c.height,0,0,c.width,c.height);return c}
+
+let procTimer=0;
+function processLogo(){
+  clearTimeout(procTimer);
+  procTimer=setTimeout(()=>{
+    if(!L.orig)return;
+    const out=(!L.transparent&&L.remove)?removeBg(L.orig,L.tol,L.mode):L.orig;
+    L.canvas=trim(out);L.canvas._v=(L.canvas._v||0)+1;tintCache.clear();
+    paintLogoUI();syncDerived();schedule();
+  },40);
+}
+function paintLogoUI(){
+  const th=$('#thumb');th.innerHTML='';
+  if(L.canvas){const c=document.createElement('canvas');c.width=L.canvas.width;c.height=L.canvas.height;c.getContext('2d').drawImage(L.canvas,0,0);th.appendChild(c);
+    $('#logoBtn').textContent='Replace logo';$('#logoRemoveBtn').hidden=false;
+    $('#logoStatus').innerHTML=L.transparent?'<span class="ok">✓</span> <b>Transparent PNG</b> detected.':(L.remove?'<span class="ok">✓</span> Background <b>removed automatically</b>. Fine-tune below.':'Using the original image, background kept.');
+  }else{th.innerHTML='<span class="status" style="font-size:11px">PNG</span>';$('#logoBtn').textContent='Upload logo';$('#logoRemoveBtn').hidden=true;$('#logoStatus').textContent='Optional. A transparent PNG works best.'}
+}
+function setLogoFromCanvas(c,name){
+  L.src=c;L.orig=c.getContext('2d').getImageData(0,0,c.width,c.height);L.transparent=hasAlpha(L.orig);L.remove=true;L.mode='outside';L.fileName=name||'';
+  $('#bgTol').value=L.tol;processLogo();
+}
+$('#logoBtn').addEventListener('click',()=>$('#logoFile').click());
+$('#logoFile').addEventListener('change',async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+  try{setLogoFromCanvas(toCanvas(await loadImage(f),1400),f.name)}catch(err){toast('Could not open that logo. Try a PNG.')}});
+$('#logoRemoveBtn').addEventListener('click',()=>{L.src=null;L.orig=null;L.canvas=null;L.tint=false;paintLogoUI();change()});
+$('#bgTol').addEventListener('input',e=>{L.tol=+e.target.value;processLogo()});
+$('#logoSize').addEventListener('input',e=>{L.size=+e.target.value;change()});
+
+/* ============================ EXPORT ============================ */
+function fileName(){const t=S.titleMode==='month'?S.titleMonth:S.titleMode==='tonight'?'tonight':'lineup';return'lineup-snap-'+(t||'lineup').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.png'}
+function toBlob(){draw();return new Promise(r=>cv.toBlob(r,'image/png'))}
+$('#dlBtn').addEventListener('click',async()=>{
+  const b=await toBlob();if(!b){toast('Could not create the image.');return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fileName();document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  toast('Saved. Add it to your Instagram story.');
+});
+$('#shareBtn').addEventListener('click',async()=>{
+  const b=await toBlob();if(!b)return;const f=new File([b],fileName(),{type:'image/png'});
+  try{await navigator.share({files:[f]})}catch(e){if(e&&e.name!=='AbortError')toast('Sharing failed. Use Download instead.')}
+});
+try{if(navigator.canShare&&navigator.canShare({files:[new File([''],'a.png',{type:'image/png'})]}))$('#shareBtn').hidden=false}catch(e){}
+
+$('#saveDef').addEventListener('click',saveDefault);
+$('#resetDef').addEventListener('click',resetDefault);
+
+/* ============================ INIT ============================ */
+load();
+buildThemes();renderGigs();
+$('#djName').value=S.name;$('#titleText').value=S.titleMonth;$('#pos').value=S.pos;$('#logoSize').value=L.size;
+syncColors();layoutPhone();paintSegs();syncDerived();draw();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(schedule);
+</script>
+</body>
+</html>
