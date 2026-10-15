@@ -101,8 +101,8 @@
       position: absolute; left: 0; right: 0; pointer-events: none; opacity: 0; transition: opacity .2s;
       background: repeating-linear-gradient(135deg, rgba(212,255,58,.16) 0 8px, transparent 8px 16px);
     }
-    .safe.t { top: 0; height: calc(180 / 1920 * 100%); }
-    .safe.b { bottom: 0; height: calc(250 / 1920 * 100%); }
+    .safe.t { top: 0; height: calc(157 / 1920 * 100%); }
+    .safe.b { bottom: 0; height: calc(157 / 1920 * 100%); }
     .stage.show-safe .safe { opacity: 1; }
     .out { display: grid; gap: 10px; margin-top: 16px; }
     .out .btn { width: 100%; padding: 0 16px; font-size: 14px; white-space: normal; text-align: center; }
@@ -225,8 +225,10 @@
     var C = { dj: '#12062A', main: '#1C0C3D', c2: '#5A2CFF', c3: '#D4FF3A', c4: '#F4F0FF' };
     var W = 1080, H = 1920;
     var M = 90;                 // side margin
-    var SAFE_TOP = 180;         // Instagram's top bar
-    var SAFE_BOTTOM = 250;      // Instagram's reply bar
+    var DANGER = 157;           // Instagram's top bar and reply bar cover 157px each
+    var GAP = 10;               // breathing room between the text and the danger zones
+    var SAFE_TOP = DANGER + GAP;
+    var SAFE_BOTTOM = DANGER + GAP;
     var MONTHS = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'];
     var MON = ['Jan','Feb','Mrt','Apr','Mei','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
 
@@ -460,9 +462,10 @@
       ctx.textBaseline = 'alphabetic';
 
       // 2. Logo top left: BASS BTCH, word space = 0.3 × letter height
-      var logoSize = 72, capH = logoSize * 0.72;
-      var logoY = SAFE_TOP + capH;
+      var logoSize = 72;
       ctx.fillStyle = C.c4; ctx.font = logoSize + 'px ' + DISPLAY; ctx.textAlign = 'left';
+      var capH = ctx.measureText('B').actualBoundingBoxAscent || logoSize * 0.72;
+      var logoY = SAFE_TOP + capH;   // top of the letters sits on the safe line
       ctx.fillText('BASS', M, logoY);
       var bw = ctx.measureText('BASS').width;
       ctx.fillText('BTCH', M + bw + capH * 0.3, logoY);
@@ -490,7 +493,9 @@
       var rowH = Math.min(92, Math.floor(640 / gigs.length));
       var fSize = Math.min(44, Math.round(rowH * 0.48));
       // Line-up position: from just under the month (0) to just above the reply bar (1)
-      var highest = monthY + 90, lowest = H - SAFE_BOTTOM - rowH * gigs.length;
+      var lastBase = rowH / 2 + fSize * 0.36 + 2;   // baseline offset inside a row
+      var highest = monthY + 90;
+      var lowest = H - SAFE_BOTTOM - lastBase - rowH * (gigs.length - 1);  // last gig sits on the safe line
       var top = Math.round(highest + (Math.max(highest, lowest) - highest) * state.ty);
       if (photo) {
         // Keep the rows readable: darken the photo from just above the line-up down
