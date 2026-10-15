@@ -60,14 +60,14 @@
     .button-primary svg{stroke:var(--pink)}
     .button.done{border-color:var(--ink);background:var(--ink);color:#fff}
 
-    /* Photos: columns keep each photo's own proportions, nothing is cropped. */
-    .photos{columns:3;column-gap:18px;margin-top:22px}
-    .photos figure{break-inside:avoid;margin:0 0 22px}
-    .photos img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#f0e6e2}
-    .photos figcaption{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px}
-    .photos figcaption b{display:block;font-size:.92rem;font-weight:800;line-height:1.25}
-    .photos figcaption span{display:block;color:var(--muted);font-size:.78rem;font-weight:600;line-height:1.35}
-    .photos .button{min-height:40px;padding:7px 12px;font-size:.84rem;flex:0 0 auto}
+    /* Photos: one row, all the same height (width follows each photo's own proportions, nothing is cropped). */
+    .photos{display:flex;gap:14px;margin-top:14px;align-items:stretch}
+    .photos figure{display:flex;flex-direction:column;flex:1 1 0;min-width:0;margin:0}
+    .photos img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#f0e6e2}
+    .photos figcaption{display:flex;flex:1;flex-direction:column;margin-top:8px}
+    .photos figcaption b{display:block;font-size:.84rem;font-weight:800;line-height:1.25}
+    .photos figcaption span{display:block;margin-bottom:8px;color:var(--muted);font-size:.72rem;font-weight:600;line-height:1.35}
+    .photos .button{display:flex;justify-content:center;width:100%;min-height:36px;margin-top:auto;padding:6px 10px;font-size:.8rem}
     .note{margin:2px 0 0;padding:14px 18px;border-radius:10px;background:#f7efec;color:#433a40;font-size:.92rem;font-weight:700}
 
     /* Bios */
@@ -148,14 +148,13 @@
     @media(max-width:760px){
       .shell{width:calc(100% - 20px);margin-top:6px;gap:12px}
       .pad,.name section,.two section{padding:26px 22px 28px}
-      .photos{columns:1}
+      .photos{display:grid;grid-template-columns:1fr 1fr;gap:16px 12px}
       .name,.two{grid-template-columns:1fr}
       .name section+section,.two section+section{border-left:0;border-top:1px solid rgba(128,128,128,.25)}
       .logos{grid-template-columns:1fr 1fr}.setups,.rider{grid-template-columns:1fr}
       .button{flex:1 1 auto;justify-content:center}
-      .photos .button{flex:0 0 auto}.bio-head{flex-wrap:wrap}.bio-btns{justify-content:flex-start}.bio-btns .button{flex:0 0 auto}
+      .bio-head{flex-wrap:wrap}.bio-btns{justify-content:flex-start}.bio-btns .button{flex:0 0 auto}
     }
-    @media(min-width:761px) and (max-width:900px){.photos{columns:2}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
 
     :root .site-footer{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 0;padding:18px 20px 26px;color:#b9adb4;font-size:.8rem;font-weight:600;line-height:1.5;text-align:center}
@@ -183,7 +182,7 @@
       <h2>Photos.</h2>
       <p class="sub">Tap a photo to download the full-size original.</p>
       <div class="photos">
-<figure><a href="full/FREY-press-01-pink-cap.jpg" download><img src="photos/FREY-press-01-pink-cap.jpg" alt="Pink cap, white wall" loading="lazy"></a><figcaption><div><b>Pink cap, white wall</b><span>Studio portrait · 5184 × 3456 · 1.4 MB</span></div><a class="button" href="full/FREY-press-01-pink-cap.jpg" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><a href="full/FREY-press-04-behind-the-decks.jpg" download><img src="photos/FREY-press-04-behind-the-decks.jpg" alt="Behind the decks" loading="lazy"></a><figcaption><div><b>Behind the decks</b><span>Live · 8256 × 5504 · 1.7 MB</span></div><a class="button" href="full/FREY-press-04-behind-the-decks.jpg" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><a href="full/FREY-press-02-white-background-wider.jpg" download><img src="photos/FREY-press-02-white-background-wider.jpg" alt="White background, wider" loading="lazy"></a><figcaption><div><b>White background, wider</b><span>Studio portrait · 3315 × 2856 · 1.3 MB</span></div><a class="button" href="full/FREY-press-02-white-background-wider.jpg" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><a href="full/FREY-press-05-worldpride-amsterdam.jpg" download><img src="photos/FREY-press-05-worldpride-amsterdam.jpg" alt="WorldPride Amsterdam 2026" loading="lazy"></a><figcaption><div><b>WorldPride Amsterdam 2026</b><span>Live · 2655 × 3319 · 5.1 MB</span></div><a class="button" href="full/FREY-press-05-worldpride-amsterdam.jpg" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><a href="full/FREY-press-03-white-background.jpg" download><img src="photos/FREY-press-03-white-background.jpg" alt="White background" loading="lazy"></a><figcaption><div><b>White background</b><span>Studio portrait · 1443 × 1600 · 148 KB</span></div><a class="button" href="full/FREY-press-03-white-background.jpg" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure>
+<figure style="flex-grow:1.500"><a href="full/FREY-press-01-pink-cap.jpg" download><img src="photos/FREY-press-01-pink-cap.jpg" alt="Pink cap, white wall" loading="lazy"></a><figcaption><b>Pink cap, white wall</b><span>Studio portrait · 5184 × 3456</span><a class="button" href="full/FREY-press-01-pink-cap.jpg" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure style="flex-grow:1.500"><a href="full/FREY-press-04-behind-the-decks.jpg" download><img src="photos/FREY-press-04-behind-the-decks.jpg" alt="Behind the decks" loading="lazy"></a><figcaption><b>Behind the decks</b><span>Live · 8256 × 5504</span><a class="button" href="full/FREY-press-04-behind-the-decks.jpg" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure style="flex-grow:1.161"><a href="full/FREY-press-02-white-background-wider.jpg" download><img src="photos/FREY-press-02-white-background-wider.jpg" alt="White background, wider" loading="lazy"></a><figcaption><b>White background, wider</b><span>Studio portrait · 3315 × 2856</span><a class="button" href="full/FREY-press-02-white-background-wider.jpg" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure style="flex-grow:0.800"><a href="full/FREY-press-05-worldpride-amsterdam.jpg" download><img src="photos/FREY-press-05-worldpride-amsterdam.jpg" alt="WorldPride Amsterdam 2026" loading="lazy"></a><figcaption><b>WorldPride Amsterdam 2026</b><span>Live · 2655 × 3319</span><a class="button" href="full/FREY-press-05-worldpride-amsterdam.jpg" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure style="flex-grow:0.902"><a href="full/FREY-press-03-white-background.jpg" download><img src="photos/FREY-press-03-white-background.jpg" alt="White background" loading="lazy"></a><figcaption><b>White background</b><span>Studio portrait · 1443 × 1600</span><a class="button" href="full/FREY-press-03-white-background.jpg" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure>
       </div>
       <p class="note">Free to use for press, line-ups and promotion of FREY. No credit needed. Please don't crop or edit the logo, and don't use the photos to suggest FREY. endorses something.</p>
     </article>
