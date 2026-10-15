@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lineup Snap | FREY.</title>
-<meta name="description" content="Make a clean line-up image for Instagram in seconds. Built for DJs. Everything stays on your device.">
+<meta name="description" content="Make a clean line-up image for Instagram in seconds. Made for DJs, drag queens and other performers. Everything stays on your device.">
 <meta name="theme-color" content="#0f0d10">
 <link rel="canonical" href="https://freycreates.nl/snap/">
 <link rel="icon" type="image/png" sizes="48x48" href="/assets/frey-icon-48.png">
@@ -13,15 +13,15 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://freycreates.nl/snap/">
 <meta property="og:site_name" content="FREY.">
-<meta property="og:title" content="Lineup Snap | Line-up maker for DJs">
-<meta property="og:description" content="Make a clean line-up image for Instagram in seconds. Free for DJs. Everything stays on your device.">
+<meta property="og:title" content="Lineup Snap | Line-up maker for DJs and performers">
+<meta property="og:description" content="Make a clean line-up image for Instagram in seconds. Free for DJs, drag queens and other performers. Everything stays on your device.">
 <meta property="og:image" content="https://freycreates.nl/assets/snap-share.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Lineup Snap by FREY.: three Instagram story line-ups in different themes">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Lineup Snap | Line-up maker for DJs">
-<meta name="twitter:description" content="Make a clean line-up image for Instagram in seconds. Free for DJs. Everything stays on your device.">
+<meta name="twitter:title" content="Lineup Snap | Line-up maker for DJs and performers">
+<meta name="twitter:description" content="Make a clean line-up image for Instagram in seconds. Free for DJs, drag queens and other performers. Everything stays on your device.">
 <meta name="twitter:image" content="https://freycreates.nl/assets/snap-share.png">
 <meta name="twitter:image:alt" content="Lineup Snap by FREY.: three Instagram story line-ups in different themes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -210,7 +210,7 @@ footer i{color:var(--pink);font-style:normal}
 
 <section class="hero">
   <h1>Create your line-up<i>.</i></h1>
-  <p>Add your gigs, pick a look and drop in a photo. Then save it to your phone or share it straight to Instagram. Everything stays on your device. Your photos, logo and gigs are never uploaded to a server.</p>
+  <p>Add your performances, pick a look and drop in a photo. Then save it to your phone or share it straight to Instagram. Everything stays on your device. Your photos, logo and performances are never uploaded to a server.</p>
   <div class="bar"></div>
 </section>
 
@@ -286,7 +286,7 @@ footer i{color:var(--pink);font-style:normal}
     <div class="sec" data-step="2">
       <span class="lbl">Your name</span>
       <div class="field" id="nameBox">
-        <input type="text" id="djName" maxlength="40" placeholder="Your DJ name" autocomplete="off">
+        <input type="text" id="djName" maxlength="40" placeholder="Your stage name" autocomplete="off">
         <p class="hint" id="nameHint">Or upload your own logo under Advanced.</p>
       </div>
       <details class="adv">
@@ -473,7 +473,7 @@ footer i{color:var(--pink);font-style:normal}
         <button class="btn small ghost" id="impBtn">Load settings</button>
         <input type="file" id="impFile" accept=".json,application/json" hidden>
       </div>
-      <p class="hint" style="margin-top:10px">The settings file is made on your device and never uploaded. It holds your look, name and logo, but not your gigs or photo.</p>
+      <p class="hint" style="margin-top:10px">The settings file is made on your device and never uploaded. It holds your look, name and logo, but not your performances or photo.</p>
     </div>
     <div class="specs">
       <span id="specTxt">Story · 1080 × 1920 px</span>
@@ -729,7 +729,7 @@ function draw(){
     const[ix,iy]=place(center?F.w/2-dw/2:ax,y,dw,dh);
     x.drawImage(src,ix,iy,dw,dh);y+=dh;
   }else{
-    const nm=T(S.name.trim()||'DJ NAME');texts.push(nm);
+    const nm=T(S.name.trim()||'STAGE NAME');texts.push(nm);
     const size=fitText(nm,F.nameCap*th.nameScale*(showTitle?1:2.1)*idScale,maxW);
     x.font=fontStr(th,size);x.fillStyle=accName?C.accent:C.text;
     const m=x.measureText(nm);const asc=m.actualBoundingBoxAscent||size*.72,desc=m.actualBoundingBoxDescent||0;
@@ -1027,7 +1027,7 @@ $('#impBtn').addEventListener('click',()=>$('#impFile').click());
 $('#impFile').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';importSettings(f)});
 
 /* ============================ STEPS ============================ */
-const STEP_NAMES=['Look','Name','Gigs','Photo','Share'];
+const STEP_NAMES=['Look','Name','Shows','Photo','Share'];
 let step=1,view='steps';
 try{view=localStorage.getItem('lineupsnap:view')||'steps'}catch(e){}
 if(view!=='all')view='steps';
