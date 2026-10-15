@@ -90,6 +90,26 @@
     .name h3{margin:18px 0 4px;color:#ff4fa8}
     .name h3:first-of-type{margin-top:0}
 
+
+    /* Technical rider */
+    #rider{scroll-margin-top:16px}
+    .setups{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:18px 0 24px}
+    .setups figure{margin:0}
+    .setups img{display:block;width:100%;height:auto;aspect-ratio:900/423;object-fit:contain;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+    .setups figcaption{margin-top:9px;color:var(--muted);font-size:.86rem;font-weight:700;line-height:1.35}
+    .rider{display:grid;grid-template-columns:1.25fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+    .rider section{padding:26px 30px 28px}
+    .rider h3{margin:0 0 6px}
+    .rider h3:not(:first-child){margin-top:20px}
+    .rider ul{margin:0;padding:0;list-style:none}
+    .rider li{position:relative;padding:9px 0 9px 20px;border-top:1px solid #f0e6e2;font-weight:600}
+    .rider li:first-child{border-top:0}
+    .rider li:before{content:"";position:absolute;left:0;top:17px;width:8px;height:8px;border-radius:50%;background:var(--pink)}
+    .rider .brings{background:#191317;color:#fffdfb}
+    .rider .brings li{border-top-color:rgba(255,255,255,.12)}
+    .rider .brings h3{color:rgba(255,253,251,.6)}
+    .rider .vibe{color:#ff4fa8;font-weight:800}
+
     /* Logos */
     .logos{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px}
     .logos figure{margin:0}
@@ -122,7 +142,7 @@
       .photos{columns:1}
       .name,.two{grid-template-columns:1fr}
       .name section+section,.two section+section{border-left:0;border-top:1px solid rgba(128,128,128,.25)}
-      .logos{grid-template-columns:1fr 1fr}
+      .logos{grid-template-columns:1fr 1fr}.setups,.rider{grid-template-columns:1fr}
       .button{flex:1 1 auto;justify-content:center}
       .photos .button,.bio-head .button{flex:0 0 auto}
     }
@@ -145,6 +165,7 @@
       <p class="lead">Photos, logos, bios and how to write the name.</p>
       <div class="actions">
         <a class="button button-primary" href="frey-press-kit.zip" download="FREY press kit.zip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download everything (zip)</span></a>
+        <a class="button" href="#rider"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h7l4 4v12H7zM14 4v4h4"/></svg><span>Technical rider</span></a>
         <a class="button" href="mailto:hello@freycreates.nl?subject=Press%20%2F%20booking"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span>hello@freycreates.nl</span></a>
       </div>
     </article>
@@ -179,6 +200,36 @@
       </section>
     </article>
 
+    <article class="card pad" id="rider">
+      <h2>Technical rider.</h2>
+      <p class="sub">Everything I need to play.</p>
+      <div class="setups">
+        <figure><img src="../assets/rider-setup-nxs2.jpg" alt="Two Pioneer CDJ-2000NXS2 players with a Pioneer DJM-900NXS2 mixer" width="900" height="423" loading="lazy"><figcaption>Example: 2× Pioneer CDJ‑2000NXS2 and 1× DJM‑900NXS2</figcaption></figure>
+        <figure><img src="../assets/rider-setup-cdj3000.png" alt="Two Pioneer CDJ-3000 players with a Pioneer DJM-A9 mixer" width="900" height="416" loading="lazy"><figcaption>Example: 2× Pioneer CDJ‑3000 and 1× DJM‑A9</figcaption></figure>
+      </div>
+      <div class="rider">
+        <section>
+          <h3>Please provide: players &amp; mixer</h3>
+          <ul>
+            <li>2× Pioneer CDJ-2000NXS2 or newer, linked with Pro DJ Link.</li>
+            <li>1× Pioneer DJM-900NXS2 or newer.</li>
+            <li>Up-to-date firmware on the players and the mixer.</li>
+          </ul>
+          <h3>Please provide: on site</h3>
+          <ul><li>An audio technician, during setup and the whole set.</li></ul>
+        </section>
+        <section class="brings">
+          <h3>I bring</h3>
+          <ul>
+            <li>USB sticks with my sets, prepared in rekordbox.</li>
+            <li>My own headphones.</li>
+            <li class="vibe">Pop-girl bops and a dance floor full of energy.</li>
+          </ul>
+        </section>
+      </div>
+      <div class="actions"><a class="button button-primary" href="../assets/frey-rider.pdf" download="FREY technical rider.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download rider (PDF)</span></a><a class="button" href="mailto:hello@freycreates.nl?subject=Technical%20rider"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span>Questions about the rider</span></a></div>
+    </article>
+
     <article class="card pad" id="logos">
       <h2>Logos.</h2>
       <p class="sub">Black or white FREY, always with the pink dot. SVG for print, PNG for everything else.</p>
@@ -206,7 +257,7 @@
           <a class="button" href="https://soundcloud.com/freyr-music" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15V10M9 16V8M13 16V6M17 16V9"/></svg><span>SoundCloud</span></a>
           <a class="button" href="https://open.spotify.com/playlist/5T49mTNrQEqgLShyqu4GKz" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15V10M9 16V8M13 16V6M17 16V9"/></svg><span>Spotify playlist</span></a>
           <a class="button" href="https://instagram.com/frey.audio" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Instagram, @frey.audio</span></a>
-          <a class="button" href="../rider.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h7l4 4v12H7zM14 4v4h4"/></svg><span>Technical rider</span></a>
+          <a class="button" href="#rider"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h7l4 4v12H7zM14 4v4h4"/></svg><span>Technical rider</span></a>
         </div>
       </section>
     </article>
