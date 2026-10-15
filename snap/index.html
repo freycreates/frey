@@ -485,7 +485,7 @@ function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'
 const S={
   badge:true,font:null,idSize:60,idDX:0,idDY:0,format:'story',theme:'concrete',custom:{},accentOn:'title',grain:true,
   name:'',titleMode:'month',titleMonth:MONTHS[new Date().getMonth()],
-  rows:nextFridays(4).map(d=>({date:d,venue:'',city:''})),
+  rows:nextFridays(2).map(d=>({date:d,venue:'',city:''})),
   pos:100,fade:'soft',bw:false,safe:false
 };
 const L={src:null,orig:null,canvas:null,transparent:true,remove:true,mode:'outside',tol:45,tint:false,fileName:''};
