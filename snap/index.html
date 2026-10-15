@@ -423,7 +423,7 @@ footer i{color:var(--pink);font-style:normal}
             </div>
             <div id="phY">
               <div class="rangehead"><span>Up</span><span>Down</span></div>
-              <input type="range" id="photoY" min="-100" max="100" value="0" aria-label="Move photo up or down">
+              <input type="range" id="photoY" min="0" max="1000" value="0" aria-label="Move photo up or down">
             </div>
             <p class="hint" style="margin:0">Left and right work once the photo is zoomed in. Drag the photo lower than the edge and use Fade the top to blend it into the background.</p>
           </div>
@@ -869,7 +869,7 @@ function syncDerived(){
   $('#photoRemoveBtn').hidden=!P.canvas;$('#photoReset').hidden=!P.canvas;
   $('#phone').classList.toggle('can-drag',!!P.canvas);
   if(P.canvas){const r=photoRect(FORMATS[S.format]);
-    $('#photoX').value=r.mx>.5?Math.round(P.ox/r.mx*100):0;$('#photoY').value=P.oy>=0?Math.round(P.oy/(r.my+r.ex)*100):(r.my>.5?Math.round(P.oy/r.my*100):0);
+    $('#photoX').value=r.mx>.5?Math.round(P.ox/r.mx*100):0;$('#photoY').value=Math.round((P.oy+r.my)/(2*r.my+r.ex)*1000);
     $('#phX').classList.toggle('dis',r.mx<=.5)}
   $('#zoomVal').textContent=Math.round(P.zoom*100)+'%';$('#zoom').value=Math.round(P.zoom*100);
   $('#photoHint').textContent=P.canvas?'Photo added. Everything below only changes the photo.':'Optional. Without a photo you get a clean color background.';
@@ -892,7 +892,7 @@ $('#photoRemoveBtn').addEventListener('click',()=>{P.canvas=null;change()});
 $('#photoReset').addEventListener('click',()=>{P.zoom=1;P.ox=P.oy=0;change()});
 $('#zoom').addEventListener('input',e=>{P.zoom=e.target.value/100;change()});
 $('#photoX').addEventListener('input',e=>{const r=photoRect(FORMATS[S.format]);P.ox=e.target.value/100*r.mx;schedule()});
-$('#photoY').addEventListener('input',e=>{const r=photoRect(FORMATS[S.format]),v=e.target.value/100;P.oy=v>=0?v*(r.my+r.ex):v*r.my;schedule()});
+$('#photoY').addEventListener('input',e=>{const r=photoRect(FORMATS[S.format]);P.oy=e.target.value/1000*(2*r.my+r.ex)-r.my;schedule()});
 
 /* pan & zoom on the preview */
 (function(){
