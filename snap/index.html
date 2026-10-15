@@ -248,16 +248,31 @@ footer i{color:var(--pink);font-style:normal}
             <button data-v="true">Match theme</button>
           </div>
         </div>
-        <div>
-          <div class="rangehead"><span>Smaller</span><span>Bigger</span></div>
-          <input type="range" id="logoSize" min="25" max="100" value="60" aria-label="Logo size">
-        </div>
       </div>
 
       <div class="field" id="nameBox" style="margin-top:18px">
         <input type="text" id="djName" maxlength="40" placeholder="Or type your DJ name" autocomplete="off">
         <p class="hint" id="nameHint">Used when you don't upload a logo.</p>
       </div>
+      <details class="adv">
+        <summary>Advanced</summary>
+        <div class="advbody">
+          <div>
+            <div class="rangehead"><span>Smaller</span><span>Bigger</span></div>
+            <input type="range" id="idSize" min="25" max="100" value="60" aria-label="Logo or name size">
+          </div>
+          <div>
+            <div class="rangehead"><span>Left</span><span>Right</span></div>
+            <input type="range" id="idDX" min="-100" max="100" value="0" aria-label="Move logo or name left or right">
+          </div>
+          <div>
+            <div class="rangehead"><span>Up</span><span>Down</span></div>
+            <input type="range" id="idDY" min="-100" max="100" value="0" aria-label="Move logo or name up or down">
+          </div>
+          <p class="hint" style="margin:0">Works for your logo and your typed name. It stays inside the margins.</p>
+          <div><button class="btn small ghost" id="idReset">Reset size and position</button></div>
+        </div>
+      </details>
     </div>
 
     <div class="sec">
@@ -369,26 +384,26 @@ function nextFridays(n){const d=new Date();const out=[];d.setDate(d.getDate()+((
 function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 
 const S={
-  badge:true,format:'story',theme:'concrete',custom:{},accentOn:'title',grain:true,
+  badge:true,idSize:60,idDX:0,idDY:0,format:'story',theme:'concrete',custom:{},accentOn:'title',grain:true,
   name:'',titleMode:'month',titleMonth:MONTHS[new Date().getMonth()],
   rows:nextFridays(4).map(d=>({date:d,venue:'',city:''})),
   pos:100,fade:'soft',bw:false,safe:false
 };
-const L={src:null,orig:null,canvas:null,transparent:true,remove:true,mode:'outside',tol:45,tint:false,size:60,fileName:''};
+const L={src:null,orig:null,canvas:null,transparent:true,remove:true,mode:'outside',tol:45,tint:false,fileName:''};
 const P={canvas:null,zoom:1,ox:0,oy:0};
 
 const KEY='lineupsnap:default';
-const DEF_KEYS=['badge','format','theme','custom','accentOn','grain','name','titleMode','pos','fade','bw'];
+const DEF_KEYS=['badge','idSize','idDX','idDY','format','theme','custom','accentOn','grain','name','titleMode','pos','fade','bw'];
 function save(){}
 function load(){try{const j=JSON.parse(localStorage.getItem(KEY)||'null');if(!j)return;
   DEF_KEYS.forEach(k=>{if(k in j)S[k]=j[k]});
   if(!THEMES[S.theme])S.theme='concrete';if(!FORMATS[S.format])S.format='story';
-  if(j.logo&&j.logo.src){const i=new Image();i.onload=()=>{setLogoFromCanvas(toCanvas(i,1400),'');Object.assign(L,{tint:j.logo.tint,size:j.logo.size,tol:j.logo.tol});if(j.logo.transparent===false){L.remove=j.logo.remove;L.mode=j.logo.mode}
-    $('#bgTol').value=L.tol;$('#logoSize').value=L.size;processLogo()};i.src=j.logo.src}}catch(e){}}
+  if(j.logo&&j.logo.src){const i=new Image();i.onload=()=>{setLogoFromCanvas(toCanvas(i,1400),'');Object.assign(L,{tint:j.logo.tint,tol:j.logo.tol});if(j.logo.transparent===false){L.remove=j.logo.remove;L.mode=j.logo.mode}
+    $('#bgTol').value=L.tol;processLogo()};i.src=j.logo.src}}catch(e){}}
 function saveDefault(){
   try{const o={};DEF_KEYS.forEach(k=>o[k]=S[k]);
     if(L.src){const c=document.createElement('canvas');const sc=Math.min(1,900/Math.max(L.src.width,L.src.height));c.width=Math.round(L.src.width*sc);c.height=Math.round(L.src.height*sc);c.getContext('2d').drawImage(L.src,0,0,c.width,c.height);
-      o.logo={src:c.toDataURL('image/png'),tint:L.tint,size:L.size,tol:L.tol,remove:L.remove,mode:L.mode,transparent:L.transparent}}
+      o.logo={src:c.toDataURL('image/png'),tint:L.tint,tol:L.tol,remove:L.remove,mode:L.mode,transparent:L.transparent}}
     localStorage.setItem(KEY,JSON.stringify(o));toast('Saved as your default look.')}catch(e){toast('Could not save. Is your browser blocking storage?')}}
 function resetDefault(){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}
 
@@ -491,18 +506,30 @@ function draw(){
   function fitText(text,cap,mw,weight){let s=cap;x.font=fontStr(th,s,weight);const w=x.measureText(text).width;if(w>mw)s=s*mw/w;return s}
   const texts=[];
 
+  // identity (logo or name): size + offsets, kept inside the margins
+  function place(ix0,iy0,w,h){
+    const xmin=F.side,xmax=F.w-F.side-w,ymin=F.top,ymax=F.h-F.bottom-h;
+    const dx=S.idDX/100,dy=S.idDY/100;
+    const ix=dx>=0?ix0+Math.max(0,xmax-ix0)*dx:ix0+Math.max(0,ix0-xmin)*dx;
+    const iy=dy>=0?iy0+Math.max(0,ymax-iy0)*dy:iy0+Math.max(0,iy0-ymin)*dy;
+    return[ix,iy];
+  }
+  const idScale=S.idSize/60;
   if(L.canvas){
     const color=accName?C.accent:(L.tint?C.text:null);
     const src=color?tinted(L.canvas,color):L.canvas;
-    const boxW=maxW*L.size/100,boxH=F.logoH*(showTitle?1:1.6)*(.5+L.size/100*.5);
+    const boxW=maxW*S.idSize/100,boxH=F.logoH*(showTitle?1:1.6)*(.5+S.idSize/100*.5);
     const sc=Math.min(boxW/src.width,boxH/src.height),dw=src.width*sc,dh=src.height*sc;
-    x.drawImage(src,center?F.w/2-dw/2:ax,y,dw,dh);y+=dh;
+    const[ix,iy]=place(center?F.w/2-dw/2:ax,y,dw,dh);
+    x.drawImage(src,ix,iy,dw,dh);y+=dh;
   }else{
     const nm=T(S.name.trim()||'DJ NAME');texts.push(nm);
-    const size=fitText(nm,F.nameCap*th.nameScale*(showTitle?1:2.1),maxW);
+    const size=fitText(nm,F.nameCap*th.nameScale*(showTitle?1:2.1)*idScale,maxW);
     x.font=fontStr(th,size);x.fillStyle=accName?C.accent:C.text;
     const m=x.measureText(nm);const asc=m.actualBoundingBoxAscent||size*.72,desc=m.actualBoundingBoxDescent||0;
-    x.fillText(nm,ax,y+asc);y+=asc+desc;
+    const nw=m.width;
+    const[ix,iy]=place(center?F.w/2-nw/2:ax,y,nw,asc+desc);
+    x.textAlign='left';x.fillText(nm,ix,iy+asc);x.textAlign=center?'center':'left';y+=asc+desc;
   }
   if(showTitle){
     y+=F.logoH*.17;
@@ -727,7 +754,9 @@ $('#logoFile').addEventListener('change',async e=>{const f=e.target.files[0];e.t
   try{setLogoFromCanvas(toCanvas(await loadImage(f),1400),f.name)}catch(err){toast('Could not open that logo. Try a PNG.')}});
 $('#logoRemoveBtn').addEventListener('click',()=>{L.src=null;L.orig=null;L.canvas=null;L.tint=false;paintLogoUI();change()});
 $('#bgTol').addEventListener('input',e=>{L.tol=+e.target.value;processLogo()});
-$('#logoSize').addEventListener('input',e=>{L.size=+e.target.value;change()});
+[['#idSize','idSize'],['#idDX','idDX'],['#idDY','idDY']].forEach(([id,k])=>$(id).addEventListener('input',e=>{S[k]=+e.target.value;change()}));
+$('#idReset').addEventListener('click',()=>{S.idSize=60;S.idDX=0;S.idDY=0;syncId();change()});
+function syncId(){$('#idSize').value=S.idSize;$('#idDX').value=S.idDX;$('#idDY').value=S.idDY}
 
 /* ============================ EXPORT ============================ */
 function fileName(){const t=S.titleMode==='month'?S.titleMonth:S.titleMode==='tonight'?'tonight':'lineup';return'lineup-snap-'+(t||'lineup').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.png'}
@@ -749,7 +778,7 @@ $('#resetDef').addEventListener('click',resetDefault);
 /* ============================ INIT ============================ */
 load();
 buildThemes();renderGigs();
-$('#djName').value=S.name;$('#titleText').value=S.titleMonth;$('#pos').value=S.pos;$('#logoSize').value=L.size;
+$('#djName').value=S.name;$('#titleText').value=S.titleMonth;$('#pos').value=S.pos;syncId();
 syncColors();layoutPhone();paintSegs();syncDerived();draw();
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(schedule);
 </script>
