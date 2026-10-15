@@ -78,6 +78,11 @@
     .bio p{max-width:720px;margin:0 0 10px;font-size:1.02rem;font-weight:600}
     .bio p:last-child{margin-bottom:0}
 
+    .bio-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+    .bio-btns .button{min-height:40px;padding:7px 12px;font-size:.84rem}
+    .bio-text[hidden],#bioLonger[hidden],#bioShorter[hidden]{display:none}
+    .bio strong{font-weight:900;background:linear-gradient(transparent 62%,rgba(230,20,130,.2) 62%)}
+
     /* The name */
     .name{display:grid;grid-template-columns:1fr 1fr;background:#191317;color:#fffdfb}
     .name section{padding:34px 40px 38px}
@@ -148,7 +153,7 @@
       .name section+section,.two section+section{border-left:0;border-top:1px solid rgba(128,128,128,.25)}
       .logos{grid-template-columns:1fr 1fr}.setups,.rider{grid-template-columns:1fr}
       .button{flex:1 1 auto;justify-content:center}
-      .photos .button,.bio-head .button{flex:0 0 auto}
+      .photos .button{flex:0 0 auto}.bio-head{flex-wrap:wrap}.bio-btns{justify-content:flex-start}.bio-btns .button{flex:0 0 auto}
     }
     @media(min-width:761px) and (max-width:900px){.photos{columns:2}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
@@ -185,8 +190,8 @@
 
     <article class="card pad" id="bio">
       <h2>Bio.</h2>
-      <p class="sub">Three lengths. Use whichever fits.</p>
-<div class="bio"><div class="bio-head"><div><h3>Short</h3><span>About 40 words</span></div><button class="button copy" type="button" data-copy><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy</span></button></div><p>Raised on Gaga, Britney and ABBA. Found religion in the queer club scene. Amsterdam-based DJ FREY. plays pop-girl bops with hyperpop and house peaks. Regular at NYX, FERRY and Paradiso. Played Milkshake, WorldPride, Homomonument and Hullabaloo, and internationally.</p></div><div class="bio"><div class="bio-head"><div><h3>Medium</h3><span>About 55 words</span></div><button class="button copy" type="button" data-copy><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy</span></button></div><p>Raised on Gaga, Britney and ABBA. Found religion in the queer club scene. Amsterdam-based DJ FREY. plays pop-girl bops with hyperpop, dance and house peaks, for dance floors that sing along. A regular at NYX, FERRY and Paradiso, and played Milkshake, WorldPride, Homomonument and Hullabaloo, in the Netherlands and internationally across Europe and Asia.</p></div><div class="bio"><div class="bio-head"><div><h3>Long</h3><span>About 130 words</span></div><button class="button copy" type="button" data-copy><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy</span></button></div><p>Raised on Gaga, Britney and ABBA. Found religion in the queer club scene. Amsterdam-based DJ FREY. plays pop-girl bops for dance floors that sing along.</p><p>FREY. started DJing in 2015, took a break, and came back at a friend&#x27;s Halloween party in 2022. One night was enough to remember what had been missing: building a set, reading a room and sharing pop moments with a crowd.</p><p>Since then, FREY. has become a regular at NYX, FERRY and Paradiso, and has played Milkshake, WorldPride, Homomonument and Hullabaloo, in the Netherlands and internationally across Europe and Asia. Sets go from pop to hyperpop, dance and four-to-the-floor, with remixes, own edits and the tracks you didn&#x27;t know you needed. Big singalongs, harder peaks, all in one night.</p></div>
+      <p class="sub">Pick a length. Copy copies what you see.</p>
+<div class="bio"><div class="bio-head"><div><h3 id="bioLen">Medium</h3><span id="bioWords">About 55 words</span></div><div class="bio-btns"><button class="button" type="button" id="bioShorter"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg><span>Make it shorter</span></button><button class="button" type="button" id="bioLonger" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg><span>Make it longer</span></button><button class="button copy" type="button" data-copy><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy</span></button></div></div><div class="bio-text" data-len="short" hidden><p>Raised on Gaga, Britney and ABBA. Found religion in the queer club scene. <strong>Amsterdam-based DJ FREY.</strong> plays pop-girl bops with hyperpop and house peaks. Regular at <strong>NYX</strong>, <strong>FERRY</strong> and <strong>Paradiso</strong>. Played <strong>Milkshake</strong>, <strong>WorldPride</strong>, <strong>Homomonument</strong> and <strong>Hullabaloo</strong>, and internationally.</p></div><div class="bio-text" data-len="medium"><p>Raised on Gaga, Britney and ABBA. Found religion in the queer club scene. <strong>Amsterdam-based DJ FREY.</strong> plays pop-girl bops with hyperpop, dance and house peaks, for dance floors that sing along. A regular at <strong>NYX</strong>, <strong>FERRY</strong> and <strong>Paradiso</strong>, and played <strong>Milkshake</strong>, <strong>WorldPride</strong>, <strong>Homomonument</strong> and <strong>Hullabaloo</strong>, in the Netherlands and internationally <strong>across Europe and Asia</strong>.</p></div><div class="bio-text" data-len="long" hidden><p>Raised on Gaga, Britney and ABBA. Found religion in the queer club scene. <strong>Amsterdam-based DJ FREY.</strong> plays pop-girl bops for dance floors that sing along.</p><p>FREY. started DJing in 2015, took a break, and came back at a friend&#x27;s Halloween party in 2022. One night was enough to remember what had been missing: building a set, reading a room and sharing pop moments with a crowd.</p><p>Since then, FREY. has become a regular at <strong>NYX</strong>, <strong>FERRY</strong> and <strong>Paradiso</strong>, and has played <strong>Milkshake</strong>, <strong>WorldPride</strong>, <strong>Homomonument</strong> and <strong>Hullabaloo</strong>, in the Netherlands and internationally <strong>across Europe and Asia</strong>. Sets go from pop to hyperpop, dance and four-to-the-floor, with remixes, own edits and the tracks you didn&#x27;t know you needed. Big singalongs, harder peaks, all in one night.</p></div></div>
     </article>
 
     <article class="card name" id="name">
@@ -269,10 +274,22 @@
     <footer class="site-footer"><span>2026 © FREY.</span><span>Website by FREYcreates</span><span>Amsterdam</span><span>KVK 94022607</span><span>VAT NL004806430B32</span></footer>
   </main>
   <script>
-    // Copy buttons for the bios.
-    document.querySelectorAll("[data-copy]").forEach(btn=>{
+    // Bio: one block, three lengths. "Make it shorter" steps down, "Make it longer" steps back up; Copy copies what's shown.
+    (()=>{
+      const steps=["long","medium","short"],words={long:"About 130 words",medium:"About 55 words",short:"About 40 words"};
+      let i=1;
+      const texts=[...document.querySelectorAll(".bio-text")],shorter=document.getElementById("bioShorter"),longer=document.getElementById("bioLonger");
+      const show=()=>{
+        texts.forEach(el=>el.hidden=el.dataset.len!==steps[i]);
+        document.getElementById("bioLen").textContent=steps[i][0].toUpperCase()+steps[i].slice(1);
+        document.getElementById("bioWords").textContent=words[steps[i]];
+        shorter.hidden=i===2;longer.hidden=i===0;
+      };
+      shorter.addEventListener("click",()=>{if(i<2){i++;show()}});
+      longer.addEventListener("click",()=>{if(i>0){i--;show()}});
+      const btn=document.querySelector("[data-copy]");
       btn.addEventListener("click",async()=>{
-        const text=[...btn.closest(".bio").querySelectorAll("p")].map(p=>p.textContent).join("\n\n");
+        const text=[...document.querySelector(".bio-text:not([hidden])").querySelectorAll("p")].map(p=>p.textContent).join("\n\n");
         try{await navigator.clipboard.writeText(text)}catch{
           const t=document.createElement("textarea");t.value=text;document.body.append(t);t.select();document.execCommand("copy");t.remove();
         }
@@ -280,7 +297,8 @@
         label.textContent="Copied";btn.classList.add("done");
         setTimeout(()=>{label.textContent=old;btn.classList.remove("done")},1600);
       });
-    });
+      show();
+    })();
   </script>
 </body>
 </html>
