@@ -453,9 +453,17 @@ footer i{color:var(--pink);font-style:normal}
       <button class="btn primary" id="shareBtn" hidden>Share to Instagram Stories</button>
       <button class="btn light" id="dlBtn">Download image</button>
     </div>
-    <div class="row" id="saveRow" style="gap:8px">
-      <button class="btn small" id="saveDef">Save as default</button>
-      <button class="btn small ghost" id="resetDef">Reset default</button>
+    <div id="saveRow">
+      <div class="row" style="gap:8px">
+        <button class="btn small" id="saveDef">Save as default</button>
+        <button class="btn small ghost" id="resetDef">Reset default</button>
+      </div>
+      <div class="row" style="gap:8px;margin-top:8px">
+        <button class="btn small" id="expBtn">Download settings</button>
+        <button class="btn small ghost" id="impBtn">Load settings</button>
+        <input type="file" id="impFile" accept=".json,application/json" hidden>
+      </div>
+      <p class="hint" style="margin-top:10px">The settings file is made on your device and never uploaded. It holds your look, name and logo, but not your gigs or photo.</p>
     </div>
     <div class="specs">
       <span id="specTxt">Story · 1080 × 1920 px</span>
@@ -541,16 +549,49 @@ const P={canvas:null,zoom:1,ox:0,oy:0};
 const KEY='lineupsnap:default';
 const DEF_KEYS=['tSize','tDX','tDY','badge','font','idSize','idDX','idDY','format','theme','custom','accentOn','grain','name','titleMode','pos','fade','bw'];
 function save(){}
-function load(){try{const j=JSON.parse(localStorage.getItem(KEY)||'null');if(!j)return;
-  DEF_KEYS.forEach(k=>{if(k in j)S[k]=j[k]});
-  if(!THEMES[S.theme])S.theme='concrete';if(!FORMATS[S.format])S.format='story';
-  if(j.logo&&j.logo.src){const i=new Image();i.onload=()=>{setLogoFromCanvas(toCanvas(i,1400),'');Object.assign(L,{tint:j.logo.tint,tol:j.logo.tol});if(j.logo.transparent===false){L.remove=j.logo.remove;L.mode=j.logo.mode}
-    $('#bgTol').value=L.tol;processLogo()};i.src=j.logo.src}}catch(e){}}
+function snapshot(){
+  const o={};DEF_KEYS.forEach(k=>o[k]=S[k]);
+  if(L.src){const c=document.createElement('canvas');const sc=Math.min(1,900/Math.max(L.src.width,L.src.height));c.width=Math.round(L.src.width*sc);c.height=Math.round(L.src.height*sc);c.getContext('2d').drawImage(L.src,0,0,c.width,c.height);
+    o.logo={src:c.toDataURL('image/png'),tint:L.tint,tol:L.tol,remove:L.remove,mode:L.mode,transparent:L.transparent}}
+  return o}
+// Only known keys with the right type and range get through. Used for both saved defaults and imported files.
+function sanitize(j){
+  if(!j||typeof j!=='object')return null;const o={};
+  const num=(k,a,b)=>{if(typeof j[k]==='number'&&isFinite(j[k]))o[k]=clamp(j[k],a,b)};
+  num('tSize',40,140);num('tDX',-100,100);num('tDY',-100,100);num('idSize',25,100);num('idDX',-100,100);num('idDY',-100,100);num('pos',0,100);
+  ['badge','grain','bw'].forEach(k=>{if(typeof j[k]==='boolean')o[k]=j[k]});
+  if(j.font===null||FONTS.some(f=>f.n===j.font))o.font=j.font;
+  if(FORMATS[j.format])o.format=j.format;
+  if(THEMES[j.theme])o.theme=j.theme;
+  if(['title','name','dates','none'].includes(j.accentOn))o.accentOn=j.accentOn;
+  if(['month','tonight','none'].includes(j.titleMode))o.titleMode=j.titleMode;
+  if(['off','soft','strong'].includes(j.fade))o.fade=j.fade;
+  if(typeof j.name==='string')o.name=j.name.slice(0,40);
+  if(j.custom&&typeof j.custom==='object'){const c={};['bg','text','accent'].forEach(k=>{if(/^#[0-9a-f]{6}$/i.test(j.custom[k]))c[k]=j.custom[k]});if(Object.keys(c).length||j.app==='lineup-snap')o.custom=c}
+  const g=j.logo;
+  if(g&&typeof g.src==='string'&&g.src.length<8e6&&/^data:image\/png;base64,[A-Za-z0-9+\/=]+$/.test(g.src))
+    o.logo={src:g.src,tint:g.tint===true,tol:typeof g.tol==='number'&&isFinite(g.tol)?clamp(g.tol,10,140):45,remove:g.remove!==false,mode:g.mode==='all'?'all':'outside',transparent:g.transparent!==false};
+  return Object.keys(o).length?o:null}
+function applyDefault(o){
+  const {logo,...rest}=o;Object.assign(S,rest);
+  if(logo){const i=new Image();i.onload=()=>{setLogoFromCanvas(toCanvas(i,1400),'');L.tint=logo.tint;L.tol=logo.tol;if(logo.transparent===false){L.remove=logo.remove;L.mode=logo.mode}
+    $('#bgTol').value=L.tol;processLogo()};i.src=logo.src}}
+function load(){try{const o=sanitize(JSON.parse(localStorage.getItem(KEY)||'null'));if(o)applyDefault(o)}catch(e){}}
 function saveDefault(){
-  try{const o={};DEF_KEYS.forEach(k=>o[k]=S[k]);
-    if(L.src){const c=document.createElement('canvas');const sc=Math.min(1,900/Math.max(L.src.width,L.src.height));c.width=Math.round(L.src.width*sc);c.height=Math.round(L.src.height*sc);c.getContext('2d').drawImage(L.src,0,0,c.width,c.height);
-      o.logo={src:c.toDataURL('image/png'),tint:L.tint,tol:L.tol,remove:L.remove,mode:L.mode,transparent:L.transparent}}
-    localStorage.setItem(KEY,JSON.stringify(o));toast('Saved as your default look.')}catch(e){toast('Could not save. Is your browser blocking storage?')}}
+  try{localStorage.setItem(KEY,JSON.stringify(snapshot()));toast('Saved as your default look.')}catch(e){toast('Could not save. Is your browser blocking storage?')}}
+function refreshUI(){$('#djName').value=S.name;$('#pos').value=S.pos;syncId();syncColors();layoutPhone();paintSegs();syncDerived();schedule()}
+function exportSettings(){
+  const b=new Blob([JSON.stringify({app:'lineup-snap',version:1,...snapshot()})],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='lineup-snap-settings.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  toast('Settings file saved. Keep it somewhere safe.')}
+function importSettings(file){
+  if(!file)return;if(file.size>8e6){toast('That file is too big to be a Lineup Snap settings file.');return}
+  const r=new FileReader();
+  r.onload=()=>{let o=null;try{o=sanitize(JSON.parse(r.result))}catch(e){}
+    if(!o){toast('That is not a Lineup Snap settings file.');return}
+    applyDefault(o);refreshUI();toast('Settings loaded.')};
+  r.onerror=()=>toast('Could not read that file.');
+  r.readAsText(file)}
 function resetDefault(){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}
 
 /* ============================ HELPERS ============================ */
@@ -938,6 +979,9 @@ try{if(navigator.canShare&&navigator.canShare({files:[new File([''],'a.png',{typ
 
 $('#saveDef').addEventListener('click',saveDefault);
 $('#resetDef').addEventListener('click',resetDefault);
+$('#expBtn').addEventListener('click',exportSettings);
+$('#impBtn').addEventListener('click',()=>$('#impFile').click());
+$('#impFile').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';importSettings(f)});
 
 /* ============================ STEPS ============================ */
 const STEP_NAMES=['Look','Name','Gigs','Photo','Share'];
