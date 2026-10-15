@@ -78,6 +78,8 @@
     .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
     .hint { margin: 12px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
 
+    .ty-row { display: grid; gap: 10px; margin-top: 18px; color: var(--muted); }
+    .ty-ends { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
     .photo-tools { display: none; margin-top: 16px; gap: 14px; }
     .photo-tools.on { display: grid; }
     .photo-tools label { display: grid; grid-template-columns: 76px 1fr; align-items: center; gap: 12px; color: var(--muted); }
@@ -151,6 +153,7 @@
           <span class="label">Dates and venues</span>
           <div class="gig-list" id="gigs"></div>
           <button type="button" class="add" id="add">+ Add a date</button>
+          <label class="label ty-row" for="ty"><span>Line-up position</span><span class="ty-ends"><span>Higher</span><input type="range" id="ty" min="0" max="1" step="0.01" value="1"><span>Lower</span></span></label>
         </div>
 
         <div class="field">
@@ -240,7 +243,7 @@
       var now = new Date(), m = now.getMonth();
       var mon = MON[m], gigs = [];
       [3, 10, 17, 24, 31].forEach(function (d) { gigs.push({ date: String(d).padStart(2, '0') + ' ' + mon, venue: 'Venue' }); });
-      return { month: MONTHS[m], gigs: gigs, look: 'main', fade: 1, blur: 0, zoom: 1, px: 0, py: 0, photo: null };
+      return { month: MONTHS[m], gigs: gigs, look: 'main', fade: 1, blur: 0, zoom: 1, px: 0, py: 0, ty: 1, photo: null };
     }
     var state = defaults();
     try {
@@ -312,7 +315,8 @@
       $('photo-fx').style.opacity = on ? '' : '.4';
       if (img) $('photo-swatch').style.backgroundImage = 'url(' + state.photo + ')';
     }
-    ['zoom', 'px', 'py'].forEach(function (k) {
+    if (typeof state.ty !== 'number') state.ty = 1;
+    ['zoom', 'px', 'py', 'ty'].forEach(function (k) {
       $(k).value = state[k];
       $(k).addEventListener('input', function (e) { state[k] = +e.target.value; changed(); });
     });
@@ -451,9 +455,6 @@
           ctx.fillStyle = vgrad(0, fade[1], [[0, rgba(C.main, fade[0])], [state.fade === 2 ? .38 : .28, rgba(C.main, fade[0] * .9)], [1, rgba(C.main, 0)]]);
           ctx.fillRect(0, 0, W, fade[1]);
         }
-        // Keep the rows readable: darken the bottom
-        ctx.fillStyle = vgrad(H * .5, H, [[0, rgba(C.main, 0)], [.55, rgba(C.main, .55)], [1, rgba(C.main, .9)]]);
-        ctx.fillRect(0, H * .5, W, H * .5);
       }
 
       ctx.textBaseline = 'alphabetic';
@@ -486,10 +487,17 @@
       // 4. Dates in rows, thin line above each row, clear of the reply bar
       var gigs = state.gigs.filter(function (g) { return (g.date || '').trim() || (g.venue || '').trim(); });
       if (!gigs.length) gigs = [{ date: '03 Okt', venue: 'Venue' }];
-      var bottom = H - SAFE_BOTTOM;
       var rowH = Math.min(92, Math.floor(640 / gigs.length));
       var fSize = Math.min(44, Math.round(rowH * 0.48));
-      var top = bottom - rowH * gigs.length;
+      // Line-up position: from just under the month (0) to just above the reply bar (1)
+      var highest = monthY + 90, lowest = H - SAFE_BOTTOM - rowH * gigs.length;
+      var top = Math.round(highest + (Math.max(highest, lowest) - highest) * state.ty);
+      if (photo) {
+        // Keep the rows readable: darken the photo from just above the line-up down
+        var g0 = Math.max(monthY + 30, top - 360);
+        ctx.fillStyle = vgrad(g0, H, [[0, rgba(C.main, 0)], [Math.min(.6, (top - g0) / (H - g0) + .05), rgba(C.main, .5)], [1, rgba(C.main, .9)]]);
+        ctx.fillRect(0, g0, W, H - g0);
+      }
       gigs.forEach(function (g, i) {
         var y = top + i * rowH;
         ctx.fillStyle = rgba(C.c4, 0.9); ctx.fillRect(M, y, innerW, 2);
