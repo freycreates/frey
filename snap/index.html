@@ -257,7 +257,8 @@ footer i{color:var(--pink);font-style:normal}
             <div class="seg" id="accentOn">
               <button data-v="title">Title</button>
               <button data-v="name">Logo / name</button>
-              <button data-v="dates">Dates</button>
+              <button data-v="dates">Date</button>
+              <button data-v="venues">Venue</button>
               <button data-v="none">Nothing</button>
             </div>
           </div>
@@ -582,7 +583,7 @@ function sanitize(j){
   if(j.font===null||FONTS.some(f=>f.n===j.font))o.font=j.font;
   if(FORMATS[j.format])o.format=j.format;
   if(THEMES[j.theme])o.theme=j.theme;
-  if(['title','name','dates','none'].includes(j.accentOn))o.accentOn=j.accentOn;
+  if(['title','name','dates','venues','none'].includes(j.accentOn))o.accentOn=j.accentOn;
   if(['month','tonight','none'].includes(j.titleMode))o.titleMode=j.titleMode;
   if(['off','soft','strong'].includes(j.fade))o.fade=j.fade;
   if(typeof j.name==='string')o.name=j.name.slice(0,40);
@@ -707,7 +708,7 @@ function draw(){
     drawBadge(x,F.w-F.side,by+46*bs,bs,C);
     if(S.format!=='story')y+=64;
   }
-  const accName=S.accentOn==='name',accTitle=S.accentOn==='title',accDates=S.accentOn==='dates';
+  const accName=S.accentOn==='name',accTitle=S.accentOn==='title',accDates=S.accentOn==='dates',accVenues=S.accentOn==='venues';
 
   function fitText(text,cap,mw,weight){let s=cap;x.font=fontStr(th,s,weight);const w=x.measureText(text).width;if(w>mw)s=s*mw/w;return s}
   const texts=[];
@@ -772,7 +773,7 @@ function draw(){
       x.textAlign='right';
       const cw=p.c?x.measureText(p.c).width:0;
       if(p.c){x.fillStyle=rgba(C.text,.62);x.fillText(p.c,F.side+maxW,by)}
-      x.fillStyle=C.text;x.fillText(p.v,F.side+maxW-cw,by);
+      x.fillStyle=accVenues?C.accent:C.text;x.fillText(p.v,F.side+maxW-cw,by);
       texts.push(p.d,p.v,p.c);
     });
   }
