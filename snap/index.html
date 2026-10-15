@@ -350,6 +350,17 @@ footer i{color:var(--pink);font-style:normal}
               <button data-v="none">No title</button>
             </div>
           </div>
+          <div>
+            <span class="sublbl">Size and position of title</span>
+            <div class="rangehead"><span>Smaller</span><span>Bigger</span></div>
+            <input type="range" id="tSize" min="40" max="140" value="100" aria-label="Title size">
+            <div class="rangehead" style="margin-top:14px"><span>Left</span><span>Right</span></div>
+            <input type="range" id="tDX" min="-100" max="100" value="0" aria-label="Move title left or right">
+            <div class="rangehead" style="margin-top:14px"><span>Up</span><span>Down</span></div>
+            <input type="range" id="tDY" min="-100" max="100" value="0" aria-label="Move title up or down">
+            <p class="hint">It stays inside the margins.</p>
+          </div>
+          <div><button class="btn small ghost" id="tReset">Reset size and position</button></div>
         </div>
       </details>
     </div>
@@ -398,7 +409,7 @@ footer i{color:var(--pink);font-style:normal}
             </div>
           </div>
         </div>
-        <p class="hint">You can also drag the preview to move the photo, and pinch or scroll to zoom.</p>
+        <p class="hint">You can also drag the preview to move the photo, and pinch or scroll to zoom. Drag it lower to let the top fade into the background.</p>
         <details class="adv">
           <summary>Advanced</summary>
           <div class="advbody">
@@ -414,7 +425,7 @@ footer i{color:var(--pink);font-style:normal}
               <div class="rangehead"><span>Up</span><span>Down</span></div>
               <input type="range" id="photoY" min="-100" max="100" value="0" aria-label="Move photo up or down">
             </div>
-            <p class="hint" style="margin:0">Left, right, up and down work once the photo is zoomed in or doesn't fit the format.</p>
+            <p class="hint" style="margin:0">Left and right work once the photo is zoomed in. Drag the photo lower than the edge and use Fade the top to blend it into the background.</p>
           </div>
         </details>
       </div>
@@ -522,13 +533,13 @@ const S={
   badge:true,font:null,idSize:60,idDX:0,idDY:0,format:'story',theme:'concrete',custom:{},accentOn:'title',grain:true,
   name:'',titleMode:'month',titleMonth:MONTHS[new Date().getMonth()],
   rows:nextFridays(2).map(d=>({date:d,venue:'',city:''})),
-  pos:100,fade:'soft',bw:false,safe:false
+  tSize:100,tDX:0,tDY:0,pos:100,fade:'soft',bw:false,safe:false
 };
 const L={src:null,orig:null,canvas:null,transparent:true,remove:true,mode:'outside',tol:45,tint:false,fileName:''};
 const P={canvas:null,zoom:1,ox:0,oy:0};
 
 const KEY='lineupsnap:default';
-const DEF_KEYS=['badge','font','idSize','idDX','idDY','format','theme','custom','accentOn','grain','name','titleMode','pos','fade','bw'];
+const DEF_KEYS=['tSize','tDX','tDY','badge','font','idSize','idDX','idDY','format','theme','custom','accentOn','grain','name','titleMode','pos','fade','bw'];
 function save(){}
 function load(){try{const j=JSON.parse(localStorage.getItem(KEY)||'null');if(!j)return;
   DEF_KEYS.forEach(k=>{if(k in j)S[k]=j[k]});
@@ -580,8 +591,8 @@ function easeGrad(x,y0,y1,color,a0,a1){const g=x.createLinearGradient(0,y0,0,y1)
 
 function photoRect(F){
   const c=P.canvas,s0=Math.max(F.w/c.width,F.h/c.height),s=s0*P.zoom,dw=c.width*s,dh=c.height*s;
-  const mx=(dw-F.w)/2,my=(dh-F.h)/2;P.ox=clamp(P.ox,-mx,mx);P.oy=clamp(P.oy,-my,my);
-  return{x:F.w/2-dw/2+P.ox,y:F.h/2-dh/2+P.oy,w:dw,h:dh,mx,my}}
+  const mx=(dw-F.w)/2,my=(dh-F.h)/2,ex=F.h*.5;P.ox=clamp(P.ox,-mx,mx);P.oy=clamp(P.oy,-my,my+ex);
+  return{x:F.w/2-dw/2+P.ox,y:F.h/2-dh/2+P.oy,w:dw,h:dh,mx,my,ex}}
 
 const BADGE_FONT=()=>({family:'Inter Tight',weight:900,style:'normal',fb:'Arial,sans-serif'});
 function drawBadge(x,right,base,k,C){
@@ -609,9 +620,9 @@ function draw(){
   x.fillStyle=C.bg;x.fillRect(0,0,F.w,F.h);
   if(P.canvas){
     const r=photoRect(F);x.imageSmoothingQuality='high';x.drawImage(P.canvas,r.x,r.y,r.w,r.h);
-    if(S.bw){x.globalCompositeOperation='saturation';x.fillStyle='#808080';x.fillRect(0,0,F.w,F.h);x.globalCompositeOperation='source-over'}
+    if(S.bw){x.save();x.beginPath();x.rect(Math.max(0,r.x),Math.max(0,r.y),Math.min(F.w,r.x+r.w)-Math.max(0,r.x),Math.min(F.h,r.y+r.h)-Math.max(0,r.y));x.clip();x.globalCompositeOperation='saturation';x.fillStyle='#808080';x.fillRect(0,0,F.w,F.h);x.restore()}
     const len=S.fade==='strong'?.62:S.fade==='soft'?.36:0;
-    if(len){x.fillStyle=easeGrad(x,0,F.h*len,C.bg,S.fade==='strong'?1:.96,0);x.fillRect(0,0,F.w,F.h*len)}
+    if(len){const ft=Math.max(0,r.y);x.fillStyle=easeGrad(x,ft,ft+F.h*len,C.bg,S.fade==='strong'?1:.96,0);x.fillRect(0,ft,F.w,F.h*len)}
     const y0=F.h*(S.format==='story'?.46:.42);
     x.fillStyle=easeGrad(x,y0,F.h,C.bg,0,.92);x.fillRect(0,y0,F.w,F.h-y0);
   }else{
@@ -642,9 +653,9 @@ function draw(){
   const texts=[];
 
   // identity (logo or name): size + offsets, kept inside the margins
-  function place(ix0,iy0,w,h){
+  function place(ix0,iy0,w,h,ddx,ddy){
     const xmin=F.side,xmax=F.w-F.side-w,ymin=F.top,ymax=F.h-F.bottom-h;
-    const dx=S.idDX/100,dy=S.idDY/100;
+    const dx=(ddx===undefined?S.idDX:ddx)/100,dy=(ddy===undefined?S.idDY:ddy)/100;
     const ix=dx>=0?ix0+Math.max(0,xmax-ix0)*dx:ix0+Math.max(0,ix0-xmin)*dx;
     const iy=dy>=0?iy0+Math.max(0,ymax-iy0)*dy:iy0+Math.max(0,iy0-ymin)*dy;
     return[ix,iy];
@@ -669,10 +680,11 @@ function draw(){
   if(showTitle){
     y+=F.logoH*.17;
     const tt=T(titleText.trim());texts.push(tt);
-    const size=fitText(tt,F.titleCap*th.titleScale,maxW);
+    const size=fitText(tt,F.titleCap*th.titleScale*S.tSize/100,maxW);
     x.font=fontStr(th,size);x.fillStyle=accTitle?C.accent:C.text;
     const m=x.measureText(tt);const asc=m.actualBoundingBoxAscent||size*.72,desc=m.actualBoundingBoxDescent||0;
-    x.fillText(tt,ax,y+asc);y+=asc+desc;
+    const[tx,ty]=place(center?F.w/2-m.width/2:ax,y,m.width,asc+desc,S.tDX,S.tDY);
+    x.textAlign='left';x.fillText(tt,tx,ty+asc);x.textAlign=center?'center':'left';y+=asc+desc;
   }
   const headerBottom=y;
 
@@ -801,8 +813,8 @@ function syncDerived(){
   $('#photoRemoveBtn').hidden=!P.canvas;$('#photoReset').hidden=!P.canvas;
   $('#phone').classList.toggle('can-drag',!!P.canvas);
   if(P.canvas){const r=photoRect(FORMATS[S.format]);
-    $('#photoX').value=r.mx>.5?Math.round(P.ox/r.mx*100):0;$('#photoY').value=r.my>.5?Math.round(P.oy/r.my*100):0;
-    $('#phX').classList.toggle('dis',r.mx<=.5);$('#phY').classList.toggle('dis',r.my<=.5)}
+    $('#photoX').value=r.mx>.5?Math.round(P.ox/r.mx*100):0;$('#photoY').value=P.oy>=0?Math.round(P.oy/(r.my+r.ex)*100):(r.my>.5?Math.round(P.oy/r.my*100):0);
+    $('#phX').classList.toggle('dis',r.mx<=.5)}
   $('#zoomVal').textContent=Math.round(P.zoom*100)+'%';$('#zoom').value=Math.round(P.zoom*100);
   $('#photoHint').textContent=P.canvas?'Photo added. Everything below only changes the photo.':'Optional. Without a photo you get a clean color background.';
   $('#logoOpts').hidden=!hasLogo;$('#bgBox').hidden=!(hasLogo&&!L.transparent);
@@ -824,7 +836,7 @@ $('#photoRemoveBtn').addEventListener('click',()=>{P.canvas=null;change()});
 $('#photoReset').addEventListener('click',()=>{P.zoom=1;P.ox=P.oy=0;change()});
 $('#zoom').addEventListener('input',e=>{P.zoom=e.target.value/100;change()});
 $('#photoX').addEventListener('input',e=>{const r=photoRect(FORMATS[S.format]);P.ox=e.target.value/100*r.mx;schedule()});
-$('#photoY').addEventListener('input',e=>{const r=photoRect(FORMATS[S.format]);P.oy=e.target.value/100*r.my;schedule()});
+$('#photoY').addEventListener('input',e=>{const r=photoRect(FORMATS[S.format]),v=e.target.value/100;P.oy=v>=0?v*(r.my+r.ex):v*r.my;schedule()});
 
 /* pan & zoom on the preview */
 (function(){
@@ -906,7 +918,9 @@ $('#logoRemoveBtn').addEventListener('click',()=>{L.src=null;L.orig=null;L.canva
 $('#bgTol').addEventListener('input',e=>{L.tol=+e.target.value;processLogo()});
 [['#idSize','idSize'],['#idDX','idDX'],['#idDY','idDY']].forEach(([id,k])=>$(id).addEventListener('input',e=>{S[k]=+e.target.value;change()}));
 $('#idReset').addEventListener('click',()=>{S.idSize=60;S.idDX=0;S.idDY=0;syncId();change()});
-function syncId(){$('#idSize').value=S.idSize;$('#idDX').value=S.idDX;$('#idDY').value=S.idDY}
+function syncId(){$('#idSize').value=S.idSize;$('#idDX').value=S.idDX;$('#idDY').value=S.idDY;$('#tSize').value=S.tSize;$('#tDX').value=S.tDX;$('#tDY').value=S.tDY}
+[['#tSize','tSize'],['#tDX','tDX'],['#tDY','tDY']].forEach(([id,k])=>$(id).addEventListener('input',e=>{S[k]=+e.target.value;change()}));
+$('#tReset').addEventListener('click',()=>{S.tSize=100;S.tDX=0;S.tDY=0;syncId();change()});
 
 /* ============================ EXPORT ============================ */
 function fileName(){const t=S.titleMode==='month'?S.titleMonth:S.titleMode==='tonight'?'tonight':'lineup';return'lineup-snap-'+(t||'lineup').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.png'}
