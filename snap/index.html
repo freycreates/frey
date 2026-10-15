@@ -513,7 +513,22 @@ const FONTS=[
   {n:'JetBrains Mono',f:'JetBrains Mono',w:800,fb:'Courier New,monospace',u:1,s:.8,q:'JetBrains+Mono:wght@800'},
   {n:'DM Serif Display',f:'DM Serif Display',w:400,fb:'Georgia,serif',u:0,s:1.1,q:'DM+Serif+Display'},
   {n:'Fraunces',f:'Fraunces',w:800,fb:'Georgia,serif',u:0,s:1.05,q:'Fraunces:wght@800'},
-  {n:'Permanent Marker',f:'Permanent Marker',w:400,fb:'Marker Felt,cursive',u:0,s:1,q:'Permanent+Marker'}
+  {n:'Permanent Marker',f:'Permanent Marker',w:400,fb:'Marker Felt,cursive',u:0,s:1,q:'Permanent+Marker'},
+  {n:'Big Shoulders Display',f:'Big Shoulders Display',w:800,fb:'Impact,sans-serif',u:1,s:1.2,q:'Big+Shoulders+Display:wght@800'},
+  {n:'League Gothic',f:'League Gothic',w:400,fb:'Impact,sans-serif',u:1,s:1.3,q:'League+Gothic'},
+  {n:'Teko',f:'Teko',w:600,fb:'Impact,sans-serif',u:1,s:1.25,q:'Teko:wght@600'},
+  {n:'Saira Condensed',f:'Saira Condensed',w:800,fb:'Impact,sans-serif',u:1,s:1.2,q:'Saira+Condensed:wght@800'},
+  {n:'Russo One',f:'Russo One',w:400,fb:'Arial Black,sans-serif',u:1,s:.95,q:'Russo+One'},
+  {n:'Chakra Petch',f:'Chakra Petch',w:700,fb:'Arial,sans-serif',u:1,s:.95,q:'Chakra+Petch:wght@700'},
+  {n:'Audiowide',f:'Audiowide',w:400,fb:'Arial Black,sans-serif',u:1,s:.85,q:'Audiowide'},
+  {n:'Dela Gothic One',f:'Dela Gothic One',w:400,fb:'Arial Black,sans-serif',u:1,s:.75,q:'Dela+Gothic+One'},
+  {n:'Krona One',f:'Krona One',w:400,fb:'Arial,sans-serif',u:1,s:.7,q:'Krona+One'},
+  {n:'Michroma',f:'Michroma',w:400,fb:'Arial,sans-serif',u:1,s:.6,q:'Michroma'},
+  {n:'Lexend Zetta',f:'Lexend Zetta',w:800,fb:'Arial,sans-serif',u:1,s:.55,q:'Lexend+Zetta:wght@800'},
+  {n:'Press Start 2P',f:'Press Start 2P',w:400,fb:'Courier New,monospace',u:1,s:.5,q:'Press+Start+2P'},
+  {n:'Playfair Display',f:'Playfair Display',w:800,fb:'Georgia,serif',u:0,s:1,q:'Playfair+Display:wght@800'},
+  {n:'Abril Fatface',f:'Abril Fatface',w:400,fb:'Georgia,serif',u:0,s:.95,q:'Abril+Fatface'},
+  {n:'Yellowtail',f:'Yellowtail',w:400,fb:'cursive',u:0,s:1.5,q:'Yellowtail'}
 ];
 function curTheme(){
   const th=THEMES[S.theme],f=S.font&&FONTS.find(x=>x.n===S.font);
@@ -795,7 +810,7 @@ $('#safeBtn').addEventListener('click',e=>{S.safe=!S.safe;e.currentTarget.setAtt
 function buildFonts(){
   const box=$('#fonts');box.innerHTML='';
   const t=document.createElement('button');t.className='fontbtn theme';t.dataset.n='';t.textContent='Theme font (default)';box.appendChild(t);
-  FONTS.forEach(f=>{const b=document.createElement('button');b.className='fontbtn';b.dataset.n=f.n;b.textContent=f.n;b.style.fontFamily=`"${f.f}",${f.fb}`;b.style.fontWeight=f.w;box.appendChild(b)});
+  FONTS.forEach(f=>{const b=document.createElement('button');b.className='fontbtn';b.dataset.n=f.n;b.textContent=f.n;b.title=f.n;b.style.fontFamily=`"${f.f}",${f.fb}`;b.style.fontWeight=f.w;box.appendChild(b)});
   box.addEventListener('click',e=>{const b=e.target.closest('.fontbtn');if(!b)return;S.font=b.dataset.n||null;linkFonts();change()});
 }
 function syncFonts(){document.querySelectorAll('.fontbtn').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.n||null)===S.font)))}
