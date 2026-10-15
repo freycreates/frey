@@ -101,7 +101,12 @@
       border-radius: 10px; overflow: hidden; background: var(--color-main);
       box-shadow: 0 30px 60px -30px rgba(0,0,0,.7);
     }
+    .stage.is-post { aspect-ratio: 1 / 1; }
     .stage canvas { width: 100%; height: 100%; display: block; }
+    .shape { display: inline-block; border: 1.5px solid currentColor; border-radius: 2px; opacity: .8; }
+    .shape-story { width: 10px; height: 17px; }
+    .shape-post { width: 15px; height: 15px; }
+    .sheet-top, .mbar { display: none; }
     .safe {
       position: absolute; left: 0; right: 0; pointer-events: none; opacity: 0; transition: opacity .2s;
       background: repeating-linear-gradient(135deg, rgba(212,255,58,.16) 0 8px, transparent 8px 16px);
@@ -123,8 +128,40 @@
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
     @media (max-width: 820px) {
-      .app { grid-template-columns: minmax(0, 1fr); }
-      .preview { position: static; max-width: 420px; width: 100%; margin: 0 auto; }
+      .app { grid-template-columns: minmax(0, 1fr); padding-bottom: calc(150px + env(safe-area-inset-bottom)); }
+      .create { display: none; }
+
+      /* Bottom bar: live mini preview + main button, always in reach */
+      .mbar {
+        display: flex; align-items: center; gap: 12px;
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+        padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+        background: rgba(18, 6, 42, .92); border-top: 1px solid var(--line);
+        -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+      }
+      .mbar .btn { flex: 1; min-height: 56px; font-size: 15px; }
+      .mini {
+        flex: none; padding: 0; border: 1px solid var(--line-strong); border-radius: 6px; overflow: hidden;
+        background: var(--color-main); cursor: pointer; line-height: 0;
+      }
+      .mini canvas { width: 60px; height: auto; display: block; }
+
+      /* Preview opens as a full-screen sheet */
+      .preview {
+        position: fixed; inset: 0; z-index: 40; max-width: none; margin: 0;
+        display: flex; flex-direction: column; align-items: center; gap: 0;
+        padding: calc(10px + env(safe-area-inset-top)) 16px calc(14px + env(safe-area-inset-bottom));
+        background: var(--dj);
+        transform: translateY(100%); visibility: hidden;
+        transition: transform .28s cubic-bezier(.2, .7, .2, 1), visibility 0s linear .28s;
+      }
+      .preview.open { transform: none; visibility: visible; transition: transform .28s cubic-bezier(.2, .7, .2, 1); }
+      .sheet-top { display: flex; width: 100%; max-width: 420px; justify-content: space-between; align-items: center; min-height: 44px; color: var(--muted); }
+      .sheet-close { background: none; border: 1px solid var(--line-strong); color: var(--color-4); border-radius: 999px; padding: 9px 16px; cursor: pointer; }
+      .stage { width: auto; height: calc(100dvh - 300px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); max-width: 100%; margin-top: 8px; }
+      .stage.is-post { width: min(100%, calc(100dvh - 300px)); height: auto; }
+      .out, .meta { width: 100%; max-width: 420px; }
+      body.sheet-open { overflow: hidden; }
     }
     @media (max-width: 420px) {
       .gig { grid-template-columns: 92px minmax(0, 1fr) 36px; }
@@ -149,6 +186,14 @@
 
     <div class="app">
       <form class="panel" id="form" autocomplete="off" onsubmit="return false">
+        <div class="field">
+          <span class="label">Format</span>
+          <div class="seg" id="format" role="group" aria-label="Format">
+            <button type="button" data-v="story"><span class="shape shape-story" aria-hidden="true"></span>Story</button>
+            <button type="button" data-v="post"><span class="shape shape-post" aria-hidden="true"></span>Post</button>
+          </div>
+        </div>
+
         <div class="field">
           <span class="label">Title</span>
           <div class="seg" id="mode" role="group" aria-label="Title">
@@ -178,6 +223,14 @@
           </div>
           <input type="file" id="file" accept="image/*" hidden>
           <div class="photo-tools" id="photo-tools">
+            <div>
+              <span class="label" style="display:block;color:var(--muted);margin-bottom:10px">Colorway</span>
+              <div class="seg" id="tint" role="group" aria-label="Colorway">
+                <button type="button" data-v="main"><span class="swatch" style="background:#1C0C3D"></span>Color Main</button>
+                <button type="button" data-v="c2"><span class="swatch" style="background:#5A2CFF"></span>Color #2</button>
+              </div>
+              <p class="hint" style="margin-top:8px">Color Main for most posts, Color #2 for special nights, festivals and Pride.</p>
+            </div>
             <div class="photo-row">
               <button type="button" class="btn btn-line" id="pick" style="min-height:42px;padding:0 16px;font-size:13px">Choose another photo</button>
               <button type="button" class="linkish label" id="remove-photo">Remove photo</button>
@@ -210,7 +263,11 @@
         <button type="button" class="btn btn-hit create" id="create">Create image</button>
       </form>
 
-      <aside class="preview" id="preview" aria-label="Story preview">
+      <aside class="preview" id="preview" aria-label="Preview">
+        <div class="sheet-top">
+          <span class="label" id="sheet-title">Your story</span>
+          <button type="button" class="sheet-close label" id="sheet-close">Done</button>
+        </div>
         <div class="stage" id="stage">
           <canvas id="canvas" width="1080" height="1920" role="img" aria-label="Instagram story preview"></canvas>
           <div class="safe t"></div><div class="safe b"></div>
@@ -220,12 +277,18 @@
           <button type="button" class="btn btn-line" id="download" disabled>Download image</button>
         </div>
         <div class="meta label">
-          <span>Story · 1080 × 1920 px</span>
-          <label><input type="checkbox" id="safe-toggle"> Safe zones</label>
+          <span id="meta-size">Story · 1080 × 1920 px</span>
+          <label id="safe-label"><input type="checkbox" id="safe-toggle"> Safe zones</label>
         </div>
       </aside>
     </div>
   </main>
+
+  <!-- Phones: live mini preview and the main button stay in reach while editing -->
+  <div class="mbar" id="mbar">
+    <button type="button" class="mini" id="mini" aria-label="Open preview"><canvas id="mini-canvas" width="120" height="213"></canvas></button>
+    <button type="button" class="btn btn-hit" id="mcreate">Preview &amp; share</button>
+  </div>
 
   <div class="toast label" id="toast" role="status" aria-live="polite"></div>
 
@@ -235,7 +298,7 @@
 
     // ---------- Brand ----------
     var C = { dj: '#12062A', main: '#1C0C3D', c2: '#5A2CFF', c3: '#D4FF3A', c4: '#F4F0FF' };
-    var W = 1080, H = 1920;
+    var W = 1080, H = 1920;     // story; a post is 1080 × 1080
     var M = 90;                 // side margin
     var DANGER = 157;           // Instagram's top bar and reply bar cover 157px each
     var GAP = 10;               // breathing room between the text and the danger zones
@@ -269,7 +332,7 @@
       var mon = deviceMonth(now, 'short'), gigs = [];
       [3, 10, 17, 24, 31].forEach(function (d) { gigs.push({ date: String(d).padStart(2, '0') + ' ' + mon, venue: 'Venue' }); });
       return { mode: 'month', month: deviceMonth(now, 'long'), monthAuto: true, tonight: TONIGHT, tonightGig: { date: '', venue: '', city: '' },
-               gigs: gigs, look: 'main', fade: 1, bw: 0, zoom: 1, px: 0, py: 0, ty: 1, photo: null };
+               gigs: gigs, look: 'main', tint: 'main', format: 'story', fade: 1, bw: 0, zoom: 1, px: 0, py: 0, ty: 1, photo: null };
     }
     var state = defaults();
     try {
@@ -376,7 +439,21 @@
     var paintLook = seg('look', 'look', function (v) {
       if (v === 'photo' && !img) { $('file').click(); return false; }
     });
-    seg('fade', 'fade'); seg('bw', 'bw');
+    seg('fade', 'fade'); seg('bw', 'bw'); seg('tint', 'tint');
+    seg('format', 'format', function (v) { state.format = v; applyFormat(); });
+
+    function applyFormat() {
+      var post = state.format === 'post';
+      H = post ? 1080 : 1920;
+      canvas.width = W; canvas.height = H;
+      $('mini-canvas').width = 120; $('mini-canvas').height = Math.round(120 * H / W);
+      $('stage').classList.toggle('is-post', post);
+      $('safe-label').hidden = post;
+      $('meta-size').textContent = post ? 'Post · 1080 × 1080 px' : 'Story · 1080 × 1920 px';
+      $('share').textContent = post ? 'Share to Instagram' : 'Share to Instagram Stories';
+      $('sheet-title').textContent = post ? 'Your post' : 'Your story';
+      $('canvas').setAttribute('aria-label', post ? 'Instagram post preview' : 'Instagram story preview');
+    }
     seg('mode', 'mode', function (v) {
       state.mode = v;
       if (v === 'tonight') { state.ty = 1; $('ty').value = 1; }
@@ -472,8 +549,11 @@
     }
 
     function draw() {
+      var post = state.format === 'post';
+      var sTop = post ? M : SAFE_TOP, sBot = post ? M : SAFE_BOTTOM;  // a post has the same margin on all sides
       var photo = state.look === 'photo' && img;
-      var ground = state.look === 'c2' ? C.c2 : C.main;
+      var tint = state.tint === 'c2' ? C.c2 : C.main;                 // one colorway per post, never both
+      var ground = photo ? tint : (state.look === 'c2' ? C.c2 : C.main);
 
       // 1. Ground
       ctx.fillStyle = ground; ctx.fillRect(0, 0, W, H);
@@ -482,9 +562,10 @@
         drawPhoto();
         // Fade the top into Color Main (soft is the default)
         var fade = [[0, 0], [0.92, 980], [1, 1320]][state.fade];
-        if (fade[1]) {
-          ctx.fillStyle = vgrad(0, fade[1], [[0, rgba(C.main, fade[0])], [state.fade === 2 ? .38 : .28, rgba(C.main, fade[0] * .9)], [1, rgba(C.main, 0)]]);
-          ctx.fillRect(0, 0, W, fade[1]);
+        var fadeH = fade[1] * H / 1920;
+        if (fadeH) {
+          ctx.fillStyle = vgrad(0, fadeH, [[0, rgba(tint, fade[0])], [state.fade === 2 ? .38 : .28, rgba(tint, fade[0] * .9)], [1, rgba(tint, 0)]]);
+          ctx.fillRect(0, 0, W, fadeH);
         }
       }
 
@@ -494,7 +575,7 @@
       var logoSize = 72;
       ctx.fillStyle = C.c4; ctx.font = logoSize + 'px ' + DISPLAY; ctx.textAlign = 'left';
       var capH = ctx.measureText('B').actualBoundingBoxAscent || logoSize * 0.72;
-      var logoY = SAFE_TOP + capH;   // top of the letters sits on the safe line
+      var logoY = sTop + capH;   // top of the letters sits on the safe line
       ctx.fillText('BASS', M, logoY);
       var bw = ctx.measureText('BASS').width;
       ctx.fillText('BTCH', M + bw + capH * 0.3, logoY);
@@ -523,19 +604,20 @@
       var gigs = (tonight ? [state.tonightGig] : state.gigs).filter(function (g) { return (g.date || '').trim() || (g.venue || '').trim() || (g.city || '').trim(); });
       if (!gigs.length) gigs = [{ date: tonight ? '23:00' : '03 ' + deviceMonth(new Date(), 'short'), venue: 'Venue' }];
       var hasCity = gigs.some(function (g) { return (g.city || '').trim(); });
-      var rowH = tonight ? (hasCity ? 180 : 124) : Math.min(hasCity ? 132 : 92, Math.floor((hasCity ? 800 : 640) / gigs.length));
+      var avail = (H - sBot) - (monthY + 90);
+      var rowH = tonight ? (hasCity ? 180 : 124) : Math.min(hasCity ? 132 : 92, Math.floor(Math.min(hasCity ? 800 : 640, avail) / gigs.length));
       var fSize = tonight ? 60 : Math.min(44, Math.round(rowH * (hasCity ? 0.34 : 0.48)));
       var cSize = Math.round(fSize * 0.74);      // city: DM Mono label under the venue
       var cityGap = hasCity ? Math.round(cSize * 1.35) : 0;
       // Line-up position: from just under the month (0) to just above the reply bar (1)
       var lastBase = (rowH - cityGap) / 2 + fSize * 0.36 + 2 + cityGap;   // lowest baseline inside a row
       var highest = monthY + 90;
-      var lowest = H - SAFE_BOTTOM - lastBase - rowH * (gigs.length - 1);  // last gig sits on the safe line
+      var lowest = H - sBot - lastBase - rowH * (gigs.length - 1);  // last gig sits on the safe line
       var top = Math.round(highest + (Math.max(highest, lowest) - highest) * state.ty);
       if (photo) {
         // Keep the rows readable: darken the photo from just above the line-up down
-        var g0 = Math.max(monthY + 30, top - 360);
-        ctx.fillStyle = vgrad(g0, H, [[0, rgba(C.main, 0)], [Math.min(.6, (top - g0) / (H - g0) + .05), rgba(C.main, .5)], [1, rgba(C.main, .9)]]);
+        var g0 = Math.max(monthY + 30, top - 360 * H / 1920);
+        ctx.fillStyle = vgrad(g0, H, [[0, rgba(tint, 0)], [Math.min(.6, (top - g0) / (H - g0) + .05), rgba(tint, .5)], [1, rgba(tint, .9)]]);
         ctx.fillRect(0, g0, W, H - g0);
       }
       gigs.forEach(function (g, i) {
@@ -573,7 +655,7 @@
     }
     function fileName() {
       var m = (state.month || 'line-up').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'line-up';
-      return 'bass-btch-' + m + '-story.png';
+      return 'bass-btch-' + m + '-' + (state.format === 'post' ? 'post' : 'story') + '.png';
     }
 
     var raf = 0;
@@ -582,23 +664,43 @@
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(function () {
         fontsReady.then(function () {
-          draw();
+          draw(); drawMini();
           if (created) { blob = null; clearTimeout(blobTimer); blobTimer = setTimeout(makeBlob, 250); }
         });
       });
     }
 
-    $('create').addEventListener('click', function () {
+    var miniCtx = $('mini-canvas').getContext('2d');
+    function drawMini() {
+      var m = $('mini-canvas');
+      miniCtx.imageSmoothingQuality = 'high';
+      miniCtx.drawImage(canvas, 0, 0, m.width, m.height);
+    }
+
+    function createImage(openSheet) {
+      if (openSheet) openPreview();
       fontsReady.then(function () {
-        draw();
+        draw(); drawMini();
         return makeBlob();
       }).then(function () {
         created = true;
         $('share').disabled = false; $('download').disabled = false;
-        if (window.matchMedia('(max-width: 820px)').matches) $('preview').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        toast('Image ready');
+        if (!openSheet) toast('Image ready');
       });
-    });
+    }
+    $('create').addEventListener('click', function () { createImage(false); });
+    $('mcreate').addEventListener('click', function () { createImage(true); });
+    $('mini').addEventListener('click', function () { createImage(true); });
+
+    // Phone preview sheet
+    function openPreview() {
+      $('preview').classList.add('open'); document.body.classList.add('sheet-open');
+    }
+    function closePreview() {
+      $('preview').classList.remove('open'); document.body.classList.remove('sheet-open');
+    }
+    $('sheet-close').addEventListener('click', closePreview);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePreview(); });
 
     function download() {
       if (!blob) return;
@@ -635,6 +737,7 @@
     }
 
     // ---------- Start ----------
+    applyFormat();
     syncTitleUi();
     loadPhoto(function () { paintLook(); changed(); });
   })();
