@@ -101,7 +101,10 @@
       border-radius: 10px; overflow: hidden; background: var(--color-main);
       box-shadow: 0 30px 60px -30px rgba(0,0,0,.7);
     }
-    .stage.is-post { aspect-ratio: 1 / 1; }
+    .stage.is-post { aspect-ratio: 4 / 5; }
+    .shape { display: inline-block; border: 1.5px solid currentColor; border-radius: 2px; opacity: .8; }
+    .shape-story { width: 10px; height: 17px; }
+    .shape-post { width: 13px; height: 16px; }
     .stage canvas { width: 100%; height: 100%; display: block; }
     .sheet-top, .mbar { display: none; }
     .safe {
@@ -116,6 +119,8 @@
     .out .btn[disabled] { opacity: .35; pointer-events: none; }
     .meta { display: flex; justify-content: space-between; gap: 10px; margin-top: 12px; color: var(--muted); }
     .meta label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .meta label[hidden] { display: none; }
+    .stage.is-post .safe { display: none; }
 
     .toast {
       position: fixed; left: 50%; bottom: max(24px, env(safe-area-inset-bottom)); transform: translate(-50%, 20px);
@@ -156,7 +161,7 @@
       .sheet-top { display: flex; width: 100%; max-width: 420px; justify-content: space-between; align-items: center; min-height: 44px; color: var(--muted); }
       .sheet-close { background: none; border: 1px solid var(--line-strong); color: var(--color-4); border-radius: 999px; padding: 9px 16px; cursor: pointer; }
       .stage { width: auto; height: calc(100dvh - 300px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); max-width: 100%; margin-top: 8px; }
-      .stage.is-post { width: min(100%, calc(100dvh - 300px)); height: auto; }
+      .stage.is-post { height: auto; width: min(100%, calc((100dvh - 300px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * .8)); }
       .out, .meta { width: 100%; max-width: 420px; }
       body.sheet-open { overflow: hidden; }
     }
@@ -183,6 +188,14 @@
 
     <div class="app">
       <form class="panel" id="form" autocomplete="off" onsubmit="return false">
+        <div class="field">
+          <span class="label">Format</span>
+          <div class="seg" id="format" role="group" aria-label="Format">
+            <button type="button" data-v="story"><span class="shape shape-story" aria-hidden="true"></span>Story</button>
+            <button type="button" data-v="post"><span class="shape shape-post" aria-hidden="true"></span>Post 4:5</button>
+          </div>
+        </div>
+
         <div class="field">
           <span class="label">Title</span>
           <div class="seg" id="mode" role="group" aria-label="Title">
@@ -290,7 +303,7 @@
 
     // ---------- Brand ----------
     var C = { dj: '#12062A', main: '#1C0C3D', c2: '#5A2CFF', c3: '#D4FF3A', c4: '#F4F0FF' };
-    var W = 1080, H = 1920;     // story; a post is 1080 × 1080
+    var W = 1080, H = 1920;     // story; a post is 1080 × 1350 (4:5)
     var M = 90;                 // side margin
     var DANGER = 157;           // Instagram's top bar and reply bar cover 157px each
     var GAP = 10;               // breathing room between the text and the danger zones
@@ -335,7 +348,7 @@
     // Auto month: always this month on this phone, until Bass types his own
     if (state.monthAuto !== false) { state.month = deviceMonth(new Date(), 'long'); state.monthAuto = true; }
     delete state.blur; delete state.tint;
-    state.format = 'story';   // stories only
+    if (state.format !== 'post') state.format = 'story';
     if (!state.tonightGig) state.tonightGig = { date: '', venue: '', city: '' };
     state.gigs.forEach(function (g) {
       if (g.city === undefined) {
@@ -433,15 +446,16 @@
       if (v === 'photo' && !img) { $('file').click(); return false; }
     });
     seg('fade', 'fade'); seg('bw', 'bw'); seg('accent', 'accent');
+    seg('format', 'format', function (v) { state.format = v; applyFormat(); });
 
     function applyFormat() {
       var post = state.format === 'post';
-      H = post ? 1080 : 1920;
+      H = post ? 1350 : 1920;          // Instagram portrait post is 4:5
       canvas.width = W; canvas.height = H;
       $('mini-canvas').width = 120; $('mini-canvas').height = Math.round(120 * H / W);
       $('stage').classList.toggle('is-post', post);
       $('safe-label').hidden = post;
-      $('meta-size').textContent = post ? 'Post · 1080 × 1080 px' : 'Story · 1080 × 1920 px';
+      $('meta-size').textContent = post ? 'Post · 1080 × 1350 px' : 'Story · 1080 × 1920 px';
       $('share').textContent = post ? 'Share to Instagram' : 'Share to Instagram Stories';
       $('sheet-title').textContent = post ? 'Your post' : 'Your story';
       $('canvas').setAttribute('aria-label', post ? 'Instagram post preview' : 'Instagram story preview');

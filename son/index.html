@@ -63,6 +63,9 @@
       border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--color-4);
     }
     .nav .ig:hover { border-color: var(--color-4); }
+    .nav-icons { display: flex; align-items: center; gap: 10px; }
+    .nav .nav-book { min-height: 40px; padding: 0 18px; font-size: 13px; gap: 8px; }
+    .nav .nav-book svg { width: 16px; height: 16px; }
     .nav .ig svg { width: 18px; height: 18px; }
 
     /* ---------- Hero ---------- */
@@ -104,7 +107,6 @@
     /* ---------- Sections ---------- */
     section.block { padding: clamp(56px, 6.5vw, 88px) 0 0; }
     .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
-    .section-head .num { color: var(--muted); display: block; margin-bottom: 14px; }
     .section-head h2 { font-size: clamp(40px, 6vw, 76px); }
     .section-head p { margin: 0; max-width: 26em; color: var(--muted); }
 
@@ -189,6 +191,8 @@
     .foot-links a { text-decoration: none; color: var(--muted); }
     .foot-links a:hover { color: var(--color-4); }
     footer small { color: var(--muted); }
+    footer .credit { color: var(--color-4); text-transform: none; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-strong); }
+    footer .credit:hover { text-decoration-color: var(--color-4); }
 
     /* ---------- Toast ---------- */
     .toast {
@@ -227,6 +231,8 @@
     }
     @media (max-width: 420px) {
       .site-header .logo { font-size: 21px; }
+      .nav .nav-book { width: 40px; padding: 0; border-radius: 50%; }
+      .nav .nav-book-text { display: none; }
       .hero-actions .btn { flex: 1 1 100%; }
     }
   </style>
@@ -240,9 +246,18 @@
         <a class="label-link" href="#mixes">Mixes</a>
         <a class="label-link" href="#agenda">Agenda</a>
         <a class="label-link" href="#bookings">Bookings</a>
-        <a class="ig" href="https://www.instagram.com/bassbtch" target="_blank" rel="noopener" aria-label="BASS BTCH on Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
-        </a>
+        <span class="nav-icons">
+          <a class="ig" href="https://soundcloud.com/bass-btch-742360409" target="_blank" rel="noopener" aria-label="BASS BTCH on SoundCloud">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11 8.2v9.3h7.4a3.1 3.1 0 0 0 .4-6.2A5 5 0 0 0 11 8.2zM9 9.4v8.1h1V9zM7 10.4v7.1h1v-7.4zM5 11.2v6.3h1v-6.6zM3 12.6v4.4h1v-4.7zM1 14v2.3h1V13.6z"/></svg>
+          </a>
+          <a class="ig" href="https://www.instagram.com/bassbtch" target="_blank" rel="noopener" aria-label="BASS BTCH on Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a class="btn btn-hit nav-book" href="mailto:basvdsalm@gmail.com?subject=Booking%20request%20BASS%20BTCH&amp;body=Hi%20Bas%2C%0A%0AEvent%3A%20%0ADate%3A%20%0AVenue%20%2B%20city%3A%20%0ASet%20time%20%2F%20length%3A%20%0A%0AThanks!" aria-label="Book BASS BTCH by e-mail">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>
+            <span class="nav-book-text">Book</span>
+          </a>
+        </span>
       </nav>
     </div>
   </header>
@@ -287,7 +302,6 @@
       <div class="wrap">
         <div class="section-head">
           <div>
-            <span class="label num">01 · Mixes</span>
             <h2 class="headline">Mixes</h2>
           </div>
           <p>Press play and turn it up. Pride street parties, pop raves and everything in between.</p>
@@ -355,7 +369,6 @@
       <div class="wrap">
         <div class="section-head">
           <div>
-            <span class="label num">02 · Agenda</span>
             <h2 class="headline">Agenda</h2>
           </div>
           <p>Where to dance next. More dates are announced on Instagram first.</p>
@@ -401,7 +414,6 @@
       <div class="wrap">
         <div class="book-card">
           <div>
-            <p class="label">03 · Bookings</p>
             <h2 class="headline">Book<br>BASS BTCH</h2>
             <p>Clubs, Prides, festivals and parties that want a dancefloor full of joy. Send the date, venue and city, and BASS BTCH gets back to you.</p>
           </div>
@@ -433,7 +445,7 @@
         <a href="https://soundcloud.com/bass-btch-742360409" target="_blank" rel="noopener">SoundCloud</a>
         <a href="mailto:basvdsalm@gmail.com">E-mail</a>
       </nav>
-      <small class="label">© <span id="year">2026</span> BASS BTCH</small>
+      <small class="label">© <span id="year">2026</span> BASS BTCH | Website by <a class="credit" href="https://freycreates.nl" target="_blank" rel="noopener">FREYcreates</a></small>
     </div>
   </footer>
 
