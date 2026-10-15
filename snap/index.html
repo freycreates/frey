@@ -247,64 +247,62 @@ footer i{color:var(--pink);font-style:normal}
     </div>
 
     <div class="sec">
-      <span class="lbl">Logo or name</span>
-      <div class="logo-top">
-        <div class="thumb" id="thumb"><span class="status" style="font-size:11px">PNG</span></div>
-        <div>
-          <div class="row">
-            <button class="btn small light" id="logoBtn">Upload logo</button>
-            <button class="btn small ghost" id="logoRemoveBtn" hidden>Remove</button>
-          </div>
-          <div class="status" id="logoStatus" style="margin-top:8px">Optional. A transparent PNG works best.</div>
-        </div>
-      </div>
-      <input type="file" id="logoFile" accept="image/png,image/*" hidden>
-
-      <div class="logo-opts" id="logoOpts" hidden>
-        <div id="bgBox" hidden>
-          <span class="sublbl">Background</span>
-          <div class="seg" id="bgRemove">
-            <button data-v="true">Remove</button>
-            <button data-v="false">Keep original</button>
-          </div>
-          <div id="bgTune" style="margin-top:14px">
-            <div class="rangehead"><span>Gentle</span><span>Strong</span></div>
-            <input type="range" id="bgTol" min="10" max="140" value="45" aria-label="Background removal strength">
-            <div class="seg" id="bgMode" style="margin-top:12px">
-              <button data-v="outside">Outside only</button>
-              <button data-v="all">Also inside letters</button>
-            </div>
-          </div>
-        </div>
-        <div>
-          <span class="sublbl">Logo color</span>
-          <div class="seg" id="tint">
-            <button data-v="false">Original</button>
-            <button data-v="true">Match theme</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="field" id="nameBox" style="margin-top:18px">
-        <input type="text" id="djName" maxlength="40" placeholder="Or type your DJ name" autocomplete="off">
-        <p class="hint" id="nameHint">Used when you don't upload a logo.</p>
+      <span class="lbl">Your name</span>
+      <div class="field" id="nameBox">
+        <input type="text" id="djName" maxlength="40" placeholder="Your DJ name" autocomplete="off">
+        <p class="hint" id="nameHint">Or upload your own logo under Advanced.</p>
       </div>
       <details class="adv">
         <summary>Advanced</summary>
         <div class="advbody">
           <div>
+            <span class="sublbl">Logo</span>
+            <div class="logo-top">
+              <div class="thumb" id="thumb"><span class="status" style="font-size:11px">PNG</span></div>
+              <div>
+                <div class="row">
+                  <button class="btn small light" id="logoBtn">Upload logo</button>
+                  <button class="btn small ghost" id="logoRemoveBtn" hidden>Remove</button>
+                </div>
+                <div class="status" id="logoStatus" style="margin-top:8px">Optional. A transparent PNG works best.</div>
+              </div>
+            </div>
+            <input type="file" id="logoFile" accept="image/png,image/*" hidden>
+          </div>
+          <div class="logo-opts" id="logoOpts" hidden style="margin:0">
+            <div id="bgBox" hidden>
+              <span class="sublbl">Background</span>
+              <div class="seg" id="bgRemove">
+                <button data-v="true">Remove</button>
+                <button data-v="false">Keep original</button>
+              </div>
+              <div id="bgTune" style="margin-top:14px">
+                <div class="rangehead"><span>Gentle</span><span>Strong</span></div>
+                <input type="range" id="bgTol" min="10" max="140" value="45" aria-label="Background removal strength">
+                <div class="seg" id="bgMode" style="margin-top:12px">
+                  <button data-v="outside">Outside only</button>
+                  <button data-v="all">Also inside letters</button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="sublbl">Logo color</span>
+              <div class="seg" id="tint">
+                <button data-v="false">Original</button>
+                <button data-v="true">Match theme</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <span class="sublbl">Size and position of logo or name</span>
             <div class="rangehead"><span>Smaller</span><span>Bigger</span></div>
             <input type="range" id="idSize" min="25" max="100" value="60" aria-label="Logo or name size">
-          </div>
-          <div>
-            <div class="rangehead"><span>Left</span><span>Right</span></div>
+            <div class="rangehead" style="margin-top:14px"><span>Left</span><span>Right</span></div>
             <input type="range" id="idDX" min="-100" max="100" value="0" aria-label="Move logo or name left or right">
-          </div>
-          <div>
-            <div class="rangehead"><span>Up</span><span>Down</span></div>
+            <div class="rangehead" style="margin-top:14px"><span>Up</span><span>Down</span></div>
             <input type="range" id="idDY" min="-100" max="100" value="0" aria-label="Move logo or name up or down">
+            <p class="hint">Works for your logo and your typed name. It stays inside the margins.</p>
           </div>
-          <p class="hint" style="margin:0">Works for your logo and your typed name. It stays inside the margins.</p>
           <div><button class="btn small ghost" id="idReset">Reset size and position</button></div>
         </div>
       </details>
@@ -312,26 +310,38 @@ footer i{color:var(--pink);font-style:normal}
 
     <div class="sec">
       <span class="lbl">Title</span>
-      <div class="seg" id="titleMode">
-        <button data-v="month">Month</button>
-        <button data-v="tonight">Tonight</button>
-        <button data-v="none">No title</button>
-      </div>
       <div class="field" id="titleBox"><input type="text" id="titleText" maxlength="30" autocomplete="off"></div>
       <p class="hint" id="titleHint">Filled in automatically with this month.</p>
+      <details class="adv">
+        <summary>Advanced</summary>
+        <div class="advbody">
+          <div>
+            <span class="sublbl">Title type</span>
+            <div class="seg" id="titleMode">
+              <button data-v="month">Month</button>
+              <button data-v="tonight">Tonight</button>
+              <button data-v="none">No title</button>
+            </div>
+          </div>
+        </div>
+      </details>
     </div>
 
     <div class="sec">
       <span class="lbl">Date, venue and city</span>
       <div id="gigs"></div>
       <button class="add" id="addGig">+ Add a date</button>
-    </div>
-
-    <div class="sec">
-      <span class="lbl">Line-up position</span>
-      <div class="rangehead"><span>Higher</span><span>Lower</span></div>
-      <input type="range" id="pos" min="0" max="100" value="100" aria-label="Line-up position">
-      <p class="hint">The line-up stays inside the Instagram safe margins.</p>
+      <details class="adv">
+        <summary>Advanced</summary>
+        <div class="advbody">
+          <div>
+            <span class="sublbl">Line-up position</span>
+            <div class="rangehead"><span>Higher</span><span>Lower</span></div>
+            <input type="range" id="pos" min="0" max="100" value="100" aria-label="Line-up position">
+            <p class="hint">The line-up stays inside the Instagram safe margins.</p>
+          </div>
+        </div>
+      </details>
     </div>
 
     <div class="sec">
@@ -344,18 +354,7 @@ footer i{color:var(--pink);font-style:normal}
       <input type="file" id="photoFile" accept="image/*" hidden>
       <p class="hint" id="photoHint">Optional. Without a photo you get a clean color background.</p>
       <div id="photoCtl" class="dis" style="margin-top:18px">
-        <div class="rangehead"><span>Zoom</span><span id="zoomVal">100%</span></div>
-        <input type="range" id="zoom" min="100" max="400" value="100" aria-label="Zoom photo">
-        <div style="margin-top:18px" id="phX">
-          <div class="rangehead"><span>Left</span><span>Right</span></div>
-          <input type="range" id="photoX" min="-100" max="100" value="0" aria-label="Move photo left or right">
-        </div>
-        <div style="margin-top:14px" id="phY">
-          <div class="rangehead"><span>Up</span><span>Down</span></div>
-          <input type="range" id="photoY" min="-100" max="100" value="0" aria-label="Move photo up or down">
-        </div>
-        <p class="hint">Or drag the preview to move the photo. Pinch or scroll to zoom. Left, right, up and down only work once the photo is zoomed in or doesn't fit the format.</p>
-        <div class="row" style="gap:30px;margin-top:22px;align-items:flex-start">
+        <div class="row" style="gap:30px;align-items:flex-start">
           <div>
             <span class="sublbl">Fade the top</span>
             <div class="seg" id="fade">
@@ -372,7 +371,25 @@ footer i{color:var(--pink);font-style:normal}
             </div>
           </div>
         </div>
-        <p class="hint">Fade blends the top of the photo into the theme background. Black &amp; white lets the theme colors do the talking.</p>
+        <p class="hint">You can also drag the preview to move the photo, and pinch or scroll to zoom.</p>
+        <details class="adv">
+          <summary>Advanced</summary>
+          <div class="advbody">
+            <div>
+              <div class="rangehead"><span>Zoom</span><span id="zoomVal">100%</span></div>
+              <input type="range" id="zoom" min="100" max="400" value="100" aria-label="Zoom photo">
+            </div>
+            <div id="phX">
+              <div class="rangehead"><span>Left</span><span>Right</span></div>
+              <input type="range" id="photoX" min="-100" max="100" value="0" aria-label="Move photo left or right">
+            </div>
+            <div id="phY">
+              <div class="rangehead"><span>Up</span><span>Down</span></div>
+              <input type="range" id="photoY" min="-100" max="100" value="0" aria-label="Move photo up or down">
+            </div>
+            <p class="hint" style="margin:0">Left, right, up and down work once the photo is zoomed in or doesn't fit the format.</p>
+          </div>
+        </details>
       </div>
     </div>
   </div>
@@ -693,7 +710,7 @@ function buildFonts(){
   box.addEventListener('click',e=>{const b=e.target.closest('.fontbtn');if(!b)return;S.font=b.dataset.n||null;linkFonts();change()});
 }
 function syncFonts(){document.querySelectorAll('.fontbtn').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.n||null)===S.font)))}
-document.addEventListener('toggle',e=>{if(e.target.matches&&e.target.matches('details.adv')&&e.target.open)linkFonts()},true);
+document.addEventListener('toggle',e=>{if(e.target.matches&&e.target.matches('details.adv')&&e.target.open&&e.target.querySelector('#fonts'))linkFonts()},true);
 
 /* themes */
 function buildThemes(){
