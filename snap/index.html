@@ -347,8 +347,8 @@ footer i{color:var(--pink);font-style:normal}
 
     <div class="sec" data-step="2">
       <span class="lbl">Title</span>
-      <div class="field" id="titleBox"><input type="text" id="titleText" maxlength="30" autocomplete="off"></div>
-      <p class="hint" id="titleHint">Filled in automatically with this month.</p>
+      <div class="field" id="titleBox"><input type="text" id="titleText" maxlength="30" autocomplete="off" placeholder="e.g. November"></div>
+      <p class="hint" id="titleHint">Optional. Type a month, e.g. November.</p>
       <details class="adv">
         <summary>Advanced</summary>
         <div class="advbody">
@@ -356,6 +356,7 @@ footer i{color:var(--pink);font-style:normal}
             <span class="sublbl">Title type</span>
             <div class="seg" id="titleMode">
               <button data-v="month">Month</button>
+              <button data-v="upcoming">Upcoming</button>
               <button data-v="tonight">Tonight</button>
               <button data-v="none">No title</button>
             </div>
@@ -558,7 +559,7 @@ function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'
 
 const S={
   badge:true,font:null,idSize:60,idDX:0,idDY:0,format:'story',theme:'concrete',custom:{},accentOn:'title',grain:true,
-  name:'',titleMode:'month',titleMonth:MONTHS[new Date().getMonth()],
+  name:'',titleMode:'month',titleMonth:'',
   rows:nextFridays(2).map(d=>({date:d,venue:'',city:''})),
   tSize:100,tDX:0,tDY:0,pos:100,fade:'soft',bw:false,safe:false
 };
@@ -583,7 +584,7 @@ function sanitize(j){
   if(FORMATS[j.format])o.format=j.format;
   if(THEMES[j.theme])o.theme=j.theme;
   if(['title','name','dates','venues','none'].includes(j.accentOn))o.accentOn=j.accentOn;
-  if(['month','tonight','none'].includes(j.titleMode))o.titleMode=j.titleMode;
+  if(['month','upcoming','tonight','none'].includes(j.titleMode))o.titleMode=j.titleMode;
   if(['off','soft','strong'].includes(j.fade))o.fade=j.fade;
   if(typeof j.name==='string')o.name=j.name.slice(0,40);
   if(j.custom&&typeof j.custom==='object'){const c={};['bg','text','accent'].forEach(k=>{if(/^#[0-9a-f]{6}$/i.test(j.custom[k]))c[k]=j.custom[k]});if(Object.keys(c).length||j.app==='lineup-snap')o.custom=c}
@@ -698,7 +699,7 @@ function draw(){
   const maxW=F.w-2*F.side,center=th.align==='center',ax=center?F.w/2:F.side;
   x.textAlign=center?'center':'left';x.textBaseline='alphabetic';
   const hasTitle=S.titleMode!=='none';
-  const titleText=S.titleMode==='tonight'?'Tonight':(S.titleMonth||'');
+  const titleText=S.titleMode==='tonight'?'Tonight':S.titleMode==='upcoming'?'Upcoming':(S.titleMonth||'');
   const showTitle=hasTitle&&titleText.trim();
   let y=F.top;
   if(S.badge){
@@ -892,7 +893,7 @@ function syncDerived(){
   const hasLogo=!!L.canvas;
   $('#nameBox').classList.toggle('dis',hasLogo);
   $('#titleBox').style.display=S.titleMode==='month'?'':'none';
-  $('#titleHint').textContent=S.titleMode==='month'?'Filled in automatically with this month. You can change it.':S.titleMode==='tonight'?'Shows TONIGHT under your logo or name.':'Only your logo or name, no title.';
+  $('#titleHint').textContent=S.titleMode==='month'?'Optional. Type a month, e.g. November.':S.titleMode==='upcoming'?'Shows UPCOMING under your logo or name.':S.titleMode==='tonight'?'Shows TONIGHT under your logo or name.':'Only your logo or name, no title.';
   $('#photoCtl').classList.toggle('dis',!P.canvas);
   $('#photoRemoveBtn').hidden=!P.canvas;$('#photoReset').hidden=!P.canvas;
   $('#phone').classList.toggle('can-drag',!!P.canvas);
@@ -1007,7 +1008,7 @@ function syncId(){$('#idSize').value=S.idSize;$('#idDX').value=S.idDX;$('#idDY')
 $('#tReset').addEventListener('click',()=>{S.tSize=100;S.tDX=0;S.tDY=0;syncId();change()});
 
 /* ============================ EXPORT ============================ */
-function fileName(){const t=S.titleMode==='month'?S.titleMonth:S.titleMode==='tonight'?'tonight':'lineup';return'lineup-snap-'+(t||'lineup').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.png'}
+function fileName(){const t=S.titleMode==='month'?S.titleMonth:S.titleMode==='upcoming'?'upcoming':S.titleMode==='tonight'?'tonight':'lineup';return'lineup-snap-'+(t||'lineup').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.png'}
 function toBlob(){draw();return new Promise(r=>cv.toBlob(r,'image/png'))}
 $('#dlBtn').addEventListener('click',async()=>{
   const b=await toBlob();if(!b){toast('Could not create the image.');return}
