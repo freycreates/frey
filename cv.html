@@ -33,12 +33,12 @@
     html{scroll-behavior:smooth}
     body{position:relative;min-height:100vh;margin:0;background:#f4f4f5;color:var(--text);font-family:"Open Sauce",system-ui,sans-serif;line-height:1.46;overflow-x:hidden;isolation:isolate}
     body:before{content:"";position:fixed;inset:0 0 auto;height:6px;background:#d9d9df;z-index:3}
-    body:after{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(145deg,#f4f4f5,#fbfbfc 58%,#eeeeef);pointer-events:none}
+    body:after{content:"";position:fixed;inset:0;z-index:-1;background:#f4f4f5;pointer-events:none}
     a{color:inherit}
     .shell{display:grid;width:min(100% - 48px,980px);margin:36px auto;gap:14px}
     .card{overflow:hidden;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.95);box-shadow:var(--shadow);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
     .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 18px;border-bottom:1px solid var(--line)}
-    .brand{background:linear-gradient(90deg,var(--pink),var(--violet));background-clip:text;-webkit-background-clip:text;color:transparent;font-size:1.18rem;font-weight:700;letter-spacing:-.04em}
+    .brand{color:var(--pink);font-size:1.18rem;font-weight:700;letter-spacing:-.04em}
     .topbar-actions{display:flex;align-items:center;gap:12px}
     .download-link{display:inline-flex;align-items:center;min-height:28px;padding:5px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text);font-size:.72rem;font-weight:700;text-decoration:none;white-space:nowrap}
     .download-link:hover{border-color:var(--violet);color:var(--violet)}
@@ -48,7 +48,7 @@
     .hero{display:grid;grid-template-columns:128px 1fr;gap:24px;align-items:start;padding:28px 30px}
     .portrait{display:block;width:112px;height:112px;margin:0;padding:5px;overflow:hidden;border:1.5px solid var(--violet);border-radius:50%;background:#fff;box-shadow:0 10px 22px rgba(35,35,38,.12)}
     .portrait img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 48%}
-    .hero-copy h1{display:inline-block;margin:0;padding-right:.08em;background:linear-gradient(90deg,var(--pink),var(--violet));background-clip:text;-webkit-background-clip:text;color:transparent;font-size:clamp(2.4rem,6vw,4.2rem);font-weight:700;letter-spacing:-.04em;line-height:.95}
+    .hero-copy h1{display:inline-block;margin:0;padding-right:.08em;color:var(--text);font-size:clamp(2.4rem,6vw,4.2rem);font-weight:700;letter-spacing:-.04em;line-height:.95}
     .eyebrow{margin:8px 0 10px;color:var(--violet);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
     .lead{max-width:720px;margin:0;color:var(--muted);font-size:.96rem;font-weight:600}
     .lead-line{display:block}
@@ -68,24 +68,24 @@
     .project:hover,.company:hover{border-color:#b9b9c0;box-shadow:0 6px 16px rgba(35,35,38,.08);transform:translateY(-2px)}
     .project:focus-visible,.company:focus-visible{outline:3px solid rgba(112,71,232,.25);outline-offset:3px}
     .project[href]:hover .project-copy strong,.company[href]:hover .company-copy strong{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
-    .project-logo{display:grid;height:86px;place-items:center;overflow:hidden;padding:14px;background:linear-gradient(135deg,#f8f8f9,#ededf1)}
+    .project-logo{display:grid;height:86px;place-items:center;overflow:hidden;padding:14px;background:#f8f8f9}
     .project-logo img{display:block;max-width:86%;max-height:58px;object-fit:contain}
     .project-copy{padding:13px}
     .project-copy strong,.project-copy span{display:block}
     .project-copy strong{font-size:.9rem;line-height:1.25}
     .project-copy span{margin-top:3px;color:var(--muted);font-size:.76rem;line-height:1.35}
     .project-copy .date{color:#4f4f57;font-weight:700}
-    .project-homomonument .project-logo{background:linear-gradient(135deg,#f8f8f9,#ededf1)}
+    .project-homomonument .project-logo{background:#f8f8f9}
     .project-homomonument .project-logo img{max-height:70px}
     .project-rewind .project-logo{padding:18px;background:#fff}
     .project-rewind .project-logo img{width:86%;height:auto;max-width:330px;max-height:58px;object-fit:contain}
-    .project-world-pride .project-logo{padding:8px;background:linear-gradient(135deg,#f8f8f9,#ededf1)}
+    .project-world-pride .project-logo{padding:8px;background:#f8f8f9}
     .project-world-pride .project-logo img{width:68px;height:68px;max-width:100%;max-height:100%}
     .project-bops .project-logo{background:#0000c8}
     .project-bops .project-logo img{width:82%;height:auto;max-width:330px;max-height:76px}
     .project-backsteeg .project-logo{background:#f93396}
     .project-backsteeg .project-logo img{width:58%;height:auto;max-width:240px;max-height:70px}
-    .project-dj .project-logo{padding:18px;background:linear-gradient(135deg,#fafafa,#ededf1)}
+    .project-dj .project-logo{padding:18px;background:#fafafa}
     .project-dj .project-logo img{width:70%;height:auto;max-width:220px;max-height:52px;object-fit:contain}
     .project-big-break .project-logo{padding:0;background:#17131d}
     .project-big-break .project-logo img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;object-position:center}
@@ -120,7 +120,7 @@
 
     /* New design, matching the homepage: dark page, light cards, Inter Tight, black FREY with a pink dot, black primary button. */
     :root{--text:#191317;--muted:#6d6469;--line:#e5dbd7;--violet:#191317}
-    body{background:linear-gradient(180deg,#0f0d10 0%,#191117 100%);color:var(--text);font-family:"Inter Tight",system-ui,sans-serif}
+    body{background:#0f0d10;color:var(--text);font-family:"Inter Tight",system-ui,sans-serif}
     body:before{height:4px;background:var(--pink)}
     body:after{display:none}
     .card{border-color:rgba(234,219,214,.78);border-radius:12px;background:rgba(255,253,251,.96);box-shadow:0 18px 42px rgba(0,0,0,.28);backdrop-filter:none;-webkit-backdrop-filter:none}
@@ -143,7 +143,7 @@
     .pill[href]:hover{border-color:var(--pink);color:var(--text);transform:translateY(-1px)}
     .pill-primary{border-color:var(--text);background:var(--text);color:#fffdfb}
     .pill-primary svg{stroke:var(--pink)}
-    .pill-primary[href]:hover{border-color:var(--text);color:#fffdfb;box-shadow:0 10px 20px rgba(230,20,130,.13)}
+    .pill-primary[href]:hover{border-color:var(--text);color:#fffdfb;box-shadow:none}
     .pill-place{padding-left:2px;border-color:transparent;background:none;color:var(--muted)}
     .pill-place svg{stroke:var(--pink)}
     .section-head h2{font-size:1.28rem;font-weight:900;letter-spacing:-.02em;text-transform:uppercase}
