@@ -827,6 +827,7 @@ $('#fontSearch').addEventListener('submit',async e=>{
   if(!raw)return;
   if(!/^[A-Za-z0-9 ]{1,60}$/.test(raw)){msg.textContent='Use just the font name, letters and numbers.';return}
   const name=raw.replace(/\b\w/g,c=>c.toUpperCase());
+  if(/^inter\s*tight$/i.test(raw)){msg.textContent='That one is reserved. Pick another font.';return}
   const have=FONTS.find(f=>f.n.toLowerCase()===raw.toLowerCase());
   if(have){S.font=have.n;linkFonts();change();msg.textContent=have.n+' selected.';return}
   msg.textContent='Searching…';
