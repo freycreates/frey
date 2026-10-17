@@ -421,6 +421,10 @@ footer i{color:var(--pink);font-style:normal}
               <button data-v="true">On</button>
             </div>
           </div>
+          <div style="min-width:170px;flex:1;max-width:260px">
+            <div class="rangehead"><span class="sublbl" style="margin:0">Photo opacity</span><span id="opVal">100%</span></div>
+            <input type="range" id="photoOp" min="10" max="100" value="100" aria-label="Photo opacity">
+          </div>
         </div>
         <p class="hint">You can also drag the preview to move the photo, and pinch or scroll to zoom. Drag it lower to let the top fade into the background.</p>
         <details class="adv">
@@ -563,13 +567,13 @@ const S={
   badge:true,font:null,idSize:60,idDX:0,idDY:0,format:'story',theme:'concrete',custom:{},accentOn:'title',grain:true,
   name:'',titleMode:'month',titleMonth:'',
   rows:nextFridays(2).map(d=>({date:d,venue:'',city:''})),
-  tSize:100,tDX:0,tDY:0,pos:100,fade:'soft',bw:false,safe:false
+  tSize:100,tDX:0,tDY:0,pos:100,fade:'soft',bw:false,op:100,safe:false
 };
 const L={src:null,orig:null,canvas:null,transparent:true,remove:true,mode:'outside',tol:45,tint:false,fileName:''};
 const P={canvas:null,zoom:1,ox:0,oy:0};
 
 const KEY='lineupsnap:default';
-const DEF_KEYS=['tSize','tDX','tDY','badge','font','idSize','idDX','idDY','format','theme','custom','accentOn','grain','name','titleMode','pos','fade','bw'];
+const DEF_KEYS=['tSize','tDX','tDY','badge','font','idSize','idDX','idDY','format','theme','custom','accentOn','grain','name','titleMode','pos','fade','bw','op'];
 function save(){}
 function snapshot(){
   const o={};DEF_KEYS.forEach(k=>o[k]=S[k]);
@@ -580,7 +584,7 @@ function snapshot(){
 function sanitize(j){
   if(!j||typeof j!=='object')return null;const o={};
   const num=(k,a,b)=>{if(typeof j[k]==='number'&&isFinite(j[k]))o[k]=clamp(j[k],a,b)};
-  num('tSize',40,140);num('tDX',-100,100);num('tDY',-100,100);num('idSize',25,100);num('idDX',-100,100);num('idDY',-100,100);num('pos',0,100);
+  num('tSize',40,140);num('tDX',-100,100);num('tDY',-100,100);num('idSize',25,100);num('idDX',-100,100);num('idDY',-100,100);num('pos',0,100);num('op',10,100);
   ['badge','grain','bw'].forEach(k=>{if(typeof j[k]==='boolean')o[k]=j[k]});
   if(j.font===null||FONTS.some(f=>f.n===j.font))o.font=j.font;
   if(FORMATS[j.format])o.format=j.format;
@@ -601,7 +605,7 @@ function applyDefault(o){
 function load(){loadCustomFonts();try{const o=sanitize(JSON.parse(localStorage.getItem(KEY)||'null'));if(o)applyDefault(o)}catch(e){}}
 function saveDefault(){
   try{localStorage.setItem(KEY,JSON.stringify(snapshot()));toast('Saved as your default look.')}catch(e){toast('Could not save. Is your browser blocking storage?')}}
-function refreshUI(){$('#djName').value=S.name;$('#pos').value=S.pos;syncId();syncColors();layoutPhone();paintSegs();syncDerived();schedule()}
+function refreshUI(){$('#djName').value=S.name;$('#pos').value=S.pos;$('#photoOp').value=S.op;$('#opVal').textContent=S.op+'%';syncId();syncColors();layoutPhone();paintSegs();syncDerived();schedule()}
 function exportSettings(){
   const b=new Blob([JSON.stringify({app:'lineup-snap',version:1,...snapshot()})],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='lineup-snap-settings.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
@@ -682,8 +686,16 @@ function draw(){
   /* background */
   x.fillStyle=C.bg;x.fillRect(0,0,F.w,F.h);
   if(P.canvas){
-    const r=photoRect(F);x.imageSmoothingQuality='high';x.drawImage(P.canvas,r.x,r.y,r.w,r.h);
-    if(S.bw){x.save();x.beginPath();x.rect(Math.max(0,r.x),Math.max(0,r.y),Math.min(F.w,r.x+r.w)-Math.max(0,r.x),Math.min(F.h,r.y+r.h)-Math.max(0,r.y));x.clip();x.globalCompositeOperation='saturation';x.fillStyle='#808080';x.fillRect(0,0,F.w,F.h);x.restore()}
+    const r=photoRect(F);x.imageSmoothingQuality='high';
+    const bwClip=g=>{g.save();g.beginPath();g.rect(Math.max(0,r.x),Math.max(0,r.y),Math.min(F.w,r.x+r.w)-Math.max(0,r.x),Math.min(F.h,r.y+r.h)-Math.max(0,r.y));g.clip();g.globalCompositeOperation='saturation';g.fillStyle='#808080';g.fillRect(0,0,F.w,F.h);g.restore()};
+    if(S.op<100){
+      /* fade the photo into the background colour; B&W is applied to the photo only, not the background */
+      const t=document.createElement('canvas');t.width=F.w;t.height=F.h;const g=t.getContext('2d');
+      g.imageSmoothingQuality='high';g.drawImage(P.canvas,r.x,r.y,r.w,r.h);if(S.bw)bwClip(g);
+      x.globalAlpha=S.op/100;x.drawImage(t,0,0);x.globalAlpha=1;
+    }else{
+      x.drawImage(P.canvas,r.x,r.y,r.w,r.h);if(S.bw)bwClip(x);
+    }
     const len=S.fade==='strong'?.62:S.fade==='soft'?.36:0;
     if(len){const ft=Math.max(0,r.y);x.fillStyle=easeGrad(x,ft,ft+F.h*len,C.bg,S.fade==='strong'?1:.96,0);x.fillRect(0,ft,F.w,F.h*len)}
     const y0=F.h*(S.format==='story'?.46:.42);
@@ -889,6 +901,7 @@ $('#addGig').addEventListener('click',()=>{
   S.rows.push({date:d,venue:'',city:''});renderGigs();change();
   const ins=document.querySelectorAll('#gigs .gig');ins[ins.length-1].children[1].focus();
 });
+$('#photoOp').addEventListener('input',e=>{S.op=+e.target.value;$('#opVal').textContent=S.op+'%';change()});
 $('#pos').addEventListener('input',e=>{S.pos=+e.target.value;change()});
 
 function syncDerived(){
