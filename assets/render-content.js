@@ -27,7 +27,7 @@
     }).join("")+"\n        ";
   }
 
-  const venueCard=(venue,indent)=>`\n${indent}<a class="venue-card${venue.style?" "+esc(venue.style):""}" href="${esc(venue.url)}" target="_blank" rel="noopener"><span class="venue-card-logo"><img loading="lazy" decoding="async" src="${esc(venue.logo)}" alt=""></span><span class="venue-card-name">${esc(venue.name)}</span></a>`;
+  const venueCard=(venue,indent)=>`\n${indent}<${venue.url?"a":"div"} class="venue-card${venue.style?" "+esc(venue.style):""}"${venue.url?` href="${esc(venue.url)}" target="_blank" rel="noopener"`:""}><span class="venue-card-logo"><img loading="lazy" decoding="async" src="${esc(venue.logo)}" alt=""></span><span class="venue-card-name">${esc(venue.name)}</span></${venue.url?"a":"div"}>`;
   const venueGrid=document.getElementById("venueGrid");
   if(venueGrid)venueGrid.innerHTML=venues.slice(0,FEATURED_VENUES).map(venue=>venueCard(venue,"        ")).join("")+"\n      ";
   const venueGridMore=document.getElementById("venueGridMore");

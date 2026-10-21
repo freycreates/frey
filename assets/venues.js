@@ -17,5 +17,10 @@ window.FREY_VENUES=[
   {"logo":"assets/venue-logos/cards/exit.png","name":"EXIT, Amsterdam","url":"https://www.exitamsterdam.nl/"},
   {"logo":"assets/venue-logos/cards/richel.png","name":"Theater De Richel, Amsterdam","url":"https://theaterderichel.nl/"},
   {"logo":"assets/venue-logos/cards/disco-dolly.png","name":"Disco Dolly, Amsterdam","style":"venue-card-disco-dolly","url":"https://ra.co/clubs/87805"},
-  {"logo":"assets/venue-logos/cards/skek.png","name":"'SKEK, Amsterdam","style":"venue-card-skek","url":"https://skekamsterdam.cargo.site/"}
+  {"logo":"assets/venue-logos/cards/skek.png","name":"'SKEK, Amsterdam","style":"venue-card-skek","url":"https://skekamsterdam.cargo.site/"},
+  {"logo":"assets/venue-logos/cards/fpq.png","name":"F*CKING POP QUEERS, Amsterdam"},
+  {"logo":"assets/venue-logos/cards/bops.png","name":"BOPS, Amsterdam"},
+  {"logo":"assets/venue-logos/cards/pinknoise.png","name":"PINKNOISE, Amersfoort","url":"https://www.instagram.com/pinknoise_event/"},
+  {"logo":"assets/venue-logos/cards/misfit.png","name":"MISFIT, Groningen"},
+  {"logo":"assets/venue-logos/cards/elixer.png","name":"ELIXER, Amsterdam","style":"venue-card-elixer"}
 ];
