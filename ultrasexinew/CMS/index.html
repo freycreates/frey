@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Ultrasexi CMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Rubik:wght@900&display=swap">
+<style>
+/* Concept: the site's look (paper, ink, poster-colour bands, Rubik caps), but functional: a password screen first, then one form for the new edition. Moderators only. */
+:root {
+  --paper: #fbf9f6;
+  --ink: #15111a;
+  --muted: #5b5463;
+  --line: #15111a;
+  --label: #fff8f3;
+  --pop: #c4399a;
+  --ok: #17724a;
+  --err: #b3261e;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-head: "Rubik", "Archivo", "Helvetica Neue", Arial, sans-serif;
+}
+/* always light, like the site */
+:root { color-scheme: light; --lime: #f7d6b8; --pink: #f4b3c8; --lilac: #d6cbf3; --on: #15111a; --on-soft: rgba(21, 17, 26, .74); --paper-2: #efeae3; }
+html, body { overflow-x: clip; }
+[hidden] { display: none !important; }
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-display); font-stretch: 100%;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  line-height: 1.4;
+}
+.wrap { max-width: 1200px; margin: 0 auto; }
+.bar { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding: 14px 0; font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.logo { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); line-height: 0; }
+.logo svg { display: block; height: 34px; width: auto; aspect-ratio: 509 / 302; }
+.logo small { font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: .12em; line-height: 1; text-transform: uppercase; }
+.bar .right { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.role { border: 2px solid var(--line); padding: 4px 10px; font-size: 12px; }
+h1 { margin: 0; font-weight: 900; font-stretch: 112%; text-transform: uppercase; letter-spacing: .02em; font-size: clamp(28px, 5vw, 56px); line-height: 1.05; text-wrap: balance; }
+h2 { margin: 0; font-weight: 900; font-stretch: 112%; text-transform: uppercase; letter-spacing: .02em; font-size: clamp(20px, 2.6vw, 28px); }
+.lab { font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.hint { margin: 0; color: var(--muted); font-size: 14px; }
+.tag { background: var(--label); color: var(--ink); font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+
+.btn-main { display: inline-flex; align-items: center; gap: 12px; font: 800 18px/1 var(--font-display); font-stretch: 112%; letter-spacing: .1em; text-transform: uppercase; background: var(--ink); color: var(--paper); border: 3px solid var(--ink); padding: 16px 24px; cursor: pointer; text-decoration: none; }
+.btn-main:hover { background: var(--pop); border-color: var(--pop); color: #fff; }
+.btn-main:focus-visible, .btn-ghost:focus-visible { outline: 3px solid var(--pop); outline-offset: 3px; }
+.btn-ghost { font: 800 13px/1 var(--font-display); letter-spacing: .1em; text-transform: uppercase; background: transparent; color: var(--ink); border: 2px solid var(--line); padding: 8px 12px; cursor: pointer; }
+.btn-ghost:hover { background: var(--ink); color: var(--paper); }
+.text-in { font: 600 18px/1.2 var(--font-display); padding: 16px; border: 3px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 0; width: 100%; min-width: 0; }
+.text-in:focus-visible { outline: 3px solid var(--pop); outline-offset: 2px; }
+.msg { min-height: 1.4em; margin: 0; font-size: 14px; font-weight: 700; }
+.msg.err { color: var(--err); }
+.msg.ok { color: var(--ok); }
+.field { display: grid; gap: 10px; }
+
+/* login */
+.login { max-width: 460px; margin: clamp(40px, 10vw, 120px) auto; display: grid; gap: 24px; }
+.login form { display: grid; gap: 18px; border: 3px solid var(--line); padding: clamp(20px, 3vw, 32px); }
+.pwwrap { position: relative; }
+.pwwrap .text-in { padding-right: 96px; }
+.pwwrap .btn-ghost { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
+.demo-note { margin: 0; border: 2px dashed var(--line); padding: 10px 14px; font-size: 14px; color: var(--muted); }
+.demo-note b { color: var(--ink); }
+
+/* dashboard */
+.dash { padding-block: 32px 0; display: grid; gap: 40px; }
+.add-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
+.steps { margin: 18px 0 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 16px; color: var(--muted); }
+.steps li::marker { font-weight: 800; color: var(--pop); }
+form.cms { display: grid; gap: 28px; margin-top: 28px; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.upload { position: relative; display: grid; gap: 12px; justify-items: start; border: 3px dashed var(--line); padding: clamp(18px, 3vw, 32px); }
+.upload.drag { background: var(--label); border-style: solid; }
+.upload input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.upload input:focus-visible + label { outline: 3px solid var(--pop); outline-offset: 3px; }
+.fname { font-size: 15px; font-weight: 600; word-break: break-word; }
+.preview { position: sticky; top: 16px; display: grid; gap: 14px; }
+.preview .box { border: 3px solid var(--line); background: var(--label); min-height: 180px; display: grid; place-items: center; position: relative; }
+.preview .box img { display: block; width: 100%; height: auto; }
+.preview .empty { padding: 28px; text-align: center; color: var(--muted); font-weight: 600; margin: 0; }
+.preview .chip { position: absolute; top: 12px; right: 12px; font-size: 11px; padding: 7px 12px; transform: rotate(3deg); box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+.preview .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.preview .when { margin: 0; font-weight: 900; font-stretch: 112%; font-size: 18px; line-height: 1.15; }
+.success { border: 3px solid var(--ok); padding: 18px 20px; display: grid; gap: 12px; margin-top: 24px; }
+.success p { margin: 0; font-weight: 700; }
+
+.live { border-top: 3px solid var(--line); padding-top: 24px; display: grid; gap: 18px; }
+.strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.strip figure { margin: 0; display: grid; gap: 6px; align-content: start; }
+.strip img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 3px solid var(--line); }
+.strip figcaption { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.strip figcaption span { display: block; color: var(--muted); font-weight: 600; }
+.strip .now img { border-color: var(--pop); }
+.strip .now figcaption span { color: var(--pop); font-weight: 800; }
+@media (max-width: 820px) { .add-grid { grid-template-columns: minmax(0, 1fr); } .preview { position: static; } }
+@media (max-width: 520px) { .two { grid-template-columns: minmax(0, 1fr); } }
+footer { margin-top: 56px; border-top: 3px solid var(--line); padding-block: 24px 40px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* display type: Rubik Black, close to the Ultrasexi logo */
+h1, h2, .btn-main { font-family: var(--font-head); font-weight: 900; }
+.preview .tk { display: inline-flex; align-items: center; justify-content: center; gap: .5em; background: var(--ink); color: var(--paper); border: 3px solid var(--ink); font-family: var(--font-head); font-weight: 900; font-size: 18px; letter-spacing: .04em; line-height: 1; text-transform: uppercase; padding: 14px 26px; }
+textarea.text-in { resize: vertical; min-height: 140px; line-height: 1.45; font-family: var(--font-display); }
+.preview .pv-info { margin: 6px 0 0; font-size: 14px; line-height: 1.45; white-space: pre-line; color: var(--muted); max-width: 46ch; }
+.preview .pv-info:empty { display: none; }
+.preview .pv-info::before { content: "More info +"; display: block; margin-bottom: 4px; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.preview .pv-pal { display: grid; gap: 6px; }
+.preview .pv-pal .sw { display: flex; gap: 8px; }
+.preview .pv-pal .sw span { width: 48px; height: 30px; border: 2px solid var(--line); }
+
+/* site vibe: full-width poster-colour bands behind headings, thin header rule, same tiles as Past events */
+.bar::after { content: ""; position: absolute; left: -100vmax; right: -100vmax; bottom: 0; height: 1px; background: rgba(21, 17, 26, .16); }
+.logo small .cms { margin-left: 8px; padding: 3px 7px; background: var(--ink); color: var(--paper); font-size: 11px; letter-spacing: .12em; }
+.band { background: var(--tone, var(--lime)); color: var(--on); box-shadow: 0 0 0 100vmax var(--tone, var(--lime)); clip-path: inset(0 -100vmax); padding: 16px 0; transition: background .4s ease, box-shadow .4s ease; }
+.band .hint { color: var(--on-soft); margin-top: 6px; }
+.band-login { --tone: var(--lilac); }
+.band-new { --tone: var(--lime); }
+.band-live { --tone: var(--pink); }
+.login .band { padding: 18px 0; }
+.dash { padding-block: 0; gap: 0; }
+.dash .add-grid { padding-block: clamp(24px, 3vw, 40px) clamp(40px, 5vw, 64px); }
+.steps { margin-top: 0; }
+.live { border-top: 0; padding-top: 0; gap: 0; }
+.live .strip { padding-top: clamp(18px, 2.4vw, 28px); }
+.strip { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: clamp(10px, 1.6vw, 20px); }
+.strip img { aspect-ratio: 4 / 5; object-fit: cover; background: var(--paper-2); }
+.strip .now { position: relative; }
+.strip .now::before { content: "Live now"; position: absolute; top: 10px; right: -4px; z-index: 1; padding: 6px 10px; background: var(--label); color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; transform: rotate(3deg); box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+.strip .now img { border-color: var(--line); }
+.strip .now figcaption span { color: var(--ink); }
+.preview .row { background: var(--lime); color: var(--on); padding: 16px; transition: background .4s ease; }
+.preview .pv-info { color: var(--on-soft); }
+.preview .box { background: var(--paper-2); }
+footer { border-top-width: 1px; border-top-color: rgba(21, 17, 26, .16); }
+@media (max-width: 560px) { .band { padding: 14px 0; } }
+@media (prefers-reduced-motion: reduce) { .band, .preview .row { transition: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="us-logo" viewBox="340 692 509 302"><path fill="currentColor" d="M744.304,703.781c36.894,0,88.979,18.809,90.064,83.194h-67.64c-1.448-9.043-3.617-26.044-24.596-26.044 c-11.938,0-23.514,8.319-23.514,20.979c0,12.299,7.236,15.554,55.342,37.257c49.919,22.426,62.578,45.575,62.578,76.683 c0,42.682-22.427,85.726-93.321,85.726c-70.172,0-98.388-41.234-96.577-93.684v0.002h68.002c0,31.107,19.17,36.533,27.851,36.533 c16.277,0,26.044-13.383,26.044-25.683c0-14.106-11.213-18.447-52.447-35.81c-18.811-7.597-65.472-26.405-65.472-76.683 C650.619,732.357,699.451,703.781,744.304,703.781 M557.453,708.844v161.685c0,44.853-9.767,64.747-26.767,82.109 c-17.362,17.724-41.597,28.937-74.875,28.937c-19.532,0-54.98-4.701-77.044-28.573c-22.064-24.236-26.767-43.046-26.767-82.473 V708.844h68.363v161.685c0,9.043,0.361,21.703,4.702,32.193c4.702,10.49,13.383,18.809,30.022,18.809 c17,0,25.682-7.595,29.66-17.361c4.341-10.13,4.341-23.15,4.341-33.641V708.844H557.453 M607.215,814.877 c16.947,0,31.004,14.47,31.004,32.038c0,17.774-14.264,32.036-31.417,32.036c-17.57,0-31.625-14.675-31.625-32.036 c0-16.949,13.436-32.038,31.832-32.038H607.215 M744.304,697.781c-24.621,0-49.169,8.125-67.351,22.292 c-14.751,11.494-32.335,32.305-32.335,66.179c0,54.29,50.263,74.588,69.185,82.229l3.125,1.315 c39.3,16.538,45.609,19.855,45.609,28.947c0,12.157-10.404,19.683-20.044,19.683c-1.758,0-7.905-0.366-13.186-5.078 c-5.75-5.131-8.665-13.695-8.665-25.455c0-3.313-2.687-6-6-6h-67.895c-0.001,0-0.003,0-0.004,0 c-0.035-0.001-0.07-0.001-0.105-0.001c-3.226,0-5.883,2.556-5.994,5.792c-1.028,29.768,7.286,54.67,24.044,72.016 c17.869,18.497,44.29,27.875,78.529,27.875c34.358,0,60.503-9.705,77.708-28.846c14.14-15.73,21.613-37.474,21.613-62.88 c0-18.37-4.378-32.735-13.778-45.208c-10.442-13.856-27.074-25.597-52.341-36.948l-0.107-0.048 c-48.312-21.796-51.693-23.872-51.693-31.735c0-7.363,6.551-14.979,17.514-14.979c14.21,0,16.736,8.8,18.562,20.303l0.109,0.689 c0.467,2.911,2.978,5.051,5.925,5.051h67.64c1.608,0,3.15-0.646,4.278-1.793c1.128-1.147,1.748-2.699,1.721-4.308 c-0.271-16.13-3.642-30.538-10.016-42.824c-5.706-11-13.812-20.316-24.089-27.692 C789.809,704.553,767.226,697.781,744.304,697.781L744.304,697.781z M557.453,702.844H489.09c-3.313,0-6,2.687-6,6v161.685 c0,9.926,0,22.279-3.856,31.277c-0.014,0.033-0.028,0.066-0.042,0.1c-3.735,9.168-11.619,13.625-24.104,13.625 c-12.049,0-19.84-4.826-24.512-15.184c-3.711-9.028-4.213-20.137-4.213-29.818V708.844c0-3.313-2.687-6-6-6h-68.363 c-3.313,0-6,2.687-6,6v161.685c0,22.303,1.559,36.416,5.379,48.713c4.107,13.218,11.185,24.875,22.951,37.799 c10.534,11.397,24.724,19.782,42.206,24.953c16.417,4.855,31.653,5.581,39.274,5.581c32.547,0,59.181-10.342,79.161-30.738 c10.174-10.391,16.688-20.544,21.121-32.921c5.021-14.02,7.36-30.983,7.36-53.387V708.844 C563.453,705.531,560.766,702.844,557.453,702.844L557.453,702.844z M607.215,808.877h-0.206 c-10.375,0-20.015,4.086-27.142,11.507c-6.894,7.177-10.69,16.599-10.69,26.531c0,20.974,16.878,38.036,37.625,38.036 c20.632,0,37.417-17.062,37.417-38.036c0-10.058-3.849-19.569-10.838-26.782C626.348,812.875,617.055,808.877,607.215,808.877 L607.215,808.877z"/></symbol></svg>
+<div class="wrap">
+  <header class="bar">
+    <span class="logo" aria-label="Ultrasexi CMS"><svg viewBox="0 0 509 302" aria-hidden="true" focusable="false"><use href="#us-logo"/></svg><small>Ultrasexi<span class="cms">CMS</span></small></span>
+    <div class="right" id="session" hidden>
+      <span class="role">Moderator</span>
+      <button class="btn-ghost" type="button" id="logout">Log out</button>
+    </div>
+  </header>
+
+  <!-- LOG IN -->
+  <main class="login" id="view-login">
+    <div class="band band-login">
+      <h1>Moderators</h1>
+      <p class="hint">Log in to put a new edition on the website.</p>
+    </div>
+    <form id="login" novalidate>
+      <div class="field">
+        <label class="lab" for="pw">Password</label>
+        <div class="pwwrap">
+          <input class="text-in" id="pw" type="password" autocomplete="current-password" aria-describedby="m-pw">
+          <button class="btn-ghost" type="button" id="toggle" aria-pressed="false">Show</button>
+        </div>
+        <p class="msg" id="m-pw" role="alert"></p>
+      </div>
+      <button class="btn-main" type="submit" style="justify-self:start">Log in <span aria-hidden="true">&gt;</span></button>
+    </form>
+    <p class="demo-note"><b>Demo.</b> Password for this demo: <b>pop2026</b>. On the real site the server checks the password, never the page itself.</p>
+  </main>
+
+  <!-- DASHBOARD -->
+  <main class="dash" id="view-dash" hidden>
+    <div class="band band-new"><h1>New edition, 5 minutes</h1></div>
+    <div class="add-grid">
+      <div>
+        <ol class="steps">
+          <li>Upload the poster.</li>
+          <li>Add the title and the date.</li>
+          <li>Paste the ticket link.</li>
+          <li>Add the text people should read (optional).</li>
+          <li>Publish. The edition moves to Past events by itself once its date has passed.</li>
+        </ol>
+
+        <form class="cms" id="cms" novalidate>
+          <div class="field">
+            <span class="lab" id="lab-poster">1. Poster</span>
+            <div class="upload" id="drop">
+              <input type="file" id="f-file" accept="image/png,image/jpeg,image/webp" aria-labelledby="lab-poster">
+              <label class="btn-main" for="f-file">Upload poster</label>
+              <span class="fname" id="fname">No file chosen yet.</span>
+              <p class="hint">Drag a file here or choose one. JPG, PNG or WebP.</p>
+            </div>
+            <p class="msg" id="m-file" role="status"></p>
+          </div>
+
+          <div class="two">
+            <div class="field">
+              <label class="lab" for="f-title">2. Title</label>
+              <input class="text-in" id="f-title" type="text" placeholder="FPQ Halloween" autocomplete="off">
+              <p class="msg" id="m-title" role="status"></p>
+            </div>
+            <div class="field">
+              <label class="lab" for="f-date">Date</label>
+              <input class="text-in" id="f-date" type="date" aria-describedby="h-date">
+              <p class="msg" id="m-date" role="status"></p>
+            </div>
+          </div>
+          <p class="hint" id="h-date" style="margin-top:-14px">The date appears next to the Tickets button. After this day the edition moves to Past events.</p>
+
+          <div class="two">
+            <div class="field">
+              <label class="lab" for="f-venue">Location</label>
+              <input class="text-in" id="f-venue" type="text" placeholder="Club Up" autocomplete="off">
+            </div>
+            <div class="field">
+              <label class="lab" for="f-venueurl">Location link (optional)</label>
+              <input class="text-in" id="f-venueurl" type="url" inputmode="url" placeholder="https://www.clubup.nl/" autocomplete="off">
+              <p class="msg" id="m-venueurl" role="status"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="lab" for="f-ticket">3. Ticket link</label>
+            <input class="text-in" id="f-ticket" type="url" inputmode="url" placeholder="https://tickets.example.com/edition" autocomplete="off">
+            <p class="msg" id="m-ticket" role="status"></p>
+          </div>
+
+          <div class="field">
+            <label class="lab" for="f-info">4. More info text (optional)</label>
+            <textarea class="text-in" id="f-info" rows="5" maxlength="1200" aria-describedby="h-info" placeholder="Line-up, times, entry and anything else people should know."></textarea>
+            <p class="hint" id="h-info">Shown under “More info” on the homepage, with the location. When the edition is over, it shows in the pop-up when someone taps its poster in Past events. <span id="info-count">0</span> / 1200</p>
+          </div>
+
+          <div class="field">
+            <button class="btn-main" type="submit" style="justify-self:start">5. Publish edition <span aria-hidden="true">&gt;</span></button>
+            <p class="hint">Demo. Nothing is actually saved.</p>
+          </div>
+        </form>
+
+        <div class="success" id="success" hidden role="status">
+          <p id="success-text">The new edition is live.</p>
+          <button class="btn-main" type="button" id="again" style="justify-self:start">Add another edition</button>
+        </div>
+      </div>
+
+      <aside class="preview" aria-label="Homepage preview">
+        <span class="lab">How the homepage will look</span>
+        <div class="box">
+          <p class="empty" id="pv-empty">Upload a poster to see the preview.</p>
+          <img id="pv-img" alt="Preview of the new poster" hidden>
+          <span class="tag chip" id="pv-chip" hidden>Next edition</span>
+        </div>
+        <div class="pv-pal" id="pv-pal" hidden><span class="lab">Site colours from this poster</span><div class="sw" id="pv-sw"></div></div>
+        <div class="row">
+          <div><p class="when" id="pv-when">Date to be added</p><p class="pv-info" id="pv-info"></p></div>
+          <span class="tk">Tickets &gt;</span>
+        </div>
+      </aside>
+    </div>
+
+    <section class="live" aria-labelledby="h-live">
+      <div class="band band-live"><h2 id="h-live">On the website</h2></div>
+      <div class="strip" id="strip"></div>
+    </section>
+  </main>
+
+  <footer>© 2026 Ultrasexi · CMS · <a href="../" style="color:inherit">View the website</a></footer>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var PASSWORD = "pop2026"; // demo only
+
+  var editions = [
+    { src: "img/halloween-2026.webp", title: "FPQ Halloween", date: "2026-10-31" },
+    { src: "img/greatest-hits-2026.webp", title: "FPQ XL Greatest Hits", date: "2026-08-01" },
+    { src: "img/perimenopop-2025.webp", title: "FPQ XL Perimenopop", date: "2025-09-26" },
+    { src: "img/paradiso-2025.webp", title: "FPQ XL Paradiso", date: "2025-08-02" },
+    { src: "img/top-of-the-pop-queers-2024.webp", title: "Top of the Pop Queers", date: "2024-08-03" },
+    { src: "img/xmas-clearance.webp", title: "FPQ XL Xmas Clearance", date: "" }
+  ];
+
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
+  function iso(d) { var m = d.getMonth() + 1, day = d.getDate(); return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (day < 10 ? "0" : "") + day; }
+  function fmt(s, long) {
+    if (!s) return "Date to be added";
+    var d = new Date(s + "T00:00:00");
+    var o = long ? { weekday: "long", day: "numeric", month: "long", year: "numeric" } : { day: "numeric", month: "short", year: "numeric" };
+    return d.toLocaleDateString("en-GB", o).replace(",", "");
+  }
+
+  function renderStrip() {
+    var t = iso(new Date());
+    var upcoming = editions.filter(function (e) { return e.date && e.date >= t; }).sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    var past = editions.filter(function (e) { return !(e.date && e.date >= t); }).sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
+    var all = upcoming.concat(past);
+    $("strip").innerHTML = all.map(function (p) {
+      var status, cls = "";
+      if (upcoming[0] === p) { status = "Live now · moves to Past events after " + fmt(p.date, false); cls = "now"; }
+      else if (upcoming.indexOf(p) > 0) { status = "Up next · " + fmt(p.date, false); }
+      else { status = "Past events · " + fmt(p.date, false); }
+      return '<figure class="' + cls + '"><img src="' + esc(p.src) + '" alt="" loading="lazy"><figcaption>' + esc(p.title) + '<span>' + esc(status) + '</span></figcaption></figure>';
+    }).join("");
+  }
+
+  function show(loggedIn) {
+    $("view-login").hidden = loggedIn;
+    $("view-dash").hidden = !loggedIn;
+    $("session").hidden = !loggedIn;
+    if (loggedIn) renderStrip();
+  }
+
+  // log in
+  $("toggle").addEventListener("click", function () {
+    var p = $("pw"), on = p.type === "password";
+    p.type = on ? "text" : "password";
+    $("toggle").textContent = on ? "Hide" : "Show";
+    $("toggle").setAttribute("aria-pressed", String(on));
+  });
+  $("login").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var m = $("m-pw");
+    if ($("pw").value === PASSWORD) { m.textContent = ""; $("pw").value = ""; show(true); }
+    else { m.className = "msg err"; m.textContent = "That password is not correct. Try again."; $("pw").select(); }
+  });
+  $("logout").addEventListener("click", function () { resetForm(); $("success").hidden = true; show(false); $("pw").focus(); });
+
+  // new edition
+  var picked = null, pickedUrl = "";
+  /* colours from the poster: four light tones with the hues the poster uses most */
+  function hexFromHsl(h, s, l) {
+    h = ((h % 360) + 360) % 360;
+    var c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2, r = 0, g = 0, b = 0;
+    if (h < 60) { r = c; g = x; } else if (h < 120) { r = x; g = c; } else if (h < 180) { g = c; b = x; }
+    else if (h < 240) { g = x; b = c; } else if (h < 300) { r = x; b = c; } else { r = c; b = x; }
+    return "#" + [r, g, b].map(function (v) { return ("0" + Math.round((v + m) * 255).toString(16)).slice(-2); }).join("");
+  }
+  function posterPalette(src, done) {
+    var img = new Image();
+    img.onload = function () {
+      try {
+        var w = 48, h = Math.max(8, Math.round(w * img.naturalHeight / img.naturalWidth));
+        var cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+        var cx = cv.getContext("2d"); cx.drawImage(img, 0, 0, w, h);
+        var d = cx.getImageData(0, 0, w, h).data, bins = [], i;
+        for (i = 0; i < 24; i++) { bins.push({ w: 0, x: 0, y: 0, s: 0 }); }
+        for (var p = 0; p < d.length; p += 4) {
+          var r = d[p] / 255, g = d[p + 1] / 255, b = d[p + 2] / 255;
+          var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, c = mx - mn;
+          if (c < 0.12 || l < 0.15 || l > 0.9) { continue; }
+          var s = c / (1 - Math.abs(2 * l - 1)), hue;
+          if (mx === r) { hue = ((g - b) / c) % 6; } else if (mx === g) { hue = (b - r) / c + 2; } else { hue = (r - g) / c + 4; }
+          hue = (hue * 60 + 360) % 360;
+          var wgt = s * c, k = Math.floor(hue / 15) % 24, a = hue * Math.PI / 180;
+          bins[k].w += wgt; bins[k].x += Math.cos(a) * wgt; bins[k].y += Math.sin(a) * wgt; bins[k].s += s * wgt;
+        }
+        /* rules: three colours at most, never green, never two that are close together */
+        function green(hh) { return hh >= 62 && hh <= 170; }
+        function apart(hh, list) { return list.every(function (q) { var dd = Math.abs(q.h - hh); return Math.min(dd, 360 - dd) >= 50; }); }
+        var order = bins.map(function (_, n) { return n; }).sort(function (u, v) { return bins[v].w - bins[u].w; });
+        var picks = [];
+        order.forEach(function (n) {
+          if (picks.length >= 3 || bins[n].w <= 0) { return; }
+          var hh = (Math.atan2(bins[n].y, bins[n].x) * 180 / Math.PI + 360) % 360;
+          if (!green(hh) && apart(hh, picks)) { picks.push({ h: hh, s: bins[n].s / bins[n].w }); }
+        });
+        if (!picks.length) { done(null); return; }
+        [40, -40, 80, -80, 120, -120].forEach(function (sh) {
+          if (picks.length >= 3) { return; }
+          var hh = (picks[0].h + sh + 360) % 360;
+          if (!green(hh) && apart(hh, picks)) { picks.push({ h: hh, s: picks[0].s }); }
+        });
+        var cols = picks.map(function (q, n) { return hexFromHsl(q.h, Math.min(0.55, Math.max(0.35, q.s * 0.75)), [0.8, 0.78, 0.76][n]); });
+        ["#f7d6b8", "#f4b3c8", "#d6cbf3"].forEach(function (dflt) { if (cols.length < 3) { cols.push(dflt); } });
+        done(cols);
+      } catch (e) { done(null); }
+    };
+    img.onerror = function () { done(null); };
+    img.src = src;
+  }
+  function showPalette(src) {
+    posterPalette(src, function (cols) {
+      var sw = $("pv-sw"); sw.innerHTML = "";
+      if (!cols) { $("pv-pal").hidden = true; return; }
+      cols.forEach(function (x) { var sp = document.createElement("span"); sp.style.background = x; sp.title = x; sw.appendChild(sp); });
+      var root = document.documentElement.style;
+      root.setProperty("--lime", cols[0]); root.setProperty("--pink", cols[1]); root.setProperty("--lilac", cols[2]);
+      $("pv-pal").hidden = false;
+    });
+  }
+
+  function setFile(file) {
+    var m = $("m-file");
+    if (!file) return;
+    if (!/^image\/(png|jpeg|webp)$/.test(file.type)) { m.className = "msg err"; m.textContent = "This file is not a JPG, PNG or WebP. Choose an image."; return; }
+    if (pickedUrl) { try { URL.revokeObjectURL(pickedUrl); } catch (e) {} }
+    picked = file; pickedUrl = URL.createObjectURL(file);
+    $("fname").textContent = file.name;
+    m.className = "msg ok"; m.textContent = "Poster chosen.";
+    $("pv-img").src = pickedUrl; $("pv-img").hidden = false; $("pv-empty").hidden = true; $("pv-chip").hidden = false; showPalette(pickedUrl);
+  }
+  $("f-file").addEventListener("change", function (e) { setFile(e.target.files && e.target.files[0]); });
+  var drop = $("drop");
+  ["dragenter", "dragover"].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.add("drag"); }); });
+  ["dragleave", "drop"].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.remove("drag"); }); });
+  drop.addEventListener("drop", function (e) { setFile(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]); });
+
+  function validUrl(v) { return /^https?:\/\/[^\s.]+\.[^\s]{2,}$/.test(v); }
+  $("f-ticket").addEventListener("input", function () {
+    var v = $("f-ticket").value.trim(), m = $("m-ticket");
+    if (!v) { m.className = "msg"; m.textContent = ""; }
+    else if (validUrl(v)) { m.className = "msg ok"; m.textContent = "Looks good."; }
+    else { m.className = "msg err"; m.textContent = "Start the link with https://"; }
+  });
+  function updatePv() {
+    var v = $("f-venue").value.trim(), t = $("f-info").value;
+    $("pv-info").textContent = (v ? "Location: " + v + (t ? "\n" : "") : "") + t;
+    $("info-count").textContent = String(t.length);
+  }
+  $("f-info").addEventListener("input", updatePv);
+  $("f-venue").addEventListener("input", updatePv);
+  $("f-date").addEventListener("input", function () {
+    var v = $("f-date").value, m = $("m-date");
+    $("pv-when").textContent = fmt(v, true);
+    if (v && v < iso(new Date())) { m.className = "msg err"; m.textContent = "This date is in the past. The edition would go straight to Past events."; }
+    else { m.className = "msg"; m.textContent = ""; }
+  });
+
+  function resetForm() {
+    ["--lime", "--pink", "--lilac"].forEach(function (k) { document.documentElement.style.removeProperty(k); });
+    picked = null; $("f-file").value = ""; $("f-ticket").value = ""; $("f-title").value = ""; $("f-date").value = ""; $("f-info").value = ""; $("f-venue").value = ""; $("f-venueurl").value = ""; $("pv-info").textContent = ""; $("info-count").textContent = "0";
+    $("fname").textContent = "No file chosen yet.";
+    ["m-file", "m-title", "m-date", "m-ticket"].forEach(function (id) { $(id).className = "msg"; $(id).textContent = ""; });
+    $("pv-img").hidden = true; $("pv-chip").hidden = true; $("pv-empty").hidden = false; $("pv-pal").hidden = true; $("pv-when").textContent = "Date to be added";
+    $("cms").hidden = false;
+  }
+  $("cms").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var ok = true, url = $("f-ticket").value.trim(), title = $("f-title").value.trim(), date = $("f-date").value;
+    function bad(id, text) { $(id).className = "msg err"; $(id).textContent = text; ok = false; }
+    if (!picked) bad("m-file", "Upload a poster first.");
+    if (!title) bad("m-title", "Add a title.");
+    if (!date) bad("m-date", "Pick the date of the edition.");
+    else if (date < iso(new Date())) bad("m-date", "This date is in the past. Pick today or later.");
+    var vurl = $("f-venueurl").value.trim();
+    if (vurl && !validUrl(vurl)) bad("m-venueurl", "The location link must start with https://");
+    if (!validUrl(url)) bad("m-ticket", "Paste a valid ticket link, starting with https://");
+    if (!ok) return;
+    editions.push({ src: pickedUrl, title: title, date: date, venue: $("f-venue").value.trim(), venueUrl: vurl, info: $("f-info").value.trim() });
+    renderStrip();
+    $("success-text").textContent = "“" + title + "” is scheduled. It shows on the homepage until " + fmt(date, true) + ", then moves to Past events by itself.";
+    $("cms").hidden = true;
+    $("success").hidden = false;
+  });
+  $("again").addEventListener("click", function () { $("success").hidden = true; resetForm(); });
+
+  show(false);
+})();
+</script>
+
+</body>
+</html>
