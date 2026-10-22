@@ -479,6 +479,9 @@ footer a:hover, footer a:focus-visible { color: var(--pop); outline: none; }
 
 /* display type: Rubik Black, close to the Ultrasexi logo */
 h2, h3, .outline, .oy, .slogan span, .ticket, .cta, .venues .where b, .family .p b, .soon h2, .themes li small, .btn-main, .subscribe h3 { font-family: var(--font-head); font-weight: 900; }
+/* hidden means hidden, even for styled buttons; Contact follows Past events without an extra gap */
+[hidden] { display: none !important; }
+.contact-band { margin-top: 0; }
 .demo-cms { margin-left: auto; color: var(--demo-fg); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .demo-cms:hover, .demo-cms:focus-visible { color: var(--pop); }
 </style>
