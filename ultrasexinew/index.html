@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Ultrasexi Homepage Voorstel</title>
+<meta name="theme-color" content="#fbf9f6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Rubik:wght@900&display=swap">
 <style>
@@ -312,6 +313,9 @@ html, body { overflow-x: clip; }
 /* the sticky element is the header's wrapper, so the menu stays in view while scrolling */
 .bar-wrap { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; }
 .bar-wrap .bar { position: relative; top: 0; }
+/* the menu bar is a real full-width paper strip, so iOS Safari fills the status-bar area with the same colour instead of showing the page scrolling behind it */
+.bar-wrap { max-width: none; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))) calc(-1 * max(16px, env(safe-area-inset-right, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); background-color: var(--paper); }
+.bar-wrap .bar { max-width: 1280px; margin-inline: auto; }
 section[id] { scroll-margin-top: var(--bar-h, 76px); }
 .bar a { padding: 14px 0; }
 
@@ -883,6 +887,7 @@ h2, h3, .outline, .oy, .slogan span, .ticket, .cta, .venues .where b, .family .p
       var o = c || ["#f7d6b8", "#f4b3c8", "#d6cbf3"];
       root.setProperty("--lime", o[0]); root.setProperty("--pink", o[1]); root.setProperty("--lilac", o[2]);
       root.setProperty("--paper", tint(o[0]));
+      var tc = document.querySelector('meta[name="theme-color"]'); if (tc) { tc.setAttribute("content", tint(o[0])); }
     }
     /* page background: the paper colour with a trace of the poster's main colour */
     function tint(hex) {
