@@ -337,6 +337,8 @@ section[id] { scroll-margin-top: var(--bar-h, 76px); }
 /* calmer: three poster colours for the bands, one colour per section for the small blocks, mint stays fixed */
 :root { --paper-2: #efeae3; --mint: #5fbe99; }
 .slogan span { background: var(--pink); }
+/* the three slogan lines drift sideways in alternating directions while they pass through the screen */
+.slogan span { transform: translate3d(var(--dx, 0px), 0, 0) rotate(var(--rot, 0deg)); will-change: transform; }
 .themes li { background: var(--paper-2); color: var(--ink); }
 .themes li small { -webkit-text-stroke-color: var(--ink); }
 .family .p { background: var(--lilac); }
@@ -1038,6 +1040,36 @@ h2, h3, .outline, .oy, .slogan span, .ticket, .cta, .venues .where b, .family .p
   function barHeight() { document.documentElement.style.setProperty("--bar-h", Math.ceil(document.querySelector(".bar-wrap").getBoundingClientRect().height) + "px"); }
   barHeight();
   if (window.ResizeObserver) { new ResizeObserver(barHeight).observe(document.querySelector(".bar-wrap")); } else { window.addEventListener("resize", barHeight); }
+
+  /* slogan drift: as the lines cross the screen they slide right and back in opposite phases (out of step, like a ticker); never past the screen edge */
+  (function () {
+    var lines = Array.prototype.slice.call(document.querySelectorAll(".slogan span"));
+    if (!lines.length || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) { return; }
+    var dirs = [1, -1, 1], base = [], queued = false;
+    function measure() {
+      lines.forEach(function (el) { el.style.setProperty("--dx", "0px"); el.style.setProperty("--rot", "0deg"); });
+      base = lines.map(function (el) { var r = el.getBoundingClientRect(); return { left: r.left, right: r.right }; });
+      move();
+    }
+    function move() {
+      queued = false;
+      var vh = window.innerHeight, vw = document.documentElement.clientWidth, amp = Math.min(64, vw * .07);
+      lines.forEach(function (el, i) {
+        var r = el.getBoundingClientRect();
+        var p = Math.max(-1, Math.min(1, ((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2)));
+        var t = (1 - p) / 2, dx = (dirs[i % 3] > 0 ? t : 1 - t) * amp;
+        dx = Math.max(0, Math.min(vw - 8 - base[i].right, dx));
+        el.style.setProperty("--dx", dx.toFixed(1) + "px");
+        el.style.setProperty("--rot", (dirs[i % 3] * p * -1.4).toFixed(2) + "deg");
+      });
+    }
+    function queue() { if (!queued) { queued = true; requestAnimationFrame(move); } }
+    window.addEventListener("scroll", queue, { passive: true });
+    window.addEventListener("resize", measure);
+    document.addEventListener("toggle", measure, true);
+    measure();
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(measure); }
+  })();
 
   /* menu underline follows the section in view */
   var navLinks = Array.prototype.slice.call(document.querySelectorAll(".bar nav a"));
