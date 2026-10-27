@@ -25,6 +25,7 @@ window.FREY_GIGS=[
   ["2026-12-11","Pink Noise, Amersfoort","https://fluor.stager.co/shop/default/events/111683491"],
   ["2026-12-19","Pink Inc, Hamburg","https://www.instagram.com/pinkinhamburg/"],
   ["2026-12-26","NYX, Amsterdam","https://www.clubnyx.nl/"],
+  ["2027-02-13","TBA"],
   ["2026-06-19","FERRY, Rotterdam"],
   ["2026-05-29","FERRY, Rotterdam"],
   ["2026-05-08","NYX, Amsterdam"],
