@@ -18,7 +18,7 @@ window.FREY_GIGS=[
   ["2026-11-05","Ministerie van EZK (Private Event), The Hague"],
   ["2026-11-06","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-11-14","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
-  ["2026-11-27","TBA"],
+  ["2026-11-27","BOPS, Amsterdam","https://shop.weeztix.com/8e451077-cf74-11eb-9194-9e36bf7d673e/tickets"],
   ["2026-11-28","3xNYX, Amsterdam","https://www.clubnyx.nl/"],
   ["2026-12-04","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-12-11","Pink Noise, Amersfoort","https://fluor.stager.co/shop/default/events/111683491"],
