@@ -15,7 +15,7 @@ window.FREY_GIGS=[
   ["2026-09-25","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-10-24","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-10-31","THE FILM HOUSE OF HORRORS, Amsterdam","https://www.restaurantelixer.com"],
-  ["2026-10-31","F*CKING POP QUEERS | CLUB UP","https://kring.stager.co/shop/default/events/111666712"],
+  ["2026-10-31","F*CKING POP QUEERS | CLUB UP, Amsterdam","https://kring.stager.co/shop/default/events/111666712"],
   ["2026-11-05","Ministerie van EZK (Private Event), The Hague"],
   ["2026-11-06","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
   ["2026-11-14","FERRY, Rotterdam","https://www.ferryrotterdam.com/events"],
