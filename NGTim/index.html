@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NGTim Editor</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://freycreates.nl/NGTim">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://freycreates.nl/NGTim">
+<meta property="og:site_name" content="FREY.">
+<meta property="og:title" content="PDF Editor for Tim">
+<meta property="og:description" content="Bewerk de motivatiebrief tolk NGT als blokken, voeg haltes en pagina's toe en exporteer als PDF.">
+<meta property="og:image" content="https://freycreates.nl/NGTim/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="F. logo with the text PDF Editor for Tim">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PDF Editor for Tim">
+<meta name="twitter:description" content="Bewerk de motivatiebrief tolk NGT als blokken, voeg haltes en pagina's toe en exporteer als PDF.">
+<meta name="twitter:image" content="https://freycreates.nl/NGTim/og.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/frey-icon-48.png">
+<link rel="apple-touch-icon" href="/assets/frey-icon-180.png">
+<style id="docCss">
+  /* ===== documentstijl ===== */
+  :root{
+    --ink:#1C2422; --paper:#FBFBF8; --green:#1F4D3A; --mint:#DCEFE4; --leaf:#5FA380; --mute:#5F6B66;
+    --sans:"Avenir Next",Avenir,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  .page{width:210mm;height:297mm;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:10.8pt;line-height:1.55;position:relative;display:flex;flex-direction:column;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page *{box-sizing:border-box}
+  .ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.15em}
+
+  .hero{background:var(--green);color:#fff;padding:16mm 18mm 12mm;position:relative;flex:none}
+  .hero h1{font-size:32pt;font-weight:700;letter-spacing:-.02em;line-height:1.02;margin:0 0 4mm;max-width:16ch}
+  .hero .intro{margin:0;max-width:56ch;font-size:11pt;opacity:.92}
+  .hero .who{margin-top:8mm;display:flex;gap:10mm;font-size:9.5pt;opacity:.95}
+  .hero .who b{display:block;font-size:11.5pt;font-weight:600}
+  .hero .hands{position:absolute;right:14mm;top:10mm;width:46mm;height:32mm;color:#fff;opacity:.55;stroke-width:1.1}
+  .runhead{background:var(--green);color:#fff;padding:5mm 18mm;font-size:9.5pt;display:flex;justify-content:space-between;flex:none}
+  .runhead b{font-weight:600}
+
+  .road{padding:12mm 18mm 4mm 18mm;position:relative;flex:1 1 auto;min-height:0}
+  .road::before{content:"";position:absolute;left:calc(18mm + 7mm);top:10mm;bottom:0;width:2.5pt;background:var(--leaf);border-radius:2pt}
+  .page.cont .road{padding-top:10mm}
+  .page.cont .road::before{top:0}
+  .stop{display:grid;grid-template-columns:14mm 1fr;gap:6mm;margin-bottom:7mm;position:relative}
+  .node{width:14mm;height:14mm;border-radius:50%;background:var(--mint);color:var(--green);display:grid;place-items:center;font-size:18pt;border:2.5pt solid var(--paper);box-shadow:0 0 0 2.5pt var(--leaf);z-index:1}
+  .node.now{background:var(--green);color:#fff}
+  .stop h2{font-size:14pt;font-weight:700;margin:2mm 0 1.5mm;letter-spacing:-.01em}
+  .stop .when{font-size:9pt;color:var(--mute);margin:0 0 1.5mm}
+  .stop .when:empty{display:none}
+  .blocks>*+*{margin-top:2.5mm}
+  .blk p,.blk{margin:0}
+  p.blk{max-width:70ch}
+  ul.blk{margin:0;padding-left:5mm;max-width:70ch}
+  ul.blk li{margin:0 0 .8mm}
+  .todo{border:1.5pt dashed #9FC8B2;background:#EEF7F1;color:#2E5A47;padding:3mm 4mm;border-radius:2mm;font-size:10pt}
+  .q{border-left:3pt solid var(--leaf);padding:2mm 0 2mm 5mm;margin:1mm 0}
+  .q p{font-size:12.5pt;line-height:1.35;font-weight:600;color:var(--green);margin:0}
+  .q small{display:block;color:var(--mute);font-size:9pt;margin-top:1.5mm}
+  .q small:empty{display:none}
+  .learned{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:3mm}
+  .learned li{background:var(--mint);border-radius:2.5mm;padding:3mm 3.5mm;font-size:9.8pt;line-height:1.35;min-width:0}
+  .learned li .cicon{display:block;font-size:16pt;color:var(--green);margin-bottom:1.5mm;width:1em;height:1em}
+  .learned b{display:block;font-weight:700;margin-bottom:.5mm}
+  .facts{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:3mm}
+  .facts div{border-left:3pt solid var(--leaf);padding:1mm 0 1mm 3mm;font-size:9.4pt;line-height:1.35;color:var(--mute);min-width:0}
+  .facts b{display:block;font-size:18pt;color:var(--ink);line-height:1.1}
+  figure.img{margin:0}
+  figure.img img{display:block;width:100%;max-height:70mm;object-fit:cover;border-radius:2.5mm}
+  figure.img .ph{height:36mm;border-radius:2.5mm;border:1.5pt dashed #9FC8B2;background:#EEF7F1;color:#2E5A47;display:grid;place-items:center;font-size:10pt;cursor:pointer}
+  figure.img figcaption{font-size:9pt;color:var(--mute);margin-top:1.5mm}
+  figure.img figcaption:empty{display:none}
+
+  footer{margin:0 18mm;padding:3mm 0 8mm;border-top:1pt solid #CFD8D3;font-size:9pt;color:var(--mute);display:flex;justify-content:space-between;flex:none}
+</style>
+<style id="uiCss">
+  /* ===== editor ===== */
+  :root{--ui:#15181C;--ui2:#1E232A;--ui3:#2A3139;--line:#363E48;--uiText:#E8EBEF;--uiMute:#98A2AD;--accent:#5FA380;--danger:#E0564B}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{font-family:"Avenir Next",Avenir,"Helvetica Neue",Helvetica,Arial,sans-serif;background:#30363E;color:var(--uiText);display:grid;grid-template-columns:276px 1fr;grid-template-rows:54px 1fr;height:100vh;overflow:hidden}
+  button{font:inherit}
+  .topbar{grid-column:1/3;background:var(--ui);display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid var(--line)}
+  .topbar .brand{display:flex;align-items:center;gap:10px;margin-right:auto;font-weight:600}
+  .topbar .brand .dot{width:28px;height:28px;border-radius:8px;background:var(--green);display:grid;place-items:center;color:#fff}
+  .topbar .brand small{display:block;font-weight:400;color:var(--uiMute);font-size:12px;white-space:nowrap}
+  @media (max-width:1100px){.topbar .brand small{display:none}.tb .lbl{display:none}body{grid-template-columns:232px 1fr}.pal button{padding:9px 6px 8px;font-size:11.5px}}
+  .tb{background:var(--ui3);border:1px solid var(--line);color:var(--uiText);border-radius:8px;padding:8px 12px;display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-size:13px}
+  .tb:hover{border-color:#5A6572}
+  .tb.primary{background:var(--accent);border-color:var(--accent);color:#0F1A15;font-weight:600}
+  .tb.primary:hover{background:#73B893}
+  .tb:disabled{opacity:.4;cursor:default}
+  .tb .ic{width:15px;height:15px}
+  .status{font-size:12px;color:var(--uiMute);margin-right:6px;min-width:120px;text-align:right}
+
+  .side{background:var(--ui2);overflow:auto;padding:16px 14px 30px;border-right:1px solid var(--line)}
+  .side h3{font-size:12px;color:var(--uiMute);margin:14px 2px 8px;font-weight:600}
+  .side h3:first-child{margin-top:0}
+  .pal{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .pal button{background:var(--ui3);border:1px solid var(--line);color:var(--uiText);border-radius:10px;padding:11px 8px 9px;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12px;cursor:pointer;transition:border-color .12s,background .12s}
+  .pal button .ic{width:20px;height:20px;color:#9FD4B8}
+  .pal button:hover{border-color:var(--accent);background:#2C3A35}
+  .pal button.wide{grid-column:1/3;flex-direction:row;justify-content:center}
+  .hint{font-size:12px;color:var(--uiMute);line-height:1.45;margin:8px 2px 0}
+  .hint b{color:var(--uiText);font-weight:600}
+  .target{font-size:12px;background:#243029;border:1px solid #35503F;border-radius:8px;padding:8px 10px;color:#C7E6D3;margin-bottom:4px}
+  .target span{color:#fff;font-weight:600}
+  .files{display:grid;gap:8px}
+  .files .tb{justify-content:flex-start}
+
+  .canvas{overflow:auto;padding:30px 40px 120px;position:relative;--z:1;background:#30363E}
+  .canvas .page{zoom:var(--z)}
+  .page{margin:0 auto 46px;box-shadow:0 10px 34px rgba(0,0,0,.4);transition:box-shadow .15s}
+  .page.over{box-shadow:0 0 0 3px var(--danger),0 10px 34px rgba(0,0,0,.4)}
+  .pagetag{position:absolute;left:0;top:-24px;font-size:12px;color:var(--uiMute)}
+  .page .warn{position:absolute;left:0;right:0;bottom:-30px;text-align:center;color:#FFB4AC;font-size:12.5px;display:none}
+  .page.over .warn{display:block}
+
+  /* in-place editing */
+  [contenteditable]{outline:none;cursor:text;border-radius:2px;transition:box-shadow .12s}
+  [contenteditable]:hover{box-shadow:0 0 0 2px rgba(95,163,128,.35)}
+  [contenteditable]:focus{box-shadow:0 0 0 2px rgba(31,77,58,.75);background:rgba(95,163,128,.07)}
+  .hero [contenteditable]:focus,.runhead [contenteditable]:focus{background:rgba(255,255,255,.1);box-shadow:0 0 0 2px rgba(255,255,255,.6)}
+  [contenteditable]:empty::before{content:attr(data-ph);color:#9AA7A1;pointer-events:none}
+  .hero [contenteditable]:empty::before{color:rgba(255,255,255,.5)}
+
+  /* halte- en blokbediening */
+  .stop{border-radius:3mm;transition:background .12s}
+  .stop.sel{background:rgba(95,163,128,.09)}
+  .stop.sel::after{content:"";position:absolute;inset:-2mm -3mm;border:1.5px solid rgba(95,163,128,.7);border-radius:3mm;pointer-events:none}
+  .ctl{position:absolute;right:-2mm;top:-1mm;transform:translateX(100%);display:flex;flex-direction:column;gap:3px;opacity:0;transition:opacity .12s;z-index:5;padding-left:8px}
+  .stop:hover>.ctl,.stop.sel>.ctl{opacity:1}
+  .ctl button,.bctl button{width:26px;height:26px;border-radius:7px;border:1px solid var(--line);background:var(--ui);color:var(--uiText);display:grid;place-items:center;cursor:pointer;padding:0}
+  .ctl button .ic,.bctl button .ic{width:14px;height:14px}
+  .ctl button:hover,.bctl button:hover{border-color:var(--accent);color:#9FD4B8}
+  .ctl button.del:hover,.bctl button.del:hover{border-color:var(--danger);color:#FF9A91}
+  .ctl button.on{background:var(--accent);color:#0F1A15;border-color:var(--accent)}
+  .node{cursor:pointer;transition:transform .12s}
+  .node:hover{transform:scale(1.06)}
+  .bw{position:relative;border-radius:2mm}
+  .bw:hover{box-shadow:0 0 0 1.5px rgba(95,163,128,.4)}
+  .bctl{position:absolute;left:-2mm;top:0;transform:translateX(-100%);display:flex;flex-direction:column;gap:3px;opacity:0;transition:opacity .12s;z-index:5;padding-right:6px}
+  .bw:hover>.bctl{opacity:1}
+  .breakline{display:flex;align-items:center;gap:8px;margin:-3mm 0 3mm;color:#5F6B66;font-size:8.5pt;position:relative;z-index:2}
+  .breakline::before,.breakline::after{content:"";flex:1;border-top:1.5pt dashed #9FC8B2}
+  .cicon{cursor:pointer}
+  .canvas .when:empty,#measure .when:empty{display:block}
+  .canvas .q small:empty,#measure .q small:empty,.canvas figcaption:empty,#measure figcaption:empty{display:block}
+
+  /* icoonkiezer */
+  .pop{position:absolute;z-index:100;background:var(--ui);border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;grid-template-columns:repeat(6,36px);gap:6px;box-shadow:0 14px 40px rgba(0,0,0,.5)}
+  .pop button{width:36px;height:36px;border-radius:8px;border:1px solid transparent;background:var(--ui3);color:#DDE4EA;display:grid;place-items:center;cursor:pointer;padding:0}
+  .pop button .ic{width:18px;height:18px}
+  .pop button:hover,.pop button.on{border-color:var(--accent);color:#9FD4B8}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ui);border:1px solid var(--line);color:var(--uiText);padding:10px 16px;border-radius:10px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:0;transition:opacity .2s;pointer-events:none}
+  .toast.show{opacity:1}
+  #measure{position:absolute;left:-10000px;top:0;visibility:hidden;pointer-events:none}
+  #pdfhost{position:absolute;left:0;top:0;z-index:-1;pointer-events:none}
+  .busy{position:fixed;inset:0;background:rgba(21,24,28,.72);display:grid;place-items:center;z-index:200;color:#fff;font-size:15px}
+  .busy div{background:var(--ui);border:1px solid var(--line);border-radius:12px;padding:18px 24px;min-width:260px;text-align:center}
+  .busy .bar{height:6px;border-radius:3px;background:#2A3139;margin-top:12px;overflow:hidden}
+  .busy .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+
+  @page{size:A4;margin:0}
+  @media print{
+    html,body{height:auto;display:block;overflow:visible;background:none}
+    .topbar,.side,.pagetag,.warn,.ctl,.bctl,.pop,.toast,#measure,#pdfhost,.busy,.breakline{display:none!important}
+    .canvas{overflow:visible;padding:0;background:none}
+    .canvas .page{zoom:1}
+    .page{margin:0;box-shadow:none!important;break-after:page;overflow:hidden;height:296.5mm}
+    .page:last-child{break-after:auto}
+    .page.sel,.stop.sel{background:none}
+    .stop.sel::after{display:none}
+    [contenteditable]{box-shadow:none!important;background:none!important}
+    [contenteditable]:empty::before{content:none}
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" id="sprite">
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></symbol>
+  <symbol id="i-ear" viewBox="0 0 24 24"><path d="M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a3.5 3.5 0 1 1-7 0"/><path d="M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 1 1 0 4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></symbol>
+  <symbol id="i-reflect" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-lang" viewBox="0 0 24 24"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4"/><path d="M12 17v4"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="m5.6 5.6 2.8 2.8"/><path d="m15.6 15.6 2.8 2.8"/><path d="m5.6 18.4 2.8-2.8"/><path d="m15.6 8.4 2.8-2.8"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
+  <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/></symbol>
+  <symbol id="i-mic-off" viewBox="0 0 24 24"><path d="M2 2l20 20"/><path d="M18.89 13.23A7.12 7.12 0 0 0 19 12v-2"/><path d="M5 10v2a7 7 0 0 0 12 5"/><path d="M15 9.34V5a3 3 0 0 0-5.68-1.33"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12"/><path d="M12 19v3"/></symbol>
+  <!-- editor-iconen -->
+  <symbol id="u-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+  <symbol id="u-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="u-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="u-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="u-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+  <symbol id="u-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="u-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="u-break" viewBox="0 0 24 24"><path d="M4 12h3"/><path d="M10 12h4"/><path d="M17 12h3"/><path d="M6 4v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4"/><path d="M6 20v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/></symbol>
+  <symbol id="u-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="u-type" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><path d="M9 20h6"/><path d="M12 4v16"/></symbol>
+  <symbol id="u-list" viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></symbol>
+  <symbol id="u-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="u-hash" viewBox="0 0 24 24"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3 8 21"/><path d="m16 3-2 18"/></symbol>
+  <symbol id="u-quote" viewBox="0 0 24 24"><path d="M10 11H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6a4 4 0 0 1-4 4"/><path d="M20 11h-4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6a4 4 0 0 1-4 4"/></symbol>
+  <symbol id="u-filep" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M9 15h6"/><path d="M12 18v-6"/></symbol>
+  <symbol id="u-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></symbol>
+  <symbol id="u-redo" viewBox="0 0 24 24"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></symbol>
+  <symbol id="u-down-tray" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="u-up-tray" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="u-print" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+  <symbol id="u-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+  <symbol id="u-new" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+  <symbol id="g-hands" viewBox="0 0 120 80">
+    <g transform="translate(8 8) rotate(-14 24 24) scale(2)"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></g>
+    <g transform="translate(112 8) scale(-2 2) rotate(-14 24 24)"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></g>
+    <path d="M42 66c6 7 30 7 36 0" stroke-dasharray="2 3"/>
+    <path d="M36 58c10 12 38 12 48 0" stroke-dasharray="2 3" opacity=".5"/>
+  </symbol>
+</svg>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"><svg class="ic"><use href="#i-hand"/></svg></span><span>NGTim Editor<small>Motivatiebrief tolk NGT, ORILT · Hogeschool Utrecht</small></span></div>
+  <span class="status" id="status"></span>
+  <button class="tb" id="bUndo" title="Ongedaan maken (Cmd/Ctrl+Z)"><svg class="ic"><use href="#u-undo"/></svg></button>
+  <button class="tb" id="bRedo" title="Opnieuw (Cmd/Ctrl+Shift+Z)"><svg class="ic"><use href="#u-redo"/></svg></button>
+  <button class="tb" id="bHtml" title="Een los HTML-bestand dat je overal kunt openen en later weer in deze editor kunt laden"><svg class="ic"><use href="#u-code"/></svg><span class="lbl">HTML exporteren</span></button>
+  <button class="tb" id="bPrint" title="Afdrukken via de browser (reserve-optie)"><svg class="ic"><use href="#u-print"/></svg><span class="lbl">Afdrukken</span></button>
+  <button class="tb primary" id="bPdf" title="Maakt een echt PDF-bestand van alle pagina's en downloadt het"><svg class="ic"><use href="#u-down-tray"/></svg><span class="lbl">PDF downloaden</span></button>
+</div>
+
+<aside class="side">
+  <h3>Toevoegen</h3>
+  <div class="target" id="target">Komt in: <span>laatste halte</span></div>
+  <div class="pal">
+    <button class="wide" data-add="stop"><svg class="ic"><use href="#i-pin"/></svg>Nieuwe halte (sectie)</button>
+    <button data-add="p"><svg class="ic"><use href="#u-type"/></svg>Tekst</button>
+    <button data-add="ul"><svg class="ic"><use href="#u-list"/></svg>Opsomming</button>
+    <button data-add="quote"><svg class="ic"><use href="#u-quote"/></svg>Citaat</button>
+    <button data-add="cards"><svg class="ic"><use href="#u-grid"/></svg>Kaarten</button>
+    <button data-add="facts"><svg class="ic"><use href="#u-hash"/></svg>Cijfers</button>
+    <button data-add="img"><svg class="ic"><use href="#u-image"/></svg>Afbeelding</button>
+    <button data-add="todo"><svg class="ic"><use href="#i-pen"/></svg>Invulvak</button>
+    <button data-add="page"><svg class="ic"><use href="#u-filep"/></svg>Nieuwe pagina</button>
+  </div>
+  <p class="hint">Klik op een halte om die te selecteren; nieuwe onderdelen komen daar. Pagina's vullen zich vanzelf: wat niet past, schuift naar de volgende pagina. <b>Nieuwe pagina</b> begint een halte bewust op een nieuw vel.</p>
+
+  <h3>Opmaak</h3>
+  <p class="hint">Klik op een rond icoon om een ander te kiezen. Met het doelwit-knopje naast een halte wordt die "huidig" (gevuld icoon). Enter maakt een nieuwe regel, Cmd/Ctrl+Z maakt ongedaan.</p>
+
+  <h3>Bestand</h3>
+  <div class="files">
+    <button class="tb" id="bSave"><svg class="ic"><use href="#u-down-tray"/></svg>Opslaan als bestand (.json)</button>
+    <button class="tb" id="bOpen"><svg class="ic"><use href="#u-up-tray"/></svg>Bestand openen (.json of .html)</button>
+    <button class="tb" id="bNew"><svg class="ic"><use href="#u-new"/></svg>Terug naar het sjabloon</button>
+    <input type="file" id="fileIn" accept=".json,.html,application/json,text/html" hidden>
+    <input type="file" id="imgIn" accept="image/*" hidden>
+  </div>
+  <p class="hint">Je werk wordt automatisch in deze browser bewaard. Sla ook een .json op als back-up, of exporteer de HTML om de brief te delen.</p>
+</aside>
+
+<main class="canvas" id="canvas"></main>
+<div id="measure"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  'use strict';
+  const $ = (s, el=document) => el.querySelector(s);
+  const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+  const uid = () => Math.random().toString(36).slice(2, 9);
+  const ICONS = ['hand','heart','users','compass','chat','reflect','target','eye','ear','shield','book','lang','cap','spark','star','calendar','pin','briefcase','bulb','check','clock','pen','home','globe','flag','smile','mic-off'];
+  const KEY = 'ngtim-editor:doc';
+
+  /* ---------- sjabloon ---------- */
+  function template(){
+    const P = (html) => ({id:uid(), type:'p', html});
+    const T = (html) => ({id:uid(), type:'todo', html});
+    return {
+      v:1,
+      hero:{
+        title:'Van interesse in gebarentaal naar een beroep',
+        intro:'Wat ik tijdens ORILT heb geleerd over mezelf en over het werk van een tolk Nederlandse Gebarentaal, en waarom ik voor de richting tolk kies.',
+        name:'[Voornaam Achternaam]', role:'Student Leraar/Tolk NGT', org:'Hogeschool Utrecht', meta:'ORILT, studiejaar [2025–2026]'
+      },
+      footer:{left:'ORILT, Hogeschool Utrecht', right:'[Naam], [datum]'},
+      stops:[
+        {id:uid(), icon:'heart', label:'Het begin', title:'Waarom gebarentaal', now:false, br:false, blocks:[T('<em>Invullen:</em> jouw motivatie, ingekort tot drie of vier zinnen. Wat trok je als eerste naar NGT en naar het tolken?')]},
+        {id:uid(), icon:'users', label:'Wat ik meebreng', title:'Wie ik ben', now:false, br:false, blocks:[T('<em>Invullen:</em> korte introductie van jezelf. Achtergrond, eerdere ervaring met NGT of de dovengemeenschap.')]},
+        {id:uid(), icon:'compass', label:'Oriëntatiefase', title:'Wat ORILT mij heeft gebracht', now:false, br:false, blocks:[
+          {id:uid(), type:'cards', items:[{icon:'lang', title:'Taal', text:'[leermoment 1]'},{icon:'eye', title:'Beroep', text:'[leermoment 2]'},{icon:'spark', title:'Mezelf', text:'[leermoment 3]'}]}
+        ]},
+        {id:uid(), icon:'chat', label:'Het interview', title:'In gesprek met een tolk met ruim twintig jaar ervaring', now:false, br:false, blocks:[
+          P('Samen met twee medestudenten interviewde ik een ervaren tolk NGT. Wat zij vertelde over beroepsgeheim, professionele grenzen en de uiteenlopende situaties waarin een tolk terechtkomt, is mij bijgebleven. Mijn interesse begon bij de taal en de variatie aan tolksituaties. Inmiddels zie ik ook de professionele verantwoordelijkheid die daarbij hoort.'),
+          P('Tolken vraagt niet alleen om een uitstekende beheersing van NGT en Nederlands, maar ook om [afmaken met jouw oorspronkelijke zin].')
+        ]},
+        {id:uid(), icon:'reflect', label:'Terugkijken', title:'Reflectie en feedback', now:false, br:false, blocks:[
+          P('Ik begrijp waarom de opleiding zoveel aandacht besteedt aan reflectie en feedback. Als tolk krijg ik te maken met uiteenlopende belangen, waarden en perspectieven. Daarom wil ik mijn eigen gevoelens en aannames blijven herkennen, zodat die niet ongemerkt mijn professionele handelen sturen. In mijn portfolio staan reflectieverslagen waarin ik verschillende reflectiemodellen heb toegepast.')
+        ]},
+        {id:uid(), icon:'hand', label:'Mijn keuze', title:'Ik kies voor tolk NGT', now:true, br:false, blocks:[
+          P('Ik kies bewust voor de richting tolk. [Een of twee zinnen over wat je het komende jaar wilt ontwikkelen.]')
+        ]}
+      ]
+    };
+  }
+
+  /* ---------- state ---------- */
+  let doc = load() || template();
+  let selected = null;           // id van geselecteerde halte
+  let pages = [];                // [[stopIds]] huidige indeling
+  let undoStack = [], redoStack = [], lastSnap = JSON.stringify(doc), typing = false;
+  const canvas = $('#canvas'), measure = $('#measure');
+
+  function load(){ try { const s = localStorage.getItem(KEY); return s ? JSON.parse(s) : null; } catch(e){ return null; } }
+  function persist(){ try { localStorage.setItem(KEY, JSON.stringify(doc)); setStatus('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})); } catch(e){ setStatus('Niet opgeslagen: browseropslag vol'); } lastSnap = JSON.stringify(doc); updateUndoButtons(); }
+  function setStatus(t){ $('#status').textContent = t; }
+  function toast(t){ const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(()=>el.classList.remove('show'), 2200); }
+  function pushUndo(){ undoStack.push(lastSnap); if (undoStack.length > 100) undoStack.shift(); redoStack = []; updateUndoButtons(); }
+  function updateUndoButtons(){ $('#bUndo').disabled = !undoStack.length; $('#bRedo').disabled = !redoStack.length; }
+  function commit(){ // na een structurele wijziging
+    persist(); render();
+  }
+  function stopById(id){ return doc.stops.find(s => s.id === id); }
+  function stopIndex(id){ return doc.stops.findIndex(s => s.id === id); }
+  function targetStop(){ return stopById(selected) || doc.stops[doc.stops.length-1]; }
+
+  /* ---------- html-bouwstenen ---------- */
+  const icon = (n, cls='ic') => `<svg class="${cls}"><use href="#i-${n}"/></svg>`;
+  const uicon = (n) => `<svg class="ic"><use href="#u-${n}"/></svg>`;
+  const ed = (tag, cls, attrs, html, ph) => `<${tag} class="${cls}" contenteditable="true" data-ph="${ph||''}" ${attrs}>${html||''}</${tag}>`;
+
+  function blockHtml(b, edit){
+    const c = edit ? ' contenteditable="true"' : '';
+    switch (b.type) {
+      case 'p': return `<p class="blk"${c} data-f="html" data-ph="Typ hier je tekst">${b.html||''}</p>`;
+      case 'todo': return `<p class="blk todo"${c} data-f="html">${b.html||''}</p>`;
+      case 'ul': return `<ul class="blk"${c} data-f="html">${b.html||'<li>Eerste punt</li>'}</ul>`;
+      case 'quote': return `<blockquote class="blk q"><p${c} data-f="text" data-ph="Citaat of kernzin">${b.text||''}</p><small${c} data-f="by" data-ph="Bron of toelichting (mag leeg)">${b.by||''}</small></blockquote>`;
+      case 'cards': return `<ul class="blk learned" style="--n:${b.items.length}">` + b.items.map((it,i) => `<li><svg class="ic cicon" data-act="card-icon" data-i="${i}" title="Klik om een ander icoon te kiezen"><use href="#i-${it.icon}"/></svg><b${c} data-f="title" data-i="${i}" data-ph="Titel">${it.title||''}</b><span${c} data-f="text" data-i="${i}" data-ph="Korte tekst">${it.text||''}</span></li>`).join('') + `</ul>`;
+      case 'facts': return `<div class="blk facts" style="--n:${b.items.length}">` + b.items.map((it,i) => `<div><b${c} data-f="num" data-i="${i}" data-ph="20+">${it.num||''}</b><span${c} data-f="text" data-i="${i}" data-ph="waar dit cijfer voor staat">${it.text||''}</span></div>`).join('') + `</div>`;
+      case 'img': return `<figure class="blk img">${b.src ? `<img src="${b.src}" alt="" data-act="img-pick" title="Klik om een andere afbeelding te kiezen">` : (edit ? `<div class="ph" data-act="img-pick">Klik om een afbeelding te kiezen</div>` : '')}<figcaption${c} data-f="caption" data-ph="Bijschrift (mag leeg)">${b.caption||''}</figcaption></figure>`;
+    }
+    return '';
+  }
+  function blockCtl(b){
+    const extra = (b.type === 'cards' || b.type === 'facts') ? `<button data-act="blk-item-add" title="Item toevoegen">${uicon('plus')}</button><button data-act="blk-item-rem" title="Laatste item weghalen">${uicon('minus')}</button>` : '';
+    return `<div class="bctl"><button data-act="blk-up" title="Omhoog">${uicon('up')}</button><button data-act="blk-down" title="Omlaag">${uicon('down')}</button>${extra}<button class="del" data-act="blk-del" title="Verwijderen">${uicon('trash')}</button></div>`;
+  }
+  function stopHtml(s, edit, hideBreak){
+    const c = edit ? ' contenteditable="true"' : '';
+    const brk = (edit && s.br && !hideBreak) ? `<div class="breakline">nieuwe pagina</div>` : '';
+    const ctl = edit ? `<div class="ctl">
+        <button data-act="stop-up" title="Halte omhoog">${uicon('up')}</button>
+        <button data-act="stop-down" title="Halte omlaag">${uicon('down')}</button>
+        <button data-act="stop-now" class="${s.now?'on':''}" title="Markeer als huidige halte (gevuld icoon)">${icon('target')}</button>
+        <button data-act="stop-br" class="${s.br?'on':''}" title="Begin deze halte op een nieuwe pagina">${uicon('break')}</button>
+        <button data-act="stop-dup" title="Dupliceren">${uicon('copy')}</button>
+        <button class="del" data-act="stop-del" title="Halte verwijderen">${uicon('trash')}</button>
+      </div>` : '';
+    return `${brk}<div class="stop${edit && s.id===selected ? ' sel' : ''}" data-sid="${s.id}">
+      <div class="node${s.now?' now':''}" data-act="stop-icon" title="Klik om een ander icoon te kiezen">${icon(s.icon)}</div>
+      <div class="body">
+        <p class="when"${c} data-f="label" data-ph="Korte aanduiding (mag leeg)">${s.label||''}</p>
+        <h2${c} data-f="title" data-ph="Titel van deze halte">${s.title||''}</h2>
+        <div class="blocks">${s.blocks.map(b => edit ? `<div class="bw" data-bid="${b.id}">${blockCtl(b)}${blockHtml(b, true)}</div>` : blockHtml(b, false)).join('')}</div>
+      </div>${ctl}</div>`;
+  }
+  function pageHtml(stopList, pageIdx, edit){
+    const h = doc.hero, c = edit ? ' contenteditable="true"' : '';
+    const first = pageIdx === 0;
+    const head = first ? `<div class="hero"><svg class="hands ic"><use href="#g-hands"/></svg>
+        <h1${c} data-h="title" data-ph="Titel">${h.title}</h1>
+        <p class="intro"${c} data-h="intro" data-ph="Korte inleiding">${h.intro}</p>
+        <div class="who"><div><b${c} data-h="name" data-ph="Naam">${h.name}</b><span${c} data-h="role" data-ph="Opleiding">${h.role}</span></div><div><b${c} data-h="org" data-ph="Instelling">${h.org}</b><span${c} data-h="meta" data-ph="Onderdeel, studiejaar">${h.meta}</span></div></div>
+      </div>` : `<div class="runhead"><b>${h.name}</b><span>${h.org} · ${h.meta}</span></div>`;
+    const tag = edit ? `<div class="pagetag">Pagina ${pageIdx+1}</div><div class="warn">Deze halte is te lang voor één pagina. Kort de tekst in of splits de halte.</div>` : '';
+    return `<section class="page${first?'':' cont'}" data-page="${pageIdx}">${tag}${head}
+      <div class="road">${stopList.map((s,i) => stopHtml(s, edit, first && i===0)).join('')}</div>
+      <footer><span${c} data-ft="left">${doc.footer.left}</span><span${c} data-ft="right">${doc.footer.right}</span></footer>
+    </section>`;
+  }
+
+  /* ---------- paginering (automatisch) ---------- */
+  function overflows(pageEl){ return pageEl.scrollHeight > pageEl.clientHeight + 1; }
+  function paginate(){
+    const out = []; let cur = [];
+    const build = (list, idx) => { measure.innerHTML = pageHtml(list, idx, true); return measure.firstElementChild; };
+    doc.stops.forEach(s => {
+      if (s.br && cur.length) { out.push(cur); cur = []; }
+      cur.push(s);
+      if (cur.length > 1 && overflows(build(cur, out.length))) { cur.pop(); out.push(cur); cur = [s]; }
+    });
+    if (cur.length || !out.length) out.push(cur);
+    measure.innerHTML = '';
+    return out;
+  }
+  function samePages(a, b){ return JSON.stringify(a.map(p=>p.map(s=>s.id))) === JSON.stringify(b.map(p=>p.map(s=>s.id))); }
+
+  /* ---------- render ---------- */
+  function render(){
+    const focus = captureFocus();
+    pages = paginate();
+    canvas.innerHTML = pages.map((list, i) => pageHtml(list, i, true)).join('');
+    $$('.page', canvas).forEach(p => p.classList.toggle('over', overflows(p)));
+    $('#target').innerHTML = 'Komt in: <span>' + (stopById(selected) ? (strip(stopById(selected).title) || 'geselecteerde halte') : 'laatste halte') + '</span>';
+    restoreFocus(focus);
+  }
+  function strip(html){ const d = document.createElement('div'); d.innerHTML = html||''; return d.textContent.trim(); }
+  function captureFocus(){
+    const a = document.activeElement; if (!a || !a.isContentEditable || !canvas.contains(a)) return null;
+    const stop = a.closest('.stop'), bw = a.closest('.bw');
+    return {sid: stop && stop.dataset.sid, bid: bw && bw.dataset.bid, f: a.dataset.f || a.dataset.h || a.dataset.ft, i: a.dataset.i, kind: a.dataset.h ? 'h' : a.dataset.ft ? 'ft' : 'f'};
+  }
+  function restoreFocus(fo){
+    if (!fo) return;
+    let el = null;
+    if (fo.kind === 'h') el = $(`[data-h="${fo.f}"]`, canvas);
+    else if (fo.kind === 'ft') el = $(`[data-ft="${fo.f}"]`, canvas);
+    else { const scope = fo.bid ? $(`.bw[data-bid="${fo.bid}"]`, canvas) : $(`.stop[data-sid="${fo.sid}"]`, canvas); if (scope) el = $(`[data-f="${fo.f}"]${fo.i!==undefined ? `[data-i="${fo.i}"]` : ''}`, scope); }
+    if (!el) return;
+    el.focus();
+    const r = document.createRange(); r.selectNodeContents(el); r.collapse(false);
+    const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+  }
+  function repaginateIfNeeded(){
+    const np = paginate();
+    const over = $$('.page', canvas).some(p => overflows(p));
+    if (!samePages(np, pages) || over !== $$('.page.over', canvas).length > 0) render();
+    else $$('.page', canvas).forEach(p => p.classList.toggle('over', overflows(p)));
+  }
+
+  /* ---------- tekst bewerken ---------- */
+  let saveT, reflowT;
+  canvas.addEventListener('input', ev => {
+    const el = ev.target.closest('[contenteditable]'); if (!el) return;
+    if (!typing) { pushUndo(); typing = true; }
+    if (el.dataset.h) doc.hero[el.dataset.h] = el.innerHTML;
+    else if (el.dataset.ft) { doc.footer[el.dataset.ft] = el.innerHTML; $$(`[data-ft="${el.dataset.ft}"]`, canvas).forEach(o => { if (o !== el) o.innerHTML = el.innerHTML; }); }
+    else {
+      const stop = stopById(el.closest('.stop').dataset.sid); if (!stop) return;
+      const bw = el.closest('.bw');
+      if (!bw) stop[el.dataset.f] = el.innerHTML;
+      else {
+        const b = stop.blocks.find(x => x.id === bw.dataset.bid); if (!b) return;
+        if (b.type === 'todo') { b.type = 'p'; el.classList.remove('todo'); const em = el.querySelector('em'); if (em) em.remove(); }
+        if (el.dataset.i !== undefined) b.items[+el.dataset.i][el.dataset.f] = el.innerHTML;
+        else b[el.dataset.f] = el.innerHTML;
+      }
+    }
+    if (el.dataset.h === 'name' || el.dataset.h === 'org' || el.dataset.h === 'meta') $$('.runhead', canvas).forEach(r => { r.innerHTML = `<b>${doc.hero.name}</b><span>${doc.hero.org} · ${doc.hero.meta}</span>`; });
+    clearTimeout(saveT); saveT = setTimeout(() => { persist(); typing = false; }, 500);
+    clearTimeout(reflowT); reflowT = setTimeout(repaginateIfNeeded, 350);
+  });
+  canvas.addEventListener('paste', ev => {
+    if (!ev.target.closest('[contenteditable]')) return;
+    ev.preventDefault();
+    const text = (ev.clipboardData || window.clipboardData).getData('text/plain');
+    document.execCommand('insertText', false, text);
+  });
+  canvas.addEventListener('keydown', ev => {
+    const el = ev.target.closest('[contenteditable]'); if (!el) return;
+    if (ev.key === 'Enter' && !ev.shiftKey) {
+      if (el.tagName === 'UL') return;                                   // nieuwe li is prima
+      ev.preventDefault();
+      if (el.matches('p, small, span, figcaption')) document.execCommand('insertLineBreak');
+      else el.blur();                                                    // titels: één regel
+    }
+  });
+  canvas.addEventListener('focusin', ev => {
+    const stop = ev.target.closest('.stop');
+    if (stop && stop.dataset.sid !== selected) select(stop.dataset.sid);
+  });
+  function select(id){
+    selected = id;
+    $$('.stop', canvas).forEach(s => s.classList.toggle('sel', s.dataset.sid === id));
+    $('#target').innerHTML = 'Komt in: <span>' + (strip((stopById(id)||{}).title) || 'geselecteerde halte') + '</span>';
+  }
+
+  /* ---------- klikacties ---------- */
+  canvas.addEventListener('click', ev => {
+    const actEl = ev.target.closest('[data-act]');
+    const stopEl = ev.target.closest('.stop');
+    if (stopEl && !actEl) { select(stopEl.dataset.sid); }
+    if (!actEl) { closePop(); return; }
+    const act = actEl.dataset.act;
+    const sid = stopEl && stopEl.dataset.sid, stop = sid && stopById(sid), si = sid && stopIndex(sid);
+    const bw = actEl.closest('.bw'), bid = bw && bw.dataset.bid, bi = stop && bid ? stop.blocks.findIndex(b => b.id === bid) : -1, blk = bi >= 0 ? stop.blocks[bi] : null;
+    const move = (arr, i, d) => { const j = i + d; if (j < 0 || j >= arr.length) return false; [arr[i], arr[j]] = [arr[j], arr[i]]; return true; };
+    switch (act) {
+      case 'stop-up':   if (move(doc.stops, si, -1)) { pushUndo(); commit(); } break;
+      case 'stop-down': if (move(doc.stops, si, 1)) { pushUndo(); commit(); } break;
+      case 'stop-now':  pushUndo(); stop.now = !stop.now; commit(); break;
+      case 'stop-br':   pushUndo(); stop.br = !stop.br; commit(); break;
+      case 'stop-dup':  { pushUndo(); const copy = JSON.parse(JSON.stringify(stop)); copy.id = uid(); copy.blocks.forEach(b => b.id = uid()); doc.stops.splice(si+1, 0, copy); selected = copy.id; commit(); break; }
+      case 'stop-del':  if (doc.stops.length > 1 && confirm('Deze halte en alles erin verwijderen?')) { pushUndo(); doc.stops.splice(si, 1); selected = null; commit(); } break;
+      case 'stop-icon': openPop(actEl, stop.icon, n => { pushUndo(); stop.icon = n; commit(); }); break;
+      case 'card-icon': openPop(actEl, blk.items[+actEl.dataset.i].icon, n => { pushUndo(); blk.items[+actEl.dataset.i].icon = n; commit(); }); break;
+      case 'blk-up':    if (move(stop.blocks, bi, -1)) { pushUndo(); commit(); } break;
+      case 'blk-down':  if (move(stop.blocks, bi, 1)) { pushUndo(); commit(); } break;
+      case 'blk-del':   pushUndo(); stop.blocks.splice(bi, 1); commit(); break;
+      case 'blk-item-add': if (blk.items.length < 4) { pushUndo(); blk.items.push(blk.type === 'cards' ? {icon:'star', title:'', text:''} : {num:'', text:''}); commit(); } else toast('Maximaal vier naast elkaar'); break;
+      case 'blk-item-rem': if (blk.items.length > 2) { pushUndo(); blk.items.pop(); commit(); } else toast('Minimaal twee naast elkaar'); break;
+      case 'img-pick':  pickImage(blk); break;
+    }
+  });
+
+  /* ---------- toevoegen ---------- */
+  $$('.pal [data-add]').forEach(btn => btn.addEventListener('click', () => addThing(btn.dataset.add)));
+  function newBlock(type){
+    switch (type) {
+      case 'p': return {id:uid(), type:'p', html:''};
+      case 'todo': return {id:uid(), type:'todo', html:'<em>Invullen:</em> schrijf hier wat je nog wilt toevoegen.'};
+      case 'ul': return {id:uid(), type:'ul', html:'<li>Eerste punt</li><li>Tweede punt</li>'};
+      case 'quote': return {id:uid(), type:'quote', text:'', by:''};
+      case 'cards': return {id:uid(), type:'cards', items:[{icon:'lang',title:'',text:''},{icon:'eye',title:'',text:''},{icon:'spark',title:'',text:''}]};
+      case 'facts': return {id:uid(), type:'facts', items:[{num:'',text:''},{num:'',text:''},{num:'',text:''}]};
+      case 'img': return {id:uid(), type:'img', src:'', caption:''};
+    }
+  }
+  function addThing(type){
+    pushUndo();
+    if (type === 'stop' || type === 'page') {
+      const t = targetStop(), i = t ? stopIndex(t.id) : doc.stops.length - 1;
+      const s = {id:uid(), icon:'star', label:'', title:'', now:false, br: type === 'page', blocks:[newBlock('p')]};
+      doc.stops.splice(i+1, 0, s); selected = s.id; commit();
+      focusField(s.id, 'title');
+      if (type === 'page') toast('Nieuwe pagina: deze halte begint op een nieuw vel');
+      return;
+    }
+    const t = targetStop(); const b = newBlock(type); t.blocks.push(b); selected = t.id; commit();
+    const bw = $(`.bw[data-bid="${b.id}"]`, canvas); if (bw) { const f = $('[contenteditable]', bw); if (f) { f.focus(); } if (type === 'img') pickImage(b); }
+    scrollTo(t.id);
+  }
+  function focusField(sid, f){ const el = $(`.stop[data-sid="${sid}"] [data-f="${f}"]`, canvas); if (el) el.focus(); scrollTo(sid); }
+  function scrollTo(sid){ const el = $(`.stop[data-sid="${sid}"]`, canvas); if (el) el.scrollIntoView({block:'center', behavior:'smooth'}); }
+
+  /* ---------- afbeelding ---------- */
+  let imgTarget = null;
+  function pickImage(blk){ imgTarget = blk; $('#imgIn').value = ''; $('#imgIn').click(); }
+  $('#imgIn').addEventListener('change', ev => {
+    const file = ev.target.files[0]; if (!file || !imgTarget) return;
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const max = 1400, k = Math.min(1, max / Math.max(img.width, img.height));
+      const cv = document.createElement('canvas'); cv.width = Math.round(img.width*k); cv.height = Math.round(img.height*k);
+      cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+      pushUndo(); imgTarget.src = cv.toDataURL('image/jpeg', .85); URL.revokeObjectURL(url); commit();
+    };
+    img.src = url;
+  });
+
+  /* ---------- icoonkiezer ---------- */
+  let pop = null;
+  function closePop(){ if (pop) { pop.remove(); pop = null; } }
+  function openPop(anchor, current, onPick){
+    closePop();
+    pop = document.createElement('div'); pop.className = 'pop';
+    pop.innerHTML = ICONS.map(n => `<button data-icon="${n}" class="${n===current?'on':''}" title="${n}">${icon(n)}</button>`).join('');
+    document.body.appendChild(pop);
+    const r = anchor.getBoundingClientRect(), pw = 6*36+5*6+20;
+    pop.style.left = Math.max(8, Math.min(window.innerWidth - pw - 8, r.left)) + 'px';
+    pop.style.top = (r.bottom + 8 + window.scrollY) + 'px';
+    pop.addEventListener('click', e => { const b = e.target.closest('[data-icon]'); if (b) { onPick(b.dataset.icon); closePop(); } e.stopPropagation(); });
+  }
+  document.addEventListener('click', ev => { if (pop && !ev.target.closest('.pop') && !ev.target.closest('[data-act="stop-icon"],[data-act="card-icon"]')) closePop(); });
+  document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closePop(); });
+
+  /* ---------- undo / redo ---------- */
+  function undo(){ if (!undoStack.length) return; redoStack.push(JSON.stringify(doc)); doc = JSON.parse(undoStack.pop()); lastSnap = JSON.stringify(doc); typing = false; persist(); render(); updateUndoButtons(); }
+  function redo(){ if (!redoStack.length) return; undoStack.push(JSON.stringify(doc)); doc = JSON.parse(redoStack.pop()); lastSnap = JSON.stringify(doc); typing = false; persist(); render(); updateUndoButtons(); }
+  $('#bUndo').addEventListener('click', undo); $('#bRedo').addEventListener('click', redo);
+  document.addEventListener('keydown', ev => {
+    const mod = ev.metaKey || ev.ctrlKey; if (!mod) return;
+    if (ev.key.toLowerCase() === 'z') { ev.preventDefault(); ev.shiftKey ? redo() : undo(); }
+    if (ev.key.toLowerCase() === 's') { ev.preventDefault(); saveFile(); }
+    if (ev.key.toLowerCase() === 'p') { ev.preventDefault(); makePdf(); }
+  });
+
+  /* ---------- bestand ---------- */
+  function download(name, text, type){ const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], {type})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
+  function fileBase(){ return 'ngtim-' + (strip(doc.hero.name).replace(/[\[\]]/g,'').trim().toLowerCase().replace(/\s+/g,'-') || 'brief'); }
+  function saveFile(){ download(fileBase() + '.json', JSON.stringify(doc, null, 2), 'application/json'); toast('Opgeslagen als .json'); }
+  $('#bSave').addEventListener('click', saveFile);
+  $('#bOpen').addEventListener('click', () => { $('#fileIn').value = ''; $('#fileIn').click(); });
+  $('#fileIn').addEventListener('change', ev => {
+    const file = ev.target.files[0]; if (!file) return;
+    const rd = new FileReader();
+    rd.onload = () => {
+      try {
+        let txt = rd.result, data;
+        if (/\.html?$/i.test(file.name)) { const m = txt.match(/<script type="application\/json" id="reis-doc">([\s\S]*?)<\/script>/); if (!m) throw new Error('geen reis-doc gevonden'); data = JSON.parse(m[1].replace(/<\\\/script>/g, '<' + '/script>')); }
+        else data = JSON.parse(txt);
+        if (!data || !data.stops || !data.hero) throw new Error('onbekend formaat');
+        pushUndo(); doc = data; selected = null; commit(); toast('Geopend: ' + file.name);
+      } catch (e) { alert('Dit bestand kan niet worden geopend: ' + e.message); }
+    };
+    rd.readAsText(file);
+  });
+  $('#bNew').addEventListener('click', () => { if (confirm('Alles vervangen door het oorspronkelijke sjabloon? Sla eerst een .json op als je je werk wilt bewaren.')) { pushUndo(); doc = template(); selected = null; commit(); } });
+
+  function exportString(){
+    const pg = paginate();
+    const body = pg.map((list, i) => pageHtml(list, i, false)).join('');
+    const css = $('#docCss').innerHTML;
+    const sprite = $('#sprite').outerHTML;
+    const json = JSON.stringify(doc).replace(/<\/script>/g, '<\\/script>');
+    const html = `<!doctype html>
+<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${strip(doc.hero.title)}</title>
+<style>${css}
+  html{background:#CFD8D3}body{margin:0;padding:12mm 0}
+  .page{margin:0 auto 10mm;box-shadow:0 2px 20px rgba(0,0,0,.12);overflow:hidden}
+  @page{size:A4;margin:0}
+  @media print{html{background:none}body{padding:0}.page{margin:0;box-shadow:none;break-after:page}.page:last-child{break-after:auto}}
+</style></head><body>${sprite}${body}
+<script type="application/json" id="reis-doc">${json}<\/script>
+</body></html>`;
+    return html;
+  }
+  function exportHtml(){ download(fileBase() + '.html', exportString(), 'text/html'); toast('HTML geëxporteerd'); }
+  $('#bHtml').addEventListener('click', exportHtml);
+  $('#bPrint').addEventListener('click', () => { if (document.activeElement) document.activeElement.blur(); closePop(); setTimeout(() => window.print(), 50); });
+
+  /* ---------- PDF maken in de pagina zelf ---------- */
+  function loadScript(src){ return new Promise((ok, err) => { const sc = document.createElement('script'); sc.src = src; sc.onload = ok; sc.onerror = () => err(new Error('kan ' + src + ' niet laden')); document.head.appendChild(sc); }); }
+  async function ensurePdfLibs(){
+    if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+    if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+  }
+  // <use href="#..."> vervangen door de echte symboolinhoud, zodat de iconen in de PDF komen
+  function inlineUses(root){
+    let guard = 0;
+    while (guard++ < 6) {
+      const uses = Array.from(root.querySelectorAll('use'));
+      if (!uses.length) break;
+      uses.forEach(u => {
+        const id = (u.getAttribute('href') || u.getAttribute('xlink:href') || '').slice(1);
+        const sym = document.getElementById(id); if (!sym) { u.remove(); return; }
+        const owner = u.parentNode;
+        const isRoot = owner && owner.tagName && owner.tagName.toLowerCase() === 'svg' && owner.children.length === 1;
+        if (isRoot) {
+          owner.setAttribute('viewBox', sym.getAttribute('viewBox') || '0 0 24 24');
+          Array.from(sym.childNodes).forEach(n => owner.appendChild(n.cloneNode(true)));
+          u.remove();
+        } else {
+          const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svg.setAttribute('viewBox', sym.getAttribute('viewBox') || '0 0 24 24');
+          ['x','y','width','height'].forEach(a => { if (u.hasAttribute(a)) svg.setAttribute(a, u.getAttribute(a)); });
+          svg.setAttribute('overflow', 'visible');
+          Array.from(sym.childNodes).forEach(n => svg.appendChild(n.cloneNode(true)));
+          owner.replaceChild(svg, u);
+        }
+      });
+    }
+  }
+  // elke svg omzetten naar een <img> met vaste kleuren: dat rendert de PDF-maker betrouwbaar
+  function svgsToImages(root){
+    Array.from(root.querySelectorAll('svg')).forEach(svg => {
+      const cs = getComputedStyle(svg);
+      const vb = svg.getAttribute('viewBox') || '0 0 24 24';
+      const sw = parseFloat(cs.strokeWidth) || 1.75;
+      const pw = Math.max(1, Math.round(parseFloat(cs.width) * 4)), ph = Math.max(1, Math.round(parseFloat(cs.height) * 4));
+      const xml = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb + '" width="' + pw + '" height="' + ph + '" fill="none" stroke="' + cs.color + '" stroke-width="' + sw + '" stroke-linecap="round" stroke-linejoin="round">' + svg.innerHTML + '</svg>';
+      const img = document.createElement('img');
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+      img.className = svg.getAttribute('class') || '';
+      img.style.cssText = 'width:' + cs.width + ';height:' + cs.height + ';opacity:' + cs.opacity + ';' + (svg.getAttribute('style') || '');
+      svg.parentNode.replaceChild(img, svg);
+    });
+  }
+  function busy(text, frac){
+    let b = $('.busy');
+    if (text === null) { if (b) b.remove(); return; }
+    if (!b) { b = document.createElement('div'); b.className = 'busy'; b.innerHTML = '<div><span></span><div class="bar"><i></i></div></div>'; document.body.appendChild(b); }
+    $('span', b).textContent = text; $('.bar i', b).style.width = Math.round((frac || 0) * 100) + '%';
+  }
+  async function makePdf(opts){
+    opts = opts || {};
+    if (document.activeElement) document.activeElement.blur();
+    closePop();
+    busy('PDF-maker laden…', 0);
+    try {
+      await ensurePdfLibs();
+      await (document.fonts && document.fonts.ready);
+      const pg = paginate();
+      const host = document.createElement('div'); host.id = 'pdfhost';
+      host.innerHTML = pg.map((l, i) => pageHtml(l, i, false)).join('');
+      document.body.appendChild(host);
+      inlineUses(host);
+      svgsToImages(host);
+      await Promise.all(Array.from(host.querySelectorAll('img')).map(im => im.decode().catch(() => {})));
+      const pagesEl = Array.from(host.querySelectorAll('.page'));
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+      pdf.setProperties({ title: strip(doc.hero.title), author: strip(doc.hero.name), creator: 'NGTim Editor' });
+      for (let i = 0; i < pagesEl.length; i++) {
+        busy('Pagina ' + (i + 1) + ' van ' + pagesEl.length + ' renderen…', i / pagesEl.length);
+        const el = pagesEl[i];
+        const cv = await window.html2canvas(el, { scale: opts.scale || 2.5, useCORS: true, backgroundColor: '#FBFBF8', logging: false, width: el.offsetWidth, height: el.offsetHeight, windowWidth: el.offsetWidth, windowHeight: el.offsetHeight, scrollX: 0, scrollY: 0 });
+        if (i) pdf.addPage();
+        pdf.addImage(cv.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+      }
+      host.remove();
+      busy('Klaar', 1);
+      if (opts.returnDoc) { busy(null); return pdf; }
+      pdf.save(fileBase() + '.pdf');
+      setTimeout(() => busy(null), 400);
+      toast('PDF gedownload (' + pagesEl.length + (pagesEl.length === 1 ? ' pagina)' : ' pagina’s)'));
+    } catch (e) {
+      busy(null);
+      alert('De PDF kon niet worden gemaakt: ' + e.message + '\n\nGebruik anders de knop Afdrukken.');
+      const h = $('#pdfhost'); if (h) h.remove();
+    }
+  }
+  $('#bPdf').addEventListener('click', () => makePdf());
+  window.addEventListener('beforeprint', () => { $$('.page', canvas).forEach(p => p.classList.remove('over')); $$('.stop.sel', canvas).forEach(s => s.classList.remove('sel')); });
+  window.addEventListener('afterprint', () => render());
+
+  /* ---------- zoom om de pagina passend te maken ---------- */
+  function fit(){ const w = canvas.clientWidth - 80 - 90; const z = Math.max(.35, Math.min(1, w / 794)); canvas.style.setProperty('--z', z.toFixed(3)); }
+  window.addEventListener('resize', fit); fit();
+
+  /* ---------- start ---------- */
+  render(); updateUndoButtons(); setStatus(load() ? 'Eerder werk geladen' : 'Nieuw document');
+  window.NGTimEditor = window.ReisEditor = { get doc(){ return doc; }, set doc(d){ doc = d; commit(); }, add: addThing, render, paginate: () => paginate().map(p => p.map(s => s.id)), select, exportString, undo, redo, makePdf };
+})();
+</script>
+</body>
+</html>
