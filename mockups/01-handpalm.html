@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock-up 1: Handpalm</title>
+<style>
+  :root{
+    --ink:#1A1C2B; --paper:#FFFFFF; --blue:#1D3FA3; --tint:#E8EDF9; --sun:#F2B33D; --mute:#6B7084;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{background:#D9DCE6}
+  body{margin:0;font-family:var(--sans);color:var(--ink);font-size:10pt;line-height:1.42;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{width:210mm;min-height:297mm;margin:12mm auto;background:var(--paper);padding:10mm 18mm 5mm 18mm;position:relative;display:flex;flex-direction:column;box-shadow:0 2px 20px rgba(26,28,43,.12)}
+  .ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.15em}
+
+  header{display:grid;grid-template-columns:1fr 54mm;gap:8mm;align-items:end;padding-bottom:4mm;border-bottom:2.5pt solid var(--blue);margin-bottom:4mm}
+  h1{font-family:var(--serif);font-weight:400;font-size:25pt;line-height:1.08;margin:0 0 3mm;letter-spacing:-.01em}
+  .sub{margin:0;color:var(--mute);font-size:10pt;max-width:42ch}
+  .meta{font-size:9.5pt;line-height:1.5;color:var(--ink)}
+  .meta b{display:block;font-size:12pt;font-family:var(--serif);font-weight:600;margin-bottom:1.5mm}
+  .hero{position:absolute;right:18mm;top:9mm;width:40mm;height:26mm;color:var(--blue);opacity:.9}
+
+  section{display:grid;grid-template-columns:14mm 1fr;gap:5mm;margin:0 0 3mm}
+  .badge{width:12mm;height:12mm;border-radius:50%;background:var(--tint);color:var(--blue);display:grid;place-items:center;font-size:17pt}
+  h2{font-family:var(--serif);font-weight:600;font-size:14.5pt;margin:1mm 0 2mm;line-height:1.2}
+  p{margin:0 0 2.5mm;max-width:72ch}
+  .todo{border:1.5pt dashed #B9C3E6;background:#F7F8FD;color:#4A5583;padding:2mm 3mm;border-radius:2mm;font-size:10pt}
+  .todo em{font-style:normal;font-weight:600;color:var(--blue)}
+
+  .pull{margin:2mm 0 4mm 19mm;padding:3mm 5mm 3mm 6mm;border-left:3pt solid var(--sun);font-family:var(--serif);font-size:13pt;line-height:1.35;color:var(--ink);break-inside:avoid}
+  .pull small{display:block;font-family:var(--sans);font-size:9pt;color:var(--mute);margin-top:2mm}
+
+  .chips{margin:2mm 0 0 19mm;display:flex;flex-wrap:wrap;gap:2mm}
+  .chip{display:inline-flex;align-items:center;gap:1.5mm;border:1pt solid var(--blue);color:var(--blue);border-radius:99px;padding:1mm 3mm;font-size:9.5pt}
+
+  footer{margin-top:auto;display:flex;justify-content:space-between;font-size:9pt;color:var(--mute);border-top:1pt solid #D9DCE6;padding-top:3mm}
+  h2,h3{break-after:avoid}section:last-of-type,footer{break-inside:avoid}p{orphans:3;widows:3}
+
+  /* ---- bewerken in de browser ---- */
+  .edit-bar{position:fixed;bottom:12px;right:12px;z-index:50;background:#1A1C2B;color:#fff;border-radius:10px;padding:10px 12px;font:13px/1.4 "Avenir Next",Avenir,"Helvetica Neue",Helvetica,Arial,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.25);max-width:260px}
+  .edit-bar p{margin:0 0 8px;color:#D9DCE6;max-width:none;font-size:12.5px}
+  .edit-bar .row{display:flex;flex-wrap:wrap;gap:6px}
+  .edit-bar button{border:0;border-radius:6px;padding:7px 10px;font:600 12.5px/1 inherit;cursor:pointer;background:#fff;color:#1A1C2B}
+  .edit-bar button.primary{background:#F2B33D}
+  .edit-bar button.quiet{background:transparent;color:#C8CBD8;border:1px solid #4A4E63}
+  .edit-bar .saved{font-size:11.5px;color:#9BE3A8;margin-top:6px;min-height:14px}
+  [contenteditable]{outline:none;cursor:text;border-radius:2px;transition:box-shadow .12s}
+  [contenteditable]:hover{box-shadow:0 0 0 2px rgba(29,63,163,.25)}
+  [contenteditable]:focus{box-shadow:0 0 0 2px rgba(29,63,163,.7);background:rgba(29,63,163,.04)}
+  @media print{.edit-bar{display:none!important}[contenteditable]{box-shadow:none!important;background:none!important}}
+  @page{size:A4;margin:0}
+  @media print{html{background:none}.page{margin:0;box-shadow:none;min-height:0;display:block}footer{margin-top:2mm;padding-top:2mm}}
+  @media screen and (max-width:800px){.page{width:auto;min-height:auto;margin:0;padding:24px 16px}header{grid-template-columns:1fr}.hero{display:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></symbol>
+  <symbol id="i-ear" viewBox="0 0 24 24"><path d="M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a3.5 3.5 0 1 1-7 0"/><path d="M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 1 1 0 4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></symbol>
+  <symbol id="i-reflect" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-lang" viewBox="0 0 24 24"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4"/><path d="M12 17v4"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="m5.6 5.6 2.8 2.8"/><path d="m15.6 15.6 2.8 2.8"/><path d="m5.6 18.4 2.8-2.8"/><path d="m15.6 8.4 2.8-2.8"/></symbol>
+  <symbol id="i-mic-off" viewBox="0 0 24 24"><line x1="2" x2="22" y1="2" y2="22"/><path d="M18.89 13.23A7.12 7.12 0 0 0 19 12v-2"/><path d="M5 10v2a7 7 0 0 0 12 5"/><path d="M15 9.34V5a3 3 0 0 0-5.68-1.33"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12"/><line x1="12" x2="12" y1="19" y2="22"/></symbol>
+  <!-- decorative: two signing hands -->
+  <symbol id="g-hands" viewBox="0 0 120 80">
+    <g transform="translate(8 8) rotate(-14 24 24) scale(2)"><use href="#i-hand" width="24" height="24"/></g>
+    <g transform="translate(112 8) scale(-2 2) rotate(-14 24 24)"><use href="#i-hand" width="24" height="24"/></g>
+    <path d="M42 66c6 7 30 7 36 0" stroke-dasharray="2 3"/>
+    <path d="M36 58c10 12 38 12 48 0" stroke-dasharray="2 3" opacity=".5"/>
+  </symbol>
+</svg>
+
+<div class="page">
+  <svg class="hero ic" style="stroke-width:1.1"><use href="#g-hands"/></svg>
+  <header>
+    <div>
+      <h1>Op weg naar<br>tolk NGT</h1>
+      <p class="sub">Mijn motivatie en ontwikkeling tijdens ORILT, de oriëntatiefase van de opleiding Leraar/Tolk Nederlandse Gebarentaal aan de Hogeschool Utrecht.</p>
+    </div>
+    <div class="meta">
+      <b>[Voornaam Achternaam]</b>
+      Student Leraar/Tolk NGT<br>
+      Hogeschool Utrecht<br>
+      ORILT, studiejaar [2025–2026]
+    </div>
+  </header>
+
+  <section>
+    <div class="badge"><svg class="ic"><use href="#i-heart"/></svg></div>
+    <div>
+      <h2>Mijn motivatie</h2>
+      <p class="todo"><em>Invullen:</em> jouw motivatie uit de originele brief, ingekort tot drie of vier zinnen. Waarom NGT, en waarom het tolken?</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="badge"><svg class="ic"><use href="#i-users"/></svg></div>
+    <div>
+      <h2>Wie ik ben</h2>
+      <p class="todo"><em>Invullen:</em> een korte introductie. Achtergrond, wat je meebrengt en wat je al met NGT of de dovengemeenschap hebt gedaan.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="badge"><svg class="ic"><use href="#i-compass"/></svg></div>
+    <div>
+      <h2>Wat ORILT mij heeft gebracht</h2>
+      <p class="todo"><em>Invullen:</em> de drie belangrijkste leermomenten uit de oriëntatiefase, elk in één zin.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="badge"><svg class="ic"><use href="#i-reflect"/></svg></div>
+    <div>
+      <h2>Reflectie en feedback</h2>
+      <p>Ik begrijp waarom de opleiding zoveel aandacht besteedt aan reflectie en feedback. Als tolk krijg ik te maken met uiteenlopende belangen, waarden en perspectieven. Daarom wil ik mijn eigen gevoelens en aannames blijven herkennen, zodat die niet ongemerkt mijn professionele handelen sturen.</p>
+      <p>In mijn portfolio staan reflectieverslagen waarin ik verschillende reflectiemodellen heb toegepast.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="badge"><svg class="ic"><use href="#i-hand"/></svg></div>
+    <div>
+      <h2>Mijn beeld van het beroep van tolk NGT</h2>
+      <p>Tijdens ORILT is mijn beeld van het beroep scherper geworden. Mijn interesse begon bij de taal en de variatie aan situaties waarin je tolkt. Inmiddels zie ik ook de professionele verantwoordelijkheid die daarbij hoort.</p>
+      <p>Samen met twee medestudenten interviewde ik een tolk NGT met ruim twintig jaar ervaring. Wat zij vertelde over beroepsgeheim, professionele grenzen en de uiteenlopende situaties waarin een tolk terechtkomt, is mij bijgebleven. Tolken vraagt niet alleen om een uitstekende beheersing van NGT en Nederlands, maar ook om <span class="todo" style="padding:0 1.5mm">[afmaken met jouw oorspronkelijke zin]</span>.</p>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="badge"><svg class="ic"><use href="#i-target"/></svg></div>
+    <div>
+      <h2>Vooruitblik</h2>
+      <p>Ik kies bewust voor de richting tolk NGT. <span class="todo" style="padding:0 1.5mm">[Een of twee zinnen over wat je het komende jaar wilt ontwikkelen.]</span></p>
+      <div class="chips" style="margin-left:0;margin-top:3mm">
+        <span class="chip"><svg class="ic"><use href="#i-shield"/></svg>Beroepsgeheim</span>
+        <span class="chip"><svg class="ic"><use href="#i-eye"/></svg>Professionele grenzen</span>
+        <span class="chip"><svg class="ic"><use href="#i-reflect"/></svg>Reflectie</span>
+        <span class="chip"><svg class="ic"><use href="#i-lang"/></svg>Taalbeheersing</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>ORILT, Hogeschool Utrecht</span>
+    <span>[Naam], [datum]</span>
+  </footer>
+</div>
+
+<div class="edit-bar" id="editBar">
+  <p>Klik op een tekst om die te bewerken. Typ je in een gestippeld vak, dan wordt het gewone tekst. Wijzigingen worden in deze browser bewaard.</p>
+  <div class="row">
+    <button class="primary" id="btnPdf" title="Kies in het printvenster: Bewaar als PDF, marges Geen, achtergronden aan">Opslaan als PDF</button>
+    <button id="btnHtml" title="Download dit bestand met jouw tekst erin">HTML downloaden</button>
+    <button class="quiet" id="btnReset" title="Wist jouw wijzigingen en laadt het origineel">Terug naar origineel</button>
+  </div>
+  <div class="saved" id="savedMsg"></div>
+</div>
+<script>
+(function(){
+  var page = document.querySelector('.page');
+  var key = 'tolk-ngt:' + (location.pathname.split('/').pop() || 'mockup');
+  var saved = document.getElementById('savedMsg');
+  var original = page.innerHTML;
+
+  // 1. eerder bewerkte tekst terugzetten
+  try { var s = localStorage.getItem(key); if (s) { page.innerHTML = s; note('Eerdere wijzigingen geladen.'); } } catch (e) {}
+
+  // 2. alle tekstelementen bewerkbaar maken (niet de iconen)
+  function makeEditable(){
+    var all = page.querySelectorAll('*');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (el.closest('svg') || el.tagName === 'SVG') continue;
+      var hasText = false;
+      for (var n = el.firstChild; n; n = n.nextSibling) {
+        if (n.nodeType === 3 && n.nodeValue.trim()) { hasText = true; break; }
+      }
+      if (hasText) el.setAttribute('contenteditable', 'true');
+    }
+    // geneste bewerkbare elementen: alleen de buitenste is nodig als de binnenste alleen tekst bevat
+  }
+  makeEditable();
+
+  // plakken zonder opmaak
+  page.addEventListener('paste', function(ev){
+    ev.preventDefault();
+    var text = (ev.clipboardData || window.clipboardData).getData('text/plain');
+    document.execCommand('insertText', false, text);
+  });
+
+  // 3. gestippeld vak wordt gewone tekst zodra je erin typt; alles automatisch opslaan
+  var timer;
+  page.addEventListener('input', function(ev){
+    var t = ev.target.closest('.todo');
+    if (t) {
+      t.classList.remove('todo');
+      var strong = t.querySelector('em'); if (strong) strong.remove();
+      t.removeAttribute('style');
+    }
+    clearTimeout(timer);
+    timer = setTimeout(save, 400);
+  });
+  function save(){
+    try { localStorage.setItem(key, page.innerHTML); note('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL', {hour:'2-digit', minute:'2-digit'})); }
+    catch (e) { note('Opslaan in de browser lukt niet; download de HTML.'); }
+  }
+  function note(msg){ if (saved) saved.textContent = msg; }
+
+  // 4. knoppen
+  document.getElementById('btnPdf').addEventListener('click', function(){
+    document.activeElement && document.activeElement.blur();
+    window.print();
+  });
+  document.getElementById('btnHtml').addEventListener('click', function(){
+    var clone = document.documentElement.cloneNode(true);
+    var eds = clone.querySelectorAll('[contenteditable]');
+    for (var i = 0; i < eds.length; i++) eds[i].removeAttribute('contenteditable');
+    var html = '<!doctype html>\n' + clone.outerHTML;
+    var blob = new Blob([html], {type: 'text/html'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = (location.pathname.split('/').pop() || 'brief.html').replace(/\.html$/, '') + '-bewerkt.html';
+    document.body.appendChild(a); a.click(); a.remove();
+    note('HTML gedownload.');
+  });
+  document.getElementById('btnReset').addEventListener('click', function(){
+    if (!confirm('Al je wijzigingen in dit ontwerp wissen en het origineel terugzetten?')) return;
+    try { localStorage.removeItem(key); } catch (e) {}
+    page.innerHTML = original; makeEditable(); note('Origineel teruggezet.');
+  });
+})();
+</script>
+</body>
+</html>
