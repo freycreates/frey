@@ -1,0 +1,18 @@
+<!doctype html><meta charset="utf-8">
+<body style="margin:0;background:#fbf9f6"><iframe id="f" src="/ultrasexinew/index.html" width="432" height="760" style="border:0;display:block"></iframe><pre id="out" style="position:absolute;left:440px;top:0;font-size:1px;width:150px;overflow:hidden"></pre>
+<script>
+var q=new URLSearchParams(location.search), y=+q.get('y')||0, st=+q.get('s')||2, f=document.getElementById('f');
+f.onload=function(){ setTimeout(function(){
+  var d=f.contentDocument, w=f.contentWindow;
+  if(st>=2) d.querySelector('.ticket-row details.more').open=true;
+  if(st>=3){ d.getElementById('ev-more').click(); if(d.activeElement) d.activeElement.blur(); }
+  w.dispatchEvent(new Event('resize'));
+  setTimeout(function(){
+    w.scrollTo({top:y,left:0,behavior:'instant'});
+    setTimeout(function(){
+      var s=d.querySelector('.slogan').getBoundingClientRect();
+      document.getElementById('out').textContent='JSON'+JSON.stringify({top:s.top+w.scrollY,h:s.height,sy:w.scrollY})+'JSON';
+    },1200);
+  },500);
+},2500); };
+</script>

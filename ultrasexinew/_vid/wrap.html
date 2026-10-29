@@ -1,0 +1,22 @@
+<!doctype html><meta charset="utf-8">
+<body style="margin:0;background:#fbf9f6"><iframe id="f" src="/ultrasexinew/index.html" width="432" height="7000" style="border:0;display:block"></iframe><pre id="out" style="position:absolute;left:500px;top:0;width:90px;overflow:hidden;font-size:1px"></pre>
+<script>
+var s=+new URLSearchParams(location.search).get('s')||1, f=document.getElementById('f');
+f.onload=function(){ setTimeout(function(){
+  var d=f.contentDocument, w=f.contentWindow;
+  if(s>=2) d.querySelector('.ticket-row details.more').open=true;
+  if(s>=3){ d.getElementById('ev-more').click(); if(d.activeElement) d.activeElement.blur(); }
+  setTimeout(function(){
+    function r(el){ if(!el) return null; var b=el.getBoundingClientRect(); return [Math.round(b.left),Math.round(b.top+w.scrollY),Math.round(b.width),Math.round(b.height)]; }
+    var o={h:d.documentElement.scrollHeight,
+      more:r(d.querySelector('.ticket-row details.more > summary')),
+      ticket:r(d.querySelector('.ticket')),
+      evmore:r(d.getElementById('ev-more')),
+      wa:r(d.querySelector('a.go.stretch[href*="whatsapp"]')),
+      secs:{}};
+    ['upcoming','fpq','about','past-events','contact'].forEach(function(id){o.secs[id]=r(d.getElementById(id))});
+    f.height=o.h; document.getElementById('out').textContent='JSON'+JSON.stringify(o)+'JSON';
+    document.title='ready';
+  },600);
+},2500); };
+</script>
