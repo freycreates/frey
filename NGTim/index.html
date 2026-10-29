@@ -50,7 +50,7 @@
   .stop h2{font-size:14pt;font-weight:700;margin:2mm 0 1.5mm;letter-spacing:-.01em}
   .stop .when{font-size:9pt;color:var(--mute);margin:0 0 1.5mm}
   .stop .when:empty{display:none}
-  .blocks>*+*{margin-top:2.5mm}
+  .page .blocks>*+*{margin-top:3mm}
   .blk p,.blk{margin:0}
   p.blk{max-width:70ch}
   ul.blk{margin:0;padding-left:5mm;max-width:70ch}
@@ -312,36 +312,80 @@
   const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
   const uid = () => Math.random().toString(36).slice(2, 9);
   const ICONS = ['hand','heart','users','compass','chat','reflect','target','eye','ear','shield','book','lang','cap','spark','star','calendar','pin','briefcase','bulb','check','clock','pen','home','globe','flag','smile','mic-off'];
-  const KEY = 'ngtim-editor:doc';
+  const KEY = 'ngtim-editor:doc:v2';
+  const OLD_KEY = 'ngtim-editor:doc';
 
   /* ---------- sjabloon ---------- */
   function template(){
     const P = (html) => ({id:uid(), type:'p', html});
     const T = (html) => ({id:uid(), type:'todo', html});
+    const UL = (html) => ({id:uid(), type:'ul', html});
+    const Q = (text, by) => ({id:uid(), type:'quote', text, by});
+    const CARDS = (items) => ({id:uid(), type:'cards', items});
+    const FACTS = (items) => ({id:uid(), type:'facts', items});
+    const S = (icon, label, title, blocks, extra) => Object.assign({id:uid(), icon, label, title, now:false, br:false, blocks}, extra || {});
     return {
-      v:1,
+      v:2,
       hero:{
-        title:'Van interesse in gebarentaal naar een beroep',
-        intro:'Wat ik tijdens ORILT heb geleerd over mezelf en over het werk van een tolk Nederlandse Gebarentaal, en waarom ik voor de richting tolk kies.',
-        name:'[Voornaam Achternaam]', role:'Student Leraar/Tolk NGT', org:'Hogeschool Utrecht', meta:'ORILT, studiejaar [2025–2026]'
+        title:'Mijn reis naar het beroep van tolk NGT',
+        intro:'Motivatieproduct ORILT, versie 1. Hoe mijn interesse in gebarentaal uitgroeide tot een bewuste keuze voor het tolken.',
+        name:'Tim Seng Ong', role:'Student Tolk NGT · [studentnummer]', org:'Hogeschool Utrecht', meta:'ORILT · LU1 t/m LU5 · 29 oktober 2026'
       },
-      footer:{left:'ORILT, Hogeschool Utrecht', right:'[Naam], [datum]'},
+      footer:{left:'Motivatieproduct ORILT · Hogeschool Utrecht', right:'Tim Seng Ong · oktober 2026'},
       stops:[
-        {id:uid(), icon:'heart', label:'Het begin', title:'Waarom gebarentaal', now:false, br:false, blocks:[T('<em>Invullen:</em> jouw motivatie, ingekort tot drie of vier zinnen. Wat trok je als eerste naar NGT en naar het tolken?')]},
-        {id:uid(), icon:'users', label:'Wat ik meebreng', title:'Wie ik ben', now:false, br:false, blocks:[T('<em>Invullen:</em> korte introductie van jezelf. Achtergrond, eerdere ervaring met NGT of de dovengemeenschap.')]},
-        {id:uid(), icon:'compass', label:'Oriëntatiefase', title:'Wat ORILT mij heeft gebracht', now:false, br:false, blocks:[
-          {id:uid(), type:'cards', items:[{icon:'lang', title:'Taal', text:'[leermoment 1]'},{icon:'eye', title:'Beroep', text:'[leermoment 2]'},{icon:'spark', title:'Mezelf', text:'[leermoment 3]'}]}
-        ]},
-        {id:uid(), icon:'chat', label:'Het interview', title:'In gesprek met een tolk met ruim twintig jaar ervaring', now:false, br:false, blocks:[
-          P('Samen met twee medestudenten interviewde ik een ervaren tolk NGT. Wat zij vertelde over beroepsgeheim, professionele grenzen en de uiteenlopende situaties waarin een tolk terechtkomt, is mij bijgebleven. Mijn interesse begon bij de taal en de variatie aan tolksituaties. Inmiddels zie ik ook de professionele verantwoordelijkheid die daarbij hoort.'),
-          P('Tolken vraagt niet alleen om een uitstekende beheersing van NGT en Nederlands, maar ook om [afmaken met jouw oorspronkelijke zin].')
-        ]},
-        {id:uid(), icon:'reflect', label:'Terugkijken', title:'Reflectie en feedback', now:false, br:false, blocks:[
-          P('Ik begrijp waarom de opleiding zoveel aandacht besteedt aan reflectie en feedback. Als tolk krijg ik te maken met uiteenlopende belangen, waarden en perspectieven. Daarom wil ik mijn eigen gevoelens en aannames blijven herkennen, zodat die niet ongemerkt mijn professionele handelen sturen. In mijn portfolio staan reflectieverslagen waarin ik verschillende reflectiemodellen heb toegepast.')
-        ]},
-        {id:uid(), icon:'hand', label:'Mijn keuze', title:'Ik kies voor tolk NGT', now:true, br:false, blocks:[
-          P('Ik kies bewust voor de richting tolk. [Een of twee zinnen over wat je het komende jaar wilt ontwikkelen.]')
-        ]}
+        S('heart', 'Welkom', 'Hoe het begon', [
+          P('Ik ben Tim, 32 jaar en ik woon in Den Haag. Mijn interesse in gebarentaal begon zo’n tien jaar geleden met de serie <em>Switched at Birth</em>, waarin ik voor het eerst American Sign Language zag. Vijf jaar geleden ontmoette ik bij het ministerie van OCW een dove collega bij het koffiezetapparaat. Door onze gesprekken ben ik NGT gaan leren, en in 2026 heb ik me aangemeld voor de opleiding tolk NGT aan de HU.'),
+          FACTS([{num:'10 jaar', text:'interesse in gebarentaal'}, {num:'5 jaar', text:'NGT aan het leren'}, {num:'32', text:'en opnieuw student'}]),
+          P('In dit motivatieproduct blik ik terug op ORILT. Ik verbind mijn ervaringen aan de datapunten in mijn portfolio en laat zien waarom ik bewust kies voor het beroep van tolk NGT.')
+        ]),
+        S('users', 'Identiteit', 'Wie ik ben en wat ik belangrijk vind', [
+          P('Ik groeide op in Amsterdam, in een gezin waar vrijheid, gelijkwaardigheid, autonomie en kritisch denken centraal stonden. Mijn meertalige en multiculturele achtergrond versterkte mijn liefde voor talen. Taal draagt voor mij niet alleen informatie over, maar ook identiteit en cultuur. NGT laat me bovendien een heel andere modaliteit ontdekken.'),
+          P('Mijn queer identiteit maakt dat ik vanzelfsprekendheden kritisch bevraag. Mijn ervaringen zijn niet te vergelijken met die van dove mensen, maar ze maken me wel bewust van het belang van erkenning, representatie en zelfbeschikking. Tijdens ORILT leerde ik zien hoe mijn identiteit en waarden mijn professionele houding beïnvloeden. <em>Zie mijn identiteitscirkel en reflectiedagboek.</em>')
+        ]),
+        S('eye', 'Dovengemeenschap', 'Mijn positie als horende toekomstige tolk', [
+          P('Vooraf had ik me al verdiept in Deaf Studies en de geschiedenis van het gebarentaalverbod. Toch maakten de verhalen van dove medestudenten, docenten en anderen uit de gemeenschap de meeste indruk. Ze lieten me zien hoe divers de dovengemeenschap is.'),
+          CARDS([
+            {icon:'pin', title:'Burst Your Bubble, Rotterdam', text:'Een man die op latere leeftijd slechthorend werd en NGT leerde, liet me zien dat ieders weg naar de gemeenschap anders is.'},
+            {icon:'cap', title:'Guyotschool, Haren', text:'Een dove docent sprak over dove rolmodellen. Ik dacht meteen aan vertegenwoordiging op bestuurlijk niveau. Later besefte ik dat dat vooral mijn eigen perspectief was.'}
+          ]),
+          P('Als horende tolk wil ik niet invullen wat dove mensen nodig hebben. Daarom wil ik vooral ván de gemeenschap blijven leren, en kritisch blijven kijken naar mijn eigen privileges, grenzen en verantwoordelijkheden. <em>Zie mijn reflectieverslagen over Burst Your Bubble en de Guyotschool.</em>')
+        ]),
+        S('reflect', 'Reflectie', 'Van analyseren naar ook voelen', [
+          P('Eerlijk gezegd zag ik op tegen het vele reflecteren op het hbo. Vanuit de universiteit en mijn werk als beleidsmedewerker ben ik gewend om vooral rationeel te analyseren. ORILT daagde me uit om ook stil te staan bij wat een ervaring met me doet. Bij Burst Your Bubble voelde ik me ongemakkelijk toen ik niet alles kon volgen. Door daarop te reflecteren, werd ik me bewuster van mijn positie als horende.'),
+          Q('Scherp en analytisch, maar sta wat vaker stil bij je eigen gevoelens.', 'Samengevat: feedback van medestudenten en docenten, waarin ik mij herkende'),
+          P('Ik ontdekte ook hoeveel plezier ik haal uit feedback geven. In mijn reflectiedagboek gebruikte ik onder meer het model van Borton om mijn ervaringen gestructureerd te onderzoeken. In mijn portfolio staan reflectieverslagen met verschillende reflectiemodellen.')
+        ]),
+        S('chat', 'Het beroep', 'Mijn beeld van het beroep van tolk NGT', [
+          P('Met twee medestudenten interviewde ik een ervaren tolk NGT. Haar verhalen over beroepsgeheim, professionele grenzen en de uiteenlopende situaties waarin een tolk terechtkomt, zijn me bijgebleven. Tolken vraagt niet alleen om twee talen goed beheersen, maar ook om oordeelsvermogen, flexibiliteit en professioneel bewustzijn.'),
+          FACTS([{num:'20+', text:'jaar ervaring van de tolk die we interviewden'}, {num:'3', text:'studenten voerden het gesprek'}, {num:'2022', text:'beroepscode NBTG als vrij datapunt'}]),
+          P('In de beroepscode van de NBTG verdiepte ik me vooral in autonomie, gelijkwaardigheid en rolopvatting. Mijn eigen waarden vallen niet altijd samen met wat professioneel van me wordt verwacht. Dat maakt het vak voor mij juist boeiender: het combineert taal, menselijk contact, zelfkennis en ethisch bewustzijn.')
+        ]),
+        S('target', 'Mijn keuze', 'Een bewuste beroepskeuze', [
+          P('Ik werk met plezier als beleidsmedewerker bij OCW. Op mijn 32e opnieuw gaan studeren is dan ook een heel bewuste stap. Het tolken brengt samen wat ik belangrijk vind:'),
+          CARDS([
+            {icon:'lang', title:'Taal', text:'Naast Nederlands spreek ik onder meer Engels, Frans en Mandarijn. Talen leerden me schakelen tussen culturen en contexten.'},
+            {icon:'users', title:'Mensen', text:'Ik leg makkelijk contact en beweeg me graag in verschillende maatschappelijke omgevingen.'},
+            {icon:'shield', title:'Rol', text:'Als tolk leer ik juist wanneer ik mijn eigen mening en initiatief op de achtergrond houd.'}
+          ]),
+          P('Mijn gevoel voor rechtvaardigheid kan me willen laten ingrijpen, terwijl mijn rol om terughoudendheid vraagt. Dat spanningsveld wil ik in EPA1 verder onderzoeken.'),
+          P('ORILT wakkerde ook mijn interesse in het docentschap aan, onder meer door de Guyotschool en de lessen van onze NGT- en Deaf Studies-docenten. Toch passen de dynamiek en autonomie van het tolken nu beter bij me. Omdat ik weet dat ik soms te veel tegelijk wil, richt ik me eerst volledig op het tolken, zonder de richting Leraar NGT voor later uit te sluiten.')
+        ]),
+        S('smile', 'Anderen over mij', 'Wat zeggen anderen over mijn keuze?', [
+          CARDS([
+            {icon:'heart', title:'Mijn vriend', text:'Ziet het tolken op het snijvlak van mijn liefde voor taal en mijn maatschappelijke betrokkenheid, en noemt mijn sociale vaardigheden. Ook als docent ziet hij mij wel.'},
+            {icon:'home', title:'Mijn oom', text:'Vindt dat het tolken op de eerste, tweede en derde plaats bij me past, vanwege mijn liefde voor taal. Hij noemt me dienstbaar en altruïstisch.'}
+          ]),
+          P('Ik herken me in hun beeld. Mijn enthousiasme is ook een valkuil: als tolk moet ik het combineren met geduld, terughoudendheid en het bewaken van mijn rol. Hun terugkoppeling sterkt me in mijn keuze.')
+        ]),
+        S('hand', 'Vooruitblik', 'Mijn keuze is alleen maar sterker geworden', [
+          P('ORILT heeft mijn motivatie verdiept. De combinatie van theorie, ontmoetingen en reflectie gaf me nieuwe perspectieven. Ik leerde naast analyseren ook stil te staan bij mijn gevoelens, aannames en positie als horende toekomstige professional. Het docentschap houd ik in mijn achterhoofd, maar eerst ga ik voluit voor het tolken.'),
+          P('Ik heb nog veel te leren, in NGT en in mijn professionele ontwikkeling. Juist dat maakt deze opleiding zo interessant, en ik heb ontzettend veel zin in wat komt!')
+        ], {now:true}),
+        S('book', 'Verantwoording', 'AI-gebruik en bronnen', [
+          P('Bij het schrijven van dit motivatieproduct heb ik ChatGPT (OpenAI) gebruikt als hulpmiddel bij het structureren, formuleren en redigeren. Ik heb ChatGPT gebruikt om mijn eigen ervaringen, reflecties en inzichten samen te brengen tot een samenhangend verhaal.'),
+          T('<em>Invullen:</em> vermeld hier ook dat deze ingekorte versie met hulp van Claude (Anthropic) is gemaakt, als je die inlevert.'),
+          UL('<li>NBTG (2022). <em>Beroepscode voor tolken gebarentaal.</em></li><li>Identiteitscirkel en reflectie op persoonlijke waarden</li><li>Reflectiedagboek ORILT</li><li>Reflectieverslag Burst Your Bubble, Rotterdam</li><li>Reflectieverslag werkbezoek Guyotschool, Haren</li><li>Gespreks- en reflectieverslag interview tolk NGT</li><li>Vrij datapunt: reflectie op de beroepscode NBTG (2022)</li>')
+        ])
       ]
     };
   }
@@ -832,6 +876,16 @@
 
   /* ---------- start ---------- */
   render(); updateUndoButtons(); setStatus(load() ? 'Eerder werk geladen' : 'Nieuw document');
+  // oudere versie (van vóór het voorgevulde sjabloon) in deze browser? Bied aan om die terug te zetten.
+  try {
+    const older = !load() && localStorage.getItem(OLD_KEY);
+    if (older) {
+      const el = $('#toast'); el.textContent = 'Je hebt hier eerder aan een lege versie gewerkt.'; el.classList.add('show', 'has-btn');
+      const b = document.createElement('button'); b.textContent = 'Die versie terugzetten';
+      b.onclick = () => { try { pushUndo(); doc = JSON.parse(older); selected = null; activeBlock = null; commit(); } catch(e){} el.classList.remove('show', 'has-btn'); };
+      el.appendChild(b); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show', 'has-btn'), 15000);
+    }
+  } catch(e) {}
   window.NGTimEditor = window.ReisEditor = { get doc(){ return doc; }, set doc(d){ doc = d; commit(); }, add: addThing, render, paginate: () => paginate().map(p => p.map(s => s.id)), select, exportString, undo, redo, makePdf };
 })();
 </script>
