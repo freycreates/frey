@@ -10,14 +10,14 @@
 <meta property="og:url" content="https://freycreates.nl/NGTim">
 <meta property="og:site_name" content="FREY.">
 <meta property="og:title" content="PDF Editor for Tim">
-<meta property="og:description" content="Bewerk de motivatiebrief tolk NGT als blokken, voeg haltes en pagina's toe en exporteer als PDF.">
+<meta property="og:description" content="Bewerk de motivatiebrief tolk NGT als blokken, voeg secties en pagina's toe en exporteer als PDF.">
 <meta property="og:image" content="https://freycreates.nl/NGTim/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="F. logo with the text PDF Editor for Tim">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PDF Editor for Tim">
-<meta name="twitter:description" content="Bewerk de motivatiebrief tolk NGT als blokken, voeg haltes en pagina's toe en exporteer als PDF.">
+<meta name="twitter:description" content="Bewerk de motivatiebrief tolk NGT als blokken, voeg secties en pagina's toe en exporteer als PDF.">
 <meta name="twitter:image" content="https://freycreates.nl/NGTim/og.png">
 <link rel="icon" type="image/png" sizes="48x48" href="/assets/frey-icon-48.png">
 <link rel="apple-touch-icon" href="/assets/frey-icon-180.png">
@@ -119,30 +119,48 @@
   .page.over .warn{display:block}
 
   /* in-place editing */
-  [contenteditable]{outline:none;cursor:text;border-radius:2px;transition:box-shadow .12s}
-  [contenteditable]:hover{box-shadow:0 0 0 2px rgba(95,163,128,.35)}
-  [contenteditable]:focus{box-shadow:0 0 0 2px rgba(31,77,58,.75);background:rgba(95,163,128,.07)}
+  [contenteditable="true"]{outline:none;cursor:text;border-radius:2px;transition:box-shadow .12s}
+  [contenteditable="true"]:hover{box-shadow:0 0 0 2px rgba(95,163,128,.35)}
+  [contenteditable="true"]:focus{box-shadow:0 0 0 2px rgba(31,77,58,.75);background:rgba(95,163,128,.07)}
   .hero [contenteditable]:focus,.runhead [contenteditable]:focus{background:rgba(255,255,255,.1);box-shadow:0 0 0 2px rgba(255,255,255,.6)}
   [contenteditable]:empty::before{content:attr(data-ph);color:#9AA7A1;pointer-events:none}
   .hero [contenteditable]:empty::before{color:rgba(255,255,255,.5)}
 
-  /* halte- en blokbediening */
+  /* sectie- en blokbediening */
   .stop{border-radius:3mm;transition:background .12s}
+  .canvas .stop:not(.sel):hover::after{content:"";position:absolute;inset:-2mm -3mm;border:1.5px dashed rgba(95,163,128,.5);border-radius:3mm;pointer-events:none}
   .stop.sel{background:rgba(95,163,128,.09)}
-  .stop.sel::after{content:"";position:absolute;inset:-2mm -3mm;border:1.5px solid rgba(95,163,128,.7);border-radius:3mm;pointer-events:none}
-  .ctl{position:absolute;right:-2mm;top:-1mm;transform:translateX(100%);display:flex;flex-direction:column;gap:3px;opacity:0;transition:opacity .12s;z-index:5;padding-left:8px}
-  .stop:hover>.ctl,.stop.sel>.ctl{opacity:1}
-  .ctl button,.bctl button{width:26px;height:26px;border-radius:7px;border:1px solid var(--line);background:var(--ui);color:var(--uiText);display:grid;place-items:center;cursor:pointer;padding:0}
+  .stop.sel::after{content:"";position:absolute;inset:-2mm -3mm;border:1.5px solid rgba(95,163,128,.75);border-radius:3mm;pointer-events:none}
+  .ctl,.bctl{position:absolute;display:none;flex-direction:row;align-items:center;gap:3px;background:var(--ui);border:1px solid var(--line);border-radius:9px;padding:3px;box-shadow:0 6px 18px rgba(0,0,0,.28);font:600 11.5px/1 "Avenir Next",Avenir,"Helvetica Neue",Helvetica,Arial,sans-serif;white-space:nowrap}
+  .ctl{right:-3mm;top:-2mm;transform:translateY(calc(-100% - 4px));z-index:20}
+  .bctl{right:0;top:0;transform:translateY(calc(-100% - 5px));z-index:15}
+  .stop.sel>.ctl,.bw.act>.bctl{display:flex}
+  .ctl .lab,.bctl .lab{color:var(--uiMute);padding:0 6px 0 5px}
+  .ctl .sep,.bctl .sep{width:1px;height:18px;background:var(--line);margin:0 2px}
+  .ctl button,.bctl button{width:26px;height:26px;border-radius:7px;border:1px solid transparent;background:transparent;color:var(--uiText);display:grid;place-items:center;cursor:pointer;padding:0;font:inherit}
   .ctl button .ic,.bctl button .ic{width:14px;height:14px}
   .ctl button:hover,.bctl button:hover{border-color:var(--accent);color:#9FD4B8}
-  .ctl button.del:hover,.bctl button.del:hover{border-color:var(--danger);color:#FF9A91}
   .ctl button.on{background:var(--accent);color:#0F1A15;border-color:var(--accent)}
+  .ctl button.del,.bctl button.del{width:auto;display:inline-flex;gap:5px;padding:0 9px;color:#FFB4AC}
+  .ctl button.del:hover,.bctl button.del:hover{border-color:var(--danger);background:rgba(224,86,75,.15);color:#FFD0CB}
   .node{cursor:pointer;transition:transform .12s}
   .node:hover{transform:scale(1.06)}
   .bw{position:relative;border-radius:2mm}
-  .bw:hover{box-shadow:0 0 0 1.5px rgba(95,163,128,.4)}
-  .bctl{position:absolute;left:-2mm;top:0;transform:translateX(-100%);display:flex;flex-direction:column;gap:3px;opacity:0;transition:opacity .12s;z-index:5;padding-right:6px}
-  .bw:hover>.bctl{opacity:1}
+  .bw:hover{box-shadow:0 0 0 1.5px rgba(95,163,128,.3)}
+  .bw.act{box-shadow:0 0 0 1.5px rgba(31,77,58,.65)}
+  .selpanel{background:var(--ui3);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;color:var(--uiText)}
+  .selpanel .none{color:var(--uiMute);line-height:1.45}
+  .selpanel .nm{font-weight:600;margin:0 0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .selpanel .nm small{display:block;font-weight:400;color:var(--uiMute);font-size:11.5px;margin-bottom:2px}
+  .selpanel .row{display:flex;gap:6px;margin-bottom:6px}
+  .selpanel .row button{flex:1;background:var(--ui2);border:1px solid var(--line);color:var(--uiText);border-radius:8px;padding:7px 4px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:12px}
+  .selpanel .row button .ic{width:14px;height:14px}
+  .selpanel .row button:hover{border-color:var(--accent)}
+  .selpanel .row button.on{background:#2C3A35;border-color:var(--accent)}
+  .selpanel .delbtn{width:100%;background:rgba(224,86,75,.12);border:1px solid rgba(224,86,75,.55);color:#FFB4AC;border-radius:8px;padding:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:600;font-size:12.5px}
+  .selpanel .delbtn:hover{background:rgba(224,86,75,.25);color:#FFD0CB}
+  .selpanel .delbtn .ic{width:14px;height:14px}
+  .selpanel .blk{border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
   .breakline{display:flex;align-items:center;gap:8px;margin:-3mm 0 3mm;color:#5F6B66;font-size:8.5pt;position:relative;z-index:2}
   .breakline::before,.breakline::after{content:"";flex:1;border-top:1.5pt dashed #9FC8B2}
   .cicon{cursor:pointer}
@@ -156,6 +174,8 @@
   .pop button:hover,.pop button.on{border-color:var(--accent);color:#9FD4B8}
   .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ui);border:1px solid var(--line);color:var(--uiText);padding:10px 16px;border-radius:10px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:0;transition:opacity .2s;pointer-events:none}
   .toast.show{opacity:1}
+  .toast.has-btn{pointer-events:auto;display:flex;align-items:center;gap:12px}
+  .toast button{background:none;border:0;color:#9FD4B8;font:600 13px/1 inherit;cursor:pointer;padding:4px 0;text-decoration:underline}
   #measure{position:absolute;left:-10000px;top:0;visibility:hidden;pointer-events:none}
   #pdfhost{position:absolute;left:0;top:0;z-index:-1;pointer-events:none}
   .busy{position:fixed;inset:0;background:rgba(21,24,28,.72);display:grid;place-items:center;z-index:200;color:#fff;font-size:15px}
@@ -250,9 +270,9 @@
 
 <aside class="side">
   <h3>Toevoegen</h3>
-  <div class="target" id="target">Komt in: <span>laatste halte</span></div>
+  <div class="target" id="target">Komt in: <span>laatste sectie</span></div>
   <div class="pal">
-    <button class="wide" data-add="stop"><svg class="ic"><use href="#i-pin"/></svg>Nieuwe halte (sectie)</button>
+    <button class="wide" data-add="stop"><svg class="ic"><use href="#i-pin"/></svg>Nieuwe sectie</button>
     <button data-add="p"><svg class="ic"><use href="#u-type"/></svg>Tekst</button>
     <button data-add="ul"><svg class="ic"><use href="#u-list"/></svg>Opsomming</button>
     <button data-add="quote"><svg class="ic"><use href="#u-quote"/></svg>Citaat</button>
@@ -262,10 +282,13 @@
     <button data-add="todo"><svg class="ic"><use href="#i-pen"/></svg>Invulvak</button>
     <button data-add="page"><svg class="ic"><use href="#u-filep"/></svg>Nieuwe pagina</button>
   </div>
-  <p class="hint">Klik op een halte om die te selecteren; nieuwe onderdelen komen daar. Pagina's vullen zich vanzelf: wat niet past, schuift naar de volgende pagina. <b>Nieuwe pagina</b> begint een halte bewust op een nieuw vel.</p>
+  <p class="hint">Klik op een sectie om die te selecteren; nieuwe onderdelen komen daar. Pagina's vullen zich vanzelf: wat niet past, schuift naar de volgende pagina. <b>Nieuwe pagina</b> begint een sectie bewust op een nieuw vel.</p>
+
+  <h3>Geselecteerd</h3>
+  <div class="selpanel" id="selPanel"></div>
 
   <h3>Opmaak</h3>
-  <p class="hint">Klik op een rond icoon om een ander te kiezen. Met het doelwit-knopje naast een halte wordt die "huidig" (gevuld icoon). Enter maakt een nieuwe regel, Cmd/Ctrl+Z maakt ongedaan.</p>
+  <p class="hint">Klik op een rond icoon om een ander te kiezen. Met het doelwit-knopje in de balk boven een sectie wordt die "huidig" (gevuld icoon). Backspace in een leeg tekstblok haalt het blok weg. Enter maakt een nieuwe regel, Cmd/Ctrl+Z maakt ongedaan.</p>
 
   <h3>Bestand</h3>
   <div class="files">
@@ -325,7 +348,8 @@
 
   /* ---------- state ---------- */
   let doc = load() || template();
-  let selected = null;           // id van geselecteerde halte
+  let selected = null;           // id van geselecteerde sectie
+  let activeBlock = null;        // id van het actieve blok
   let pages = [];                // [[stopIds]] huidige indeling
   let undoStack = [], redoStack = [], lastSnap = JSON.stringify(doc), typing = false;
   const canvas = $('#canvas'), measure = $('#measure');
@@ -333,7 +357,11 @@
   function load(){ try { const s = localStorage.getItem(KEY); return s ? JSON.parse(s) : null; } catch(e){ return null; } }
   function persist(){ try { localStorage.setItem(KEY, JSON.stringify(doc)); setStatus('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})); } catch(e){ setStatus('Niet opgeslagen: browseropslag vol'); } lastSnap = JSON.stringify(doc); updateUndoButtons(); }
   function setStatus(t){ $('#status').textContent = t; }
-  function toast(t){ const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(()=>el.classList.remove('show'), 2200); }
+  function toast(t, withUndo){
+    const el = $('#toast'); el.textContent = t; el.classList.toggle('has-btn', !!withUndo);
+    if (withUndo) { const b = document.createElement('button'); b.textContent = 'Ongedaan maken'; b.onclick = () => { undo(); el.classList.remove('show','has-btn'); }; el.appendChild(b); }
+    el.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(()=>el.classList.remove('show','has-btn'), withUndo ? 10000 : 2200);
+  }
   function pushUndo(){ undoStack.push(lastSnap); if (undoStack.length > 100) undoStack.shift(); redoStack = []; updateUndoButtons(); }
   function updateUndoButtons(){ $('#bUndo').disabled = !undoStack.length; $('#bRedo').disabled = !redoStack.length; }
   function commit(){ // na een structurele wijziging
@@ -363,25 +391,27 @@
   }
   function blockCtl(b){
     const extra = (b.type === 'cards' || b.type === 'facts') ? `<button data-act="blk-item-add" title="Item toevoegen">${uicon('plus')}</button><button data-act="blk-item-rem" title="Laatste item weghalen">${uicon('minus')}</button>` : '';
-    return `<div class="bctl"><button data-act="blk-up" title="Omhoog">${uicon('up')}</button><button data-act="blk-down" title="Omlaag">${uicon('down')}</button>${extra}<button class="del" data-act="blk-del" title="Verwijderen">${uicon('trash')}</button></div>`;
+    return `<div class="bctl" contenteditable="false"><span class="lab">Blok</span><button data-act="blk-up" title="Blok omhoog">${uicon('up')}</button><button data-act="blk-down" title="Blok omlaag">${uicon('down')}</button>${extra}<span class="sep"></span><button class="del" data-act="blk-del" title="Blok verwijderen">${uicon('trash')}<span>Verwijderen</span></button></div>`;
   }
   function stopHtml(s, edit, hideBreak){
     const c = edit ? ' contenteditable="true"' : '';
     const brk = (edit && s.br && !hideBreak) ? `<div class="breakline">nieuwe pagina</div>` : '';
-    const ctl = edit ? `<div class="ctl">
-        <button data-act="stop-up" title="Halte omhoog">${uicon('up')}</button>
-        <button data-act="stop-down" title="Halte omlaag">${uicon('down')}</button>
-        <button data-act="stop-now" class="${s.now?'on':''}" title="Markeer als huidige halte (gevuld icoon)">${icon('target')}</button>
-        <button data-act="stop-br" class="${s.br?'on':''}" title="Begin deze halte op een nieuwe pagina">${uicon('break')}</button>
-        <button data-act="stop-dup" title="Dupliceren">${uicon('copy')}</button>
-        <button class="del" data-act="stop-del" title="Halte verwijderen">${uicon('trash')}</button>
+    const ctl = edit ? `<div class="ctl" contenteditable="false">
+        <span class="lab">Sectie</span>
+        <button data-act="stop-up" title="Sectie omhoog">${uicon('up')}</button>
+        <button data-act="stop-down" title="Sectie omlaag">${uicon('down')}</button>
+        <button data-act="stop-now" class="${s.now?'on':''}" title="Markeer als huidige sectie (gevuld icoon)">${icon('target')}</button>
+        <button data-act="stop-br" class="${s.br?'on':''}" title="Begin deze sectie op een nieuwe pagina">${uicon('break')}</button>
+        <button data-act="stop-dup" title="Sectie dupliceren">${uicon('copy')}</button>
+        <span class="sep"></span>
+        <button class="del" data-act="stop-del" title="Sectie verwijderen">${uicon('trash')}<span>Verwijderen</span></button>
       </div>` : '';
     return `${brk}<div class="stop${edit && s.id===selected ? ' sel' : ''}" data-sid="${s.id}">
       <div class="node${s.now?' now':''}" data-act="stop-icon" title="Klik om een ander icoon te kiezen">${icon(s.icon)}</div>
       <div class="body">
         <p class="when"${c} data-f="label" data-ph="Korte aanduiding (mag leeg)">${s.label||''}</p>
-        <h2${c} data-f="title" data-ph="Titel van deze halte">${s.title||''}</h2>
-        <div class="blocks">${s.blocks.map(b => edit ? `<div class="bw" data-bid="${b.id}">${blockCtl(b)}${blockHtml(b, true)}</div>` : blockHtml(b, false)).join('')}</div>
+        <h2${c} data-f="title" data-ph="Titel van deze sectie">${s.title||''}</h2>
+        <div class="blocks">${s.blocks.map(b => edit ? `<div class="bw${b.id===activeBlock ? ' act' : ''}" data-bid="${b.id}">${blockCtl(b)}${blockHtml(b, true)}</div>` : blockHtml(b, false)).join('')}</div>
       </div>${ctl}</div>`;
   }
   function pageHtml(stopList, pageIdx, edit){
@@ -392,7 +422,7 @@
         <p class="intro"${c} data-h="intro" data-ph="Korte inleiding">${h.intro}</p>
         <div class="who"><div><b${c} data-h="name" data-ph="Naam">${h.name}</b><span${c} data-h="role" data-ph="Opleiding">${h.role}</span></div><div><b${c} data-h="org" data-ph="Instelling">${h.org}</b><span${c} data-h="meta" data-ph="Onderdeel, studiejaar">${h.meta}</span></div></div>
       </div>` : `<div class="runhead"><b>${h.name}</b><span>${h.org} · ${h.meta}</span></div>`;
-    const tag = edit ? `<div class="pagetag">Pagina ${pageIdx+1}</div><div class="warn">Deze halte is te lang voor één pagina. Kort de tekst in of splits de halte.</div>` : '';
+    const tag = edit ? `<div class="pagetag">Pagina ${pageIdx+1}</div><div class="warn">Deze sectie is te lang voor één pagina. Kort de tekst in of splits de sectie.</div>` : '';
     return `<section class="page${first?'':' cont'}" data-page="${pageIdx}">${tag}${head}
       <div class="road">${stopList.map((s,i) => stopHtml(s, edit, first && i===0)).join('')}</div>
       <footer><span${c} data-ft="left">${doc.footer.left}</span><span${c} data-ft="right">${doc.footer.right}</span></footer>
@@ -421,7 +451,7 @@
     pages = paginate();
     canvas.innerHTML = pages.map((list, i) => pageHtml(list, i, true)).join('');
     $$('.page', canvas).forEach(p => p.classList.toggle('over', overflows(p)));
-    $('#target').innerHTML = 'Komt in: <span>' + (stopById(selected) ? (strip(stopById(selected).title) || 'geselecteerde halte') : 'laatste halte') + '</span>';
+    updateSel();
     restoreFocus(focus);
   }
   function strip(html){ const d = document.createElement('div'); d.innerHTML = html||''; return d.textContent.trim(); }
@@ -484,44 +514,84 @@
       if (el.matches('p, small, span, figcaption')) document.execCommand('insertLineBreak');
       else el.blur();                                                    // titels: één regel
     }
+    if (ev.key === 'Backspace' && el.matches('p.blk') && !el.textContent.trim()) {
+      const bw = el.closest('.bw'), stopEl = el.closest('.stop');
+      if (bw && stopEl) { ev.preventDefault(); runAct('blk-del', stopEl.dataset.sid, bw.dataset.bid); }
+    }
   });
   canvas.addEventListener('focusin', ev => {
     const stop = ev.target.closest('.stop');
-    if (stop && stop.dataset.sid !== selected) select(stop.dataset.sid);
+    const bw = ev.target.closest('.bw');
+    if (stop) select(stop.dataset.sid, bw ? bw.dataset.bid : null);
   });
-  function select(id){
-    selected = id;
-    $$('.stop', canvas).forEach(s => s.classList.toggle('sel', s.dataset.sid === id));
-    $('#target').innerHTML = 'Komt in: <span>' + (strip((stopById(id)||{}).title) || 'geselecteerde halte') + '</span>';
+  const TYPE_NAME = {p:'Tekst', todo:'Invulvak', ul:'Opsomming', quote:'Citaat', cards:'Kaarten', facts:'Cijfers', img:'Afbeelding'};
+  function select(id, bid){
+    selected = id || null;
+    activeBlock = bid || null;
+    $$('.stop', canvas).forEach(s => s.classList.toggle('sel', s.dataset.sid === selected));
+    $$('.bw', canvas).forEach(b => b.classList.toggle('act', b.dataset.bid === activeBlock));
+    updateSel();
   }
+  function updateSel(){
+    const st = stopById(selected);
+    $('#target').innerHTML = 'Komt in: <span>' + (st ? (strip(st.title) || 'geselecteerde sectie') : 'laatste sectie') + '</span>';
+    const panel = $('#selPanel'); if (!panel) return;
+    if (!st) { panel.innerHTML = '<div class="none">Klik op een sectie in de brief om die te selecteren. Dan verschijnen hier de knoppen om te verplaatsen of te verwijderen.</div>'; return; }
+    const blk = activeBlock ? st.blocks.find(b => b.id === activeBlock) : null;
+    panel.innerHTML = `<div class="nm"><small>Sectie</small>${esc(strip(st.title) || 'Naamloze sectie')}</div>
+      <div class="row"><button data-sact="stop-up" title="Sectie omhoog">${uicon('up')}Omhoog</button><button data-sact="stop-down" title="Sectie omlaag">${uicon('down')}Omlaag</button></div>
+      <div class="row"><button data-sact="stop-dup">${uicon('copy')}Dupliceren</button><button data-sact="stop-br" class="${st.br?'on':''}">${uicon('break')}Nieuwe pagina</button></div>
+      <button class="delbtn" data-sact="stop-del">${uicon('trash')}Sectie verwijderen</button>
+      ${blk ? `<div class="blk"><div class="nm"><small>Blok</small>${TYPE_NAME[blk.type] || 'Blok'}</div>
+        <div class="row"><button data-sact="blk-up">${uicon('up')}Omhoog</button><button data-sact="blk-down">${uicon('down')}Omlaag</button></div>
+        <button class="delbtn" data-sact="blk-del">${uicon('trash')}Blok verwijderen</button></div>` : ''}`;
+  }
+  function esc(t){ return String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  $('#selPanel').addEventListener('click', ev => {
+    const b = ev.target.closest('[data-sact]'); if (!b) return;
+    runAct(b.dataset.sact, selected, activeBlock, b);
+  });
 
   /* ---------- klikacties ---------- */
   canvas.addEventListener('click', ev => {
     const actEl = ev.target.closest('[data-act]');
     const stopEl = ev.target.closest('.stop');
-    if (stopEl && !actEl) { select(stopEl.dataset.sid); }
-    if (!actEl) { closePop(); return; }
-    const act = actEl.dataset.act;
-    const sid = stopEl && stopEl.dataset.sid, stop = sid && stopById(sid), si = sid && stopIndex(sid);
-    const bw = actEl.closest('.bw'), bid = bw && bw.dataset.bid, bi = stop && bid ? stop.blocks.findIndex(b => b.id === bid) : -1, blk = bi >= 0 ? stop.blocks[bi] : null;
+    const bw = ev.target.closest('.bw');
+    if (!actEl) {
+      closePop();
+      if (stopEl) select(stopEl.dataset.sid, bw ? bw.dataset.bid : null);
+      else if (!ev.target.closest('.page [contenteditable]')) select(null, null);
+      return;
+    }
+    runAct(actEl.dataset.act, stopEl && stopEl.dataset.sid, bw && bw.dataset.bid, actEl);
+  });
+  function runAct(act, sid, bid, actEl){
+    const stop = sid && stopById(sid); if (!stop) return;
+    const si = stopIndex(sid);
+    const bi = bid ? stop.blocks.findIndex(b => b.id === bid) : -1, blk = bi >= 0 ? stop.blocks[bi] : null;
     const move = (arr, i, d) => { const j = i + d; if (j < 0 || j >= arr.length) return false; [arr[i], arr[j]] = [arr[j], arr[i]]; return true; };
+    selected = sid; activeBlock = blk ? bid : null;
     switch (act) {
-      case 'stop-up':   if (move(doc.stops, si, -1)) { pushUndo(); commit(); } break;
-      case 'stop-down': if (move(doc.stops, si, 1)) { pushUndo(); commit(); } break;
+      case 'stop-up':   { const snap = JSON.stringify(doc); if (move(doc.stops, si, -1)) { undoStack.push(snap); redoStack = []; commit(); scrollTo(sid); } break; }
+      case 'stop-down': { const snap = JSON.stringify(doc); if (move(doc.stops, si, 1)) { undoStack.push(snap); redoStack = []; commit(); scrollTo(sid); } break; }
       case 'stop-now':  pushUndo(); stop.now = !stop.now; commit(); break;
       case 'stop-br':   pushUndo(); stop.br = !stop.br; commit(); break;
-      case 'stop-dup':  { pushUndo(); const copy = JSON.parse(JSON.stringify(stop)); copy.id = uid(); copy.blocks.forEach(b => b.id = uid()); doc.stops.splice(si+1, 0, copy); selected = copy.id; commit(); break; }
-      case 'stop-del':  if (doc.stops.length > 1 && confirm('Deze halte en alles erin verwijderen?')) { pushUndo(); doc.stops.splice(si, 1); selected = null; commit(); } break;
+      case 'stop-dup':  { pushUndo(); const copy = JSON.parse(JSON.stringify(stop)); copy.id = uid(); copy.blocks.forEach(b => b.id = uid()); doc.stops.splice(si+1, 0, copy); selected = copy.id; activeBlock = null; commit(); scrollTo(copy.id); break; }
+      case 'stop-del':
+        if (doc.stops.length < 2) { toast('De laatste sectie kan niet weg'); break; }
+        pushUndo(); doc.stops.splice(si, 1); selected = null; activeBlock = null; commit();
+        toast('Sectie verwijderd', true); break;
       case 'stop-icon': openPop(actEl, stop.icon, n => { pushUndo(); stop.icon = n; commit(); }); break;
       case 'card-icon': openPop(actEl, blk.items[+actEl.dataset.i].icon, n => { pushUndo(); blk.items[+actEl.dataset.i].icon = n; commit(); }); break;
-      case 'blk-up':    if (move(stop.blocks, bi, -1)) { pushUndo(); commit(); } break;
-      case 'blk-down':  if (move(stop.blocks, bi, 1)) { pushUndo(); commit(); } break;
-      case 'blk-del':   pushUndo(); stop.blocks.splice(bi, 1); commit(); break;
+      case 'blk-up':    { const snap = JSON.stringify(doc); if (blk && move(stop.blocks, bi, -1)) { undoStack.push(snap); redoStack = []; commit(); } break; }
+      case 'blk-down':  { const snap = JSON.stringify(doc); if (blk && move(stop.blocks, bi, 1)) { undoStack.push(snap); redoStack = []; commit(); } break; }
+      case 'blk-del':   if (!blk) break; pushUndo(); stop.blocks.splice(bi, 1); activeBlock = null; commit(); toast('Blok verwijderd', true); break;
       case 'blk-item-add': if (blk.items.length < 4) { pushUndo(); blk.items.push(blk.type === 'cards' ? {icon:'star', title:'', text:''} : {num:'', text:''}); commit(); } else toast('Maximaal vier naast elkaar'); break;
       case 'blk-item-rem': if (blk.items.length > 2) { pushUndo(); blk.items.pop(); commit(); } else toast('Minimaal twee naast elkaar'); break;
       case 'img-pick':  pickImage(blk); break;
     }
-  });
+    updateUndoButtons();
+  }
 
   /* ---------- toevoegen ---------- */
   $$('.pal [data-add]').forEach(btn => btn.addEventListener('click', () => addThing(btn.dataset.add)));
@@ -543,11 +613,11 @@
       const s = {id:uid(), icon:'star', label:'', title:'', now:false, br: type === 'page', blocks:[newBlock('p')]};
       doc.stops.splice(i+1, 0, s); selected = s.id; commit();
       focusField(s.id, 'title');
-      if (type === 'page') toast('Nieuwe pagina: deze halte begint op een nieuw vel');
+      if (type === 'page') toast('Nieuwe pagina: deze sectie begint op een nieuw vel');
       return;
     }
     const t = targetStop(); const b = newBlock(type); t.blocks.push(b); selected = t.id; commit();
-    const bw = $(`.bw[data-bid="${b.id}"]`, canvas); if (bw) { const f = $('[contenteditable]', bw); if (f) { f.focus(); } if (type === 'img') pickImage(b); }
+    const bw = $(`.bw[data-bid="${b.id}"]`, canvas); if (bw) { const f = $('[contenteditable="true"]', bw); if (f) { f.focus(); } if (type === 'img') pickImage(b); }
     scrollTo(t.id);
   }
   function focusField(sid, f){ const el = $(`.stop[data-sid="${sid}"] [data-f="${f}"]`, canvas); if (el) el.focus(); scrollTo(sid); }
