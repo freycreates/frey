@@ -278,9 +278,8 @@
     <button data-add="quote"><svg class="ic"><use href="#u-quote"/></svg>Citaat</button>
     <button data-add="cards"><svg class="ic"><use href="#u-grid"/></svg>Kaarten</button>
     <button data-add="facts"><svg class="ic"><use href="#u-hash"/></svg>Cijfers</button>
-    <button data-add="img"><svg class="ic"><use href="#u-image"/></svg>Afbeelding</button>
     <button data-add="todo"><svg class="ic"><use href="#i-pen"/></svg>Invulvak</button>
-    <button data-add="page"><svg class="ic"><use href="#u-filep"/></svg>Nieuwe pagina</button>
+    <button class="wide" data-add="page"><svg class="ic"><use href="#u-filep"/></svg>Nieuwe pagina</button>
   </div>
   <p class="hint">Klik op een sectie om die te selecteren; nieuwe onderdelen komen daar. Pagina's vullen zich vanzelf: wat niet past, schuift naar de volgende pagina. <b>Nieuwe pagina</b> begint een sectie bewust op een nieuw vel.</p>
 
@@ -296,7 +295,6 @@
     <button class="tb" id="bOpen"><svg class="ic"><use href="#u-up-tray"/></svg>Bestand openen (.json of .html)</button>
     <button class="tb" id="bNew"><svg class="ic"><use href="#u-new"/></svg>Terug naar het sjabloon</button>
     <input type="file" id="fileIn" accept=".json,.html,application/json,text/html" hidden>
-    <input type="file" id="imgIn" accept="image/*" hidden>
   </div>
   <p class="hint">Je werk wordt automatisch in deze browser bewaard. Sla ook een .json op als back-up, of exporteer de HTML om de brief te delen.</p>
 </aside>
@@ -429,7 +427,7 @@
       case 'quote': return `<blockquote class="blk q"><p${c} data-f="text" data-ph="Citaat of kernzin">${b.text||''}</p><small${c} data-f="by" data-ph="Bron of toelichting (mag leeg)">${b.by||''}</small></blockquote>`;
       case 'cards': return `<ul class="blk learned" style="--n:${b.items.length}">` + b.items.map((it,i) => `<li><svg class="ic cicon" data-act="card-icon" data-i="${i}" title="Klik om een ander icoon te kiezen"><use href="#i-${it.icon}"/></svg><b${c} data-f="title" data-i="${i}" data-ph="Titel">${it.title||''}</b><span${c} data-f="text" data-i="${i}" data-ph="Korte tekst">${it.text||''}</span></li>`).join('') + `</ul>`;
       case 'facts': return `<div class="blk facts" style="--n:${b.items.length}">` + b.items.map((it,i) => `<div><b${c} data-f="num" data-i="${i}" data-ph="20+">${it.num||''}</b><span${c} data-f="text" data-i="${i}" data-ph="waar dit cijfer voor staat">${it.text||''}</span></div>`).join('') + `</div>`;
-      case 'img': return `<figure class="blk img">${b.src ? `<img src="${b.src}" alt="" data-act="img-pick" title="Klik om een andere afbeelding te kiezen">` : (edit ? `<div class="ph" data-act="img-pick">Klik om een afbeelding te kiezen</div>` : '')}<figcaption${c} data-f="caption" data-ph="Bijschrift (mag leeg)">${b.caption||''}</figcaption></figure>`;
+      case 'img': return b.src ? `<figure class="blk img"><img src="${b.src}" alt=""><figcaption${c} data-f="caption" data-ph="Bijschrift (mag leeg)">${b.caption||''}</figcaption></figure>` : '';
     }
     return '';
   }
@@ -632,7 +630,6 @@
       case 'blk-del':   if (!blk) break; pushUndo(); stop.blocks.splice(bi, 1); activeBlock = null; commit(); toast('Blok verwijderd', true); break;
       case 'blk-item-add': if (blk.items.length < 4) { pushUndo(); blk.items.push(blk.type === 'cards' ? {icon:'star', title:'', text:''} : {num:'', text:''}); commit(); } else toast('Maximaal vier naast elkaar'); break;
       case 'blk-item-rem': if (blk.items.length > 2) { pushUndo(); blk.items.pop(); commit(); } else toast('Minimaal twee naast elkaar'); break;
-      case 'img-pick':  pickImage(blk); break;
     }
     updateUndoButtons();
   }
@@ -647,7 +644,6 @@
       case 'quote': return {id:uid(), type:'quote', text:'', by:''};
       case 'cards': return {id:uid(), type:'cards', items:[{icon:'lang',title:'',text:''},{icon:'eye',title:'',text:''},{icon:'spark',title:'',text:''}]};
       case 'facts': return {id:uid(), type:'facts', items:[{num:'',text:''},{num:'',text:''},{num:'',text:''}]};
-      case 'img': return {id:uid(), type:'img', src:'', caption:''};
     }
   }
   function addThing(type){
@@ -661,26 +657,11 @@
       return;
     }
     const t = targetStop(); const b = newBlock(type); t.blocks.push(b); selected = t.id; commit();
-    const bw = $(`.bw[data-bid="${b.id}"]`, canvas); if (bw) { const f = $('[contenteditable="true"]', bw); if (f) { f.focus(); } if (type === 'img') pickImage(b); }
+    const bw = $(`.bw[data-bid="${b.id}"]`, canvas); if (bw) { const f = $('[contenteditable="true"]', bw); if (f) { f.focus(); } }
     scrollTo(t.id);
   }
   function focusField(sid, f){ const el = $(`.stop[data-sid="${sid}"] [data-f="${f}"]`, canvas); if (el) el.focus(); scrollTo(sid); }
   function scrollTo(sid){ const el = $(`.stop[data-sid="${sid}"]`, canvas); if (el) el.scrollIntoView({block:'center', behavior:'smooth'}); }
-
-  /* ---------- afbeelding ---------- */
-  let imgTarget = null;
-  function pickImage(blk){ imgTarget = blk; $('#imgIn').value = ''; $('#imgIn').click(); }
-  $('#imgIn').addEventListener('change', ev => {
-    const file = ev.target.files[0]; if (!file || !imgTarget) return;
-    const img = new Image(), url = URL.createObjectURL(file);
-    img.onload = () => {
-      const max = 1400, k = Math.min(1, max / Math.max(img.width, img.height));
-      const cv = document.createElement('canvas'); cv.width = Math.round(img.width*k); cv.height = Math.round(img.height*k);
-      cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
-      pushUndo(); imgTarget.src = cv.toDataURL('image/jpeg', .85); URL.revokeObjectURL(url); commit();
-    };
-    img.src = url;
-  });
 
   /* ---------- icoonkiezer ---------- */
   let pop = null;
