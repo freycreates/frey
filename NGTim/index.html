@@ -25,8 +25,15 @@
   /* ===== documentstijl ===== */
   :root{
     --ink:#1C2422; --paper:#FBFBF8; --green:#1F4D3A; --mint:#DCEFE4; --leaf:#5FA380; --mute:#5F6B66;
+    --head:var(--ink); --quote:var(--green); --rule:#CFD8D3;
+    --todo-line:#9FC8B2; --todo-bg:#EEF7F1; --todo-ink:#2E5A47;
     --sans:"Avenir Next",Avenir,"Helvetica Neue",Helvetica,Arial,sans-serif;
   }
+  /* kleurthema's: --green = kopbalk en gevulde iconen, --leaf = lijn en accenten, --mint = vlakken */
+  .page[data-theme="gebarencentrum"]{--ink:#1E2B3A; --paper:#FFFFFF; --green:#00549A; --mint:#E6EFF8; --leaf:#F6A43E; --mute:#728197; --head:#00549A; --quote:#00549A; --rule:#DCDFE5; --todo-line:#F8C27F; --todo-bg:#FEF6EB; --todo-ink:#7A4A0E}
+  .page[data-theme="paars"]{--ink:#231B2E; --paper:#FFFFFF; --green:#2B1E3D; --mint:#EDE6F5; --leaf:#8C6BB8; --mute:#6A6274; --head:#2B1E3D; --quote:#5B3F86; --rule:#E2DCEA; --todo-line:#C9B8E6; --todo-bg:#F7F3FB; --todo-ink:#4E3C6B}
+  .page[data-theme="oceaan"]{--ink:#14282B; --paper:#FBFDFD; --green:#0E4F57; --mint:#DDEFEF; --leaf:#2A9DA3; --mute:#55696C; --head:#0E4F57; --quote:#0E4F57; --rule:#D3E3E4; --todo-line:#9DD0D2; --todo-bg:#EEF8F8; --todo-ink:#22585C}
+  .page[data-theme="contrast"]{--ink:#111111; --paper:#FFFFFF; --green:#141414; --mint:#FFF1B8; --leaf:#E0A800; --mute:#4D4D4D; --head:#111111; --quote:#111111; --rule:#D9D9D9; --todo-line:#E0C25A; --todo-bg:#FFFBEA; --todo-ink:#5B4A00}
   .page{width:210mm;height:297mm;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:10.8pt;line-height:1.55;position:relative;display:flex;flex-direction:column;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .page *{box-sizing:border-box}
   .ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.15em}
@@ -47,7 +54,7 @@
   .stop{display:grid;grid-template-columns:14mm 1fr;gap:6mm;margin-bottom:7mm;position:relative}
   .node{width:calc(14mm + 5pt);height:calc(14mm + 5pt);margin:-2.5pt;border-radius:50%;border:2.5pt solid var(--leaf);padding:2.5pt;background:linear-gradient(var(--mint),var(--mint)) content-box,var(--paper);color:var(--green);display:grid;place-items:center;font-size:18pt;z-index:1}
   .node.now{background:linear-gradient(var(--green),var(--green)) content-box,var(--paper);color:#fff}
-  .stop h2{font-size:14pt;font-weight:700;margin:2mm 0 1.5mm;letter-spacing:-.01em}
+  .stop h2{font-size:14pt;font-weight:700;margin:2mm 0 1.5mm;letter-spacing:-.01em;color:var(--head)}
   .stop .when{font-size:9pt;color:var(--mute);margin:0 0 1.5mm}
   .stop .when:empty{display:none}
   .page .blocks>*+*{margin-top:3mm}
@@ -55,9 +62,9 @@
   p.blk{max-width:70ch}
   ul.blk{margin:0;padding-left:5mm;max-width:70ch}
   ul.blk li{margin:0 0 .8mm}
-  .todo{border:1.5pt dashed #9FC8B2;background:#EEF7F1;color:#2E5A47;padding:3mm 4mm;border-radius:2mm;font-size:10pt}
+  .todo{border:1.5pt dashed var(--todo-line);background:var(--todo-bg);color:var(--todo-ink);padding:3mm 4mm;border-radius:2mm;font-size:10pt}
   .q{border-left:3pt solid var(--leaf);padding:2mm 0 2mm 5mm;margin:1mm 0}
-  .q p{font-size:12.5pt;line-height:1.35;font-weight:600;color:var(--green);margin:0}
+  .q p{font-size:12.5pt;line-height:1.35;font-weight:600;color:var(--quote);margin:0}
   .q small{display:block;color:var(--mute);font-size:9pt;margin-top:1.5mm}
   .q small:empty{display:none}
   .learned{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:3mm}
@@ -69,11 +76,11 @@
   .facts b{display:block;font-size:18pt;color:var(--ink);line-height:1.1}
   figure.img{margin:0}
   figure.img img{display:block;width:100%;max-height:70mm;object-fit:cover;border-radius:2.5mm}
-  figure.img .ph{height:36mm;border-radius:2.5mm;border:1.5pt dashed #9FC8B2;background:#EEF7F1;color:#2E5A47;display:grid;place-items:center;font-size:10pt;cursor:pointer}
+  figure.img .ph{height:36mm;border-radius:2.5mm;border:1.5pt dashed var(--todo-line);background:var(--todo-bg);color:var(--todo-ink);display:grid;place-items:center;font-size:10pt;cursor:pointer}
   figure.img figcaption{font-size:9pt;color:var(--mute);margin-top:1.5mm}
   figure.img figcaption:empty{display:none}
 
-  footer{margin:0 18mm;padding:3mm 0 8mm;border-top:1pt solid #CFD8D3;font-size:9pt;color:var(--mute);display:flex;justify-content:space-between;flex:none}
+  footer{margin:0 18mm;padding:3mm 0 8mm;border-top:1pt solid var(--rule);font-size:9pt;color:var(--mute);display:flex;justify-content:space-between;flex:none}
 </style>
 <style id="uiCss">
   /* ===== editor ===== */
@@ -103,6 +110,16 @@
   .pal button .ic{width:20px;height:20px;color:#9FD4B8}
   .pal button:hover{border-color:var(--accent);background:#2C3A35}
   .pal button.wide{grid-column:1/3;flex-direction:row;justify-content:center}
+  .themes{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .themes button{display:flex;align-items:center;gap:8px;background:var(--ui3);border:1px solid var(--line);color:var(--uiText);border-radius:9px;padding:7px 8px;cursor:pointer;font-size:12px;text-align:left;min-width:0}
+  .themes button:hover{border-color:#5A6572}
+  .themes button.on{border-color:var(--accent);background:#2C3A35;box-shadow:inset 0 0 0 1px var(--accent)}
+  .themes button span.nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .themes .sw{display:flex;flex:none}
+  .themes .sw i{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ui3);display:block}
+  .themes .sw i+i{margin-left:-5px}
+  .themes button.on .sw i{border-color:#2C3A35}
+  .themes button.wide{grid-column:1/3}
   .hint{font-size:12px;color:var(--uiMute);line-height:1.45;margin:8px 2px 0}
   .hint b{color:var(--uiText);font-weight:600}
   .target{font-size:12px;background:#243029;border:1px solid #35503F;border-radius:8px;padding:8px 10px;color:#C7E6D3;margin-bottom:4px}
@@ -269,6 +286,9 @@
 </div>
 
 <aside class="side">
+  <h3>Kleurthema</h3>
+  <div class="themes" id="themes"></div>
+
   <h3>Toevoegen</h3>
   <div class="target" id="target">Komt in: <span>laatste sectie</span></div>
   <div class="pal">
@@ -388,6 +408,15 @@
     };
   }
 
+  const THEMES = [
+    {id:'gebarencentrum', name:'Gebarencentrum', sw:['#00549A','#F6A43E','#E6EFF8'], wide:true},
+    {id:'groen', name:'Groen', sw:['#1F4D3A','#5FA380','#DCEFE4']},
+    {id:'paars', name:'Paars', sw:['#2B1E3D','#8C6BB8','#EDE6F5']},
+    {id:'oceaan', name:'Oceaan', sw:['#0E4F57','#2A9DA3','#DDEFEF']},
+    {id:'contrast', name:'Contrast', sw:['#141414','#E0A800','#FFF1B8']}
+  ];
+  function themeId(){ return THEMES.some(t => t.id === doc.theme) ? doc.theme : 'groen'; }
+
   /* ---------- state ---------- */
   let doc = load() || template();
   let selected = null;           // id van geselecteerde sectie
@@ -465,7 +494,7 @@
         <div class="who"><div><b${c} data-h="name" data-ph="Naam">${h.name}</b><span${c} data-h="role" data-ph="Opleiding">${h.role}</span></div><div><b${c} data-h="org" data-ph="Instelling">${h.org}</b><span${c} data-h="meta" data-ph="Onderdeel, studiejaar">${h.meta}</span></div></div>
       </div>` : `<div class="runhead"><b>${h.name}</b><span>${h.org} · ${h.meta}</span></div>`;
     const tag = edit ? `<div class="pagetag">Pagina ${pageIdx+1}</div><div class="warn">Deze sectie is te lang voor één pagina. Kort de tekst in of splits de sectie.</div>` : '';
-    return `<section class="page${first?'':' cont'}" data-page="${pageIdx}">${tag}${head}
+    return `<section class="page${first?'':' cont'}" data-page="${pageIdx}" data-theme="${themeId()}">${tag}${head}
       <div class="road">${stopList.map((s,i) => stopHtml(s, edit, first && i===0)).join('')}</div>
       <footer><span${c} data-ft="left">${doc.footer.left}</span><span${c} data-ft="right">${doc.footer.right}</span></footer>
     </section>`;
@@ -494,6 +523,7 @@
     canvas.innerHTML = pages.map((list, i) => pageHtml(list, i, true)).join('');
     $$('.page', canvas).forEach(p => p.classList.toggle('over', overflows(p)));
     updateSel();
+    renderThemes();
     restoreFocus(focus);
   }
   function strip(html){ const d = document.createElement('div'); d.innerHTML = html||''; return d.textContent.trim(); }
@@ -850,6 +880,17 @@
   $('#bPdf').addEventListener('click', () => makePdf());
   window.addEventListener('beforeprint', () => { $$('.page', canvas).forEach(p => p.classList.remove('over')); $$('.stop.sel', canvas).forEach(s => s.classList.remove('sel')); });
   window.addEventListener('afterprint', () => render());
+
+  /* ---------- kleurthema ---------- */
+  function renderThemes(){
+    const box = $('#themes'); if (!box) return;
+    box.innerHTML = THEMES.map((t, i) => `<button data-theme="${t.id}" class="${t.id === themeId() ? 'on' : ''}${t.wide ? ' wide' : ''}" title="Kleurthema ${t.name}"><span class="sw">${t.sw.map(c => `<i style="background:${c}"></i>`).join('')}</span><span class="nm">${t.name}</span></button>`).join('');
+  }
+  $('#themes').addEventListener('click', ev => {
+    const b = ev.target.closest('[data-theme]'); if (!b || b.dataset.theme === themeId()) return;
+    pushUndo(); doc.theme = b.dataset.theme; commit();
+    toast('Kleurthema: ' + THEMES.find(t => t.id === doc.theme).name);
+  });
 
   /* ---------- zoom om de pagina passend te maken ---------- */
   function fit(){ const w = canvas.clientWidth - 80 - 90; const z = Math.max(.35, Math.min(1, w / 794)); canvas.style.setProperty('--z', z.toFixed(3)); }
