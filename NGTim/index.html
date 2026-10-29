@@ -45,8 +45,8 @@
   .page.cont .road{padding-top:10mm}
   .page.cont .road::before{top:0}
   .stop{display:grid;grid-template-columns:14mm 1fr;gap:6mm;margin-bottom:7mm;position:relative}
-  .node{width:14mm;height:14mm;border-radius:50%;background:var(--mint);color:var(--green);display:grid;place-items:center;font-size:18pt;border:2.5pt solid var(--paper);box-shadow:0 0 0 2.5pt var(--leaf);z-index:1}
-  .node.now{background:var(--green);color:#fff}
+  .node{width:calc(14mm + 5pt);height:calc(14mm + 5pt);margin:-2.5pt;border-radius:50%;border:2.5pt solid var(--leaf);padding:2.5pt;background:linear-gradient(var(--mint),var(--mint)) content-box,var(--paper);color:var(--green);display:grid;place-items:center;font-size:18pt;z-index:1}
+  .node.now{background:linear-gradient(var(--green),var(--green)) content-box,var(--paper);color:#fff}
   .stop h2{font-size:14pt;font-weight:700;margin:2mm 0 1.5mm;letter-spacing:-.01em}
   .stop .when{font-size:9pt;color:var(--mute);margin:0 0 1.5mm}
   .stop .when:empty{display:none}
@@ -712,7 +712,6 @@
   /* ---------- PDF maken in de pagina zelf ---------- */
   function loadScript(src){ return new Promise((ok, err) => { const sc = document.createElement('script'); sc.src = src; sc.onload = ok; sc.onerror = () => err(new Error('kan ' + src + ' niet laden')); document.head.appendChild(sc); }); }
   async function ensurePdfLibs(){
-    if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
     if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
   }
   // <use href="#..."> vervangen door de echte symboolinhoud, zodat de iconen in de PDF komen
@@ -762,6 +761,30 @@
     if (!b) { b = document.createElement('div'); b.className = 'busy'; b.innerHTML = '<div><span></span><div class="bar"><i></i></div></div>'; document.body.appendChild(b); }
     $('span', b).textContent = text; $('.bar i', b).style.width = Math.round((frac || 0) * 100) + '%';
   }
+  async function renderPageNative(el, scale){
+    const w = el.offsetWidth, h = el.offsetHeight;
+    const css = $('#docCss').textContent.replace(/:root\s*\{/g, '.pdfroot{');
+    const page = new XMLSerializer().serializeToString(el);
+    const W = Math.round(w * scale), H = Math.round(h * scale);
+    // geen viewBox: Safari schaalt foreignObject daarmee niet mee, een CSS-transform werkt overal
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + H + '">'
+      + '<foreignObject x="0" y="0" width="' + W + '" height="' + H + '">'
+      + '<div xmlns="http://www.w3.org/1999/xhtml" class="pdfroot" style="width:' + w + 'px;height:' + h + 'px;margin:0;padding:0;transform:scale(' + scale + ');transform-origin:0 0">'
+      + '<style><![CDATA[' + css + ' .pdfroot .page{margin:0!important;box-shadow:none!important;overflow:hidden}]]></style>'
+      + page + '</div></foreignObject></svg>';
+    const img = new Image();
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    await new Promise((ok, err) => { img.onload = ok; img.onerror = () => err(new Error('pagina kon niet worden getekend')); });
+    if (img.decode) await img.decode().catch(() => {});
+    const cv = document.createElement('canvas');
+    cv.width = Math.round(w * scale); cv.height = Math.round(h * scale);
+    const ctx = cv.getContext('2d');
+    const draw = () => { ctx.fillStyle = '#FBFBF8'; ctx.fillRect(0, 0, cv.width, cv.height); ctx.drawImage(img, 0, 0, cv.width, cv.height); };
+    draw();
+    // Safari laadt afbeeldingen binnen een SVG soms pas bij de tweede keer tekenen
+    if (el.querySelector('img')) { await new Promise(r => setTimeout(r, 250)); draw(); }
+    return cv;
+  }
   async function makePdf(opts){
     opts = opts || {};
     if (document.activeElement) document.activeElement.blur();
@@ -775,8 +798,7 @@
       host.innerHTML = pg.map((l, i) => pageHtml(l, i, false)).join('');
       document.body.appendChild(host);
       inlineUses(host);
-      svgsToImages(host);
-      await Promise.all(Array.from(host.querySelectorAll('img')).map(im => im.decode().catch(() => {})));
+      await Promise.all(Array.from(host.querySelectorAll('img')).map(im => im.decode ? im.decode().catch(() => {}) : null));
       const pagesEl = Array.from(host.querySelectorAll('.page'));
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
@@ -784,9 +806,9 @@
       for (let i = 0; i < pagesEl.length; i++) {
         busy('Pagina ' + (i + 1) + ' van ' + pagesEl.length + ' renderen…', i / pagesEl.length);
         const el = pagesEl[i];
-        const cv = await window.html2canvas(el, { scale: opts.scale || 2.5, useCORS: true, backgroundColor: '#FBFBF8', logging: false, width: el.offsetWidth, height: el.offsetHeight, windowWidth: el.offsetWidth, windowHeight: el.offsetHeight, scrollX: 0, scrollY: 0 });
+        const cv = await renderPageNative(el, opts.scale || 3);
         if (i) pdf.addPage();
-        pdf.addImage(cv.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+        pdf.addImage(cv.toDataURL('image/jpeg', 0.93), 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
       }
       host.remove();
       busy('Klaar', 1);
