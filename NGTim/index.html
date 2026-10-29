@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NGTim · De Reis</title>
+<title>NGTim Editor</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://freycreates.nl/NGTim">
 <meta property="og:type" content="website">
@@ -22,7 +22,7 @@
 <link rel="icon" type="image/png" sizes="48x48" href="/assets/frey-icon-48.png">
 <link rel="apple-touch-icon" href="/assets/frey-icon-180.png">
 <style id="docCss">
-  /* ===== documentstijl (De Reis) ===== */
+  /* ===== documentstijl ===== */
   :root{
     --ink:#1C2422; --paper:#FBFBF8; --green:#1F4D3A; --mint:#DCEFE4; --leaf:#5FA380; --mute:#5F6B66;
     --sans:"Avenir Next",Avenir,"Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -110,7 +110,7 @@
   .files{display:grid;gap:8px}
   .files .tb{justify-content:flex-start}
 
-  .canvas{overflow:auto;padding:30px 40px 120px;position:relative;--z:1}
+  .canvas{overflow:auto;padding:30px 40px 120px;position:relative;--z:1;background:#30363E}
   .canvas .page{zoom:var(--z)}
   .page{margin:0 auto 46px;box-shadow:0 10px 34px rgba(0,0,0,.4);transition:box-shadow .15s}
   .page.over{box-shadow:0 0 0 3px var(--danger),0 10px 34px rgba(0,0,0,.4)}
@@ -157,13 +157,19 @@
   .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ui);border:1px solid var(--line);color:var(--uiText);padding:10px 16px;border-radius:10px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:0;transition:opacity .2s;pointer-events:none}
   .toast.show{opacity:1}
   #measure{position:absolute;left:-10000px;top:0;visibility:hidden;pointer-events:none}
+  #pdfhost{position:absolute;left:0;top:0;z-index:-1;pointer-events:none}
+  .busy{position:fixed;inset:0;background:rgba(21,24,28,.72);display:grid;place-items:center;z-index:200;color:#fff;font-size:15px}
+  .busy div{background:var(--ui);border:1px solid var(--line);border-radius:12px;padding:18px 24px;min-width:260px;text-align:center}
+  .busy .bar{height:6px;border-radius:3px;background:#2A3139;margin-top:12px;overflow:hidden}
+  .busy .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
 
   @page{size:A4;margin:0}
   @media print{
     html,body{height:auto;display:block;overflow:visible;background:none}
-    .topbar,.side,.pagetag,.warn,.ctl,.bctl,.pop,.toast,#measure,.breakline{display:none!important}
-    .canvas{overflow:visible;padding:0}
-    .page{margin:0;box-shadow:none!important;break-after:page;overflow:hidden}
+    .topbar,.side,.pagetag,.warn,.ctl,.bctl,.pop,.toast,#measure,#pdfhost,.busy,.breakline{display:none!important}
+    .canvas{overflow:visible;padding:0;background:none}
+    .canvas .page{zoom:1}
+    .page{margin:0;box-shadow:none!important;break-after:page;overflow:hidden;height:296.5mm}
     .page:last-child{break-after:auto}
     .page.sel,.stop.sel{background:none}
     .stop.sel::after{display:none}
@@ -225,20 +231,21 @@
   <symbol id="u-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
   <symbol id="u-new" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
   <symbol id="g-hands" viewBox="0 0 120 80">
-    <g transform="translate(8 8) rotate(-14 24 24) scale(2)"><use href="#i-hand" width="24" height="24"/></g>
-    <g transform="translate(112 8) scale(-2 2) rotate(-14 24 24)"><use href="#i-hand" width="24" height="24"/></g>
+    <g transform="translate(8 8) rotate(-14 24 24) scale(2)"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></g>
+    <g transform="translate(112 8) scale(-2 2) rotate(-14 24 24)"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></g>
     <path d="M42 66c6 7 30 7 36 0" stroke-dasharray="2 3"/>
     <path d="M36 58c10 12 38 12 48 0" stroke-dasharray="2 3" opacity=".5"/>
   </symbol>
 </svg>
 
 <div class="topbar">
-  <div class="brand"><span class="dot"><svg class="ic"><use href="#i-hand"/></svg></span><span>De Reis<small>Motivatiebrief tolk NGT, ORILT · Hogeschool Utrecht</small></span></div>
+  <div class="brand"><span class="dot"><svg class="ic"><use href="#i-hand"/></svg></span><span>NGTim Editor<small>Motivatiebrief tolk NGT, ORILT · Hogeschool Utrecht</small></span></div>
   <span class="status" id="status"></span>
   <button class="tb" id="bUndo" title="Ongedaan maken (Cmd/Ctrl+Z)"><svg class="ic"><use href="#u-undo"/></svg></button>
   <button class="tb" id="bRedo" title="Opnieuw (Cmd/Ctrl+Shift+Z)"><svg class="ic"><use href="#u-redo"/></svg></button>
   <button class="tb" id="bHtml" title="Een los HTML-bestand dat je overal kunt openen en later weer in deze editor kunt laden"><svg class="ic"><use href="#u-code"/></svg><span class="lbl">HTML exporteren</span></button>
-  <button class="tb primary" id="bPdf" title="Kies in het printvenster: Bewaar als PDF, marges Geen, achtergronden aan"><svg class="ic"><use href="#u-print"/></svg><span class="lbl">Opslaan als PDF</span></button>
+  <button class="tb" id="bPrint" title="Afdrukken via de browser (reserve-optie)"><svg class="ic"><use href="#u-print"/></svg><span class="lbl">Afdrukken</span></button>
+  <button class="tb primary" id="bPdf" title="Maakt een echt PDF-bestand van alle pagina's en downloadt het"><svg class="ic"><use href="#u-down-tray"/></svg><span class="lbl">PDF downloaden</span></button>
 </div>
 
 <aside class="side">
@@ -282,7 +289,7 @@
   const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
   const uid = () => Math.random().toString(36).slice(2, 9);
   const ICONS = ['hand','heart','users','compass','chat','reflect','target','eye','ear','shield','book','lang','cap','spark','star','calendar','pin','briefcase','bulb','check','clock','pen','home','globe','flag','smile','mic-off'];
-  const KEY = 'reis-editor:doc';
+  const KEY = 'ngtim-editor:doc';
 
   /* ---------- sjabloon ---------- */
   function template(){
@@ -585,11 +592,12 @@
     const mod = ev.metaKey || ev.ctrlKey; if (!mod) return;
     if (ev.key.toLowerCase() === 'z') { ev.preventDefault(); ev.shiftKey ? redo() : undo(); }
     if (ev.key.toLowerCase() === 's') { ev.preventDefault(); saveFile(); }
+    if (ev.key.toLowerCase() === 'p') { ev.preventDefault(); makePdf(); }
   });
 
   /* ---------- bestand ---------- */
   function download(name, text, type){ const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], {type})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
-  function fileBase(){ return 'de-reis-' + (strip(doc.hero.name).replace(/[\[\]]/g,'').trim().toLowerCase().replace(/\s+/g,'-') || 'brief'); }
+  function fileBase(){ return 'ngtim-' + (strip(doc.hero.name).replace(/[\[\]]/g,'').trim().toLowerCase().replace(/\s+/g,'-') || 'brief'); }
   function saveFile(){ download(fileBase() + '.json', JSON.stringify(doc, null, 2), 'application/json'); toast('Opgeslagen als .json'); }
   $('#bSave').addEventListener('click', saveFile);
   $('#bOpen').addEventListener('click', () => { $('#fileIn').value = ''; $('#fileIn').click(); });
@@ -629,7 +637,100 @@
   }
   function exportHtml(){ download(fileBase() + '.html', exportString(), 'text/html'); toast('HTML geëxporteerd'); }
   $('#bHtml').addEventListener('click', exportHtml);
-  $('#bPdf').addEventListener('click', () => { if (document.activeElement) document.activeElement.blur(); closePop(); setTimeout(() => window.print(), 50); });
+  $('#bPrint').addEventListener('click', () => { if (document.activeElement) document.activeElement.blur(); closePop(); setTimeout(() => window.print(), 50); });
+
+  /* ---------- PDF maken in de pagina zelf ---------- */
+  function loadScript(src){ return new Promise((ok, err) => { const sc = document.createElement('script'); sc.src = src; sc.onload = ok; sc.onerror = () => err(new Error('kan ' + src + ' niet laden')); document.head.appendChild(sc); }); }
+  async function ensurePdfLibs(){
+    if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+    if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+  }
+  // <use href="#..."> vervangen door de echte symboolinhoud, zodat de iconen in de PDF komen
+  function inlineUses(root){
+    let guard = 0;
+    while (guard++ < 6) {
+      const uses = Array.from(root.querySelectorAll('use'));
+      if (!uses.length) break;
+      uses.forEach(u => {
+        const id = (u.getAttribute('href') || u.getAttribute('xlink:href') || '').slice(1);
+        const sym = document.getElementById(id); if (!sym) { u.remove(); return; }
+        const owner = u.parentNode;
+        const isRoot = owner && owner.tagName && owner.tagName.toLowerCase() === 'svg' && owner.children.length === 1;
+        if (isRoot) {
+          owner.setAttribute('viewBox', sym.getAttribute('viewBox') || '0 0 24 24');
+          Array.from(sym.childNodes).forEach(n => owner.appendChild(n.cloneNode(true)));
+          u.remove();
+        } else {
+          const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svg.setAttribute('viewBox', sym.getAttribute('viewBox') || '0 0 24 24');
+          ['x','y','width','height'].forEach(a => { if (u.hasAttribute(a)) svg.setAttribute(a, u.getAttribute(a)); });
+          svg.setAttribute('overflow', 'visible');
+          Array.from(sym.childNodes).forEach(n => svg.appendChild(n.cloneNode(true)));
+          owner.replaceChild(svg, u);
+        }
+      });
+    }
+  }
+  // elke svg omzetten naar een <img> met vaste kleuren: dat rendert de PDF-maker betrouwbaar
+  function svgsToImages(root){
+    Array.from(root.querySelectorAll('svg')).forEach(svg => {
+      const cs = getComputedStyle(svg);
+      const vb = svg.getAttribute('viewBox') || '0 0 24 24';
+      const sw = parseFloat(cs.strokeWidth) || 1.75;
+      const pw = Math.max(1, Math.round(parseFloat(cs.width) * 4)), ph = Math.max(1, Math.round(parseFloat(cs.height) * 4));
+      const xml = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb + '" width="' + pw + '" height="' + ph + '" fill="none" stroke="' + cs.color + '" stroke-width="' + sw + '" stroke-linecap="round" stroke-linejoin="round">' + svg.innerHTML + '</svg>';
+      const img = document.createElement('img');
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+      img.className = svg.getAttribute('class') || '';
+      img.style.cssText = 'width:' + cs.width + ';height:' + cs.height + ';opacity:' + cs.opacity + ';' + (svg.getAttribute('style') || '');
+      svg.parentNode.replaceChild(img, svg);
+    });
+  }
+  function busy(text, frac){
+    let b = $('.busy');
+    if (text === null) { if (b) b.remove(); return; }
+    if (!b) { b = document.createElement('div'); b.className = 'busy'; b.innerHTML = '<div><span></span><div class="bar"><i></i></div></div>'; document.body.appendChild(b); }
+    $('span', b).textContent = text; $('.bar i', b).style.width = Math.round((frac || 0) * 100) + '%';
+  }
+  async function makePdf(opts){
+    opts = opts || {};
+    if (document.activeElement) document.activeElement.blur();
+    closePop();
+    busy('PDF-maker laden…', 0);
+    try {
+      await ensurePdfLibs();
+      await (document.fonts && document.fonts.ready);
+      const pg = paginate();
+      const host = document.createElement('div'); host.id = 'pdfhost';
+      host.innerHTML = pg.map((l, i) => pageHtml(l, i, false)).join('');
+      document.body.appendChild(host);
+      inlineUses(host);
+      svgsToImages(host);
+      await Promise.all(Array.from(host.querySelectorAll('img')).map(im => im.decode().catch(() => {})));
+      const pagesEl = Array.from(host.querySelectorAll('.page'));
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+      pdf.setProperties({ title: strip(doc.hero.title), author: strip(doc.hero.name), creator: 'NGTim Editor' });
+      for (let i = 0; i < pagesEl.length; i++) {
+        busy('Pagina ' + (i + 1) + ' van ' + pagesEl.length + ' renderen…', i / pagesEl.length);
+        const el = pagesEl[i];
+        const cv = await window.html2canvas(el, { scale: opts.scale || 2.5, useCORS: true, backgroundColor: '#FBFBF8', logging: false, width: el.offsetWidth, height: el.offsetHeight, windowWidth: el.offsetWidth, windowHeight: el.offsetHeight, scrollX: 0, scrollY: 0 });
+        if (i) pdf.addPage();
+        pdf.addImage(cv.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+      }
+      host.remove();
+      busy('Klaar', 1);
+      if (opts.returnDoc) { busy(null); return pdf; }
+      pdf.save(fileBase() + '.pdf');
+      setTimeout(() => busy(null), 400);
+      toast('PDF gedownload (' + pagesEl.length + (pagesEl.length === 1 ? ' pagina)' : ' pagina’s)'));
+    } catch (e) {
+      busy(null);
+      alert('De PDF kon niet worden gemaakt: ' + e.message + '\n\nGebruik anders de knop Afdrukken.');
+      const h = $('#pdfhost'); if (h) h.remove();
+    }
+  }
+  $('#bPdf').addEventListener('click', () => makePdf());
   window.addEventListener('beforeprint', () => { $$('.page', canvas).forEach(p => p.classList.remove('over')); $$('.stop.sel', canvas).forEach(s => s.classList.remove('sel')); });
   window.addEventListener('afterprint', () => render());
 
@@ -639,7 +740,7 @@
 
   /* ---------- start ---------- */
   render(); updateUndoButtons(); setStatus(load() ? 'Eerder werk geladen' : 'Nieuw document');
-  window.ReisEditor = { get doc(){ return doc; }, set doc(d){ doc = d; commit(); }, add: addThing, render, paginate: () => paginate().map(p => p.map(s => s.id)), select, exportString, undo, redo };
+  window.NGTimEditor = window.ReisEditor = { get doc(){ return doc; }, set doc(d){ doc = d; commit(); }, add: addThing, render, paginate: () => paginate().map(p => p.map(s => s.id)), select, exportString, undo, redo, makePdf };
 })();
 </script>
 </body>
