@@ -527,20 +527,41 @@
     restoreFocus(focus);
   }
   function strip(html){ const d = document.createElement('div'); d.innerHTML = html||''; return d.textContent.trim(); }
+  // cursorpositie als tekenteller (een <br> telt als één teken), zodat die een herbouw overleeft
+  function textPos(el, node, off){
+    const r = document.createRange(); r.selectNodeContents(el); r.setEnd(node, off);
+    const f = r.cloneContents();
+    return f.textContent.length + f.querySelectorAll('br').length;
+  }
+  function posPoint(el, pos){
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT); let n;
+    while ((n = w.nextNode())) {
+      if (n.nodeType === 3) { if (pos <= n.length) return [n, pos]; pos -= n.length; }
+      else if (n.tagName === 'BR') { if (pos === 0) return [n.parentNode, [...n.parentNode.childNodes].indexOf(n)]; pos -= 1; }
+    }
+    return null;
+  }
   function captureFocus(){
     const a = document.activeElement; if (!a || !a.isContentEditable || !canvas.contains(a)) return null;
-    const stop = a.closest('.stop'), bw = a.closest('.bw');
-    return {sid: stop && stop.dataset.sid, bid: bw && bw.dataset.bid, f: a.dataset.f || a.dataset.h || a.dataset.ft, i: a.dataset.i, kind: a.dataset.h ? 'h' : a.dataset.ft ? 'ft' : 'f'};
+    const stop = a.closest('.stop'), bw = a.closest('.bw'), page = a.closest('.page');
+    const sel = window.getSelection(), rg = sel.rangeCount ? sel.getRangeAt(0) : null;
+    const inside = rg && a.contains(rg.startContainer) && a.contains(rg.endContainer);
+    return {sid: stop && stop.dataset.sid, bid: bw && bw.dataset.bid, f: a.dataset.f || a.dataset.h || a.dataset.ft, i: a.dataset.i, kind: a.dataset.h ? 'h' : a.dataset.ft ? 'ft' : 'f',
+      page: page && page.dataset.page, top: a.getBoundingClientRect().top,
+      s: inside ? textPos(a, rg.startContainer, rg.startOffset) : null, e: inside ? textPos(a, rg.endContainer, rg.endOffset) : null};
   }
   function restoreFocus(fo){
     if (!fo) return;
     let el = null;
     if (fo.kind === 'h') el = $(`[data-h="${fo.f}"]`, canvas);
-    else if (fo.kind === 'ft') el = $(`[data-ft="${fo.f}"]`, canvas);
+    else if (fo.kind === 'ft') el = $(`.page[data-page="${fo.page}"] [data-ft="${fo.f}"]`, canvas) || $(`[data-ft="${fo.f}"]`, canvas);
     else { const scope = fo.bid ? $(`.bw[data-bid="${fo.bid}"]`, canvas) : $(`.stop[data-sid="${fo.sid}"]`, canvas); if (scope) el = $(`[data-f="${fo.f}"]${fo.i!==undefined ? `[data-i="${fo.i}"]` : ''}`, scope); }
     if (!el) return;
-    el.focus();
+    el.focus({preventScroll: true});
+    canvas.scrollTop += el.getBoundingClientRect().top - fo.top;     // veld blijft op dezelfde plek in beeld
     const r = document.createRange(); r.selectNodeContents(el); r.collapse(false);
+    const a = fo.s !== null && posPoint(el, fo.s), b = fo.e !== null && posPoint(el, fo.e);
+    if (a) { r.setStart(a[0], a[1]); r.setEnd(...(b || a)); }
     const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
   }
   function repaginateIfNeeded(){
