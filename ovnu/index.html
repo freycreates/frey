@@ -453,15 +453,15 @@ function render() {
   document.getElementById("proof").textContent = T[lang][live ? "proof" : "proofTimetable"];
 
   // The countdown: the next Sprinter leaving Centraal for Hoofddorp
-  const leaving = trips.filter(t => t.dir === 0 && t.stops[0].d > now - 20).sort((a, b) => a.stops[0].d - b.stops[0].d);
+  const leaving = trips.filter(t => t.dir === 0 && t.stops[0].d > now - 30).sort((a, b) => a.stops[0].d - b.stops[0].d);
   const el = document.getElementById("count");
   if (!leaving.length) {
     el.textContent = "–:––"; el.className = "count";
     document.getElementById("time").textContent = "";
     document.getElementById("then").textContent = trips.length ? "" : `${T[lang].night}. ${T[lang].nightThen}`;
   } else {
-    const nx = leaving[0], left = Math.max(0, nx.stops[0].d - now), late = Math.round((nx.stops[0].late || 0) / 60);
-    el.textContent = left <= 20 ? T[lang].now : `${Math.floor(left / 60)}:${String(Math.floor(left % 60)).padStart(2, "0")}`;
+    const nx = leaving[0], left = Math.max(0, Math.ceil(nx.stops[0].d - now)), late = Math.round((nx.stops[0].late || 0) / 60);
+    el.textContent = left <= 0 ? T[lang].now : `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
     el.className = "count" + (left <= 30 ? " now" : left < 120 ? " soon" : "");
     document.getElementById("time").innerHTML = "· " + fmt(nx.stops[0].d) + (late > 0 ? ` <span class="late">+${late} ${T[lang].late}</span>` : "")
       + (nx.n ? ` <span class="num">· ${nx.n}</span>` : "");
@@ -493,7 +493,7 @@ function render() {
   rails.querySelectorAll(".train").forEach(m => {
     if (!seen.has(m.dataset.id)) { m.classList.add("gone"); setTimeout(() => !seen.has(m.dataset.id) && m.remove(), 700); }
   });
-  if (leaving.length && leaving[0].stops[0].d - now <= 0) load();
+  if (leaving.length && leaving[0].stops[0].d - now <= -30) load();
 }
 
 let saved = null; try { saved = localStorage.getItem("ovnu-lang"); } catch (e) {}
