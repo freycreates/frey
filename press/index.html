@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Press kit for FREY.: photos, logos, bios and how to write the name.">
+  <meta name="description" content="Press kit for FREY.: photos, videos, logos, bios and how to write the name.">
   <!-- Shared by link only: kept out of search results, the nav and the sitemap. -->
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0f0d10">
@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://freycreates.nl/press">
   <meta property="og:site_name" content="FREY.">
   <meta property="og:title" content="FREY. | Press kit">
-  <meta property="og:description" content="Photos, logos, bios and how to write the name.">
+  <meta property="og:description" content="Photos, videos, logos, bios and how to write the name.">
   <meta property="og:image" content="https://freycreates.nl/assets/frey-press-share.png">
   <meta property="og:image:alt" content="FREY. DJ press kit, next to a photo of FREY. DJing at WorldPride Amsterdam 2026">
   <meta property="og:image:width" content="1200">
@@ -68,6 +68,30 @@
     .photos figcaption b{display:block;font-size:.84rem;font-weight:800;line-height:1.25}
     .photos figcaption>span{display:block;margin-bottom:8px;color:var(--muted);font-size:.72rem;font-weight:600;line-height:1.35}
     .photos .button{display:flex;justify-content:center;width:100%;min-height:36px;margin-top:auto;padding:6px 10px;font-size:.8rem}
+    /* Videos: one row of vertical players, all the same frame, scroll sideways. */
+    .videos{display:flex;gap:14px;margin:14px -4px 0;padding:0 4px 14px;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding:0 4px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--pink) rgba(128,128,128,.2)}
+    .videos::-webkit-scrollbar{height:8px}
+    .videos::-webkit-scrollbar-track{background:rgba(128,128,128,.18);border-radius:4px}
+    .videos::-webkit-scrollbar-thumb{background:var(--pink);border-radius:4px}
+    .videos figure{display:flex;flex:0 0 210px;flex-direction:column;min-width:0;margin:0;scroll-snap-align:start}
+    .videos video{display:block;width:100%;aspect-ratio:9/16;object-fit:contain;border-radius:8px;border:1px solid var(--line);background:#0f0d10}
+    .videos figcaption{display:flex;flex:1;flex-direction:column;margin-top:8px}
+    .videos figcaption b{display:block;font-size:.84rem;font-weight:800;line-height:1.25}
+    .videos figcaption>span{display:block;margin-bottom:8px;color:var(--muted);font-size:.72rem;font-weight:600;line-height:1.35}
+    .videos .button{display:flex;justify-content:center;width:100%;min-height:36px;margin-top:auto;padding:6px 10px;font-size:.8rem}
+    .cap-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+    .cap-head .sub{margin:12px 0 0}
+    .cap-head .button{flex:0 0 auto;margin-top:2px}
+    .view-toggle .chev{transition:transform .2s}
+    .view-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+    .cap-body[hidden]{display:none}
+    .vnav{display:flex;justify-content:flex-end;gap:8px;margin:-4px 0 10px}
+    .vnav button{display:grid;place-items:center;width:40px;height:40px;padding:0;border:1px solid rgba(25,19,23,.14);border-radius:50%;background:#fff;color:var(--ink);cursor:pointer;transition:border-color .15s,opacity .15s}
+    .vnav button:hover:not(:disabled){border-color:var(--pink)}
+    .vnav button:disabled{opacity:.35;cursor:default}
+    .vnav svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    @media(max-width:820px){.vnav{display:none}.cap-head .button{flex:0 0 auto}}
+    @media(max-width:820px){.videos figure{flex-basis:min(62vw,230px)}}
     .note{margin:2px 0 0;padding:14px 18px;border-radius:10px;background:#f7efec;color:#433a40;font-size:.92rem;font-weight:700}
 
     /* Bios */
@@ -166,7 +190,7 @@
   <main class="shell">
     <article class="card pad">
       <h1>Press kit<span class="dot">.</span></h1>
-      <p class="lead">Photos, logos, bios and how to write the name.</p>
+      <p class="lead">Photos, videos, logos, bios and how to write the name.</p>
       <div class="actions">
         <a class="button button-primary" href="frey-press-kit.zip" download="FREY press kit.zip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download everything (zip)</span></a>
         <a class="button" href="#rider"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h7l4 4v12H7zM14 4v4h4"/></svg><span>Technical rider</span></a>
@@ -182,6 +206,19 @@
       </div>
       <p class="note">Free to use for press, line-ups and promotion of FREY. No credit needed. Please don't crop or edit the logo, and don't use the photos to suggest FREY. endorses something.</p>
       <p class="note" style="margin-top:10px"><b>Made by real people.</b> Please don't use my photos in AI-generated posters, flyers or promo, and don't feed them into AI tools. Hire a real graphic designer instead. Real people make better posters, and they get paid.</p>
+    </article>
+
+    <article class="card pad collapsible" id="videos">
+      <div class="cap-head"><div><h2>Videos.</h2><p class="sub">8 clips from the booth and the dance floor.</p></div><button class="button view-toggle" type="button" aria-expanded="false" aria-controls="videos-body"><span>View</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>
+      <div class="cap-body" id="videos-body" hidden>
+      <p class="sub" style="margin-top:18px">Swipe sideways for more. Tap play to watch, or download the video.</p>
+      <div class="vnav" aria-label="Scroll videos"><button type="button" data-dir="-1" aria-label="Previous videos" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><button type="button" data-dir="1" aria-label="More videos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></div>
+      <div class="videos">
+<figure><video controls preload="none" playsinline poster="videos/posters/FREY-video-01-worldpride-homomonument-2026.jpg" aria-label="WorldPride Homomonument 2026"><source src="videos/FREY-video-01-worldpride-homomonument-2026.mp4" type="video/mp4"></video><figcaption><b>WorldPride Homomonument 2026</b><span>Live · 0:18 · 720 × 1280</span><a class="button" href="videos/FREY-video-01-worldpride-homomonument-2026.mp4" download="FREY - WorldPride Homomonument 2026.mp4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><video controls preload="none" playsinline poster="videos/posters/FREY-video-02-worldpride-prik-2026.jpg" aria-label="WorldPride Prik 2026"><source src="videos/FREY-video-02-worldpride-prik-2026.mp4" type="video/mp4"></video><figcaption><b>WorldPride Prik 2026</b><span>Live · 0:12 · 720 × 900</span><a class="button" href="videos/FREY-video-02-worldpride-prik-2026.mp4" download="FREY - WorldPride Prik 2026.mp4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><video controls preload="none" playsinline poster="videos/posters/FREY-video-03-worldpride-fpq-2026.jpg" aria-label="WorldPride FPQ 2026"><source src="videos/FREY-video-03-worldpride-fpq-2026.mp4" type="video/mp4"></video><figcaption><b>WorldPride FPQ 2026</b><span>Live · 0:11 · 720 × 1280</span><a class="button" href="videos/FREY-video-03-worldpride-fpq-2026.mp4" download="FREY - WorldPride FPQ 2026.mp4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><video controls preload="none" playsinline poster="videos/posters/FREY-video-04-milkshake-2026.jpg" aria-label="Milkshake 2026"><source src="videos/FREY-video-04-milkshake-2026.mp4" type="video/mp4"></video><figcaption><b>Milkshake 2026</b><span>Live · 0:27 · 840 × 1496</span><a class="button" href="videos/FREY-video-04-milkshake-2026.mp4" download="FREY - Milkshake 2026.mp4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><video controls preload="none" playsinline poster="videos/posters/FREY-video-05-bops-2025.jpg" aria-label="BOPS 2025"><source src="videos/FREY-video-05-bops-2025.mp4" type="video/mp4"></video><figcaption><b>BOPS 2025</b><span>Live · 0:06 · 720 × 1280</span><a class="button" href="videos/FREY-video-05-bops-2025.mp4" download="FREY - BOPS 2025.mp4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><video controls preload="none" playsinline poster="videos/posters/FREY-video-06-ferry-halloween-2025.jpg" aria-label="FERRY Halloween 2025"><source src="videos/FREY-video-06-ferry-halloween-2025.mp4" type="video/mp4"></video><figcaption><b>FERRY Halloween 2025</b><span>Live · 0:08 · 720 × 1280</span><a class="button" href="videos/FREY-video-06-ferry-halloween-2025.mp4" download="FREY - FERRY Halloween 2025.mp4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><video controls preload="none" playsinline poster="videos/posters/FREY-video-07-paradiso-fpq-2025-floor.jpg" aria-label="Paradiso FPQ 2025 · floor"><source src="videos/FREY-video-07-paradiso-fpq-2025-floor.mp4" type="video/mp4"></video><figcaption><b>Paradiso FPQ 2025 · floor</b><span>Live · 0:15 · 1080 × 1920</span><a class="button" href="videos/FREY-video-07-paradiso-fpq-2025-floor.mp4" download="FREY - Paradiso FPQ 2025 - floor.mp4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure><figure><video controls preload="none" playsinline poster="videos/posters/FREY-video-08-paradiso-fpq-2025-decks.jpg" aria-label="Paradiso FPQ 2025 · decks"><source src="videos/FREY-video-08-paradiso-fpq-2025-decks.mp4" type="video/mp4"></video><figcaption><b>Paradiso FPQ 2025 · decks</b><span>Live · 0:09 · 1080 × 1920</span><a class="button" href="videos/FREY-video-08-paradiso-fpq-2025-decks.mp4" download="FREY - Paradiso FPQ 2025 - decks.mp4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download</span></a></figcaption></figure>
+      </div>
+      <div class="actions" style="margin-top:6px"><a class="button button-primary" href="frey-press-videos.zip" download="FREY press videos.zip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download all videos (zip · 48 MB)</span></a></div>
+      <p class="note" style="margin-top:18px">Free to use for press, line-ups and promotion of FREY. No credit needed. Please don't edit the videos or use them in AI tools.</p>
+      </div>
     </article>
 
     <article class="card pad" id="bio">
@@ -235,13 +272,15 @@
       <div class="actions"><a class="button button-primary" href="../assets/frey-rider.pdf" download="FREY technical rider.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg><span>Download rider (PDF)</span></a><a class="button" href="mailto:hello@freycreates.nl?subject=Technical%20rider"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span>Questions about the rider</span></a></div>
     </article>
 
-    <article class="card pad" id="logos">
-      <h2>Logos.</h2>
-      <p class="sub">Use the logo in black or white, preferably with the pink dot. SVG for print, PNG for everything else. Completely black or completely white, without the pink dot, is the second choice.</p>
+    <article class="card pad collapsible" id="logos">
+      <div class="cap-head"><div><h2>Logos.</h2><p class="sub">Black or white, in SVG and PNG.</p></div><button class="button view-toggle" type="button" aria-expanded="false" aria-controls="logos-body"><span>View</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>
+      <div class="cap-body" id="logos-body" hidden>
+      <p class="sub" style="margin-top:18px">Use the logo in black or white, preferably with the pink dot. SVG for print, PNG for everything else. Completely black or completely white, without the pink dot, is the second choice.</p>
       <div class="logos">
 <figure class="logo light"><div class="logo-box"><img src="logos/FREY_ink-pink.svg" alt="Black, pink dot"></div><figcaption><b>Black, pink dot</b><span class="note-line">First choice, on light backgrounds</span><span><a href="logos/FREY_ink-pink.svg" download>SVG</a><a href="logos/FREY_ink-pink.png" download>PNG</a></span></figcaption></figure><figure class="logo dark"><div class="logo-box"><img src="logos/FREY_paper-pink.svg" alt="White, pink dot"></div><figcaption><b>White, pink dot</b><span class="note-line">First choice, on dark backgrounds</span><span><a href="logos/FREY_paper-pink.svg" download>SVG</a><a href="logos/FREY_paper-pink.png" download>PNG</a></span></figcaption></figure><figure class="logo light"><div class="logo-box"><img src="logos/FREY_ink-ink.svg" alt="All black"></div><figcaption><b>All black</b><span class="note-line">Second choice, when you can only use one colour</span><span><a href="logos/FREY_ink-ink.svg" download>SVG</a><a href="logos/FREY_ink-ink.png" download>PNG</a></span></figcaption></figure><figure class="logo dark"><div class="logo-box"><img src="logos/FREY_paper-paper.svg" alt="All white"></div><figcaption><b>All white</b><span class="note-line">Second choice, when you can only use one colour</span><span><a href="logos/FREY_paper-paper.svg" download>SVG</a><a href="logos/FREY_paper-paper.png" download>PNG</a></span></figcaption></figure>
       </div>
       <p class="logo-note">Keep the height of the letter E free on every side. Use the files as they are: no cropping, stretching or recolouring.</p>
+      </div>
     </article>
 
     <article class="card two">
@@ -283,5 +322,33 @@
       });
     });
   </script>
+<script>
+(function(){
+  function setupScroller(card){
+    var row=card.querySelector('.videos'); if(!row) return function(){};
+    var prev=card.querySelector('[data-dir="-1"]'), next=card.querySelector('[data-dir="1"]');
+    function state(){ prev.disabled=row.scrollLeft<4; next.disabled=row.scrollLeft+row.clientWidth>=row.scrollWidth-4; }
+    [prev,next].forEach(function(b){ b.addEventListener('click',function(){ row.scrollBy({left:Number(b.dataset.dir)*(row.clientWidth*0.85),behavior:'smooth'}); }); });
+    row.addEventListener('scroll',state,{passive:true}); window.addEventListener('resize',state); state();
+    return state;
+  }
+  document.querySelectorAll('.collapsible').forEach(function(card){
+    var btn=card.querySelector('.view-toggle'), body=card.querySelector('.cap-body'), label=btn.querySelector('span');
+    var refresh=setupScroller(card);
+    function set(open){
+      body.hidden=!open; btn.setAttribute('aria-expanded',open?'true':'false'); label.textContent=open?'Hide':'View';
+      if(open) refresh();
+      else card.querySelectorAll('video').forEach(function(v){ v.pause(); });
+    }
+    btn.addEventListener('click',function(){ set(body.hidden); });
+    card._open=function(){ set(true); };
+  });
+  function openFromHash(){
+    var card=location.hash&&document.querySelector('.collapsible'+location.hash);
+    if(card){ card._open(); card.scrollIntoView(); }
+  }
+  window.addEventListener('hashchange',openFromHash); openFromHash();
+})();
+</script>
 </body>
 </html>
