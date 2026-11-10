@@ -57,6 +57,9 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
 .t-bubble.tail-tl::after,.t-bubble.tail-tr::after{bottom:auto;top:-34px;border-top:0;border-bottom:30px solid #0b0709}
 .t-bubble.tail-tr::after{left:auto;right:56px}
 .t-bubble.tail-none::after{display:none}
+.dpad{display:grid;grid-template-columns:repeat(3,52px);gap:6px;justify-content:center;margin:4px 0 12px}
+.dpad button{text-align:center;font-size:20px;padding:8px 0}
+.dpad #mvStep{font-size:12.5px;font-weight:700}
 #bh{position:absolute;z-index:10000;width:26px;height:26px;background:#fff;border:4px solid #19d3ff;cursor:nwse-resize;display:none;touch-action:none}
 #rh{position:absolute;z-index:10000;border-radius:50%;background:#19d3ff;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:grab;display:none;touch-action:none}
 #rh::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:var(--stem,40px);background:#19d3ff;transform:translateX(-50%)}
@@ -134,6 +137,11 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
       <label class="row">Width <input type="range" id="bw" min="4" max="1080"><span class="val" id="bwV"></span></label>
       <label class="row">Height <input type="range" id="bhgt" min="4" max="1920"><span class="val" id="bhV"></span></label>
       <p class="hint">Or drag the white square at the block's corner.</p>
+    </div>
+    <div class="dpad" aria-label="Move selected item">
+      <span></span><button id="mvU" aria-label="Move up">↑</button><span></span>
+      <button id="mvL" aria-label="Move left">←</button><button id="mvStep" title="Step size">10px</button><button id="mvR" aria-label="Move right">→</button>
+      <span></span><button id="mvD" aria-label="Move down">↓</button><span></span>
     </div>
     <label class="row">Size <input type="range" id="size" min="10" max="300"><span class="val" id="sizeV"></span></label>
     <label class="row">Tilt <input type="range" id="rot" min="-180" max="180"><span class="val" id="rotV"></span></label>
@@ -397,7 +405,7 @@ const TEMPLATES=[
     T({name:'Headline 2',cls:'t-head',html:'of a f*cking split set',x:540,y:540,anchor:'center',color:'#3d9bff',st:'font-style:italic;font-size:66px;text-shadow:5px 5px 0 #ff2bd6'}),
     photo('frey',290,1270,340),photo('jacoba',790,1270,340),
     emoji('💎',250,1222,.32,-8),emoji('💎',330,1225,.32,8),emoji('👽',225,1330,.3),emoji('👽',360,1330,.3),
-    emoji('🕶️',790,1268,2.05),
+    emoji('🕶️',790,1150,2.05),
     emoji('🐬',540,1080,.9,-12),emoji('🦞',540,1600,1.5,-6),
     label('📶 FREE WIFI',900,1500,'#fff',INK,4,26),
     {id:'strip',name:'Info strip',type:'box',x:0,y:690,w:1080,h:120,color:INK,st:'opacity:.9'},
@@ -597,7 +605,7 @@ const size=document.getElementById('size'), rot=document.getElementById('rot');
 function updatePanel(){
   const e=sel&&byId(sel);
   document.getElementById('selName').textContent=e?e.name:'nothing';
-  ['size','rot','up','down','dup','del','center'].forEach(id=>document.getElementById(id).disabled=!e);
+  ['size','rot','up','down','dup','del','center','mvU','mvD','mvL','mvR'].forEach(id=>document.getElementById(id).disabled=!e);
   document.getElementById('swap').disabled=!(e&&e.type==='img');
   document.getElementById('flip').disabled=!(e&&(e.type==='photo'||e.type==='img'));
   size.value=e?Math.round((e.s||1)*100):100; rot.value=e?(e.r||0):0;
@@ -614,6 +622,14 @@ document.getElementById('down').onclick=()=>{const i=S.els.findIndex(e=>e.id===s
 document.getElementById('dup').onclick=()=>{const e=byId(sel); const c=JSON.parse(JSON.stringify(e)); c.id=e.id+'-'+Date.now(); c.name=e.name+' copy'; c.x+=30; c.y+=30; S.els.push(c); sel=c.id; save(); render();};
 const TAILS=[['bl','↙','Tail bottom left'],['br','↘','Tail bottom right'],['tl','↖','Tail top left'],['tr','↗','Tail top right'],['none','∅','No tail']];
 TAILS.forEach(([k,ch,n])=>{const b=document.createElement('button'); b.textContent=ch; b.title=n; b.setAttribute('aria-label',n); b.style.cssText='padding:4px 10px;font-size:18px'; b.onclick=()=>{const e=byId(sel); if(!e) return; e.tail=k==='bl'?undefined:k; save(); render();}; document.getElementById('tails').appendChild(b);});
+let step=10; const stepBtn=document.getElementById('mvStep');
+stepBtn.onclick=()=>{ step=step===10?1:(step===1?50:10); stepBtn.textContent=step+'px'; };
+function nudge(dx,dy){ const e=sel&&byId(sel); if(!e) return; e.x+=dx*step; e.y+=dy*step; place(layer.querySelector(`[data-id="${sel}"]`),e); save(); }
+[['mvU',0,-1],['mvD',0,1],['mvL',-1,0],['mvR',1,0]].forEach(([id,dx,dy])=>{ const b=document.getElementById(id); let t=null, iv=null;
+  const stop=()=>{ clearTimeout(t); clearInterval(iv); };
+  b.addEventListener('pointerdown',ev=>{ ev.preventDefault(); nudge(dx,dy); t=setTimeout(()=>{ iv=setInterval(()=>nudge(dx,dy),60); },350); });
+  ['pointerup','pointerleave','pointercancel'].forEach(n=>b.addEventListener(n,stop));
+  b.addEventListener('keydown',ev=>{ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); nudge(dx,dy); } }); });
 function removeSel(){ S.els=S.els.filter(e=>e.id!==sel); sel=null; save(); render(); }
 document.getElementById('del').onclick=removeSel;
 document.getElementById('center').onclick=()=>{const e=byId(sel), d=layer.querySelector(`[data-id="${sel}"]`); const w=d.offsetWidth*(e.type==='photo'?1:(e.s||1)); e.x=e.anchor==='center'?540:(e.anchor==='right'?Math.round(540+w/2):Math.round(540-w/2)); place(d,e); save();};
