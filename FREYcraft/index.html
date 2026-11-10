@@ -78,7 +78,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
 </style>
 </head>
 <body>
-<div id="gallery" hidden>
+<div id="gallery">
   <div class="top"><div><h1>FREYcraft</h1><p class="lead" style="margin:2px 0 0;color:#fff;font-weight:700">Pick a design</p><p class="lead">FREY. × JACOBA, split set at FERRY. Click one to open it in the editor, then move anything around.</p></div>
   <button id="resume" class="primary" style="width:auto" hidden>Continue where you left off</button></div>
   <div class="grid2" id="gal"></div>
@@ -92,6 +92,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
   <section>
     <h2>Versions</h2>
     <button id="openGallery" style="width:100%;margin-bottom:8px">See all designs</button>
+    <button id="swapSides" style="width:100%;margin-bottom:8px">Swap sides: JACOBA ⇄ FREY.</button>
     <div class="grid" id="tpls"></div>
   </section>
 
@@ -617,15 +618,25 @@ document.getElementById('export').onclick=async()=>{
 
 /* ---------------- gallery (designs first) ---------------- */
 const gal=document.getElementById('gal'), galBox=document.getElementById('gallery'), resume=document.getElementById('resume');
-TEMPLATES.forEach((t,i)=>{const b=document.createElement('button'); b.className='card'; b.innerHTML=`<img src="thumbs/${String(i+1).padStart(2,'0')}.jpg" alt="" loading="lazy"><span><b>${i+1}. ${t.name}</b><small>${t.sub}</small></span>`; b.onclick=()=>{useTemplate(i); galBox.hidden=true;}; gal.appendChild(b);});
+TEMPLATES.forEach((t,i)=>{const b=document.createElement('button'); b.className='card'; b.innerHTML=`<img src="thumbs/${String(i+1).padStart(2,'0')}.jpg" alt="" loading="lazy"><span><b>${i+1}. ${t.name}</b><small>${t.sub}</small></span>`; b.onclick=()=>{window.picked=true; useTemplate(i); galBox.hidden=true;}; gal.appendChild(b);});
 function showGallery(canResume){ resume.hidden=!canResume; galBox.hidden=false; }
-resume.onclick=()=>{galBox.hidden=true;};
+resume.onclick=()=>{window.picked=true; galBox.hidden=true;};
+resume.hidden=!S;
 document.getElementById('openGallery').onclick=()=>showGallery(true);
+document.getElementById('swapSides').onclick=()=>{ // mirror every element left <-> right around the page centre
+  const sr=stage.getBoundingClientRect();
+  [...layer.children].forEach(d=>{ const e=byId(d.dataset.id); if(!e) return; const r=d.getBoundingClientRect();
+    let cx=(r.left+r.width/2-sr.left)/scale;
+    if(e.type==='photo'){ // use the face, not the photo box, so faces land in the same spot on the other side
+      const m=PHOTO[e.who], nw=(IMG[e.who]&&IMG[e.who].naturalWidth)||(e.who==='frey'?1013:1100), k=e.w/nw*(e.s||1); cx=e.x+(e.flip?(nw-m.eye[0]):m.eye[0])*k; }
+    e.x=Math.round(e.x+(W-cx)-cx); });
+  S.swapped=!S.swapped; save(); render(); toast(S.swapped?'JACOBA left, FREY. right':'FREY. left, JACOBA right');
+};
 
 /* ---------------- go ---------------- */
 const RENDER=new URLSearchParams(location.search).get('render');
 if(RENDER!==null){ // ?render=N: show only the poster at full size (used to batch-export PNGs)
-  document.querySelector('aside').style.display='none'; document.getElementById('guides').style.display='none';
+  document.querySelector('aside').style.display='none'; document.getElementById('guides').style.display='none'; document.getElementById('gallery').hidden=true;
   document.body.style.cssText='margin:0;overflow:hidden;background:#000;display:block';
   document.querySelector('main').style.cssText='display:block;position:absolute;left:0;top:0;width:1080px;height:1920px';
   window.save=()=>{};
@@ -633,10 +644,10 @@ if(RENDER!==null){ // ?render=N: show only the poster at full size (used to batc
 if(RENDER===null) fit(); else { scale=1; stage.style.transform='none'; wrap.style.width=W+'px'; wrap.style.height=H+'px'; }
 loadAll().then(()=>{
   if(RENDER!==null){ const t=TEMPLATES[+RENDER]; S={tpl:+RENDER,preset:t.preset,ps:{...PS_DEFAULT,...t.ps},els:t.els()}; scale=1; stage.style.transform='none'; wrap.style.width=W+'px'; wrap.style.height=H+'px'; render(); if(document.fonts) document.fonts.ready.then(()=>{render(); document.title='READY';}); return; }
-  const had=!!S;
+  const had=!!S||!!window.picked;
   if(!S) useTemplate(0); else { S.ps={...PS_DEFAULT,...S.ps}; render(); syncPS(); }
   if(document.fonts) document.fonts.ready.then(render);
-  showGallery(had);
+  if(!window.picked) showGallery(had);
 });
 </script>
 </body>
