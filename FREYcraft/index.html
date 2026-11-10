@@ -446,10 +446,10 @@ const TEMPLATES=[
     {id:'ferry',name:'FERRY logo',type:'img',src:'ferry-pink.png',x:310,y:276,w:460},
     T({id:'cap',name:'Date line',cls:'t-cap',html:'Split set / Sat 14 Nov',x:540,y:452,anchor:'center',color:'#fff'}),
     chat('FERRY','ok who\'s opening 👀',72,506,'#2c2a30','#fff','left','',-1.5),
-    chat('JACOBA','me. 21:30. obviously 💅',1008,616,PINK,'#fff','right','😂',1.5),
-    chat('FREY.','then i\'m on at 22:30 😌',72,726,'#fff',INK,'left','❤️',-1),
-    chat('JACOBA','back at 23:30 💎',1008,836,PINK,'#fff','right','🔥',1.5),
-    chat('FREY.','and i close at 00:30 🍒',72,946,'#fff',INK,'left','‼️',-1.5),
+    chat('JACOBA','me. 21:30. obviously 💅',1008,616,PINK,'#fff','right','',1.5),
+    chat('FREY.','then i\'m on at 22:30 😌',72,726,'#fff',INK,'left','',-1),
+    chat('JACOBA','back at 23:30 💎',1008,836,PINK,'#fff','right','',1.5),
+    chat('FREY.','and i close at 00:30 🍒',72,946,'#fff',INK,'left','',-1.5),
     chat('FERRY','one hour each, TWICE. You better serve pops!!',1008,1056,'#2c2a30','#fff','right','',1),
     photo('frey',290,1500,330),photo('jacoba',790,1500,330)]},
 ];
@@ -663,7 +663,7 @@ document.getElementById('addText').onclick=()=>add({id:uid('txt'),name:'Text',ty
 document.getElementById('addLabel').onclick=()=>add({id:uid('lab'),name:'Label',type:'text',cls:'t-label',html:'SLAY me',x:540,y:960,anchor:'center',bg:PURPLE,color:'#fff',r:-3});
 document.getElementById('addBubble').onclick=()=>add({id:uid('bub'),name:'Speech bubble',type:'text',cls:'t-bubble',html:'I will survive',x:540,y:900,anchor:'center',r:3,color:INK});
 document.getElementById('addLine').onclick=()=>add({id:uid('box'),name:'Line',type:'box',x:64,y:960,w:952,h:6,color:PINK});
-const EMO=['💅','💎','🪩','🦞','🐬','🍒','💋','🔥','👀','🙄','😌','🏳️‍🌈','👯‍♂️','🕶️','👽','🏆','🪞','🌈','🛁','📶'];
+const EMO=['💅','💎','🪩','🦞','🐬','🍒','💋','','👀','🙄','😌','🏳️‍🌈','👯‍♂️','🕶️','👽','🏆','🪞','🌈','🛁','📶'];
 const emw=document.getElementById('emo');
 EMO.forEach(ch=>{const b=document.createElement('button'); b.textContent=ch; b.style.cssText='padding:4px 6px;font-size:20px;line-height:1'; b.setAttribute('aria-label','Add '+ch); b.onclick=()=>add({id:uid('emo'),name:'Emoji '+ch,type:'text',cls:'t-emoji',html:ch,x:540,y:900,anchor:'center',s:1}); emw.appendChild(b);});
 const file=document.getElementById('file'); let fileMode='add';
