@@ -63,8 +63,13 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
 #bh{position:absolute;z-index:10000;width:26px;height:26px;background:#fff;border:4px solid #19d3ff;cursor:nwse-resize;display:none;touch-action:none}
 #rh{position:absolute;z-index:10000;border-radius:50%;background:#19d3ff;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:grab;display:none;touch-action:none}
 #rh::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:var(--stem,40px);background:#19d3ff;transform:translateX(-50%)}
-.t-chat{font-weight:500;font-size:36px;line-height:1.15;padding:16px 26px 18px;border-radius:34px;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.3)}
-.t-chat b{display:block;font-size:20px;letter-spacing:.14em;text-transform:uppercase;opacity:.75;margin-bottom:4px}
+.t-chat{font-weight:600;font-size:40px;line-height:1.12;letter-spacing:-.01em;padding:18px 30px 20px;border-radius:40px 40px 40px 10px;white-space:nowrap;filter:drop-shadow(0 8px 0 var(--pop,#0b0709)) drop-shadow(0 18px 22px rgba(0,0,0,.25))}
+.t-chat::after{content:'';position:absolute;left:-24px;bottom:0;width:56px;height:48px;background:inherit;clip-path:path('M56 0 L56 48 L0 48 C20 44 34 30 36 0 Z')}
+.t-chat.me{border-radius:40px 40px 10px 40px}
+.t-chat.me::after{left:auto;right:-24px;transform:scaleX(-1)}
+.t-chat b{display:block;font-size:21px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.t-chat i{position:absolute;top:-24px;right:-18px;font-style:normal;font-size:30px;line-height:1;background:#fff;border-radius:30px;padding:8px 10px 9px;filter:drop-shadow(0 4px 0 var(--pop,#0b0709));font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif}
+.t-chat.me i{right:auto;left:-18px}
 .t-emoji{font-size:120px;line-height:1;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif}
 #guides{position:absolute;inset:0;pointer-events:none;z-index:9999}
 .safe{position:absolute;left:0;right:0;background:rgba(25,211,255,.14);border:0 dashed #19d3ff}
@@ -365,7 +370,7 @@ function lineEls(o={}){
 }
 const label=(html,x,y,bg,col,r=0,fs=34,extra={})=>T(Object.assign({name:'Label',cls:'t-label',html,x,y,anchor:'center',bg,color:col,r,st:`font-size:${fs}px`},extra));
 const emoji=(ch,x,y,s=1,r=0)=>T({name:'Emoji '+ch,cls:'t-emoji',html:ch,x,y,anchor:'center',s,r});
-const chat=(name,msg,x,y,bg,col,anchor='left')=>T({name:'Chat '+name,cls:'t-chat',html:`<b>${name}</b>${msg}`,x,y,anchor,bg,color:col});
+const chat=(name,msg,x,y,bg,col,anchor='left',re='',r=0)=>T({name:'Chat '+name,cls:'t-chat',html:`<b>${name}</b>${msg}${re?`<i>${re}</i>`:''}`,x,y,anchor,bg,color:col,r});
 const DOTS={mode:'cmyk',dot:6,angle:45,contrast:20,bright:-6,shrink:1,soften:1,fade:92,outline:0,oc:'#ffffff'};
 
 const TEMPLATES=[
@@ -440,13 +445,13 @@ const TEMPLATES=[
   {name:'Group chat',sub:'who opens?',preset:'black',ps:{...DOTS,mode:'duo'},els:()=>[
     {id:'ferry',name:'FERRY logo',type:'img',src:'ferry-pink.png',x:310,y:276,w:460},
     T({id:'cap',name:'Date line',cls:'t-cap',html:'Split set / Sat 14 Nov',x:540,y:452,anchor:'center',color:'#fff'}),
-    chat('FERRY','ok who\'s opening 👀',64,510,'#2c2a30','#fff'),
-    chat('JACOBA','me. 21:30. obviously 💅',1016,620,PINK,'#fff','right'),
-    chat('FREY.','then i\'m on at 22:30 😌',64,730,'#fff',INK),
-    chat('JACOBA','back at 23:30 💎',1016,840,PINK,'#fff','right'),
-    chat('FREY.','and i close at 00:30 🍒',64,950,'#fff',INK),
-    chat('FERRY','one hour each. TWICE. behave 🙄',1016,1060,'#2c2a30','#fff','right'),
-    photo('frey',290,1470,330),photo('jacoba',790,1470,330)]},
+    chat('FERRY','ok who\'s opening 👀',72,506,'#2c2a30','#fff','left','',-1.5),
+    chat('JACOBA','me. 21:30. obviously 💅',1008,616,PINK,'#fff','right','😂',1.5),
+    chat('FREY.','then i\'m on at 22:30 😌',72,726,'#fff',INK,'left','❤️',-1),
+    chat('JACOBA','back at 23:30 💎',1008,836,PINK,'#fff','right','🔥',1.5),
+    chat('FREY.','and i close at 00:30 🍒',72,946,'#fff',INK,'left','‼️',-1.5),
+    chat('FERRY','one hour each, TWICE. You better serve pops!!',1008,1056,'#2c2a30','#fff','right','',1),
+    photo('frey',290,1500,330),photo('jacoba',790,1500,330)]},
 ];
 
 /* ---------------- state ---------------- */
@@ -500,6 +505,7 @@ function render(){
       let col=e.color;
       if(!col){ if(e.role==='cap') col=p.cap; else if(side) col=side==='light'?INK:'#fff'; else col=p.cap; }
       d.style.color=col; if(e.bg) d.style.background=e.bg;
+      if(e.cls==='t-chat'){ const dark=p.cap==='#fff'||p.cap==='#ffffff'; d.style.setProperty('--pop',!dark?INK:((e.bg||'').toLowerCase()===PINK?'#fff':PINK)); }
       const t2=d.querySelector('[data-t2]'); if(t2) t2.style.color=PINK;
     }
     layer.appendChild(d); place(d,e);
@@ -512,6 +518,7 @@ function place(d,e){
   if(e.anchor==='right') x=e.x-d.offsetWidth*s;
   const sc=e.type==='photo'?1:s; const hw=d.offsetWidth*sc/2, hh=d.offsetHeight*sc/2;
   d.style.transform=`translate(${x}px,${e.y}px) translate(${hw}px,${hh}px) rotate(${r}deg) translate(${-hw}px,${-hh}px) scale(${sc})`;
+  if(e.cls==='t-chat') d.classList.toggle('me',x+d.offsetWidth*s/2>W/2);
   if(e.id===sel) placeHandle();
 }
 const rh=document.getElementById('rh'), bh=document.getElementById('bh');
