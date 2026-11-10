@@ -125,9 +125,10 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
     <label class="row">Tighten <input type="range" id="ps-shrink" min="0" max="6"><span class="val" id="ps-shrink-v"></span></label>
     <label class="row">Soften <input type="range" id="ps-soften" min="0" max="6"><span class="val" id="ps-soften-v"></span></label>
     <label class="row">Fade bottom <input type="range" id="ps-fade" min="0" max="100"><span class="val" id="ps-fade-v"></span></label>
+    <label class="row">Fade sides <input type="range" id="ps-side" min="0" max="100"><span class="val" id="ps-side-v"></span></label>
     <label class="row">Outline <input type="range" id="ps-outline" min="0" max="28"><span class="val" id="ps-outline-v"></span></label>
     <div class="swatches" id="oc" style="margin-top:4px"></div>
-    <p class="hint" style="margin-top:6px">Fade bottom hides the hard crop edge on Jacoba's T-shirt. Outline gives the sticker look.</p>
+    <p class="hint" style="margin-top:6px">Fade sides lets the two T-shirts melt into each other. Fade bottom softens the shirts at the bottom. Outline gives the sticker look.</p>
   </section>
 
   <section>
@@ -214,7 +215,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
 <script>
 const PINK='#e8137f', INK='#0b0709', PURPLE='#7a1fd6', W=1080, H=1920;
 const stage=document.getElementById('stage'), layer=document.getElementById('layer'), bg=document.getElementById('bg'), wrap=document.getElementById('wrap');
-const KEY='splitset-editor-v6';
+const KEY='splitset-editor-v7';
 
 /* ---------------- assets ---------------- */
 const PHOTO={
@@ -251,7 +252,7 @@ const PRESETS={
 };
 
 /* ---------------- photo filter ---------------- */
-const PS_DEFAULT={mode:'cmyk',dot:6,angle:45,contrast:20,bright:-6,shrink:1,soften:1,fade:0,outline:0,oc:'#ffffff'};
+const PS_DEFAULT={mode:'cmyk',dot:6,angle:45,contrast:20,bright:-6,shrink:1,soften:1,fade:0,side:45,outline:0,oc:'#ffffff'};
 function minMax(A,w,h,r,isMax){
   if(r<=0) return A; let T=new Float32Array(A.length), O=new Float32Array(A.length);
   for(let y=0;y<h;y++){const o=y*w; for(let x=0;x<w;x++){let v=isMax?0:1; for(let k=-r;k<=r;k++){const xx=x+k; if(xx<0||xx>=w) continue; const a=A[o+xx]; v=isMax?(a>v?a:v):(a<v?a:v);} T[o+x]=v;}}
@@ -292,6 +293,11 @@ function processPhoto(who,outW,P,o){
   { // soften the photo's own crop edges (left, right, bottom) so no straight cut lines show
     const fb=Math.max(8,Math.round(0.07*Math.min(ow,oh)));
     for(let y=0;y<h;y++) for(let xx=0;xx<w;xx++){ const dx=Math.min(xx-pad,ow+pad-1-xx), dy=oh+pad-1-y; const d=Math.min(dx,dy); if(d<fb){ const k=Math.max(0,d)/fb; A[y*w+xx]*=k*k*(3-2*k); } }
+  }
+  if(P.side>0){ // fade the shoulders/T-shirt towards the left and right edges, below the chin only
+    const f=meta.face*sc, y0=pad+meta.chin*sc-0.1*f, yr=0.5*f, band=Math.max(10,(P.side/100)*0.42*ow);
+    for(let y=0;y<h;y++){ const vy=Math.min(1,Math.max(0,(y-y0)/yr)); if(vy<=0) continue; const v=vy*vy*(3-2*vy);
+      for(let xx=0;xx<w;xx++){ const dx=Math.min(xx-pad,ow+pad-1-xx); if(dx>=band) continue; const k=Math.max(0,dx)/band; const m=k*k*(3-2*k); A[y*w+xx]*=1-v*(1-m); } }
   }
   if(P.fade>0){ // bottom fade starting below the chin
     const t=P.fade/100, f=meta.face*sc, y0=pad+meta.chin*sc+(1-t)*1.1*f, len=0.6*f;
@@ -548,8 +554,8 @@ TEMPLATES.forEach((t,i)=>{const b=document.createElement('button'); b.className=
 const pre=document.getElementById('presets');
 Object.entries(PRESETS).forEach(([k,v])=>{const b=document.createElement('button'); b.textContent=v.name; b.dataset.k=k; b.onclick=()=>{S.preset=k; save(); render();}; pre.appendChild(b);});
 
-const PSF=['dot','angle','contrast','bright','shrink','soften','fade','outline'];
-const unit={dot:'px',angle:'°',contrast:'',bright:'',shrink:'px',soften:'px',fade:'%',outline:'px'};
+const PSF=['dot','angle','contrast','bright','shrink','soften','fade','side','outline'];
+const unit={dot:'px',angle:'°',contrast:'',bright:'',shrink:'px',soften:'px',fade:'%',side:'%',outline:'px'};
 function syncPS(){
   document.getElementById('ps-mode').value=S.ps.mode;
   PSF.forEach(k=>{document.getElementById('ps-'+k).value=S.ps[k]; document.getElementById('ps-'+k+'-v').textContent=S.ps[k]+unit[k];});
