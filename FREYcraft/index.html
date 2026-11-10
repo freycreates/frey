@@ -63,13 +63,11 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
 #bh{position:absolute;z-index:10000;width:26px;height:26px;background:#fff;border:4px solid #19d3ff;cursor:nwse-resize;display:none;touch-action:none}
 #rh{position:absolute;z-index:10000;border-radius:50%;background:#19d3ff;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:grab;display:none;touch-action:none}
 #rh::after{content:'';position:absolute;left:50%;top:100%;width:2px;height:var(--stem,40px);background:#19d3ff;transform:translateX(-50%)}
-.t-chat{font-weight:600;font-size:40px;line-height:1.12;letter-spacing:-.01em;padding:18px 30px 20px;border-radius:40px 40px 40px 10px;white-space:nowrap;filter:drop-shadow(0 8px 0 var(--pop,#0b0709)) drop-shadow(0 18px 22px rgba(0,0,0,.25))}
-.t-chat::after{content:'';position:absolute;left:-24px;bottom:0;width:56px;height:48px;background:inherit;clip-path:path('M56 0 L56 48 L0 48 C20 44 34 30 36 0 Z')}
-.t-chat.me{border-radius:40px 40px 10px 40px}
-.t-chat.me::after{left:auto;right:-24px;transform:scaleX(-1)}
-.t-chat b{display:block;font-size:21px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
-.t-chat i{position:absolute;top:-24px;right:-18px;font-style:normal;font-size:30px;line-height:1;background:#fff;border-radius:30px;padding:8px 10px 9px;filter:drop-shadow(0 4px 0 var(--pop,#0b0709));font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif}
-.t-chat.me i{right:auto;left:-18px}
+.t-chat{font-weight:500;font-size:38px;line-height:1.15;letter-spacing:-.012em;padding:16px 28px 18px;border-radius:38px;white-space:nowrap}
+.t-chat::after{content:'';position:absolute;left:-12px;bottom:0;width:44px;height:36px;background:inherit;clip-path:path('M44 0 L44 36 L0 36 C16 33 26 22 28 0 Z')}
+.t-chat.me::after{left:auto;right:-12px;transform:scaleX(-1)}
+.t-chat b{position:absolute;left:28px;bottom:100%;margin-bottom:8px;font-size:24px;font-weight:600;letter-spacing:0;color:var(--lab,#0b0709);opacity:.72}
+.t-chat.me b{left:auto;right:28px}
 .t-emoji{font-size:120px;line-height:1;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif}
 #guides{position:absolute;inset:0;pointer-events:none;z-index:9999}
 .safe{position:absolute;left:0;right:0;background:rgba(25,211,255,.14);border:0 dashed #19d3ff}
@@ -442,16 +440,16 @@ const TEMPLATES=[
     label('00:30 &nbsp;FREY. &nbsp;🔥 hot until 01:30',64,832,PINK,'#fff',0,34,{anchor:'left'}),
     photo('frey',290,1360,370),photo('jacoba',790,1360,370),
     emoji('🌈',930,960,.9,10),emoji('☁️',120,960,.9),emoji('⛈️',560,1050,.6)]},
-  {name:'Group chat',sub:'who opens?',preset:'black',ps:{...DOTS,mode:'duo'},els:()=>[
+  {name:'Group chat',sub:'who opens?',preset:'yellow',ps:{...DOTS},els:()=>[
     {id:'ferry',name:'FERRY logo',type:'img',src:'ferry-pink.png',x:310,y:276,w:460},
-    T({id:'cap',name:'Date line',cls:'t-cap',html:'Split set / Sat 14 Nov',x:540,y:452,anchor:'center',color:'#fff'}),
-    chat('FERRY','okay who\'s opening 👀',72,506,'#2c2a30','#fff','left','',-1.5),
-    chat('JACOBA','me at 21:30, obviously 💅🏼',1008,616,PINK,'#fff','right','',1.5),
-    chat('FREY.','then I\'m taking over at 22:30 ✨',72,726,'#fff',INK,'left','',-1),
-    chat('JACOBA','I\'m back at 23:30 😏',1008,836,PINK,'#fff','right','',1.5),
-    chat('FREY.','00:30 &gt; 01:30 for me, prime time!!',72,946,'#fff',INK,'left','',-1.5),
-    chat('FERRY','one hour each, TWICE! You better serve 😉',1008,1056,'#2c2a30','#fff','right','',1),
-    photo('frey',290,1500,330),photo('jacoba',790,1500,330)]},
+    T({id:'cap',name:'Date line',cls:'t-cap',html:'Split set / Sat 14 Nov',x:540,y:452,anchor:'center',color:INK}),
+    chat('FERRY','okay who\'s opening 👀',88,544,PINK,'#fff'),
+    chat('JACOBA','me at 21:30, obviously 💅🏼',992,668,'#18161b','#fff','right'),
+    chat('FREY.','then I\'m taking over at 22:30 ✨',88,792,'#fff',INK),
+    chat('JACOBA','I\'m back at 23:30 😏',992,916,'#18161b','#fff','right'),
+    chat('FREY.','00:30 &gt; 01:30 for me, prime time!!',88,1040,'#fff',INK),
+    chat('FERRY','one hour each, TWICE! You better serve 😉',992,1164,PINK,'#fff','right'),
+    photo('frey',290,1560,330),photo('jacoba',790,1560,330)]},
 ];
 
 /* ---------------- state ---------------- */
@@ -505,7 +503,7 @@ function render(){
       let col=e.color;
       if(!col){ if(e.role==='cap') col=p.cap; else if(side) col=side==='light'?INK:'#fff'; else col=p.cap; }
       d.style.color=col; if(e.bg) d.style.background=e.bg;
-      if(e.cls==='t-chat'){ const dark=p.cap==='#fff'||p.cap==='#ffffff'; d.style.setProperty('--pop',!dark?INK:((e.bg||'').toLowerCase()===PINK?'#fff':PINK)); }
+      if(e.cls==='t-chat'){ const dark=p.cap==='#fff'||p.cap==='#ffffff'; d.style.setProperty('--lab',dark?'#fff':INK); }
       const t2=d.querySelector('[data-t2]'); if(t2) t2.style.color=PINK;
     }
     layer.appendChild(d); place(d,e);
