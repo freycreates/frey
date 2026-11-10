@@ -63,11 +63,26 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
 #toast.show{opacity:1}
 .el{touch-action:none}
 @media (max-width:760px){body{flex-direction:column;overflow:auto;height:auto}main{order:1;height:72vh;flex:none}aside{order:2;width:100%;border-right:0;border-top:1px solid #2c2532;overflow:visible}}
+#gallery{position:fixed;inset:0;z-index:50;background:#0f0c11;overflow:auto;padding:28px 24px 40px}
+#gallery[hidden]{display:none}
+#gallery h1{font-size:28px;font-weight:800;letter-spacing:-.02em}
+#gallery .lead{color:var(--muted);margin:6px 0 20px}
+#gallery .grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+#gallery .card{display:flex;flex-direction:column;gap:8px;padding:0;background:none;border:0;text-align:left;color:var(--uitext)}
+#gallery .card img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:10px;border:2px solid #2c2532;display:block;background:#1d1820}
+#gallery .card:hover img,#gallery .card:focus-visible img{border-color:var(--pink)}
+#gallery .card b{font-size:14px}#gallery .card small{color:var(--muted);font-size:12px;display:block}
+#gallery .top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
 #busy{position:absolute;top:14px;right:18px;font-size:12.5px;color:var(--muted);opacity:0;transition:opacity .2s}
 #busy.show{opacity:1}
 </style>
 </head>
 <body>
+<div id="gallery" hidden>
+  <div class="top"><div><h1>Pick a design</h1><p class="lead">FREY. × JACOBA, split set at FERRY. Click one to open it in the editor, then move anything around.</p></div>
+  <button id="resume" class="primary" style="width:auto" hidden>Continue where you left off</button></div>
+  <div class="grid2" id="gal"></div>
+</div>
 <aside>
   <div>
     <h1>Split set editor</h1>
@@ -76,6 +91,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
 
   <section>
     <h2>Versions</h2>
+    <button id="openGallery" style="width:100%;margin-bottom:8px">See all designs</button>
     <div class="grid" id="tpls"></div>
   </section>
 
@@ -170,12 +186,12 @@ main{flex:1;display:flex;align-items:center;justify-content:center;position:rela
 <script>
 const PINK='#e8137f', INK='#0b0709', PURPLE='#7a1fd6', W=1080, H=1920;
 const stage=document.getElementById('stage'), layer=document.getElementById('layer'), bg=document.getElementById('bg'), wrap=document.getElementById('wrap');
-const KEY='splitset-editor-v5';
+const KEY='splitset-editor-v6';
 
 /* ---------------- assets ---------------- */
 const PHOTO={
   frey:{src:'cut-frey-v2.png',eye:[446.5,312],face:364,chin:576},
-  jacoba:{src:'cut-jacoba-v2.png',eye:[150.5,276],face:343,chin:530},
+  jacoba:{src:'cut-jacoba-v3.png',eye:[606,517.5],face:645,chin:997},
 };
 const ASSETS=['ferry-pink.png','ferry-white.png','frey-white.svg','frey-ink-pink.svg','frey-allwhite.svg','jacoba-white.png','jacoba-ink.png','bg-glitter-red.jpg','bg-glitter-pink.jpg','bg-opart.png',PHOTO.frey.src,PHOTO.jacoba.src];
 const DATA={}, IMG={};
@@ -245,6 +261,10 @@ function processPhoto(who,outW,P,o){
   const id=x.getImageData(0,0,w,h), px=id.data, N=w*h;
   let A=new Float32Array(N); for(let i=0;i<N;i++) A[i]=px[i*4+3]/255;
   A=minMax(A,w,h,P.shrink|0,false); A=blur(A,w,h,P.soften|0);
+  { // soften the photo's own crop edges (left, right, bottom) so no straight cut lines show
+    const fb=Math.max(8,Math.round(0.07*Math.min(ow,oh)));
+    for(let y=0;y<h;y++) for(let xx=0;xx<w;xx++){ const dx=Math.min(xx-pad,ow+pad-1-xx), dy=oh+pad-1-y; const d=Math.min(dx,dy); if(d<fb){ const k=Math.max(0,d)/fb; A[y*w+xx]*=k*k*(3-2*k); } }
+  }
   if(P.fade>0){ // bottom fade starting below the chin
     const t=P.fade/100, f=meta.face*sc, y0=pad+meta.chin*sc+(1-t)*1.1*f, len=0.6*f;
     for(let y=0;y<h;y++){ const k=Math.min(1,Math.max(0,(y-y0)/len)); const m=1-k*k*(3-2*k); if(m<1) for(let xx=0;xx<w;xx++) A[y*w+xx]*=m; }
@@ -289,7 +309,7 @@ const hex=h=>{h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.s
 /* ---------------- templates ---------------- */
 function photo(who,ex,ey,face,extra={}){
   const m=PHOTO[who], s=face/m.face, img=IMG[who];
-  const nw=img&&img.naturalWidth?img.naturalWidth:(who==='frey'?1013:390);
+  const nw=img&&img.naturalWidth?img.naturalWidth:(who==='frey'?1013:1100);
   const w=Math.round(nw*s);
   let x=ex-m.eye[0]*s; if(extra.flip) x=ex-(nw-m.eye[0])*s;
   return Object.assign({id:who==='frey'?'fp':'jp',name:who==='frey'?'Frey photo':'Jacoba photo',type:'photo',who,x:Math.round(x),y:Math.round(ey-m.eye[1]*s),w},extra);
@@ -595,6 +615,13 @@ document.getElementById('export').onclick=async()=>{
   g.style.display=''; sel=prev; render();
 };
 
+/* ---------------- gallery (designs first) ---------------- */
+const gal=document.getElementById('gal'), galBox=document.getElementById('gallery'), resume=document.getElementById('resume');
+TEMPLATES.forEach((t,i)=>{const b=document.createElement('button'); b.className='card'; b.innerHTML=`<img src="thumbs/${String(i+1).padStart(2,'0')}.jpg" alt="" loading="lazy"><span><b>${i+1}. ${t.name}</b><small>${t.sub}</small></span>`; b.onclick=()=>{useTemplate(i); galBox.hidden=true;}; gal.appendChild(b);});
+function showGallery(canResume){ resume.hidden=!canResume; galBox.hidden=false; }
+resume.onclick=()=>{galBox.hidden=true;};
+document.getElementById('openGallery').onclick=()=>showGallery(true);
+
 /* ---------------- go ---------------- */
 const RENDER=new URLSearchParams(location.search).get('render');
 if(RENDER!==null){ // ?render=N: show only the poster at full size (used to batch-export PNGs)
@@ -606,8 +633,10 @@ if(RENDER!==null){ // ?render=N: show only the poster at full size (used to batc
 if(RENDER===null) fit(); else { scale=1; stage.style.transform='none'; wrap.style.width=W+'px'; wrap.style.height=H+'px'; }
 loadAll().then(()=>{
   if(RENDER!==null){ const t=TEMPLATES[+RENDER]; S={tpl:+RENDER,preset:t.preset,ps:{...PS_DEFAULT,...t.ps},els:t.els()}; scale=1; stage.style.transform='none'; wrap.style.width=W+'px'; wrap.style.height=H+'px'; render(); if(document.fonts) document.fonts.ready.then(()=>{render(); document.title='READY';}); return; }
+  const had=!!S;
   if(!S) useTemplate(0); else { S.ps={...PS_DEFAULT,...S.ps}; render(); syncPS(); }
   if(document.fonts) document.fonts.ready.then(render);
+  showGallery(had);
 });
 </script>
 </body>
