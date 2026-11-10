@@ -24,6 +24,10 @@
   .bk .bk-f{margin-bottom:14px;min-width:0}
   .bk input,.bk textarea{width:100%;box-sizing:border-box;padding:12px 14px;border:1.5px solid #151316;border-radius:16px;background:#f4f2f1;color:#151316;font:500 1rem/1.3 "Open Sauce",system-ui,sans-serif}
   html[data-theme="dark"] .bk input,html[data-theme="dark"] .bk textarea{background:#211920;color:#f5f0f3;border-color:#7a6676}
+  .bk input{display:block;min-width:0;max-width:100%;height:50px;-webkit-appearance:none;appearance:none}
+  .bk input[type="date"],.bk input[type="time"]{text-align:left}
+  .bk input::-webkit-date-and-time-value{text-align:left;min-height:1.3em;margin:0}
+  .bk input::-webkit-datetime-edit{padding:0}
   .bk textarea{min-height:92px;resize:vertical}
   .bk input[aria-invalid="true"]{border-color:#e61482;box-shadow:0 0 0 2px rgba(230,20,130,.25)}
   .bk input:focus-visible,.bk textarea:focus-visible,.bk .bk-send:focus-visible,.bk .bk-x:focus-visible{outline:3px solid #e61482;outline-offset:2px}
@@ -36,7 +40,7 @@
   .bk .bk-trap{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
   .bk .bk-done h2{font-size:2.6rem}
   .bk .bk-rule{width:56px;height:4px;margin:14px 0;border-radius:2px;background:#e61482}
-  @media(max-width:520px){.bk .bk-row,.bk .bk-row.three{grid-template-columns:1fr}.bk-in{padding:22px 18px 20px}}`;
+  @media(max-width:520px){.bk .bk-row{grid-template-columns:1fr}.bk .bk-row.three{grid-template-columns:1fr 1fr}.bk .bk-row.three .bk-f:first-child{grid-column:1/-1}.bk-in{padding:22px 18px 20px}}`;
   let dialog,form;
   const el=(tag,attrs={},html="")=>{const n=document.createElement(tag);for(const k in attrs)n.setAttribute(k,attrs[k]);n.innerHTML=html;return n};
   const field=(id,key,type,extra="")=>`<div class="bk-f"><label for="bk-${id}" data-k="${key}"></label><input id="bk-${id}" name="${id}" type="${type}" ${extra}></div>`;
