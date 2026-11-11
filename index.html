@@ -193,6 +193,9 @@
     #hero .actions{max-width:540px;margin-top:26px}
     .hero-links{display:flex;flex-wrap:wrap;gap:8px 20px;margin:16px 0 0;font-size:.92rem;font-weight:800}
     .hero-links a{text-underline-offset:4px}.hero-links a:hover{color:var(--pink)}
+    /* E-mail as a third hero link: pink, own line on phones; on Mac a click copies the address. */
+    .hero-links .hero-mail{color:var(--pink)}.hero-links .hero-mail:hover{color:#191317}
+    @media(max-width:640px){.hero-links .hero-mail{flex-basis:100%}}
     .hero-b-visual{position:relative;min-height:520px;background:#191317}
     .hero-b-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:46% 30%}
     #hero .next{position:absolute;left:16px;right:16px;bottom:16px;width:auto;max-width:none;justify-self:stretch;display:grid;gap:4px;margin:0;padding:14px 16px;border-radius:10px;background:#191317;color:#fffdfb;text-decoration:none;transition:transform .15s ease}
@@ -410,7 +413,7 @@
                 <span>Instagram</span>
               </a>
           </nav>
-          <p class="hero-links"><a href="#music" data-en="Mixes &amp; playlists" data-nl="Mixes &amp; playlists">Mixes &amp; playlists</a><a href="#work">Portfolio</a></p>
+          <p class="hero-links"><a href="#music" data-en="Mixes &amp; playlists" data-nl="Mixes &amp; playlists">Mixes &amp; playlists</a><a href="#work">Portfolio</a><a class="hero-mail" href="mailto:hello@freycreates.nl">hello@freycreates.nl</a></p>
         </div>
         <div class="hero-b-visual">
           <img src="assets/frey-dj.jpg" alt="FREY. DJing in a club" fetchpriority="high" width="1600" height="1066">
@@ -522,6 +525,14 @@
     const heroCopy=document.querySelector(".hero-b-copy"),bioToggle=document.querySelector(".bio-toggle");
     bioToggle.addEventListener("click",()=>{const open=heroCopy.classList.toggle("bio-open");bioToggle.setAttribute("aria-expanded",String(open))});
     window.addEventListener("pageshow",()=>document.body.classList.remove("page-leaving"));
+    const heroMail=document.querySelector(".hero-mail");
+    heroMail.addEventListener("click",async event=>{
+      if(!matchMedia("(hover:hover) and (pointer:fine)").matches||!navigator.clipboard||heroMail.dataset.copied)return;
+      event.preventDefault();
+      try{await navigator.clipboard.writeText("hello@freycreates.nl")}catch{window.location.href=heroMail.href;return}
+      heroMail.dataset.copied="1";heroMail.textContent=window.FREY_LANGUAGE()==="nl"?"Gekopieerd.":"Copied.";
+      setTimeout(()=>{heroMail.textContent="hello@freycreates.nl";delete heroMail.dataset.copied},1600);
+    });
   </script>
   <script>
     // Top bar, always visible: the next gig (copied from the hidden Next up card) and EN/NL.
