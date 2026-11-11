@@ -185,6 +185,7 @@ body.steps .sec{border-bottom:0}
 footer{max-width:1160px;margin:0 auto;padding:0 24px 40px;color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
 footer a{color:var(--text)}
 footer i{color:var(--pink);font-style:normal}
+footer .mail{text-transform:none;letter-spacing:.02em}
 
 @media (max-width:900px){
   .grid{grid-template-columns:1fr}
@@ -497,7 +498,7 @@ footer i{color:var(--pink);font-style:normal}
   <div><strong>Playing from USB? Meet DJ Rewind.</strong><span>Plug in after your gig and get your play history as Rewinds for Instagram. Join the iPhone beta.</span></div>
   <a class="btn light" href="https://djrewind.app/" target="_blank" rel="noopener">Get DJ Rewind</a>
 </aside>
-<footer>A tool by <a href="https://freycreates.nl">FREYcreates</a></footer>
+<footer>A tool by <a href="https://freycreates.nl">FREYcreates</a> · Questions or help? <a class="mail" href="mailto:snap@freycreates.nl">snap@freycreates.nl</a></footer>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -667,11 +668,12 @@ function photoRect(F){
 const BADGE_FONT=()=>({family:'Inter Tight',weight:900,style:'normal',fb:'Arial,sans-serif'});
 function drawBadge(x,right,base,k,C){
   // Lineup Snap mark (a 9:16 story with a line-up on it) + spaced wordmark. Mark follows the text colour, headliner bar stays pink.
-  const th=BADGE_FONT(),fs=48*k,ts=22*k,sp=5.5*k;
+  const cy=base-48*k*.36;k*=.8; // badge at 80% of the old F. badge, same centre line
+  const th=BADGE_FONT(),ts=22*k,sp=5.5*k;
   x.save();x.textAlign='left';x.textBaseline='alphabetic';
   x.font=fontStr(th,ts,800);const word='LINEUP SNAP';
   let tw=0;for(const ch of word)tw+=x.measureText(ch).width+sp;tw-=sp;
-  const mh=40*k,mw=mh*42/76,u=mh/76,gap=13*k,cy=base-fs*.36;
+  const mh=40*k,mw=mh*42/76,u=mh/76,gap=13*k;
   let px=right-(mw+gap+tw);const my=cy-mh/2;
   const rr=(X,Y,W,Hh,R)=>{x.beginPath();x.roundRect?x.roundRect(X,Y,W,Hh,R):x.rect(X,Y,W,Hh);x.fill()};
   x.fillStyle=C.text;rr(px,my,mw,mh,9*u);
