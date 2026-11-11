@@ -186,6 +186,8 @@ footer{max-width:1160px;margin:0 auto;padding:0 24px 40px;color:var(--muted);fon
 footer a{color:var(--text)}
 footer i{color:var(--pink);font-style:normal}
 footer .mail{text-transform:none;letter-spacing:.02em}
+/* The badge can only be switched off in the iOS app (Pro). On the website it is always on. */
+body:not(.app) .badge-opt{display:none}
 
 @media (max-width:900px){
   .grid{grid-template-columns:1fr}
@@ -254,7 +256,7 @@ footer .mail{text-transform:none;letter-spacing:.02em}
               <label class="color">Accent<input type="color" id="cAccent"><input type="text" class="hex" id="cAccentHex" maxlength="7" spellcheck="false" autocapitalize="characters" placeholder="#RRGGBB" aria-label="Accent HEX code"></label>
             </div>
           </div>
-          <div>
+          <div class="badge-opt">
             <span class="sublbl">Corner badge (Lineup Snap logo, top right)</span>
             <div class="seg" id="badge"><button data-v="true">On</button><button data-v="false">Off</button></div>
           </div>
@@ -723,7 +725,7 @@ function draw(){
   const titleText=S.titleMode==='tonight'?'Tonight':S.titleMode==='upcoming'?'Upcoming':(S.titleMonth||'');
   const showTitle=hasTitle&&titleText.trim();
   let y=F.top;
-  if(S.badge){
+  if(S.badge||!document.body.classList.contains('app')){
     const bs=S.format==='story'?1:.9;
     const by=S.format==='story'?F.top-84:F.top;
     drawBadge(x,F.w-F.side,by+46*bs,bs,C);
