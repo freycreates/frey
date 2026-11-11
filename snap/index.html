@@ -7,9 +7,9 @@
 <meta name="description" content="Free line-up maker for DJ's, performers, event calendars. Customizable with your own image and logo. Ready for your Story.">
 <meta name="theme-color" content="#0f0d10">
 <link rel="canonical" href="https://freycreates.nl/snap/">
-<link rel="icon" type="image/png" sizes="48x48" href="/assets/frey-icon-48.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/assets/frey-icon.png">
-<link rel="apple-touch-icon" href="/assets/frey-icon-180.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/lineup-snap-icon-48.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/lineup-snap-icon-512.png">
+<link rel="apple-touch-icon" href="/assets/lineup-snap-icon-180.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://freycreates.nl/snap/">
 <meta property="og:site_name" content="FREY.">
@@ -18,12 +18,12 @@
 <meta property="og:image" content="https://freycreates.nl/assets/snap-share.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Lineup Snap by FREY.: three Instagram story line-ups in different themes">
+<meta property="og:image:alt" content="Lineup Snap: three Instagram story line-ups in different themes">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Lineup Snap | Line-up maker for DJs and performers">
 <meta name="twitter:description" content="Free line-up maker for DJ's, performers, event calendars. Customizable with your own image and logo. Ready for your Story.">
 <meta name="twitter:image" content="https://freycreates.nl/assets/snap-share.png">
-<meta name="twitter:image:alt" content="Lineup Snap by FREY.: three Instagram story line-ups in different themes">
+<meta name="twitter:image:alt" content="Lineup Snap: three Instagram story line-ups in different themes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=Inter+Tight:wght@500;600;700;800;900&family=Space+Grotesk:wght@700&family=Space+Mono:wght@700&family=Unbounded:wght@700&display=swap" rel="stylesheet">
@@ -42,10 +42,9 @@ a{color:inherit}
 
 /* top bar */
 .top{display:flex;align-items:center;gap:14px;max-width:1160px;margin:0 auto;padding:20px 24px}
-.brand{font-weight:900;font-size:26px;letter-spacing:-.04em;text-decoration:none;line-height:1}
-.brand i{color:var(--pink);font-style:normal}
-.sep{width:1px;height:20px;background:var(--line)}
-.product{font-weight:800;font-size:13px;letter-spacing:.22em;text-transform:uppercase}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;line-height:1}
+.brand svg{width:38px;height:38px;flex:none;border-radius:22.37%}
+.product{font-weight:800;font-size:15px;letter-spacing:.22em;text-transform:uppercase}
 .meta{margin-left:auto;font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;font-weight:600}
 
 /* hero */
@@ -206,9 +205,10 @@ footer i{color:var(--pink);font-style:normal}
 <body>
 
 <header class="top">
-  <a class="brand" href="https://freycreates.nl" aria-label="FREY. home">FREY<i>.</i></a>
-  <span class="sep"></span>
-  <span class="product">LINEUP SNAP</span>
+  <a class="brand" href="/snap/" aria-label="Lineup Snap">
+    <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="#e61482"/><rect x="29" y="12" width="42" height="76" rx="9" fill="#0a0a0a"/><rect x="36" y="24" width="20" height="5" rx="2.5" fill="#e61482"/><g fill="#fff"><rect x="36" y="36" width="28" height="5" rx="2.5"/><rect x="36" y="46" width="22" height="5" rx="2.5"/><rect x="36" y="56" width="16" height="5" rx="2.5"/><rect x="36" y="66" width="10" height="5" rx="2.5"/></g></svg>
+    <span class="product">Lineup Snap</span>
+  </a>
   <span class="meta">Private · Runs in your browser · iOS app soon</span>
 </header>
 
@@ -254,7 +254,7 @@ footer i{color:var(--pink);font-style:normal}
             </div>
           </div>
           <div>
-            <span class="sublbl">Corner badge (F. LINEUP SNAP, top right)</span>
+            <span class="sublbl">Corner badge (Lineup Snap logo, top right)</span>
             <div class="seg" id="badge"><button data-v="true">On</button><button data-v="false">Off</button></div>
           </div>
           <div>
@@ -666,19 +666,21 @@ function photoRect(F){
 
 const BADGE_FONT=()=>({family:'Inter Tight',weight:900,style:'normal',fb:'Arial,sans-serif'});
 function drawBadge(x,right,base,k,C){
+  // Lineup Snap mark (a 9:16 story with a line-up on it) + spaced wordmark. Mark follows the text colour, headliner bar stays pink.
   const th=BADGE_FONT(),fs=48*k,ts=22*k,sp=5.5*k;
   x.save();x.textAlign='left';x.textBaseline='alphabetic';
-  x.font=fontStr(th,fs);const fw=x.measureText('F').width,dw=x.measureText('.').width;
   x.font=fontStr(th,ts,800);const word='LINEUP SNAP';
   let tw=0;for(const ch of word)tw+=x.measureText(ch).width+sp;tw-=sp;
-  const gap=14*k,total=fw+dw+gap*2+2*k+tw;let px=right-total;
-  x.font=fontStr(th,fs);x.fillStyle=C.text;x.fillText('F',px,base);px+=fw;
-  x.fillStyle='#e61482';x.fillText('.',px,base);px+=dw+gap;
-  x.fillStyle=rgba(C.text,.35);x.fillRect(px,base-fs*.72,2*k,fs*.72);px+=2*k+gap;
-  x.font=fontStr(th,ts,800);x.fillStyle=C.text;
-  const ty=base-fs*.72/2+ts*.36;
+  const mh=40*k,mw=mh*42/76,u=mh/76,gap=13*k,cy=base-fs*.36;
+  let px=right-(mw+gap+tw);const my=cy-mh/2;
+  const rr=(X,Y,W,Hh,R)=>{x.beginPath();x.roundRect?x.roundRect(X,Y,W,Hh,R):x.rect(X,Y,W,Hh);x.fill()};
+  x.fillStyle=C.text;rr(px,my,mw,mh,9*u);
+  x.fillStyle='#e61482';rr(px+7*u,my+12*u,20*u,5*u,2.5*u);
+  x.fillStyle=C.bg;[[24,28],[34,22],[44,16],[54,10]].forEach(([y,w])=>rr(px+7*u,my+y*u,w*u,5*u,2.5*u));
+  px+=mw+gap;
+  x.fillStyle=C.text;const ty=cy+ts*.36;
   for(const ch of word){x.fillText(ch,px,ty);px+=x.measureText(ch).width+sp}
-  x.restore();ensureFont(th,'F.LINEUP SNAP');
+  x.restore();ensureFont(th,'LINEUP SNAP');
 }
 function draw(){
   const F=FORMATS[S.format],th=curTheme(),C=colors();
