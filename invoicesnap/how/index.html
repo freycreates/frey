@@ -26,7 +26,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;900&display=swap">
 <style>
 :root{--bg:#f5f3ee;--sf:#fff;--s2:#efece6;--tx:#1b1618;--mu:#665c62;--pk:#d4107a;--pt:#c20f6e;--ln:rgba(27,22,24,.14)}
-@media(prefers-color-scheme:dark){:root{--bg:#0f0d10;--sf:#19151a;--s2:#221c23;--tx:#fff8fb;--mu:#a99ca5;--pt:#ff5aab;--ln:rgba(255,248,251,.14)}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:500 17px/1.5 "Inter Tight",system-ui,-apple-system,sans-serif}
 .w{max-width:760px;margin:0 auto;padding:22px 22px 80px}
 .top{display:flex;justify-content:space-between;align-items:center}
@@ -42,8 +41,8 @@ h1{font-size:clamp(34px,8vw,56px);line-height:1;letter-spacing:-.035em;font-weig
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.f{background:var(--s2);border-radius:16px;padding:16px 18px}.f b{display:block;font-size:18px;margin-bottom:3px}.f span{color:var(--mu);font-size:15.5px}
 .made{margin-top:30px;background:#1b1618;color:#fff;border-radius:20px;padding:22px;display:flex;gap:16px;align-items:center}.made .badge{flex:none;width:56px;height:56px;border-radius:50%;background:var(--pk);display:grid;place-items:center;font-size:26px}
 .made b{display:block;font-size:clamp(20px,4.5vw,25px);letter-spacing:-.02em;line-height:1.15}.made span{color:#d8cfd4;font-size:15.5px}.made a{color:#fff}
-.cta{margin-top:34px;background:var(--pk);color:#fff;border-radius:22px;padding:28px 26px}.cta h3{margin:0 0 6px;font-size:clamp(26px,6vw,36px);letter-spacing:-.03em;line-height:1.05;font-weight:900}.cta p{margin:0 0 16px;opacity:.92}.cta .btn{background:#1b1618;color:#fff}
-.donw{margin-top:28px}.don{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--ln);background:var(--sf);color:var(--tx);text-decoration:none;font-weight:800;font-size:15px;border-radius:99px;padding:10px 18px}.don:hover{border-color:var(--pk)}
+.cta h3{margin:0 0 6px;font-size:clamp(26px,6vw,36px);letter-spacing:-.03em;line-height:1.05;font-weight:900}.cta p{margin:0 0 16px;opacity:.92}.cta .btn{background:#1b1618;color:#fff}
+.donw{margin-top:34px}.don{display:flex;justify-content:center;gap:12px;align-items:center;border:2px solid var(--pk);background:var(--sf);color:var(--tx);text-decoration:none;font-weight:900;font-size:22px;border-radius:20px;padding:22px 26px;width:100%}.don:hover{border-color:var(--pk)}
 .by{margin:14px 0 0;color:var(--mu);font-size:15px}.by a{color:var(--pt)}
 :focus-visible{outline:3px solid var(--pk);outline-offset:3px}
 @media(max-width:620px){.vs,.g2{grid-template-columns:1fr}.made{flex-direction:column;align-items:flex-start}}
@@ -53,18 +52,16 @@ h1{font-size:clamp(34px,8vw,56px);line-height:1;letter-spacing:-.035em;font-weig
 <div class="w">
 <div class="top"><a class="brand" href="../">INVOICE SNAP<i>.</i></a><div class="lang" role="group" aria-label="Language"><button data-l="nl">NL</button><button data-l="en">EN</button></div></div>
 <h1 data-t="h1">De factuur-tool voor DJ's en performers<i>.</i></h1>
-<p class="lead" data-t="lead">Facturen maken hoort niet langer te duren dan de set zelf.</p>
 <a class="btn" href="../" data-t="start">Start met Invoice Snap</a>
-<div class="vs"><div class="old"><h3 data-t="oldh">Zoals het was</h3><ul><li data-t="o1">Een oude factuur overtypen</li><li data-t="o2">BTW zelf uitrekenen</li><li data-t="o3">Een nummer verzinnen</li></ul></div>
-<div class="new"><h3 data-t="newh">Met Invoice Snap</h3><ul><li data-t="n1">Gegevens één keer, daarna alleen het bedrag</li><li data-t="n2">BTW of KOR automatisch</li><li data-t="n3">Betaal-QR op de factuur</li></ul></div></div>
+<div class="vs"><div class="old"><h3 data-t="oldh">Zoals het was</h3><ul><li data-t="o1">Een oude factuur overtypen</li><li data-t="o2">Het adres van de club of het evenement opzoeken</li><li data-t="o3">BTW, reiskosten en totaal zelf uitrekenen</li><li data-t="o4">Zoeken in je mail naar die ene factuur voor je administratie</li><li data-t="o5">Het IBAN-nummer overtypen</li></ul></div>
+<div class="new"><h3 data-t="newh">Met Invoice Snap</h3><ul><li data-t="n1">Gegevens één keer, daarna alleen het bedrag en het factuurnummer</li><li data-t="n2">Club of evenement met één tik terug, met alle gegevens automatisch ingevuld</li><li data-t="n3">BTW, reiskosten en het totaalbedrag automatisch berekend</li><li data-t="n4">Al je facturen bewaard, ook op een nieuwe telefoon</li><li data-t="n5">Betaal-QR op de factuur</li></ul></div></div>
 <div class="g2"><div class="f"><b data-t="p1">Privé</b><span data-t="p1d">Alles blijft in je browser.</span></div><div class="f"><b data-t="p2">Geen account</b><span data-t="p2d">Google-opslag is optioneel.</span></div></div>
 <div class="made"><div class="badge" aria-hidden="true">&#127911;</div><div><b data-t="mb">Gemaakt door een performer, voor performers.</b><span><span data-t="mf">Van</span> <a href="https://freycreates.nl/">FREYcreates</a></span></div></div>
-<div class="cta"><h3 data-t="ch">Probeer het met je volgende gig</h3><p data-t="cp">Je eerste factuur duurt een minuut.</p><a class="btn" href="../" data-t="start2">Start met Invoice Snap</a></div>
 <div class="donw"><a class="don" href="https://buymeacoffee.com/freycreates" target="_blank" rel="noopener">&#9749; <span data-t="don">Steun de maker</span></a></div>
 <p class="by"><a href="../privacy/">Privacy</a></p>
 </div>
 <script>
-var EN={h1:"The invoice tool for DJs and performers<i>.</i>",lead:"Making an invoice shouldn't take longer than the set itself.",start:"Start using Invoice Snap",oldh:"How it was",o1:"Retyping an old invoice",o2:"Working out the VAT yourself",o3:"Making up a number",newh:"With Invoice Snap",n1:"Your details once, then only the amount",n2:"VAT or KOR automatic",n3:"Payment QR on the invoice",p1:"Private",p1d:"Everything stays in your browser.",p2:"No account",p2d:"Saving to Google is optional.",mb:"Made by a performer, for performers.",mf:"From",ch:"Try it on your next gig",cp:"Your first invoice takes a minute.",start2:"Start using Invoice Snap",don:"Support the maker"},NL={},els=document.querySelectorAll('[data-t]');
+var EN={h1:"The invoice tool for DJs and performers<i>.</i>",start:"Start using Invoice Snap",o1:"Retyping an old invoice",o2:"Looking up the address of the club or event",o3:"Working out VAT, travel costs and the total yourself",o4:"Searching your email for that one invoice for your administration",o5:"Retyping the IBAN",n1:"Your details once, then only the amount and the invoice number",n2:"Club or event back with one tap, all details filled in automatically",n3:"VAT, travel costs and the total calculated automatically",n4:"All your invoices saved, also on a new phone",n5:"Payment QR on the invoice",oldh:"How it was",newh:"With Invoice Snap",p1:"Private",p1d:"Everything stays in your browser.",p2:"No account",p2d:"Saving to Google is optional.",mb:"Made by a performer, for performers.",mf:"From",don:"Support the maker"},NL={},els=document.querySelectorAll('[data-t]');
 els.forEach(function(e){NL[e.dataset.t]=e.innerHTML});
 function setL(l){try{localStorage.setItem('invoicesnap-lang',l)}catch(e){}document.documentElement.lang=l;var D=l=='en'?EN:NL;els.forEach(function(e){e.innerHTML=D[e.dataset.t]});document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l==l)})}
 document.querySelectorAll('.lang button').forEach(function(b){b.onclick=function(){setL(b.dataset.l)}});
