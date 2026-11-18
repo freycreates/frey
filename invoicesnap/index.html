@@ -442,7 +442,7 @@ h3.sech{display:none}
 <script>
 var KEY='invoicesnap-v1',SITE='https://freycreates.nl/invoicesnap',SITETXT='freycreates.nl/invoicesnap';
 var COLS=['#1c1b19','#2b5bd9','#e61482','#e8821e'],CN=['Black','Blue','Pink','Orange'];
-var D={me:'',art:'',mad:'',memail:'',mtel:'',kvk:'',btw:'',iban:'',cl:'',ad:'',em:'',ckvk:'',cbtw:'',no:'2026-001',ref:'',gig:'DJ set, 22 Nov 2026, 2 hours',fee:'400',tk:'',km:'',rate:'0.25',oth:'',cv:'21',due:'30'};
+var D={me:'',art:'',mad:'',memail:'',mtel:'',kvk:'',btw:'',iban:'',cl:'',ad:'',em:'',ckvk:'',cbtw:'',no:new Date().getFullYear()+'-001',ref:'',gig:'',fee:'',tk:'',km:'',rate:'0.25',oth:'',cv:'21',due:'30'};
 var ME=['me','mad','kvk','btw','iban'],FM=['cl','ad','em','ckvk','cbtw','no','ref','gig','fee','tk','km','rate','cv','due'];
 var PRESETS={qr:[
  {name:'FERRY',cl:'FERRY Store BV',ad:'Westblaak 127, 3012 KJ Rotterdam',em:'',ckvk:'60573945',cbtw:'NL853967660B01',fee:'',tk:'',n:0,demo:true,preset:'qr'},
@@ -450,6 +450,7 @@ var PRESETS={qr:[
 var S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 if(!S||!S.f){S={enrolled:false,f:JSON.parse(JSON.stringify(D)),logo:'',col:COLS[0],vm:'9',tm:'none',clubs:[]}}
 if(COLS.indexOf(S.col)<0)S.col=COLS[0];
+if(S.f.gig==='DJ set, 22 Nov 2026, 2 hours'&&!(S.hist&&S.hist.length)){S.f.gig='';if(S.f.fee==='400')S.f.fee=''}
 if(!S.hist)S.hist=[];
 if(!S.extras)S.extras=(+S.f.oth>0)?[{d:'',a:S.f.oth}]:[];
 if(S.f.rate=='0.23')S.f.rate='0.25';
@@ -560,7 +561,7 @@ function renderQr(){var t=epc();$('qr').toggleAttribute('hidden',!t);$('qrcap').
 
 var calc={t:0},short=function(n){return n.replace(/\s*\(.*\)/,'')};
 function draw(){
- var f=S.f,fee=+f.fee||0,rows=[[f.gig,1,fee,fee]];
+ var f=S.f,fee=+f.fee||0,rows=((f.gig||'').trim()||fee)?[[f.gig,1,fee,fee]]:[];
  if(S.tm=='train'&&+f.tk>0)rows.push([T('Travel costs, public transport'),1,+f.tk,+f.tk]);
  if(S.tm=='car'&&+f.km>0)rows.push([T('Travel costs, car'),f.km+' km',+f.rate||0,f.km*(f.rate||0)]);
  (S.extras||[]).forEach(function(x){var a=+x.a||0;if(a>0)rows.push([(x.d||'').trim()||T('Other costs'),1,a,a])});
