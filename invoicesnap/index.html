@@ -691,7 +691,7 @@ async function makePdf(){
  d.text(d.splitTextToSize(ft,W-2*M),M,y);
  var wl=await wordLogo(),lh=3.1,lw2=lh*wl.w/wl.h;set(7,0,[150,148,155]);
  var t1='Made with',w1=d.getTextWidth(t1),tot=w1+1.4+lw2,x0=(W-tot)/2;
- for(var pg=1;pg<=d.getNumberOfPages();pg++){d.setPage(pg);d.setDrawColor(222,220,226);d.setLineWidth(.25);d.roundedRect(x0-3.5,284.9,tot+7,6.2,3.1,3.1,'S');set(7,0,[150,148,155]);d.text(t1,x0,289);d.addImage(wl.u,'PNG',x0+w1+1.4,286.6,lw2,lh);d.link(x0-3.5,284.9,tot+7,6.2,{url:SITE})}
+ for(var pg=1;pg<=d.getNumberOfPages();pg++){d.setPage(pg);d.setDrawColor(222,220,226);d.setLineWidth(.25);d.roundedRect(x0-3.5,284.9,tot+7,6.2,3.1,3.1,'S');set(7,0,[150,148,155]);d.text(t1,x0,289);d.addImage(wl.u,'PNG',x0+w1+1.4,286.6,lw2,lh);d.link(x0-3.5,284.9,tot+7,6.2,{url:SITE+'/how/'})}
  d.setProperties({title:T('Invoice')+' '+f.no,author:f.me,keywords:await backupStr()});
  return d.output('blob')}
 $('bpdf').onclick=async function(){if(!S.f.cl){toast(T('Add the club or event first'));$('cl').focus();return}
