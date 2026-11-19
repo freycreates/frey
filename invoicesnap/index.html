@@ -992,6 +992,7 @@ $('bmail').onclick=async function(){var f=S.f;if(!f.cl.trim()){toast(T('Add the 
  var blob;try{blob=await getPdf()}catch(e){toast(T('Could not make the PDF'));return}
  mailFallback(blob,new File([blob],pdfName(),{type:'application/pdf'}));rememberAndNext()};
 
+$('gdate').onclick=function(){try{this.showPicker()}catch(e){}};/* opens the calendar on the first click, not only on its icon */
 $('gdate').onchange=function(){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(this.value);if(!m)return;var s=m[3]+'-'+m[2]+'-'+m[1],g=$('gig'),v=g.value;g.value=/\d{2}-\d{2}-\d{4}/.test(v)?v.replace(/\d{2}-\d{2}-\d{4}/,s):(v.trim()?v.replace(/[,\s]+$/,'')+', ':'')+s;g.dispatchEvent(new Event('input',{bubbles:true}));this.value=''};
 /* From Lineup Snap: ?club=..&date=YYYY-MM-DD fills the club and the description */
 (function(){var q=new URLSearchParams(location.search),n=(q.get('club')||'').trim().slice(0,80);if(!n)return;
