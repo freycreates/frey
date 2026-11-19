@@ -971,21 +971,16 @@ function mailParts(){var f=S.f,nm1=short(f.me),sig=f.art&&f.art.trim()&&f.art.tr
 var mailCtx=null;
 function shareErr(e){return e&&e.name=='AbortError'}
 function mailFallback(blob,file){var f=S.f,m=mailParts();
- if(!f.em){toast(T('Add the client email first'));$('em').focus();return}
  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000);
- setTimeout(function(){location.href='mailto:'+encodeURIComponent(f.em)+'?subject='+encodeURIComponent(m.subj)+'&body='+encodeURIComponent(m.body)},500);
+ setTimeout(function(){location.href='mailto:'+encodeURIComponent(f.em||'')+'?subject='+encodeURIComponent(m.subj)+'&body='+encodeURIComponent(m.body)},500);
  toast(T('PDF saved. Attach it to your email.'))}
 $('mcx').onclick=function(){$('mailcard').hidden=true;mailCtx=null};
 $('mcgo').onclick=async function(){if(!mailCtx)return;var c=mailCtx,em=(S.f.em||'').trim();$('mailcard').hidden=true;
  if(em){try{navigator.clipboard.writeText(em)}catch(e){}}
  try{await navigator.share({files:[c.file],title:c.m.subj,text:c.m.body});rememberAndNext()}catch(e){if(!shareErr(e))mailFallback(c.blob,c.file)}mailCtx=null};
 $('bmail').onclick=async function(){var f=S.f;if(!f.cl.trim()){toast(T('Add the club or event first'));$('cl').focus();return}
- var m=mailParts(),blob;try{blob=await getPdf()}catch(e){toast(T('Could not make the PDF'));return}
- var file=new File([blob],pdfName(),{type:'application/pdf'});
- if(!(navigator.canShare&&navigator.canShare({files:[file]}))){mailFallback(blob,file);return}
- mailCtx={blob:blob,file:file,m:m};var em=(f.em||'').trim();
- if(em){$('mcem').textContent=em;$('mailcard').hidden=false;$('mailcard').scrollIntoView({block:'nearest',behavior:'smooth'});return}
- try{await navigator.share({files:[file],title:m.subj,text:m.body});rememberAndNext()}catch(e){if(!shareErr(e))mailFallback(blob,file)}mailCtx=null};
+ var blob;try{blob=await getPdf()}catch(e){toast(T('Could not make the PDF'));return}
+ mailFallback(blob,new File([blob],pdfName(),{type:'application/pdf'}));rememberAndNext()};
 
 /* From Lineup Snap: ?club=..&date=YYYY-MM-DD fills the club and the description */
 (function(){var q=new URLSearchParams(location.search),n=(q.get('club')||'').trim().slice(0,80);if(!n)return;
