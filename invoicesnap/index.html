@@ -298,10 +298,10 @@ footer .donw{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}.don.how{backg
 .iact .btn{text-align:center}
 .ipanel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
 @media(max-width:560px){.itot{grid-template-columns:1fr}.itot div{display:flex;justify-content:space-between;align-items:center}}
-.gtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:11px 14px;margin:6px 0 4px;font-size:15px}
+.gtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:6px 0 18px;font-size:15px}
 .gbig{margin-top:30px;border:2px solid var(--pink);padding:20px;gap:6px}
 .gbig h2{margin:0;font-size:22px;font-weight:900;letter-spacing:-.02em}
-.gbig .gbtn{width:100%;justify-content:center;margin-top:6px}
+.gtop .gbtn{flex:none}.gbig .gbtn{width:100%;justify-content:center;margin-top:6px}
 .ql{background:#3a373b;border-radius:16px;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.22)}
 .qlt{padding:10px 14px;text-align:center;font-size:13px;font-weight:700;color:#eee;background:rgba(0,0,0,.28);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .qlb{padding:18px}
@@ -458,7 +458,7 @@ footer .donw{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}.don.how{backg
       <a class="from" href="https://freycreates.nl/snap/">From the makers of Lineup Snap</a></div><div class="ctl"><div class="lang" role="group" aria-label="Language"><button data-lang="en">EN</button><button data-lang="nl">NL</button></div><button class="th" data-th type="button"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div></div>
     <h1 id="enh">Hi! Let's set you up<i>.</i></h1>
     <p>Fill this in once. Next time everything is already there. It stays in this browser, nothing is uploaded.</p>
-    <div class="gtop" id="gtop" hidden><span>Used it before? Get your details and invoices back.</span><button class="lnkbtn" id="gtbtn" type="button">Log in with Google</button></div>
+    <div class="gtop" id="gtop" hidden><span>Used it before? Get your details and invoices back.</span><button class="gbtn" id="gtbtn" type="button">Log in with Google</button></div>
     <div class="g">
       <label class="f"><span>Legal name</span><input id="me_" data-k="me" autocomplete="name"></label>
       <label class="f"><span>Artist name</span><em>optional</em><input id="art_" data-k="art" autocomplete="nickname"></label>
@@ -898,7 +898,7 @@ async function gConnect(mode){if(!gOn())return;
  catch(e){toast(T('Could not connect to Google.'))}}
 function gDisconnect(){try{sessionStorage.removeItem('isnap-gt')}catch(e){}try{if(gTok&&window.google)google.accounts.oauth2.revoke(gTok,function(){})}catch(e){}gTok=null;S.g=null;saveRaw();gStatus();draw();toast(T('Disconnected. Your details stay in this browser.'))}
 async function gWipe(){try{await gToken(true);var id=S.g&&S.g.fileId||await gFind();if(id){var r=await gFetch('https://www.googleapis.com/drive/v3/files/'+id,{method:'DELETE'});if(!r.ok&&r.status!=404)throw new Error('del')}gDisconnect();toast(T('Saved data removed from Google Drive.'))}catch(e){toast(T('Could not connect to Google.'))}}
-$('gnbtn').insertAdjacentHTML('afterbegin',GSVG);$('gwbtn').insertAdjacentHTML('afterbegin',GSVG);
+$('gnbtn').insertAdjacentHTML('afterbegin',GSVG);$('gwbtn').insertAdjacentHTML('afterbegin',GSVG);$('gtbtn').insertAdjacentHTML('afterbegin',GSVG);
 $('gnbtn').onclick=function(){gConnect('save')};$('gwbtn').onclick=function(){gConnect('restore')};$('gtbtn').onclick=function(){gConnect('restore')};
 $('gnx').onclick=function(){S.gNo=true;saveRaw();gPill()};
 $('gpill').onclick=function(){if(S.g&&S.g.pending)gPush(true)};
