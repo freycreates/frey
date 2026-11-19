@@ -127,6 +127,7 @@ details.adv[open] summary::after{content:"–"}
 /* gigs */
 .gig{display:grid;grid-template-columns:150px 1fr 34px;gap:8px;margin-bottom:12px;align-items:start}
 .gig .city{grid-column:2}
+.gig .inv{grid-column:2;justify-self:start;font-size:12px;font-weight:700;color:var(--text);opacity:.7;text-decoration:underline;padding:2px 0}
 .x{border:0;background:none;color:var(--muted);font-size:22px;cursor:pointer;height:44px;line-height:1;border-radius:10px}
 .x:hover{color:var(--pink)}
 .add{background:none;border:0;color:var(--text);font-weight:700;font-size:14px;cursor:pointer;padding:6px 0}
@@ -902,6 +903,9 @@ function renderGigs(){
     d.addEventListener('input',()=>{r.date=d.value;change()});
     v.addEventListener('input',()=>{r.venue=v.value;change()});
     c.addEventListener('input',()=>{r.city=c.value;change()});
+    const l=document.createElement('a');l.className='inv';l.target='_blank';l.rel='noopener';l.textContent='Make invoice for this gig →';
+    const upd=()=>{l.hidden=!v.value.trim();l.href='/invoicesnap/?club='+encodeURIComponent(v.value.trim())+(d.value?'&date='+d.value:'')};
+    v.addEventListener('input',upd);d.addEventListener('input',upd);upd();g.appendChild(l);
     x.addEventListener('click',()=>{S.rows.splice(i,1);if(!S.rows.length)S.rows.push({date:'',venue:'',city:''});renderGigs();change()});
     box.appendChild(g);
   });

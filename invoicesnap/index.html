@@ -932,6 +932,13 @@ $('bmail').onclick=async function(){var f=S.f;if(!f.cl.trim()){toast(T('Add the 
  if(em){$('mcem').textContent=em;$('mailcard').hidden=false;$('mailcard').scrollIntoView({block:'nearest',behavior:'smooth'});return}
  try{await navigator.share({files:[file],title:m.subj,text:m.body});rememberAndNext()}catch(e){if(!shareErr(e))mailFallback(blob,file)}mailCtx=null};
 
+/* From Lineup Snap: ?club=..&date=YYYY-MM-DD fills the club and the description */
+(function(){var q=new URLSearchParams(location.search),n=(q.get('club')||'').trim().slice(0,80);if(!n)return;
+ var low=n.toLowerCase(),c=S.clubs.filter(function(x){return (x.cl||'').toLowerCase()==low||(x.name||'').toLowerCase()==low})[0];
+ if(c){fillFrom(c);var uf=usualFee(c);if(uf){S.f.fee=uf;$('fee').value=uf}}else{['ad','em','ckvk','cbtw','fee'].forEach(function(k){S.f[k]='';$(k).value=''});S.f.cl=n;$('cl').value=n}
+ var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(q.get('date')||'');
+ if(m){S.f.gig='DJ set, '+new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString(L=='nl'?'nl-NL':'en-GB',{day:'numeric',month:'short',year:'numeric'});$('gig').value=S.f.gig}
+ if(c)goStep(2);save();history.replaceState(null,'',location.pathname+location.hash)})();
 draw();if(!S.enrolled)openEnrol(true);setLang(L);gArm();
 </script>
 </body>
