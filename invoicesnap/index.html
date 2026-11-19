@@ -839,11 +839,12 @@ function gOn(){return !!GOOGLE_CLIENT_ID}
 function saveRaw(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function hsh(t){var h=5381;for(var i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return String(h)}
 function gLoad(){if(window.google&&google.accounts&&google.accounts.oauth2)return Promise.resolve();if(gLoading)return gLoading;gLoading=new Promise(function(res,rej){var sc=document.createElement('script');sc.src='https://accounts.google.com/gsi/client';sc.onload=res;sc.onerror=function(){gLoading=null;rej(new Error('load'))};document.head.appendChild(sc)});return gLoading}
-function gToken(interactive){return gLoad().then(function(){return new Promise(function(res,rej){
+function gCached(){if(gTok&&Date.now()<gExp-60000)return gTok;try{var c=JSON.parse(sessionStorage.getItem('isnap-gt')||'null');if(c&&c.t&&Date.now()<c.e-60000){gTok=c.t;gExp=c.e;return gTok}}catch(e){}return null}
+function gToken(interactive){var c=gCached();if(c)return Promise.resolve(c);if(!interactive)return Promise.reject(new Error('needauth'));return gLoad().then(function(){return new Promise(function(res,rej){
  if(gTok&&Date.now()<gExp-60000)return res(gTok);
  var done=false,to=interactive?0:setTimeout(function(){if(!done){done=true;rej(new Error('timeout'))}},12000);
  var tc=google.accounts.oauth2.initTokenClient({client_id:GOOGLE_CLIENT_ID,scope:GSCOPE,hint:(S.g&&S.g.email)||undefined,
-  callback:function(r){if(done)return;done=true;clearTimeout(to);if(r&&r.access_token){gTok=r.access_token;gExp=Date.now()+(r.expires_in||3600)*1000;res(gTok)}else rej(new Error((r&&r.error)||'denied'))},
+  callback:function(r){if(done)return;done=true;clearTimeout(to);if(r&&r.access_token){gTok=r.access_token;gExp=Date.now()+(r.expires_in||3600)*1000;try{sessionStorage.setItem('isnap-gt',JSON.stringify({t:gTok,e:gExp}))}catch(e){}res(gTok)}else rej(new Error((r&&r.error)||'denied'))},
   error_callback:function(e){if(done)return;done=true;clearTimeout(to);rej(new Error((e&&e.type)||'popup'))}});
  tc.requestAccessToken({prompt:''})})})}
 async function gFetch(url,opt){var t=await gToken(false);opt=opt||{};opt.headers=Object.assign({Authorization:'Bearer '+t},opt.headers||{});return fetch(url,opt)}
@@ -895,13 +896,14 @@ async function gConnect(mode){if(!gOn())return;
   S.g={email:email,fileId:S.g&&S.g.fileId,pending:true};if(remote){mergeSnap(remote,false);refreshFields()}saveRaw();
   await gPush(false);draw();gStatus();toast(S.g&&!S.g.pending?T('Connected. Your details are saved.'):T('Could not connect to Google.'))}
  catch(e){toast(T('Could not connect to Google.'))}}
-function gDisconnect(){try{if(gTok&&window.google)google.accounts.oauth2.revoke(gTok,function(){})}catch(e){}gTok=null;S.g=null;saveRaw();gStatus();draw();toast(T('Disconnected. Your details stay in this browser.'))}
+function gDisconnect(){try{sessionStorage.removeItem('isnap-gt')}catch(e){}try{if(gTok&&window.google)google.accounts.oauth2.revoke(gTok,function(){})}catch(e){}gTok=null;S.g=null;saveRaw();gStatus();draw();toast(T('Disconnected. Your details stay in this browser.'))}
 async function gWipe(){try{await gToken(true);var id=S.g&&S.g.fileId||await gFind();if(id){var r=await gFetch('https://www.googleapis.com/drive/v3/files/'+id,{method:'DELETE'});if(!r.ok&&r.status!=404)throw new Error('del')}gDisconnect();toast(T('Saved data removed from Google Drive.'))}catch(e){toast(T('Could not connect to Google.'))}}
 $('gnbtn').insertAdjacentHTML('afterbegin',GSVG);$('gwbtn').insertAdjacentHTML('afterbegin',GSVG);
 $('gnbtn').onclick=function(){gConnect('save')};$('gwbtn').onclick=function(){gConnect('restore')};$('gtbtn').onclick=function(){gConnect('restore')};
 $('gnx').onclick=function(){S.gNo=true;saveRaw();gPill()};
 $('gpill').onclick=function(){if(S.g&&S.g.pending)gPush(true)};
-async function gInit(){if(!gOn()||!S.g)return;try{await gToken(false);var r=await gPull();if(r){mergeSnap(r,false);refreshFields();saveRaw()}await gPush(false);draw()}catch(e){if(S.g&&hsh(snapBase(snapshot()))!==S.g.h){S.g.pending=true;saveRaw()}}gStatus()}
+function gArm(){if(!gOn()||!S.g)return;if(gCached())return gInit(false);gLoad().catch(function(){});var go=function(){document.removeEventListener('pointerdown',go,true);gInit(true)};document.addEventListener('pointerdown',go,true)}
+async function gInit(interactive){if(!gOn()||!S.g)return;try{await gToken(!!interactive);var r=await gPull();if(r){mergeSnap(r,false);refreshFields();saveRaw()}await gPush(false);draw()}catch(e){if(S.g&&hsh(snapBase(snapshot()))!==S.g.h){S.g.pending=true;saveRaw()}}gStatus()}
 var pdfC={k:'',b:null},warmT;
 function pdfKey(){return JSON.stringify([S.f,S.extras,S.col,S.vm,S.tm,S.dueOn,S.logo&&S.logo.length,L])}
 function warmPdf(){clearTimeout(warmT);warmT=setTimeout(async function(){var k=pdfKey();if(pdfC.k==k)return;try{var bl=await makePdf();pdfC={k:k,b:bl}}catch(e){}},500)}
@@ -928,7 +930,7 @@ $('bmail').onclick=async function(){var f=S.f;if(!f.cl.trim()){toast(T('Add the 
  if(em){$('mcem').textContent=em;$('mailcard').hidden=false;$('mailcard').scrollIntoView({block:'nearest',behavior:'smooth'});return}
  try{await navigator.share({files:[file],title:m.subj,text:m.body});rememberAndNext()}catch(e){if(!shareErr(e))mailFallback(blob,file)}mailCtx=null};
 
-draw();if(!S.enrolled)openEnrol(true);setLang(L);gInit();
+draw();if(!S.enrolled)openEnrol(true);setLang(L);gArm();
 </script>
 </body>
 </html>
