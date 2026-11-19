@@ -480,7 +480,6 @@ footer .donw{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}.don.how{backg
     <p class="hint" style="margin-top:18px">You can change all of this later under "Your details".</p>
     <div class="gcard gbig" id="gwelcome" hidden><h2>Keep everything safe with Google</h2><p>Recommended. Then you never lose your details.</p><ul class="gl"><li>Your details, clients (clubs, events) and invoices are saved.</li><li>New phone, other computer or logged out? Sign in with Google and everything is back.</li><li>Only you can see it. Invoice Snap does not create an account.</li></ul><button class="gbtn" id="gwbtn" type="button">Continue with Google</button></div>
     <div class="gcard" id="gedit" hidden></div>
-    <div class="restore" id="restorew"><button class="btn small ghost" id="brest" type="button">Data lost? Restore from earlier invoices</button><input type="file" id="frest" accept="application/pdf" multiple hidden><p class="hint" style="margin:6px 0 0">Pick one or more invoices (PDF) you made with Invoice Snap.</p></div>
   </div>
 </div>
 
@@ -545,7 +544,7 @@ $('logo').onchange=function(e){var f=e.target.files[0];if(!f)return;var im=new I
  im.onerror=function(){toast(T('That file is not an image'))};im.src=u};
 $('rmlogo').onclick=function(){S.logo='';save();draw()};
 
-function openEnrol(first){var gs=first&&gOn()&&!S.g;$('gwelcome').hidden=!gs;$('gtop').hidden=!gs;$('restorew').hidden=first;$('colw').hidden=first;$('brest').textContent=T(first?'Data lost? Restore from earlier invoices':'Add earlier invoices (PDF)');$('enh').innerHTML=(first?T("Hi! Let's set you up"):T('Your details'))+'<i>.</i>';$('estart').textContent=first?T('Start invoicing'):T('Save and close');$('enrol').hidden=false;document.body.style.overflow='hidden';renderGedit()}
+function openEnrol(first){var gs=first&&gOn()&&!S.g;$('gwelcome').hidden=!gs;$('gtop').hidden=!gs;$('colw').hidden=first;$('enh').innerHTML=(first?T("Hi! Let's set you up"):T('Your details'))+'<i>.</i>';$('estart').textContent=first?T('Start invoicing'):T('Save and close');$('enrol').hidden=false;document.body.style.overflow='hidden';renderGedit()}
 $('estart').onclick=function(){var f=S.f,chk=[['me','me_','Enter your legal name'],['mad','mad_','Enter your address'],['memail','memail_','Enter your email'],['iban','iban_','Enter your IBAN']],bad=null;
  for(var i=0;i<chk.length&&!bad;i++){if(!(f[chk[i][0]]||'').trim())bad=chk[i]}
  if(!bad&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.memail.trim()))bad=['memail','memail_','Check your email'];
@@ -738,11 +737,7 @@ function applyBackups(list,keep){var seen={};restoreDup=false;list=list.filter(B
   if(+c.fee>0){x.fee=c.fee;x.fc=x.fc||{};var k=String(+c.fee);x.fc[k]=(x.fc[k]||0)+1}});
  S.hist=S.hist||[];list.forEach(function(o){var h=o.h;if(h&&h.no&&!S.hist.some(function(x){return x.no==h.no&&x.cl==h.cl}))S.hist.push(h)});S.hist.sort(function(a,b){return a.d<b.d?-1:a.d>b.d?1:0});
  S.enrolled=true;save();return list.length}
-$('brest').onclick=function(){$('frest').click()};
-$('frest').onchange=async function(e){var files=Array.from(e.target.files||[]);if(!files.length)return;
- var keep=!!S.enrolled,n=applyBackups(await Promise.all(files.map(readBackup)),keep);e.target.value='';
- if(!n){toast(T(restoreDup?'Those invoices were already added.':"No Invoice Snap data found in these PDFs."));return}
- try{sessionStorage.setItem('isnap-restored',n+'|'+(keep?'add':'restore'))}catch(x){}location.reload()};
+
 try{var rs=sessionStorage.getItem('isnap-restored');if(rs){sessionStorage.removeItem('isnap-restored');var rp=rs.split('|');setTimeout(function(){toast(T(rp[1]=='add'?'Added from':'Restored from')+' '+rp[0]+' '+T('invoices'))},300)}}catch(e){}
 var INVDATE=null;
 function isoDate(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
@@ -768,8 +763,9 @@ function openInv(){closeMenu2();IV.mode='list';IV.cur=null;IV.s='';$('invp').hid
 function closeInv(){$('invp').hidden=true;document.body.style.overflow=''}
 function pdfFileName(r){return (T('Invoice')+' '+r.no).replace(/[\\/:*?"<>|]+/g,'').replace(/[.\s]+$/,'')+'.pdf'}
 function draftsHtml(){var d=S.drafts||[];if(!d.length)return '';return '<div class="drafts"><div class="dt">'+esc(T('Drafts'))+' ('+d.length+')</div>'+d.map(function(r,i){return '<div class="dr"><div><b>'+esc(r.cl||'-')+'</b><small>'+esc(r.gig||'')+(r.gig?' · ':'')+eur(r.t)+' · '+esc(T('saved'))+' '+dfmt(r.d)+'</small></div><div><button class="go" data-go="'+i+'" type="button">'+esc(T('Continue'))+'</button><button class="x" data-x="'+i+'" type="button" aria-label="'+esc(T('Delete draft'))+'">&times;</button></div></div>'}).join('')+'</div>'}
-function bindDrafts(v){v.querySelectorAll('.dr .go').forEach(function(b){b.onclick=function(){openDraft(+b.dataset.go)}});v.querySelectorAll('.dr .x').forEach(function(b){b.onclick=function(){S.drafts.splice(+b.dataset.x,1);save();renderInv()}})}
-function openDraft(i){var r=(S.drafts||[])[i];if(!r)return;var x=r.x;S.drafts.splice(i,1);
+function bindDrafts(v){v.querySelectorAll('.dr .go').forEach(function(b){b.onclick=function(){openDraft(+b.dataset.go)}});v.querySelectorAll('.dr .x').forEach(function(b){b.onclick=function(){dropDraft(+b.dataset.x);save();renderInv()}})}
+function dropDraft(i){var r=S.drafts.splice(i,1)[0];if(r&&r.id){S.dz=(S.dz||[]).concat(r.id).slice(-200)}}
+function openDraft(i){var r=(S.drafts||[])[i];if(!r)return;var x=r.x;dropDraft(i);
  ['cl','ad','em','ckvk','cbtw','gig','fee','ref','tk','km','rate','cv','due'].forEach(function(k){if(x.f[k]!==undefined)S.f[k]=x.f[k]});
  S.vm=x.vm;S.tm=x.tm;S.dueOn=x.du;S.extras=JSON.parse(JSON.stringify(x.ex||[]));INVDATE=null;renderExtras();refreshFields();save();draw();closeInv();goStep(2,true)}
 function renderInv(){var v=$('iview'),all=histList(),h='',dr=draftsHtml();
@@ -823,7 +819,7 @@ function renderExport2(v,all){var rows=xRows(all),s=sumOf(rows),P=[['q','This qu
  $('xcsv').onclick=function(){var sep=L=='nl'?';':',',q=function(x){return '"'+clean(x).replace(/"/g,'""')+'"'};var out=[XH[L]].concat(rows.map(xcells)).map(function(r){return r.map(q).join(sep)}).join('\r\n');saveBlob(new Blob(['﻿'+out],{type:'text/csv;charset=utf-8'}),'Invoice Snap '+(L=='nl'?'facturen':'invoices')+' '+xName()+'.csv');toast(T('CSV saved to your Downloads'))};
  $('xcopy').onclick=async function(){await copyText(rows.map(function(r){return xcells(r).map(clean).join('\t')}).join('\n'));toast(T('Copied. Paste it in your Google Sheet.'))};
  $('xhead').onclick=async function(){await copyText(XH[L].join('\t'));toast(T('Copied. Paste it in your Google Sheet.'))}}
-$('bdraft').onclick=function(){if(!S.f.cl.trim()){toast(T('Fill in the client first'));return}var r=recordOf();delete r.no;r.d=isoDate(new Date());S.drafts=(S.drafts||[]);S.drafts.unshift(r);S.drafts=S.drafts.slice(0,30);save();toast(T('Draft saved'))};
+$('bdraft').onclick=function(){if(!S.f.cl.trim()){toast(T('Fill in the client first'));return}var r=recordOf();delete r.no;r.d=isoDate(new Date());S.drafts=(S.drafts||[]);r.id=newId();S.drafts.unshift(r);S.drafts=S.drafts.slice(0,30);save();toast(T('Draft saved'))};
 /* ---- profile menu ---- */
 $('me').onclick=function(e){e.stopPropagation();$('pmenu').hidden=!$('pmenu').hidden};
 document.addEventListener('click',function(e){if(!$('pmenu').hidden&&!$('pmenu').contains(e.target))closeMenu2()});
@@ -855,7 +851,8 @@ async function gEmail(){try{var r=await gFetch('https://www.googleapis.com/oauth
 async function gFind(){var r=await gFetch('https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q='+encodeURIComponent("name='"+GFILE+"'")+'&fields=files(id)');if(!r.ok)throw new Error('find');var j=await r.json();return j.files&&j.files[0]?j.files[0].id:null}
 async function gPull(){var id=await gFind();if(!id)return null;S.g=S.g||{};S.g.fileId=id;var r=await gFetch('https://www.googleapis.com/drive/v3/files/'+id+'?alt=media');if(!r.ok)throw new Error('pull');return await r.json()}
 var SNAPK=['me','art','mad','memail','mtel','kvk','btw','iban'];
-function snapshot(){var f=S.f,me={};SNAPK.forEach(function(k){me[k]=f[k]||''});return {v:1,u:S.u||0,me:me,no:f.no,vm:S.vm,col:S.col,logo:S.logo||'',presets:S.presets||{},clubs:S.clubs.filter(function(c){return !c.demo}),hist:S.hist||[]}}
+function newId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function snapshot(){(S.drafts||[]).forEach(function(d){if(!d.id)d.id=newId()});var f=S.f,me={};SNAPK.forEach(function(k){me[k]=f[k]||''});return {v:1,u:S.u||0,me:me,no:f.no,vm:S.vm,col:S.col,logo:S.logo||'',presets:S.presets||{},clubs:S.clubs.filter(function(c){return !c.demo}),hist:S.hist||[],dr:S.drafts||[],dz:S.dz||[]}}
 function snapBase(sn){var c=Object.assign({},sn);c.u=0;return JSON.stringify(c)}
 function nOf(t){var m=/(\d+)$/.exec(t||'');return m?+m[1]:0}
 function mergeSnap(r,restoring){
@@ -867,6 +864,10 @@ function mergeSnap(r,restoring){
   if((c.n||0)>(x.n||0)){['name','ad','em','ckvk','cbtw','fee','tk'].forEach(function(k){x[k]=c[k]})}
   x.n=Math.max(x.n||0,c.n||0);x.fc=x.fc||{};Object.keys(c.fc||{}).forEach(function(k){x.fc[k]=Math.max(x.fc[k]||0,c.fc[k])});x.demo=false});
  S.hist=S.hist||[];(r.hist||[]).forEach(function(h){if(!S.hist.some(function(x){return x.no==h.no&&x.cl==h.cl}))S.hist.push(h)});S.hist.sort(function(a,b){return a.d<b.d?-1:a.d>b.d?1:0});
+ S.dz=S.dz||[];(r.dz||[]).forEach(function(id){if(S.dz.indexOf(id)<0)S.dz.push(id)});S.dz=S.dz.slice(-200);
+ S.drafts=(S.drafts||[]).filter(function(d){return !d.id||S.dz.indexOf(d.id)<0});
+ (r.dr||[]).forEach(function(d){if(d.id&&S.dz.indexOf(d.id)<0&&!S.drafts.some(function(x){return x.id==d.id}))S.drafts.push(d)});
+ S.drafts.sort(function(a,b){return a.d<b.d?1:a.d>b.d?-1:0});S.drafts=S.drafts.slice(0,30);
  S.presets=Object.assign({},r.presets||{},S.presets||{})}
 function refreshFields(){FM.forEach(function(k){$(k).value=S.f[k]||''});document.querySelectorAll('#enrol [data-k]').forEach(function(i){i.value=S.f[i.dataset.k]||''})}
 function gPill(){var p=$('gpill'),on=gOn()&&S.g;p.hidden=!on;
