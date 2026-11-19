@@ -326,7 +326,7 @@ body:has(#advl[open]) .paper.hz.on{background:#fff!important}
 /* layouts on the preview */
 .paper.lay-bold{border-top:0!important}
 .paper.lay-bold #pbar{background:var(--acc);border-bottom:0!important;color:var(--onacc);padding:30px}
-.paper.lay-bold #pbar .pt,.paper.lay-bold #pbar .pn,.paper.lay-bold #pbar .pr,.paper.lay-bold .pdet,.paper.lay-bold .pdet b,.paper.lay-bold .pdet strong{color:var(--onacc)}.paper.lay-bold .plbox{background:#fff;padding:5px 8px;border-radius:4px}
+.paper.lay-bold #pbar .pt,.paper.lay-bold #pbar .pn,.paper.lay-bold #pbar .pr,.paper.lay-bold .pdet,.paper.lay-bold .pdet b,.paper.lay-bold .pdet strong{color:var(--onacc)}.paper.lay-bold .plbox{padding:0}
 .paper.lay-bold .pt{font-size:36px;text-transform:uppercase;letter-spacing:.5px}
 .paper.lay-bold th{color:var(--acct)}
 .paper.lay-bold #tb{background:var(--acc);color:var(--onacc);border-top:0!important;padding:10px 12px!important;border-radius:3px}
@@ -650,6 +650,10 @@ function rememberAndNext(){var f=S.f;if(!f.cl)return;S.hist=(S.hist||[]).filter(
  save();draw()}
 
 function ibanOk(i){if(!/^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(i))return false;var r=(i.slice(4)+i.slice(0,4)).replace(/[A-Z]/g,function(c){return c.charCodeAt(0)-55}),m=0;for(var k=0;k<r.length;k++)m=(m*10+(+r[k]))%97;return m==1}
+/* Bold: the logo sits straight on the colour band. If it would vanish (dark on dark, light on light) those parts are recoloured to the readable colour. */
+async function bandLogo(){var im=await loadImg(S.logo);if(!im)return S.logo;var c=document.createElement('canvas');c.width=im.width;c.height=im.height;var x=c.getContext('2d');x.drawImage(im,0,0);var id=x.getImageData(0,0,c.width,c.height),d=id.data,h=S.col.slice(1),bl=(parseInt(h.slice(0,2),16)*.299+parseInt(h.slice(2,4),16)*.587+parseInt(h.slice(4,6),16)*.114)/255,v=bl>.62?27:255,ch=0;
+ for(var i=0;i<d.length;i+=4)if(d[i+3]>0&&Math.abs((d[i]*.299+d[i+1]*.587+d[i+2]*.114)/255-bl)<.3){d[i]=d[i+1]=d[i+2]=v;ch=1}
+ if(!ch)return S.logo;x.putImageData(id,0,0);return c.toDataURL('image/png')}
 function dh(){return T(/\d{2}-\d{2}-\d{4}/.test(S.f.gig||'')?'Date and description':'Description')}
 function payTo(){var f=S.f;return f.iban+(f.tn&&f.tn.trim()?' '+T('in the name of')+' '+f.tn.trim():'')}
 function epc(){var f=S.f,iban=(f.iban||'').replace(/\s+/g,'').toUpperCase();if(!ibanOk(iban)||!(calc.t>0)||!f.me.trim())return null;
@@ -680,7 +684,7 @@ function draw(){
  var ck=[];if(f.ckvk)ck.push('KVK '+f.ckvk);if(f.cbtw)ck.push(T('VAT')+' '+f.cbtw);$('pck').textContent=ck.join('\n');
  $('pi').textContent=payTo();$('pdue').textContent=f.due||30;if(S.dueOn||S.vm=='c')$('more').open=true;if(S.f.ckvk||S.f.cbtw)$('more1').open=true;$('pw').hidden=!S.dueOn;$('pp').hidden=!!S.dueOn;$('duew').hidden=!S.dueOn;$('dueT').setAttribute('aria-pressed',!!S.dueOn);
  $('paper').style.borderTop='7px solid '+S.col;$('pbar').style.borderBottom='2px solid '+S.col;$('tb').style.borderTop='2px solid '+S.col;document.documentElement.style.setProperty('--acc',S.col);
- $('plbox').hidden=!S.logo;if(S.logo)$('plogo').src=S.logo;
+ $('plbox').hidden=!S.logo;if(S.logo){$('plogo').src=S.logo;if(S.layout=='bold'){var ls=S.logo;bandLogo().then(function(u){if(S.logo==ls&&S.layout=='bold')$('plogo').src=u})}}
  $('me').hidden=!S.enrolled;$('hname').textContent=short(f.art||f.me);
  $('hini').textContent=(short(f.art||f.me)||'?').trim().slice(0,2).toUpperCase();$('hini').hidden=!!S.logo;$('hlogo').hidden=!S.logo;if(S.logo)$('hlogo').src=S.logo;
  $('elogo').hidden=!S.logo;if(S.logo)$('elogo').src=S.logo;$('rmlogo').hidden=!S.logo;
@@ -736,7 +740,7 @@ async function makePdf(){
  var barH=Math.max(46,ty+(f.ref?26:20),24+(det.length-1)*5);
  if(LY=='clean'){d.setFillColor.apply(d,col);d.rect(0,0,W,2.4,'F')}
  if(LY=='bold'){d.setFillColor.apply(d,col);d.rect(0,0,W,barH,'F')}
- if(im){if(LY=='bold'){d.setFillColor(255,255,255);d.roundedRect(M-2,9,lwid+4,lh+4,1.5,1.5,'F')}d.addImage(S.logo,'PNG',M,11,lwid,lh)}
+ if(im){d.addImage(LY=='bold'?await bandLogo():S.logo,'PNG',M,11,lwid,lh)}
  var ttl=calc.t<0?T('Credit note'):T('Invoice');
  if(LY=='soft'){ttl=ttl.toUpperCase();set(10,1,ct);d.setFillColor.apply(d,tint);d.roundedRect(M,ty-7,d.getTextWidth(ttl)+9,9,4.5,4.5,'F');d.text(ttl,M+4.5,ty-1)}
  else{if(LY=='mono')ttl=ttl.toUpperCase();set(LY=='mono'?22:26,1,hc);d.text(ttl,M,ty)}
