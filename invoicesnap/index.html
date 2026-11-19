@@ -311,6 +311,7 @@ footer .donw{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}.don.how{backg
 .drafts{background:#fff7d6;border:1px solid #ecd780;border-radius:16px;padding:4px 16px 6px;margin-bottom:14px;color:#1b1618}.drafts .dt{font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#7a6200;padding:10px 0 4px}
 .drafts .dr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-top:1px solid #ecd780}.drafts .dr:first-of-type{border-top:0}.drafts .dr b{display:block;font-size:16px}.drafts .dr small{color:#7a6200;font-size:13px}
 .drafts .go{border:0;background:#1b1618;color:#fff;border-radius:10px;padding:9px 14px;font:inherit;font-weight:800;font-size:14px;cursor:pointer}.drafts .x{border:0;background:none;color:#8a7a3a;font-size:22px;padding:0 6px;cursor:pointer}
+#pa,#pck{white-space:pre-line}
 </style>
 </head>
 <body>
@@ -606,6 +607,7 @@ function renderQr(){var t=epc();$('qr').toggleAttribute('hidden',!t);$('qrcap').
  $('qr').setAttribute('viewBox','-4 -4 '+(n+8)+' '+(n+8));$('qr').innerHTML='<g fill="#1b1b1f">'+h+'</g>'}
 
 var calc={t:0},short=function(n){return n.replace(/\s*\(.*\)/,'')};
+function addrLines(a){a=String(a||'').trim();if(!a)return [];var i=a.search(/[,\n]/);return i<0?[a]:[a.slice(0,i).trim(),a.slice(i+1).replace(/\s*\n\s*/g,', ').trim()].filter(Boolean)}
 function draw(){
  var f=S.f,fee=+f.fee||0,rows=((f.gig||'').trim()||fee)?[[f.gig,1,fee,fee]]:[];
  if(S.tm=='train'&&+f.tk!=0)rows.push([T('Travel costs, public transport'),1,+f.tk,+f.tk]);
@@ -621,8 +623,8 @@ function draw(){
  $('pdet').innerHTML=dl.map(function(x){return '<div>'+(x[1]?'<b>':'')+esc(x[0])+(x[1]?'</b>':'')+'</div>'}).join('');
  $('pno').textContent=f.no;$('pno2').textContent=f.no;$('prf').textContent=f.ref?T('Ref.')+' '+f.ref:'';
  $('pdate').textContent=(INVDATE||new Date()).toLocaleDateString(L=='nl'?'nl-NL':'en-GB',{day:'numeric',month:'short',year:'numeric'});$('qlt').textContent=pdfName();$('ptt').textContent=calc.t<0?T('Credit note'):T('Invoice');
- $('pc').textContent=f.cl||T('Club or event name');$('pa').textContent=f.ad;
- var ck=[];if(f.ckvk)ck.push('KVK '+f.ckvk);if(f.cbtw)ck.push(T('VAT')+' '+f.cbtw);$('pck').textContent=ck.join(' · ');
+ $('pc').textContent=f.cl||T('Club or event name');$('pa').textContent=addrLines(f.ad).join('\n');
+ var ck=[];if(f.ckvk)ck.push('KVK '+f.ckvk);if(f.cbtw)ck.push(T('VAT')+' '+f.cbtw);$('pck').textContent=ck.join('\n');
  $('pi').textContent=f.iban;$('pdue').textContent=f.due||30;if(S.dueOn||S.vm=='c')$('more').open=true;if(S.f.ckvk||S.f.cbtw)$('more1').open=true;$('pw').hidden=!S.dueOn;$('pp').hidden=!!S.dueOn;$('duew').hidden=!S.dueOn;$('dueT').setAttribute('aria-pressed',!!S.dueOn);
  $('paper').style.borderTop='7px solid '+S.col;$('pbar').style.borderBottom='2px solid '+S.col;$('tb').style.borderTop='2px solid '+S.col;document.documentElement.style.setProperty('--acc',S.col);
  $('plbox').hidden=!S.logo;if(S.logo)$('plogo').src=S.logo;
@@ -684,8 +686,8 @@ async function makePdf(){
  var barH=Math.max(46,ty+(f.ref?26:20),24+(det.length-1)*5);
  d.setFillColor.apply(d,col);d.rect(M,barH,W-2*M,.8,'F');
  var y=barH+14;set(8,0,gr);d.text(T('Billed to'),M,y);y+=5;set(11,1,ink);d.text(f.cl,M,y);y+=5;set(10,0,gr);
- if(f.ad){d.text(f.ad,M,y);y+=5}
- var ck=[];if(f.ckvk)ck.push('KVK '+f.ckvk);if(f.cbtw)ck.push(T('VAT')+' '+f.cbtw);if(ck.length){d.text(ck.join(' · '),M,y);y+=5}
+ addrLines(f.ad).forEach(function(l){d.text(l,M,y);y+=5})
+ var ck=[];if(f.ckvk)ck.push('KVK '+f.ckvk);if(f.cbtw)ck.push(T('VAT')+' '+f.cbtw);ck.forEach(function(l){d.text(l,M,y);y+=5})
  y+=10;
  set(9,1,gr);d.text(T('Description'),M,y);d.text(T('Qty'),122,y,{align:'right'});d.text(T('Price'),158,y,{align:'right'});d.text(T('Amount'),R,y,{align:'right'});y+=3;line(y);y+=6;
  set(10,0,ink);
