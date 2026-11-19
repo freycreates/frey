@@ -143,7 +143,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--pink)}
 .pn{font-size:17px;font-weight:600;margin-top:4px}
 .pr{font-size:13px}
 .pdet{text-align:right;font-size:12.5px;line-height:1.45;color:#5b5b64}
-.pdet b{font-size:15px;color:#1b1b1f}
+.pdet b{font-size:15px;color:#1b1b1f}.pdet strong{color:#1b1b1f;font-weight:700}
 .pbody{padding:24px 30px 30px}
 .paper table{width:100%;border-collapse:collapse}
 .paper td,.paper th{padding:7px 0;border-bottom:1px solid #e6e6ea;text-align:left}
@@ -607,6 +607,7 @@ function renderQr(){var t=epc();$('qr').toggleAttribute('hidden',!t);$('qrcap').
  $('qr').setAttribute('viewBox','-4 -4 '+(n+8)+' '+(n+8));$('qr').innerHTML='<g fill="#1b1b1f">'+h+'</g>'}
 
 var calc={t:0},short=function(n){return n.replace(/\s*\(.*\)/,'')};
+function senderLines(){var f=S.f,o=[{v:f.me,big:1},{v:f.art}];addrLines(f.mad).forEach(function(l){o.push({v:l})});if(f.kvk)o.push({l:'KVK',v:f.kvk});if(S.vm!='kor'&&f.btw)o.push({l:T('VAT'),v:f.btw});o.push({v:f.memail},{v:f.mtel});return o.filter(function(x){return x.v&&String(x.v).trim()})}
 function addrLines(a){a=String(a||'').trim();if(!a)return [];var i=a.search(/[,\n]/);return i<0?[a]:[a.slice(0,i).trim(),a.slice(i+1).replace(/\s*\n\s*/g,', ').trim()].filter(Boolean)}
 function draw(){
  var f=S.f,fee=+f.fee||0,rows=((f.gig||'').trim()||fee)?[[f.gig,1,fee,fee]]:[];
@@ -619,8 +620,7 @@ function draw(){
  $('st').textContent=eur(sub);$('vt').textContent=eur(v);$('tt').textContent=eur(sub+v);
  $('vl').textContent=S.vm=='kor'?T('VAT (KOR)'):T('VAT')+' '+p+'%';
  $('rsub').hidden=$('rvat').hidden=S.vm=='kor';$('kn').textContent=S.vm=='kor'?T('VAT exempt under the small business scheme (KOR), article 25 Wet OB.'):'';
- var dl=[[f.me,1],[f.art||'',0],[f.mad,0],[f.kvk?'KVK '+f.kvk:'',0],[S.vm!='kor'&&f.btw?T('VAT')+' '+f.btw:'',0],[f.memail,0],[f.mtel,0]].filter(function(x){return x[0]&&x[0].trim()});
- $('pdet').innerHTML=dl.map(function(x){return '<div>'+(x[1]?'<b>':'')+esc(x[0])+(x[1]?'</b>':'')+'</div>'}).join('');
+ $('pdet').innerHTML=senderLines().map(function(x){return '<div>'+(x.big?'<b>'+esc(x.v)+'</b>':(x.l?'<strong>'+esc(x.l)+'</strong> ':'')+esc(x.v))+'</div>'}).join('');
  $('pno').textContent=f.no;$('pno2').textContent=f.no;$('prf').textContent=f.ref?T('Ref.')+' '+f.ref:'';
  $('pdate').textContent=(INVDATE||new Date()).toLocaleDateString(L=='nl'?'nl-NL':'en-GB',{day:'numeric',month:'short',year:'numeric'});$('qlt').textContent=pdfName();$('ptt').textContent=calc.t<0?T('Credit note'):T('Invoice');
  $('pc').textContent=f.cl||T('Club or event name');$('pa').textContent=addrLines(f.ad).join('\n');
@@ -675,14 +675,14 @@ async function makePdf(){
  var set=function(sz,bold,c){d.setFont('helvetica',bold?'bold':'normal');d.setFontSize(sz);d.setTextColor.apply(d,c)};
  var line=function(y,c){d.setDrawColor.apply(d,c||[230,230,234]);d.setLineWidth(.2);d.line(M,y,R,y)};
  var dt=(INVDATE||new Date()).toLocaleDateString(L=='nl'?'nl-NL':'en-GB',{day:'numeric',month:'short',year:'numeric'});
- var det=[[f.me,1],[f.art||'',0],[f.mad,0],[f.kvk?'KVK '+f.kvk:'',0],[S.vm!='kor'&&f.btw?T('VAT')+' '+f.btw:'',0],[f.memail,0],[f.mtel,0]].filter(function(x){return x[0]&&x[0].trim()});
+ var det=senderLines();
  d.setFillColor.apply(d,col);d.rect(0,0,W,2.4,'F');
  var ty=22;
  if(S.logo){var im=await loadImg(S.logo);if(im){var sc=Math.min(60/im.width,20/im.height),w=im.width*sc,h=im.height*sc;d.addImage(S.logo,'PNG',M,11,w,h);ty=11+h+16}}
  set(26,1,ink);d.text(calc.t<0?T('Credit note'):T('Invoice'),M,ty);
  set(13,1,ink);d.text(T('No.')+' '+f.no,M,ty+8);d.text(dt,M,ty+14.5);
  if(f.ref){set(10,0,gr);d.text(T('Ref.')+' '+f.ref,M,ty+20)}
- var ry=15;det.forEach(function(x,i){set(i?10:12,i==0,i?gr:ink);d.text(x[0],R,ry,{align:'right'});ry+=i?5:6});
+ var ry=15;det.forEach(function(x,i){set(i?10:12,i==0,i?gr:ink);var v=String(x.v);d.text(v,R,ry,{align:'right'});if(x.l){var w=d.getTextWidth(v);set(10,1,ink);d.text(x.l,R-w-1.4,ry,{align:'right'})}ry+=i?5:6});
  var barH=Math.max(46,ty+(f.ref?26:20),24+(det.length-1)*5);
  d.setFillColor.apply(d,col);d.rect(M,barH,W-2*M,.8,'F');
  var y=barH+14;set(8,0,gr);d.text(T('Billed to'),M,y);y+=5;set(11,1,ink);d.text(f.cl,M,y);y+=5;set(10,0,gr);
